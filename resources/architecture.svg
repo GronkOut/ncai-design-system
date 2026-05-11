@@ -1,0 +1,132 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="860" viewBox="0 0 1280 860" role="img" aria-labelledby="title desc">
+  <title id="title">NC AI Design System Architecture 2</title>
+  <desc id="desc">소비자 사용 흐름과 관리자 운영 흐름을 분리해서 보여주는 NC AI 디자인 시스템 아키텍처 다이어그램입니다.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .lane { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; }
+      .consumer { fill: #eff6ff; stroke: #60a5fa; }
+      .agent { fill: #f5f3ff; stroke: #8b5cf6; }
+      .package { fill: #ecfdf5; stroke: #10b981; }
+      .external { fill: #fff7ed; stroke: #f97316; }
+      .ops { fill: #fef2f2; stroke: #ef4444; }
+      .title { font: 700 26px Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 14px Arial, sans-serif; fill: #475569; }
+      .laneTitle { font: 700 18px Arial, sans-serif; fill: #1e293b; }
+      .step { font: 700 15px Arial, sans-serif; fill: #0f172a; }
+      .text { font: 13px Arial, sans-serif; fill: #334155; }
+      .small { font: 12px Arial, sans-serif; fill: #64748b; }
+      .arrow { stroke: #475569; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #94a3b8; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }
+      .num { fill: #0f172a; }
+      .numText { font: 700 13px Arial, sans-serif; fill: #ffffff; text-anchor: middle; dominant-baseline: central; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#475569" />
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1280" height="860" />
+  <text class="title" x="60" y="54">NC AI Design System Architecture</text>
+  <text class="subtitle" x="60" y="82">완성된 스타일 컴포넌트를 제공하지 않고, 소비자 프로젝트에서 Base UI primitive에 디자인 시스템 문서를 적용합니다.</text>
+
+  <rect class="lane" x="50" y="115" width="1180" height="400" rx="26" />
+  <text class="laneTitle" x="80" y="150">소비자 사용 흐름</text>
+
+  <rect class="consumer" x="80" y="185" width="210" height="135" rx="18" />
+  <circle class="num" cx="108" cy="212" r="14" />
+  <text class="numText" x="108" y="212">1</text>
+  <text class="step" x="132" y="218">소비자 프로젝트</text>
+  <text class="text" x="108" y="248">React 앱에서 시작</text>
+  <text class="text" x="108" y="270">npx setup 실행</text>
+  <text class="text" x="108" y="292">@base-ui/react 설치</text>
+
+  <rect class="package" x="350" y="185" width="210" height="135" rx="18" />
+  <circle class="num" cx="378" cy="212" r="14" />
+  <text class="numText" x="378" y="212">2</text>
+  <text class="step" x="402" y="218">CLI 설정</text>
+  <text class="text" x="378" y="248">에이전트 지침 생성</text>
+  <text class="text" x="378" y="270">MCP 설정 파일 생성</text>
+  <text class="text" x="378" y="292">doctor/validate 제공</text>
+
+  <rect class="agent" x="620" y="185" width="210" height="135" rx="18" />
+  <circle class="num" cx="648" cy="212" r="14" />
+  <text class="numText" x="648" y="212">3</text>
+  <text class="step" x="672" y="218">AI 에이전트</text>
+  <text class="text" x="648" y="248">지침 파일을 읽음</text>
+  <text class="text" x="648" y="270">Base UI 우선 선택</text>
+  <text class="text" x="648" y="292">MCP 도구 호출</text>
+
+  <rect class="package" x="890" y="185" width="260" height="135" rx="18" />
+  <circle class="num" cx="918" cy="212" r="14" />
+  <text class="numText" x="918" y="212">4</text>
+  <text class="step" x="942" y="218">MCP 조회</text>
+  <text class="text" x="918" y="248">design-system.md 검색</text>
+  <text class="text" x="918" y="270">Base UI 공식 문서 조회</text>
+  <text class="text" x="918" y="292">구현 레시피와 코드 검증</text>
+
+  <path class="arrow" d="M290 252 L350 252" />
+  <path class="arrow" d="M560 252 L620 252" />
+  <path class="arrow" d="M830 252 L890 252" />
+
+  <rect class="package" x="130" y="370" width="260" height="100" rx="18" />
+  <text class="step" x="160" y="402">@ncai/design-system</text>
+  <text class="text" x="160" y="428">마크다운 디자인 기준과</text>
+  <text class="text" x="160" y="450">섹션 검색 헬퍼 제공</text>
+
+  <rect class="external" x="510" y="370" width="260" height="100" rx="18" />
+  <text class="step" x="540" y="402">Base UI 공식 문서</text>
+  <text class="text" x="540" y="428">llms.txt와 컴포넌트 API</text>
+  <text class="text" x="540" y="450">@base-ui/react primitive 기준</text>
+
+  <rect class="consumer" x="890" y="370" width="260" height="100" rx="18" />
+  <circle class="num" cx="918" cy="397" r="14" />
+  <text class="numText" x="918" y="397">5</text>
+  <text class="step" x="942" y="402">UI 구현 결과</text>
+  <text class="text" x="918" y="428">소비자 앱 스타일 방식으로</text>
+  <text class="text" x="918" y="450">Base UI에 디자인 기준 적용</text>
+
+  <path class="dash" d="M260 370 L260 320" />
+  <text class="small" x="280" y="350">디자인 기준</text>
+  <path class="dash" d="M640 370 L965 320" />
+  <text class="small" x="740" y="342">Base UI API</text>
+  <path class="arrow" d="M1020 320 L1020 370" />
+  <text class="small" x="1038" y="348">생성 코드</text>
+
+  <rect class="lane" x="50" y="560" width="1180" height="230" rx="26" />
+  <text class="laneTitle" x="80" y="595">관리자/개발자 운영 흐름</text>
+
+  <rect class="ops" x="80" y="630" width="230" height="110" rx="18" />
+  <circle class="num" cx="108" cy="657" r="14" />
+  <text class="numText" x="108" y="657">A</text>
+  <text class="step" x="132" y="662">원천 문서 수정</text>
+  <text class="text" x="108" y="692">resources/design-system.md</text>
+  <text class="text" x="108" y="714">NC AI 기준으로 갱신</text>
+
+  <rect class="ops" x="370" y="630" width="230" height="110" rx="18" />
+  <circle class="num" cx="398" cy="657" r="14" />
+  <text class="numText" x="398" y="657">B</text>
+  <text class="step" x="422" y="662">패키지 보완</text>
+  <text class="text" x="398" y="692">CLI, MCP, skill 수정</text>
+  <text class="text" x="398" y="714">테스트와 검증 추가</text>
+
+  <rect class="ops" x="660" y="630" width="230" height="110" rx="18" />
+  <circle class="num" cx="688" cy="657" r="14" />
+  <text class="numText" x="688" y="657">C</text>
+  <text class="step" x="712" y="662">버전과 검증</text>
+  <text class="text" x="688" y="692">pnpm changeset</text>
+  <text class="text" x="688" y="714">pnpm verify commands</text>
+
+  <rect class="ops" x="950" y="630" width="230" height="110" rx="18" />
+  <circle class="num" cx="978" cy="657" r="14" />
+  <text class="numText" x="978" y="657">D</text>
+  <text class="step" x="1002" y="662">배포</text>
+  <text class="text" x="978" y="692">main push 후 Actions 실행</text>
+  <text class="text" x="978" y="714">누락 버전만 npm publish</text>
+
+  <path class="arrow" d="M310 685 L370 685" />
+  <path class="arrow" d="M600 685 L660 685" />
+  <path class="arrow" d="M890 685 L950 685" />
+
+  <text class="small" x="80" y="818">패키지 역할: design-system은 문서와 검색 API, cli는 설치/진단/검증, mcp는 에이전트 도구, skills는 에이전트 작업 지침을 담당합니다.</text>
+</svg>

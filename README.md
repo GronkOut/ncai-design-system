@@ -6,12 +6,28 @@ Base UI는 접근 가능한 React UI를 만들기 위한 unstyled 컴포넌트 �
 
 ---
 
+## 아키텍처
+
+아래 그림은 소비자 프로젝트, AI 에이전트, npm 패키지, MCP 도구, Base UI 공식 문서, 관리자 배포 흐름이 어떻게 연결되는지 보여줍니다.
+
+![NC AI Design System Architecture](./resources/architecture.svg)
+
+---
+
 ## 패키지 구성
 
-- `@ncai/design-system`: `design-system.md` 원문과 섹션 검색 헬퍼를 배포합니다.
-- `@ncai/design-system-skills`: Cursor Agent Skill을 배포합니다.
-- `@ncai/design-system-mcp`: NC AI 디자인 시스템 검색, Base UI 공식 문서 조회, 구현 레시피, 코드 검증 MCP 도구를 제공합니다.
-- `@ncai/design-system-cli`: npx 기반 설치, 에이전트 지침 설치, MCP 설정, 진단, 검증, 문서 조회 명령을 제공합니다.
+- `@ncai/design-system`
+  - `design-system.md` 원문과 섹션 검색 헬퍼를 배포합니다.
+  - 소비자 프로젝트나 에이전트는 이 패키지를 통해 NC AI 디자인 기준을 코드에서 직접 조회하고, 필요한 섹션만 찾아 UI 구현에 반영할 수 있습니다.
+- `@ncai/design-system-skills`
+  - AI 에이전트가 NC AI 디자인 시스템과 Base UI를 함께 사용하는 방법을 이해할 수 있도록 지침 문서를 배포합니다.
+  - 특정 도구에만 묶인 컴포넌트 구현체가 아니라, 에이전트가 Base UI primitive를 먼저 선택하고 디자인 시스템 문서를 적용하도록 안내하는 작업 기준을 제공합니다.
+- `@ncai/design-system-mcp`
+  - NC AI 디자인 시스템 검색, Base UI 공식 문서 조회, 구현 레시피 생성, UI 코드 검증을 위한 MCP 도구를 제공합니다.
+  - 에이전트는 MCP를 통해 `design-system.md`와 Base UI API 문서를 함께 확인하고, 임의 스타일이나 오래된 import 같은 문제를 검증할 수 있습니다.
+- `@ncai/design-system-cli`
+  - `npx`로 실행할 수 있는 설치, 에이전트 지침 생성, MCP 설정, 진단, 검증, 문서 조회 명령을 제공합니다.
+  - 소비자 프로젝트에서 `setup`, `show`, `doctor`, `validate` 명령을 사용해 디자인 시스템 적용 환경을 빠르게 구성하고 점검할 수 있습니다.
 
 ---
 
@@ -153,4 +169,4 @@ pnpm build
 pnpm validate
 ```
 
-패키지 배포는 Changesets와 `.github/workflows/release.yml`을 통해 진행합니다.
+패키지 배포는 `.github/workflows/release.yml`에서 검증 후 `scripts/publish-missing.mjs`를 실행하는 방식으로 진행합니다. 배포할 변경이 있을 때는 `pnpm changeset`으로 변경 내용을 기록하고 `pnpm version-packages`로 패키지 버전을 반영한 뒤 `main`에 푸시합니다. 배포 스크립트는 이미 npm에 배포된 동일 버전은 건너뛰고, 아직 배포되지 않은 패키지만 공개 패키지로 게시합니다.

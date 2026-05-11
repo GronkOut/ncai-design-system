@@ -1,6 +1,6 @@
 {
   "name": "ncai-design-system",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "private": true,
   "type": "module",
@@ -9,11 +9,12 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "release": "pnpm typecheck && pnpm validate && pnpm test && pnpm build && pnpm smoke:pack && changeset publish",
+    "release": "pnpm typecheck && pnpm validate && pnpm test && pnpm build && pnpm smoke:pack && node scripts/publish-missing.mjs",
     "smoke:pack": "node scripts/smoke-pack.mjs",
     "test": "turbo test",
     "typecheck": "turbo typecheck",
     "validate": "turbo validate",
+    "changeset": "changeset",
     "version-packages": "changeset version",
     "mcp": "pnpm --filter @ncai/design-system-mcp start"
   },
