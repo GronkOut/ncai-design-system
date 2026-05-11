@@ -1,0 +1,34 @@
+{
+  "name": "@ncai/design-system",
+  "version": "0.1.0",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./design-system.md": "./dist/design-system.md"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GronkOut/ncai-design-system.git",
+    "directory": "packages/design-system"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --out-dir dist --clean && node scripts/copy-assets.mjs",
+    "lint": "tsc --noEmit",
+    "test": "vitest run src",
+    "typecheck": "tsc --noEmit",
+    "validate": "pnpm build && node scripts/validate-design-system.mjs"
+  },
+  "devDependencies": {
+    "tsx": "catalog:"
+  }
+}
