@@ -172,6 +172,25 @@ function agentInstructionRelativeTarget(agent: AgentChoice) {
   return targets[agent];
 }
 
+function agentMcpRelativeTarget(agent: AgentChoice) {
+  const targets: Record<AgentChoice, string> = {
+    cursor: '.cursor/mcp.json',
+    vscode: '.vscode/mcp.json',
+    claude: '.mcp.json',
+    codex: '.ncai/codex-mcp.json',
+    windsurf: '.ncai/windsurf-mcp.json',
+    jetbrains: '.ncai/jetbrains-mcp.json',
+    manual: '.ncai/manual-mcp.json'
+  };
+
+  return targets[agent];
+}
+
+function installCommand(packages: string[], dev = false) {
+  const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+  return `${npmCommand} i${dev ? ' -D' : ''} ${packages.join(' ')}`;
+}
+
 async function installSkill(agent?: AgentChoice) {
   const selectedAgent = agent ?? (await selectAgent('Agent Skill 설치'));
   if (!selectedAgent) return;
@@ -260,8 +279,11 @@ async function setup() {
   const agent = await selectAgent('전체 설치');
   if (!agent) return;
 
-  console.log('프로젝트 의존성으로 아래 패키지를 설치하세요.');
-  console.log(`npm i ${designSystemPackage} ${baseUiPackage}`);
+  console.log('소비자 프로젝트 런타임 의존성으로 아래 패키지를 설치하세요.');
+  console.log(installCommand([designSystemPackage, baseUiPackage]));
+  console.log('');
+  console.log('npx 대신 로컬 고정 버전을 쓰고 싶다면 아래 개발 의존성을 추가할 수 있습니다.');
+  console.log(installCommand([cliPackage, mcpPackage, skillsPackage], true));
   console.log('');
   await installSkill(agent);
   await setupMcp(agent);
@@ -314,12 +336,11 @@ async function doctor() {
   console.log(deps[baseUiPackage] ? `[PASS] ${baseUiPackage}: ${deps[baseUiPackage]}` : `[WARN] ${baseUiPackage} 의존성이 없습니다.`);
   for (const agent of agentChoices) {
     const instructionPath = join(projectRoot, agentInstructionRelativeTarget(agent));
-    if (await pathExists(instructionPath)) {
-      console.log(`[PASS] ${agentLabels[agent]} 지침 파일 있음: ${instructionPath}`);
-    }
+    console.log((await pathExists(instructionPath)) ? `[PASS] ${agentLabels[agent]} 지침 파일 있음: ${instructionPath}` : `[INFO] ${agentLabels[agent]} 지침 파일 없음: ${instructionPath}`);
+
+    const mcpPath = join(projectRoot, agentMcpRelativeTarget(agent));
+    console.log((await pathExists(mcpPath)) ? `[PASS] ${agentLabels[agent]} MCP 설정 있음: ${mcpPath}` : `[INFO] ${agentLabels[agent]} MCP 설정 없음: ${mcpPath}`);
   }
-  console.log((await pathExists(join(projectRoot, '.cursor', 'mcp.json'))) ? '[PASS] Cursor MCP 설정 파일 있음' : '[INFO] Cursor MCP 설정 파일 없음');
-  console.log((await pathExists(join(projectRoot, '.mcp.json'))) ? '[PASS] Claude Code MCP 설정 파일 있음' : '[INFO] Claude Code MCP 설정 파일 없음');
 }
 
 function show() {
@@ -350,7 +371,7 @@ Agents:
 
 Recommended:
   npx ${cliPackage} setup --agent <agent>
-  npm i ${designSystemPackage} ${baseUiPackage}
+  ${installCommand([designSystemPackage, baseUiPackage])}
 `);
 }
 

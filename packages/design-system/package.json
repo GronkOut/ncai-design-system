@@ -1,6 +1,6 @@
 {
   "name": "@ncai/design-system",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "type": "module",
   "exports": {
@@ -11,7 +11,8 @@
     "./design-system.md": "./dist/design-system.md"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "repository": {
     "type": "git",

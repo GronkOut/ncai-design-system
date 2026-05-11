@@ -6,6 +6,38 @@ Base UI는 접근 가능한 React UI를 만들기 위한 unstyled 컴포넌트 �
 
 ---
 
+## 빠른 시작
+
+사용자가 AI 에이전트에게 “이 저장소 README를 보고 디자인 시스템을 적용해”라고 요청했다면, 에이전트는 먼저 현재 사용 중인 도구에 맞는 `<agent>` 값을 선택해 setup을 실행합니다. 현재 환경을 확실히 알 수 없다면 임의로 추측하지 말고 사용자에게 어떤 에이전트를 쓰는지 확인합니다.
+
+```bash
+npx @ncai/design-system-cli setup --agent <agent>
+npm i @ncai/design-system @base-ui/react
+npx @ncai/design-system-cli doctor
+```
+
+`<agent>`에는 다음 중 하나를 사용합니다.
+
+- Cursor를 사용하면 `cursor`
+- VS Code 또는 GitHub Copilot을 사용하면 `vscode`
+- Claude Code를 사용하면 `claude`
+- OpenAI Codex CLI를 사용하면 `codex`
+- Windsurf를 사용하면 `windsurf`
+- JetBrains AI Assistant를 사용하면 `jetbrains`
+- 그 외 도구는 `manual`
+
+Windows PowerShell에서 `npm.ps1` 실행 정책 때문에 `npm`이 막히면 `npm.cmd`를 사용합니다.
+
+```powershell
+npx @ncai/design-system-cli setup --agent <agent>
+npm.cmd i @ncai/design-system @base-ui/react
+npx @ncai/design-system-cli doctor
+```
+
+설치 후 UI를 만들 때는 Base UI primitive를 먼저 선택하고, 이 저장소의 `design-system.md` 기준을 소비자 프로젝트의 스타일 방식에 맞게 적용합니다.
+
+---
+
 ## 아키텍처
 
 아래 그림은 소비자 프로젝트, AI 에이전트, npm 패키지, MCP 도구, Base UI 공식 문서, 관리자 배포 흐름이 어떻게 연결되는지 보여줍니다.
@@ -35,14 +67,27 @@ Base UI는 접근 가능한 React UI를 만들기 위한 unstyled 컴포넌트 �
 
 ### 설치와 에이전트 설정
 
-소비자 프로젝트에서는 먼저 사용할 에이전트를 선택해 지침 파일과 MCP 설정을 생성합니다. `<agent>`에는 지원 목록 중 하나를 넣습니다.
+소비자 프로젝트에서는 먼저 사용할 에이전트를 선택해 지침 파일과 MCP 설정을 생성합니다. `<agent>`에는 빠른 시작에 있는 지원 목록 중 하나를 넣습니다.
 
 ```bash
 npx @ncai/design-system-cli setup --agent <agent>
 npm i @ncai/design-system @base-ui/react
 ```
 
+Windows PowerShell에서 실행 정책 때문에 `npm.ps1`이 막히는 환경이라면 `npm` 대신 `npm.cmd`를 사용합니다.
+
+```powershell
+npx @ncai/design-system-cli setup --agent <agent>
+npm.cmd i @ncai/design-system @base-ui/react
+```
+
 `setup` 명령은 선택한 에이전트가 읽을 수 있는 지침 파일과 MCP 설정을 생성합니다. 자동 설정 형식이 안정적인 에이전트는 설정 파일을 직접 작성하고, 도구나 버전에 따라 설정 방식이 달라질 수 있는 에이전트는 `.ncai` 아래에 가져다 쓸 MCP JSON 스니펫을 생성합니다.
+
+일반적인 사용자는 위 두 패키지만 소비자 프로젝트 의존성으로 설치하면 됩니다. `npx` 대신 로컬에 버전을 고정하고 싶거나 오프라인/사내 레지스트리 환경에서 반복 실행해야 한다면 다음 패키지를 개발 의존성으로 추가할 수 있습니다.
+
+```bash
+npm i -D @ncai/design-system-cli @ncai/design-system-mcp @ncai/design-system-skills
+```
 
 지원하는 에이전트는 다음과 같습니다.
 
@@ -72,7 +117,7 @@ npx @ncai/design-system-cli show --query typography
 
 ### 설치 상태 진단
 
-`doctor`는 소비자 프로젝트에 필요한 의존성과 에이전트 설정 파일이 있는지 확인하는 진단 명령입니다. `@ncai/design-system`, `@base-ui/react`, 에이전트 지침 파일, MCP 설정 파일의 존재 여부를 확인합니다.
+`doctor`는 소비자 프로젝트에 필요한 의존성과 에이전트 설정 파일이 있는지 확인하는 진단 명령입니다. `@ncai/design-system`, `@base-ui/react`, 지원 에이전트별 지침 파일, MCP 설정 파일 또는 MCP JSON 스니펫의 존재 여부를 확인합니다.
 
 ```bash
 npx @ncai/design-system-cli doctor
@@ -169,4 +214,47 @@ pnpm build
 pnpm validate
 ```
 
-패키지 배포는 `.github/workflows/release.yml`에서 검증 후 `scripts/publish-missing.mjs`를 실행하는 방식으로 진행합니다. 배포할 변경이 있을 때는 `pnpm changeset`으로 변경 내용을 기록하고 `pnpm version-packages`로 패키지 버전을 반영한 뒤 `main`에 푸시합니다. 배포 스크립트는 이미 npm에 배포된 동일 버전은 건너뛰고, 아직 배포되지 않은 패키지만 공개 패키지로 게시합니다.
+### 수동 배포 절차
+
+패키지 배포는 `.github/workflows/release.yml`에서 검증 후 `scripts/publish-missing.mjs`를 실행하는 방식으로 진행합니다. 개발자는 버전을 직접 여러 파일에서 찾아 바꾸기보다 Changesets로 변경 내용을 기록하고, Changesets가 버전 파일을 갱신하게 해야 합니다.
+
+예를 들어 `packages/design-system`을 수정한 뒤 배포하려면 다음 순서로 진행합니다.
+
+```bash
+pnpm install
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm validate
+pnpm changeset
+pnpm version-packages
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm validate
+pnpm smoke:pack
+git add .
+git commit -m "Release design system updates"
+git push
+```
+
+`pnpm changeset`을 실행하면 배포할 패키지와 버전 변경 수준을 선택합니다.
+
+- `patch`: 버그 수정, 문서 보강, 내부 구현 개선
+- `minor`: 새 기능, 새 명령, 새 MCP 도구, 사용 흐름 개선
+- `major`: 기존 사용 방식을 깨는 변경
+
+`pnpm version-packages`는 생성된 changeset을 읽어 관련 `package.json` 버전을 갱신합니다. 현재 저장소는 여러 `@ncai` 패키지가 함께 동작하므로, changeset에서 필요한 패키지를 정확히 선택하는 것이 중요합니다.
+
+`git push` 후에는 GitHub Actions의 Release 워크플로가 실행됩니다. 배포 스크립트는 이미 npm에 배포된 동일 버전은 건너뛰고, 아직 배포되지 않은 패키지만 공개 패키지로 게시합니다.
+
+배포 후에는 npm에서 버전을 확인합니다.
+
+```bash
+npm view @ncai/design-system version
+npm view @ncai/design-system-cli version
+npm view @ncai/design-system-mcp version
+npm view @ncai/design-system-skills version
+```
+
+Windows PowerShell에서 `npm.ps1` 실행 정책 문제가 있으면 `npm.cmd view ...`처럼 `npm.cmd`를 사용합니다.
