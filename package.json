@@ -15,7 +15,8 @@
     "typecheck": "turbo typecheck",
     "validate": "turbo validate",
     "changeset": "changeset",
-    "version-packages": "changeset version",
+    "version-packages": "changeset version && pnpm sync-versions",
+    "sync-versions": "node scripts/sync-versions.mjs",
     "mcp": "pnpm --filter @ncai/design-system-mcp start"
   },
   "devDependencies": {

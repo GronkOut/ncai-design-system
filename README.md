@@ -216,16 +216,11 @@ pnpm validate
 
 ### 수동 배포 절차
 
-패키지 배포는 `.github/workflows/release.yml`에서 검증 후 `scripts/publish-missing.mjs`를 실행하는 방식으로 진행합니다. 개발자는 버전을 직접 여러 파일에서 찾아 바꾸기보다 Changesets로 변경 내용을 기록하고, Changesets가 버전 파일을 갱신하게 해야 합니다.
+패키지 배포는 `.github/workflows/release.yml`에서 검증 후 `scripts/publish-missing.mjs`를 실행하는 방식으로 진행합니다. 개발자는 버전을 직접 여러 파일에서 찾아 바꾸지 않습니다. Changesets로 변경 내용을 기록하고 `pnpm version-packages`가 패키지 버전과 런타임 버전 상수를 함께 갱신하게 합니다.
 
 예를 들어 `packages/design-system`을 수정한 뒤 배포하려면 다음 순서로 진행합니다.
 
 ```bash
-pnpm install
-pnpm typecheck
-pnpm test
-pnpm build
-pnpm validate
 pnpm changeset
 pnpm version-packages
 pnpm typecheck
@@ -244,7 +239,7 @@ git push
 - `minor`: 새 기능, 새 명령, 새 MCP 도구, 사용 흐름 개선
 - `major`: 기존 사용 방식을 깨는 변경
 
-`pnpm version-packages`는 생성된 changeset을 읽어 관련 `package.json` 버전을 갱신합니다. 현재 저장소는 여러 `@ncai` 패키지가 함께 동작하므로, changeset에서 필요한 패키지를 정확히 선택하는 것이 중요합니다.
+`pnpm version-packages`는 생성된 changeset을 읽어 관련 `package.json` 버전을 갱신한 뒤 `pnpm sync-versions`를 실행합니다. 이 동기화 스크립트는 루트 `package.json`, `packages/design-system/src/index.ts`, `packages/mcp/src/index.ts`의 버전 상수를 패키지 버전에 맞춥니다. 따라서 버전 숫자를 여러 파일에서 직접 수정하지 않아도 됩니다.
 
 `git push` 후에는 GitHub Actions의 Release 워크플로가 실행됩니다. 배포 스크립트는 이미 npm에 배포된 동일 버전은 건너뛰고, 아직 배포되지 않은 패키지만 공개 패키지로 게시합니다.
 
