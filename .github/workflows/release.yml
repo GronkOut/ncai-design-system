@@ -40,10 +40,7 @@ jobs:
           pnpm build
           pnpm smoke:pack
 
-      - name: Publish with Changesets
-        uses: changesets/action@v1
-        with:
-          publish: changeset publish
+      - name: Publish packages
+        run: pnpm changeset publish
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
