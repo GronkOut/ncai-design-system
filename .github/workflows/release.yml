@@ -41,7 +41,7 @@ jobs:
           pnpm smoke:pack
 
       - name: Publish packages
-        run: pnpm changeset publish
+        run: node scripts/publish-missing.mjs
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
