@@ -223,6 +223,8 @@ pnpm validate
 
 패키지 배포는 로컬 터미널에서 `npm publish` 또는 `pnpm publish`로 직접 실행하지 않습니다. `.github/workflows/release.yml`에서 검증 후 `scripts/publish-missing.mjs`를 실행하는 방식으로만 진행합니다. GitHub Actions는 repository secret `NPM_TOKEN`을 사용하며, 이 토큰은 npm publish 권한과 2FA publish 우회 권한을 가진 토큰이어야 합니다.
 
+각 publish 대상 패키지는 `prepublishOnly` 훅으로 로컬 publish를 차단합니다. GitHub Actions의 `Release` workflow가 아닌 환경에서 `npm publish` 또는 `pnpm publish`를 실행하면 실패하며, 배포는 `main` 브랜치 push로 트리거해야 합니다.
+
 개발자는 버전을 직접 여러 파일에서 찾아 바꾸지 않습니다. Changesets로 변경 내용을 기록하고 `pnpm version-packages`가 패키지 버전과 런타임 버전 상수를 함께 갱신하게 합니다.
 
 예를 들어 `packages/design-system`을 수정한 뒤 배포하려면 다음 순서로 진행합니다.

@@ -31,7 +31,8 @@
     "lint": "tsc --noEmit",
     "test": "vitest run src",
     "typecheck": "tsc --noEmit",
-    "validate": "pnpm build && node scripts/validate-icons.mjs"
+    "validate": "pnpm build && node scripts/validate-icons.mjs",
+    "prepublishOnly": "node ../../scripts/ensure-github-actions-publish.mjs"
   },
   "devDependencies": {
     "tsx": "catalog:",

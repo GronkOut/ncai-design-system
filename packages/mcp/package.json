@@ -24,7 +24,8 @@
     "start": "tsx src/index.ts",
     "test": "vitest run src",
     "typecheck": "tsc --noEmit",
-    "validate": "pnpm build"
+    "validate": "pnpm build",
+    "prepublishOnly": "node ../../scripts/ensure-github-actions-publish.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "catalog:",

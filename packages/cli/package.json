@@ -24,7 +24,8 @@
     "lint": "tsc --noEmit",
     "test": "node -e \"console.log('cli package: no tests required')\"",
     "typecheck": "tsc --noEmit",
-    "validate": "pnpm build"
+    "validate": "pnpm build",
+    "prepublishOnly": "node ../../scripts/ensure-github-actions-publish.mjs"
   },
   "dependencies": {
     "@ncai/design-system": "workspace:*",
