@@ -3,8 +3,6 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const isDryRun = process.argv.includes('--dry-run');
-const otpArg = process.argv.find((arg) => arg.startsWith('--otp='));
-const otp = otpArg?.slice('--otp='.length) || process.env.NPM_CONFIG_OTP;
 const packageManager = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm';
 
 const packages = [
@@ -58,10 +56,6 @@ for (const packageDir of packages) {
     'public',
     '--no-git-checks',
   ];
-
-  if (otp) {
-    publishArgs.push('--otp', otp);
-  }
 
   execFileSync(
     packageManager,
