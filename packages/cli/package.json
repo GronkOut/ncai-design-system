@@ -1,6 +1,6 @@
 {
   "name": "@ncai/design-system-cli",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "license": "MIT",
   "type": "module",
   "bin": {
@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@ncai/design-system": "workspace:*",
+    "@ncai/design-system-icons": "workspace:*",
     "@ncai/design-system-skills": "workspace:*"
   },
   "devDependencies": {

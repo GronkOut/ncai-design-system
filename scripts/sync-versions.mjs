@@ -3,6 +3,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 const rootPackagePath = 'package.json';
 const packagePaths = [
   'packages/design-system/package.json',
+  'packages/icons/package.json',
   'packages/cli/package.json',
   'packages/mcp/package.json',
   'packages/skills/package.json'

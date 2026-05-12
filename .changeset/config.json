@@ -6,6 +6,7 @@
   "linked": [
     [
       "@ncai/design-system",
+      "@ncai/design-system-icons",
       "@ncai/design-system-cli",
       "@ncai/design-system-mcp",
       "@ncai/design-system-skills"

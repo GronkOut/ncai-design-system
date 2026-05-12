@@ -2,6 +2,7 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { baseUiGuidance, designSystem, getDesignSystemSection, searchDesignSystem } from '@ncai/design-system';
+import { getIcon, icons, searchIcons } from '@ncai/design-system-icons';
 import { z } from 'zod';
 import { getBaseUiComponentDoc, getBaseUiDoc, listBaseUiDocs, searchBaseUiDocs } from './base-ui-docs';
 import { composeBaseUiRecipe } from './recipe';
@@ -10,7 +11,7 @@ import { validateUiCode } from './validation';
 const server = new McpServer(
   {
     name: 'ncai-design-system',
-    version: '0.2.1'
+    version: '0.2.2'
   },
   {
     instructions:
@@ -88,6 +89,64 @@ server.registerTool(
     content: [{ type: 'text', text: JSON.stringify(baseUiGuidance, null, 2) }],
     structuredContent: baseUiGuidance
   })
+);
+
+server.registerTool(
+  'list_icons',
+  {
+    title: 'List NC AI SVG icons',
+    description: 'Return available NC AI design-system icons with titles, file names, and package export paths.',
+    inputSchema: {
+      limit: z.number().int().positive().max(200).optional()
+    }
+  },
+  async ({ limit }) => {
+    const result = icons.slice(0, limit ?? 100);
+
+    return {
+      content: [{ type: 'text', text: JSON.stringify({ icons: result }, null, 2) }],
+      structuredContent: { icons: result }
+    };
+  }
+);
+
+server.registerTool(
+  'search_icons',
+  {
+    title: 'Search NC AI SVG icons',
+    description: 'Search NC AI icon metadata by title or file name.',
+    inputSchema: {
+      query: z.string(),
+      limit: z.number().int().positive().max(100).optional()
+    }
+  },
+  async ({ query, limit }) => {
+    const result = searchIcons(query, limit ?? 20);
+
+    return {
+      content: [{ type: 'text', text: JSON.stringify({ icons: result }, null, 2) }],
+      structuredContent: { icons: result }
+    };
+  }
+);
+
+server.registerTool(
+  'get_icon',
+  {
+    title: 'Get NC AI SVG icon metadata',
+    description: 'Return one NC AI icon by SVG file name, for example ic_account_info.svg.',
+    inputSchema: {
+      fileName: z.string()
+    }
+  },
+  async ({ fileName }) => {
+    const icon = getIcon(fileName);
+
+    return {
+      content: [{ type: 'text', text: JSON.stringify({ icon }, null, 2) }],
+      structuredContent: { icon }
+    };
+  }
 );
 
 server.registerTool(

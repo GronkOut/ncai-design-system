@@ -20,6 +20,7 @@ const command = normalizeCommand(args[0]);
 const require = createRequire(import.meta.url);
 
 const designSystemPackage = '@ncai/design-system';
+const iconsPackage = '@ncai/design-system-icons';
 const cliPackage = '@ncai/design-system-cli';
 const mcpPackage = '@ncai/design-system-mcp';
 const skillsPackage = '@ncai/design-system-skills';
@@ -137,6 +138,7 @@ function agentInstructions() {
 
 - Read NC AI design-system.md before creating or reviewing UI.
 - Use Base UI primitives from ${baseUiPackage} before creating custom interactive components.
+- Use SVG icons from ${iconsPackage} before inventing new icon paths.
 - Apply NC AI design guidance in the consuming app at implementation time.
 - Prefer MCP server ${mcpServerName} when available.
 - Validate generated UI with: npx ${cliPackage} validate --file <path>
@@ -280,7 +282,7 @@ async function setup() {
   if (!agent) return;
 
   console.log('소비자 프로젝트 런타임 의존성으로 아래 패키지를 설치하세요.');
-  console.log(installCommand([designSystemPackage, baseUiPackage]));
+  console.log(installCommand([designSystemPackage, iconsPackage, baseUiPackage]));
   console.log('');
   console.log('npx 대신 로컬 고정 버전을 쓰고 싶다면 아래 개발 의존성을 추가할 수 있습니다.');
   console.log(installCommand([cliPackage, mcpPackage, skillsPackage], true));
@@ -333,6 +335,7 @@ async function doctor() {
   console.log(`project: ${projectRoot}`);
   console.log(`design-system sections: ${designSystem.sections.length}`);
   console.log(deps[designSystemPackage] ? `[PASS] ${designSystemPackage}: ${deps[designSystemPackage]}` : `[WARN] ${designSystemPackage} 의존성이 없습니다.`);
+  console.log(deps[iconsPackage] ? `[PASS] ${iconsPackage}: ${deps[iconsPackage]}` : `[WARN] ${iconsPackage} 의존성이 없습니다.`);
   console.log(deps[baseUiPackage] ? `[PASS] ${baseUiPackage}: ${deps[baseUiPackage]}` : `[WARN] ${baseUiPackage} 의존성이 없습니다.`);
   for (const agent of agentChoices) {
     const instructionPath = join(projectRoot, agentInstructionRelativeTarget(agent));
@@ -371,7 +374,7 @@ Agents:
 
 Recommended:
   npx ${cliPackage} setup --agent <agent>
-  ${installCommand([designSystemPackage, baseUiPackage])}
+  ${installCommand([designSystemPackage, iconsPackage, baseUiPackage])}
 `);
 }
 

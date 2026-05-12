@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
-const packages = ['design-system', 'skills', 'mcp', 'cli'];
+const packages = ['design-system', 'icons', 'skills', 'mcp', 'cli'];
 const tempDir = await mkdtemp(join(tmpdir(), 'ncai-design-system-pack-'));
 
 try {

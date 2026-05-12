@@ -12,7 +12,7 @@ Base UI는 접근 가능한 React UI를 만들기 위한 unstyled 컴포넌트 �
 
 ```bash
 npx @ncai/design-system-cli setup --agent <agent>
-npm i @ncai/design-system @base-ui/react
+npm i @ncai/design-system @ncai/design-system-icons @base-ui/react
 npx @ncai/design-system-cli doctor
 ```
 
@@ -30,7 +30,7 @@ Windows PowerShell에서 `npm.ps1` 실행 정책 때문에 `npm`이 막히면 `n
 
 ```powershell
 npx @ncai/design-system-cli setup --agent <agent>
-npm.cmd i @ncai/design-system @base-ui/react
+npm.cmd i @ncai/design-system @ncai/design-system-icons @base-ui/react
 npx @ncai/design-system-cli doctor
 ```
 
@@ -51,6 +51,9 @@ npx @ncai/design-system-cli doctor
 - `@ncai/design-system`
   - `design-system.md` 원문과 섹션 검색 헬퍼를 배포합니다.
   - 소비자 프로젝트나 에이전트는 이 패키지를 통해 NC AI 디자인 기준을 코드에서 직접 조회하고, 필요한 섹션만 찾아 UI 구현에 반영할 수 있습니다.
+- `@ncai/design-system-icons`
+  - NC AI SVG 아이콘 파일과 검색 가능한 메타데이터를 배포합니다.
+  - 소비자 프로젝트는 `@ncai/design-system-icons/icons/<file>.svg` export 경로로 SVG를 직접 가져오거나, `icons`, `searchIcons`, `getIcon` 헬퍼로 적절한 아이콘을 찾을 수 있습니다.
 - `@ncai/design-system-skills`
   - AI 에이전트가 NC AI 디자인 시스템과 Base UI를 함께 사용하는 방법을 이해할 수 있도록 지침 문서를 배포합니다.
   - 특정 도구에만 묶인 컴포넌트 구현체가 아니라, 에이전트가 Base UI primitive를 먼저 선택하고 디자인 시스템 문서를 적용하도록 안내하는 작업 기준을 제공합니다.
@@ -71,19 +74,19 @@ npx @ncai/design-system-cli doctor
 
 ```bash
 npx @ncai/design-system-cli setup --agent <agent>
-npm i @ncai/design-system @base-ui/react
+npm i @ncai/design-system @ncai/design-system-icons @base-ui/react
 ```
 
 Windows PowerShell에서 실행 정책 때문에 `npm.ps1`이 막히는 환경이라면 `npm` 대신 `npm.cmd`를 사용합니다.
 
 ```powershell
 npx @ncai/design-system-cli setup --agent <agent>
-npm.cmd i @ncai/design-system @base-ui/react
+npm.cmd i @ncai/design-system @ncai/design-system-icons @base-ui/react
 ```
 
 `setup` 명령은 선택한 에이전트가 읽을 수 있는 지침 파일과 MCP 설정을 생성합니다. 자동 설정 형식이 안정적인 에이전트는 설정 파일을 직접 작성하고, 도구나 버전에 따라 설정 방식이 달라질 수 있는 에이전트는 `.ncai` 아래에 가져다 쓸 MCP JSON 스니펫을 생성합니다.
 
-일반적인 사용자는 위 두 패키지만 소비자 프로젝트 의존성으로 설치하면 됩니다. `npx` 대신 로컬에 버전을 고정하고 싶거나 오프라인/사내 레지스트리 환경에서 반복 실행해야 한다면 다음 패키지를 개발 의존성으로 추가할 수 있습니다.
+일반적인 사용자는 위 세 패키지만 소비자 프로젝트 의존성으로 설치하면 됩니다. `npx` 대신 로컬에 버전을 고정하고 싶거나 오프라인/사내 레지스트리 환경에서 반복 실행해야 한다면 다음 패키지를 개발 의존성으로 추가할 수 있습니다.
 
 ```bash
 npm i -D @ncai/design-system-cli @ncai/design-system-mcp @ncai/design-system-skills
@@ -146,15 +149,17 @@ AI 에이전트가 UI를 만들거나 리뷰할 때는 다음 순서를 따릅�
 1. `design-system.md`를 읽거나 MCP로 검색합니다.
 2. 인터랙티브 UI는 가장 가까운 Base UI primitive를 `@base-ui/react`에서 선택합니다.
 3. 필요한 경우 MCP의 `search_base_ui_docs` 또는 `get_base_ui_component_doc`으로 Base UI 공식 Markdown 문서를 확인합니다.
-4. Base UI의 접근성 구조와 상태 속성을 유지합니다.
-5. 마크다운 문서의 typography, color, spacing, radius, elevation, interaction 기준을 소비자 프로젝트의 스타일 방식에 맞게 적용합니다.
-6. MCP `validate_ui_code` 또는 CLI `validate`로 결과를 점검합니다.
+4. 아이콘이 필요하면 MCP의 `search_icons` 또는 `@ncai/design-system-icons` 메타데이터로 기존 SVG를 먼저 찾습니다.
+5. Base UI의 접근성 구조와 상태 속성을 유지합니다.
+6. 마크다운 문서의 typography, color, spacing, radius, elevation, interaction 기준을 소비자 프로젝트의 스타일 방식에 맞게 적용합니다.
+7. MCP `validate_ui_code` 또는 CLI `validate`로 결과를 점검합니다.
 
 MCP를 사용할 수 있다면 다음 도구를 우선 사용합니다.
 
 - `get_design_system_overview`: NC AI 디자인 시스템 섹션 목록을 확인합니다.
 - `search_design_system`: 요청과 관련된 디자인 시스템 섹션을 검색합니다.
 - `get_design_system_section`: 특정 디자인 시스템 섹션의 원문을 확인합니다.
+- `list_icons`, `search_icons`, `get_icon`: NC AI SVG 아이콘 목록, 검색, 개별 메타데이터를 확인합니다.
 - `list_base_ui_docs`: Base UI 공식 문서 인덱스를 확인합니다.
 - `search_base_ui_docs`: Base UI 공식 문서를 검색합니다.
 - `get_base_ui_component_doc`: Base UI 컴포넌트 API 문서를 확인합니다.
@@ -216,7 +221,9 @@ pnpm validate
 
 ### 수동 배포 절차
 
-패키지 배포는 `.github/workflows/release.yml`에서 검증 후 `scripts/publish-missing.mjs`를 실행하는 방식으로 진행합니다. 개발자는 버전을 직접 여러 파일에서 찾아 바꾸지 않습니다. Changesets로 변경 내용을 기록하고 `pnpm version-packages`가 패키지 버전과 런타임 버전 상수를 함께 갱신하게 합니다.
+패키지 배포는 로컬 터미널에서 `npm publish` 또는 `pnpm publish`로 직접 실행하지 않습니다. `.github/workflows/release.yml`에서 검증 후 `scripts/publish-missing.mjs`를 실행하는 방식으로만 진행합니다. GitHub Actions는 repository secret `NPM_TOKEN`을 사용하며, 이 토큰은 npm publish 권한과 2FA publish 우회 권한을 가진 토큰이어야 합니다.
+
+개발자는 버전을 직접 여러 파일에서 찾아 바꾸지 않습니다. Changesets로 변경 내용을 기록하고 `pnpm version-packages`가 패키지 버전과 런타임 버전 상수를 함께 갱신하게 합니다.
 
 예를 들어 `packages/design-system`을 수정한 뒤 배포하려면 다음 순서로 진행합니다.
 
@@ -233,6 +240,8 @@ git commit -m "Release design system updates"
 git push
 ```
 
+`git push`가 배포 트리거입니다. `main`에 push되면 GitHub Actions의 Release 워크플로가 전체 검증을 다시 실행하고, 아직 npm에 배포되지 않은 패키지만 공개 패키지로 게시합니다.
+
 `pnpm changeset`을 실행하면 배포할 패키지와 버전 변경 수준을 선택합니다.
 
 - `patch`: 버그 수정, 문서 보강, 내부 구현 개선
@@ -241,12 +250,11 @@ git push
 
 `pnpm version-packages`는 생성된 changeset을 읽어 관련 `package.json` 버전을 갱신한 뒤 `pnpm sync-versions`를 실행합니다. 이 동기화 스크립트는 루트 `package.json`, `packages/design-system/src/index.ts`, `packages/mcp/src/index.ts`의 버전 상수를 패키지 버전에 맞춥니다. 따라서 버전 숫자를 여러 파일에서 직접 수정하지 않아도 됩니다.
 
-`git push` 후에는 GitHub Actions의 Release 워크플로가 실행됩니다. 배포 스크립트는 이미 npm에 배포된 동일 버전은 건너뛰고, 아직 배포되지 않은 패키지만 공개 패키지로 게시합니다.
-
 배포 후에는 npm에서 버전을 확인합니다.
 
 ```bash
 npm view @ncai/design-system version
+npm view @ncai/design-system-icons version
 npm view @ncai/design-system-cli version
 npm view @ncai/design-system-mcp version
 npm view @ncai/design-system-skills version
