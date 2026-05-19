@@ -1,0 +1,47 @@
+name: Deploy Preview to Vercel
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: vercel-preview
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.3
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify preview build
+        run: pnpm --filter @ncai/design-system-preview build
+
+      - name: Pull Vercel project settings
+        run: pnpm dlx vercel@latest pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Vercel output
+        run: pnpm dlx vercel@latest build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Vercel output
+        run: pnpm dlx vercel@latest deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}

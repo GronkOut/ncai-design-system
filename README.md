@@ -235,6 +235,14 @@ pnpm --filter @ncai/design-system-preview dev -- --port 5174
 
 Vercel에서 GitHub 저장소를 Import할 때 Root Directory는 저장소 루트로 둡니다. 프로젝트가 GitHub에 연결되면 main 브랜치 push마다 `preview/dist`가 자동으로 빌드되어 배포됩니다. Vercel에서 생성된 Production Domain이 README 상단의 미리보기 링크와 다르면 해당 링크 URL만 실제 도메인으로 바꿉니다.
 
+GitHub Actions에서도 main 브랜치 push마다 같은 preview를 Vercel production으로 강제 배포합니다. 저장소 Settings > Secrets and variables > Actions에 다음 값을 등록합니다.
+
+- `VERCEL_TOKEN`: Vercel Account Settings > Tokens에서 생성한 토큰
+- `VERCEL_ORG_ID`: Vercel Team 또는 Personal Account ID
+- `VERCEL_PROJECT_ID`: `ncai-design-system` Vercel Project ID
+
+ID 값은 로컬에서 `vercel link`를 실행한 뒤 생성되는 `.vercel/project.json`에서도 확인할 수 있습니다. 이 파일은 로컬 연결 정보이므로 커밋하지 않습니다.
+
 ```bash
 pnpm install
 pnpm typecheck
