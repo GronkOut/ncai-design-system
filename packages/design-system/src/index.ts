@@ -20,7 +20,7 @@ const designSystemMarkdown = readDesignSystemMarkdown();
 
 export const designSystem: DesignSystemDocument = {
   name: 'NC AI Design System',
-  version: '0.2.2',
+  version: '0.3.0',
   source: 'resources/design-system.md',
   markdown: designSystemMarkdown,
   sections: parseDesignSystemMarkdown(designSystemMarkdown)

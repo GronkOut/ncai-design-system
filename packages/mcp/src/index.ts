@@ -11,7 +11,7 @@ import { validateUiCode } from './validation';
 const server = new McpServer(
   {
     name: 'ncai-design-system',
-    version: '0.2.2'
+    version: '0.3.0'
   },
   {
     instructions:
@@ -134,7 +134,7 @@ server.registerTool(
   'get_icon',
   {
     title: 'Get NC AI SVG icon metadata',
-    description: 'Return one NC AI icon by SVG file name, for example ic_account_info.svg.',
+    description: 'Return one NC AI icon by SVG file name, for example user.svg.',
     inputSchema: {
       fileName: z.string()
     }

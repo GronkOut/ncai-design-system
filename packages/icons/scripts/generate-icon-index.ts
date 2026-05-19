@@ -14,6 +14,7 @@ const packageRoot = resolve(import.meta.dirname, '..');
 const iconsDir = join(packageRoot, 'icons');
 const readmePath = join(iconsDir, 'README.md');
 const outputPath = join(packageRoot, 'src', 'generated-icons.ts');
+const checkOnly = process.argv.includes('--check');
 
 const readme = readFileSync(readmePath, 'utf8');
 const titleByFileName = new Map<string, string>();
@@ -43,6 +44,8 @@ const icons: IconMetadata[] = readdirSync(iconsDir)
       viewBox
     };
   });
+
+const nextReadme = renderReadme(icons);
 
 const source = `export type IconMetadata = {
   title: string;
@@ -93,8 +96,29 @@ function countOccurrences(value: string, term: string) {
 }
 `;
 
-writeFileSync(outputPath, source, 'utf8');
-console.log(`Generated ${basename(outputPath)} for ${icons.length} icons.`);
+if (checkOnly) {
+  const mismatches = [];
+
+  if (normalizeLineEndings(readFileSync(readmePath, 'utf8')) !== normalizeLineEndings(nextReadme)) {
+    mismatches.push(basename(readmePath));
+  }
+
+  if (normalizeLineEndings(readFileSync(outputPath, 'utf8')) !== normalizeLineEndings(source)) {
+    mismatches.push(basename(outputPath));
+  }
+
+  if (mismatches.length > 0) {
+    console.error(`Icon generated files are out of date: ${mismatches.join(', ')}`);
+    console.error('Run pnpm --filter @ncai/design-system-icons build to regenerate them.');
+    process.exit(1);
+  }
+
+  console.log(`Checked ${icons.length} generated icons.`);
+} else {
+  writeFileSync(readmePath, nextReadme, 'utf8');
+  writeFileSync(outputPath, source, 'utf8');
+  console.log(`Generated ${basename(outputPath)} for ${icons.length} icons.`);
+}
 
 function readAttribute(svg: string, name: string) {
   return new RegExp(`${name}="([^"]+)"`).exec(svg)?.[1];
@@ -108,4 +132,26 @@ function titleFromFileName(fileName: string) {
     .filter(Boolean)
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(' ');
+}
+
+function renderReadme(icons: IconMetadata[]) {
+  const rows = icons
+    .map(
+      (icon) =>
+        `| ${icon.title} | \`${icon.fileName}\` | <img src="./${icon.fileName}" alt="${icon.title}" width="24" height="24" /> |`
+    )
+    .join('\n');
+
+  return `# Icons
+
+SVG icons normalized for \`currentColor\` usage.
+
+| Title | File name | Preview |
+| --- | --- | --- |
+${rows}
+`;
+}
+
+function normalizeLineEndings(value: string) {
+  return value.replace(/\r\n/g, '\n');
 }

@@ -211,6 +211,18 @@ Base UI 컴포넌트를 우선 사용하고, 가능한 많은 적절한 컴포�
 
 로컬에서 패키지를 수정할 때는 의존성을 설치한 뒤 타입 검사, 테스트, 빌드, 검증을 순서대로 실행해 배포 가능한 상태인지 확인합니다.
 
+컴포넌트 preview 화면은 `preview` 워크스페이스 앱으로 실행합니다. Base UI 컴포넌트와 아이콘 패키지가 실제 화면에서 함께 렌더링되는지 확인할 때 사용합니다.
+
+```bash
+pnpm preview
+```
+
+Vite 개발 서버가 출력하는 로컬 URL을 브라우저에서 열면 됩니다. 포트를 직접 지정해야 하면 preview 패키지에 인자를 전달합니다.
+
+```bash
+pnpm --filter @ncai/design-system-preview dev -- --port 5174
+```
+
 ```bash
 pnpm install
 pnpm typecheck

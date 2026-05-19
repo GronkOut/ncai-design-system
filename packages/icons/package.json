@@ -1,6 +1,6 @@
 {
   "name": "@ncai/design-system-icons",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -31,7 +31,7 @@
     "lint": "tsc --noEmit",
     "test": "vitest run src",
     "typecheck": "tsc --noEmit",
-    "validate": "pnpm build && node scripts/validate-icons.mjs",
+    "validate": "tsx scripts/generate-icon-index.ts --check && node scripts/validate-icons.mjs",
     "prepublishOnly": "node ../../scripts/ensure-github-actions-publish.mjs"
   },
   "devDependencies": {

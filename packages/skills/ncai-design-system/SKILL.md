@@ -31,7 +31,7 @@ description: Builds, reviews, and styles React UI using NC AI design-system.md a
 ## Icon Rules
 
 - Install icons with `npm i @ncai/design-system-icons` or as part of the recommended setup command.
-- Use package export paths such as `@ncai/design-system-icons/icons/ic_account_info.svg` for SVG assets.
+- Use package export paths such as `@ncai/design-system-icons/icons/user.svg` for SVG assets.
 - Use `search_icons` before creating or importing a new icon. Match by semantic title first, then by file name.
 - Icons are normalized for `currentColor`; set color in the consuming UI with CSS rather than editing SVG fills.
 
