@@ -18,7 +18,7 @@
     "changeset": "changeset",
     "version-packages": "changeset version && pnpm sync-versions",
     "sync-versions": "node scripts/sync-versions.mjs",
-    "mcp": "pnpm --filter @ncai/design-system-mcp start"
+    "mcp": "pnpm --filter @ncai/design-system --filter @ncai/design-system-icons build && pnpm --filter @ncai/design-system-mcp start"
   },
   "devDependencies": {
     "@changesets/cli": "catalog:",

@@ -4,11 +4,13 @@ NC AI Design System은 AI 에이전트가 React UI를 만들 때 사용할 수 �
 
 Base UI는 접근 가능한 React UI를 만들기 위한 unstyled 컴포넌트 라이브러리입니다. 이 프로젝트는 [Base UI](https://base-ui.com/)와 [Base UI Quick start](https://base-ui.com/react/overview/quick-start.md)의 흐름을 전제로 `@base-ui/react`를 사용합니다.
 
+<a href="https://ncai-design-system.vercel.app/" target="_blank" rel="noopener noreferrer">디자인이 적용된 컴포넌트 미리보기</a>
+
 ---
 
 ## 빠른 시작
 
-사용자가 AI 에이전트에게 “이 저장소 README를 보고 디자인 시스템을 적용해”라고 요청했다면, 에이전트는 먼저 현재 사용 중인 도구에 맞는 `<agent>` 값을 선택해 setup을 실행합니다. 현재 환경을 확실히 알 수 없다면 임의로 추측하지 말고 사용자에게 어떤 에이전트를 쓰는지 확인합니다.
+사용자가 AI 에이전트에게 “이 저장소 README를 보고 디자인 시스템을 적용해”라고 요청했다면, 에이전트는 먼저 현재 사용 중인 도구에 맞는 `<agent>` 값을 선택해 setup을 실행합니다. 현재 사용중인 에이전트를 확실히 알 수 없다면 임의로 추측하여 설치하지 말고 사용자에게 어떤 에이전트를 쓰는지 확인해야 합니다.
 
 ```bash
 npx @ncai/design-system-cli setup --agent <agent>
@@ -48,19 +50,19 @@ npx @ncai/design-system-cli doctor
 
 ## 패키지 구성
 
-- `@ncai/design-system`
+- <a href="https://www.npmjs.com/package/@ncai/design-system" target="_blank" rel="noopener noreferrer">`@ncai/design-system`</a>
   - `design-system.md` 원문과 섹션 검색 헬퍼를 배포합니다.
   - 소비자 프로젝트나 에이전트는 이 패키지를 통해 NC AI 디자인 기준을 코드에서 직접 조회하고, 필요한 섹션만 찾아 UI 구현에 반영할 수 있습니다.
-- `@ncai/design-system-icons`
+- <a href="https://www.npmjs.com/package/@ncai/design-system-icons" target="_blank" rel="noopener noreferrer">`@ncai/design-system-icons`</a>
   - NC AI SVG 아이콘 파일과 검색 가능한 메타데이터를 배포합니다.
   - 소비자 프로젝트는 `@ncai/design-system-icons/icons/<file>.svg` export 경로로 SVG를 직접 가져오거나, `icons`, `searchIcons`, `getIcon` 헬퍼로 적절한 아이콘을 찾을 수 있습니다.
-- `@ncai/design-system-skills`
+- <a href="https://www.npmjs.com/package/@ncai/design-system-skills" target="_blank" rel="noopener noreferrer">`@ncai/design-system-skills`</a>
   - AI 에이전트가 NC AI 디자인 시스템과 Base UI를 함께 사용하는 방법을 이해할 수 있도록 지침 문서를 배포합니다.
   - 특정 도구에만 묶인 컴포넌트 구현체가 아니라, 에이전트가 Base UI primitive를 먼저 선택하고 디자인 시스템 문서를 적용하도록 안내하는 작업 기준을 제공합니다.
-- `@ncai/design-system-mcp`
+- <a href="https://www.npmjs.com/package/@ncai/design-system-mcp" target="_blank" rel="noopener noreferrer">`@ncai/design-system-mcp`</a>
   - NC AI 디자인 시스템 검색, Base UI 공식 문서 조회, 구현 레시피 생성, UI 코드 검증을 위한 MCP 도구를 제공합니다.
   - 에이전트는 MCP를 통해 `design-system.md`와 Base UI API 문서를 함께 확인하고, 임의 스타일이나 오래된 import 같은 문제를 검증할 수 있습니다.
-- `@ncai/design-system-cli`
+- <a href="https://www.npmjs.com/package/@ncai/design-system-cli" target="_blank" rel="noopener noreferrer">`@ncai/design-system-cli`</a>
   - `npx`로 실행할 수 있는 설치, 에이전트 지침 생성, MCP 설정, 진단, 검증, 문서 조회 명령을 제공합니다.
   - 소비자 프로젝트에서 `setup`, `show`, `doctor`, `validate` 명령을 사용해 디자인 시스템 적용 환경을 빠르게 구성하고 점검할 수 있습니다.
 
@@ -207,7 +209,7 @@ Base UI 컴포넌트를 우선 사용하고, 가능한 많은 적절한 컴포�
 
 ---
 
-## 개발
+## 디자인 시스템 개발
 
 로컬에서 패키지를 수정할 때는 의존성을 설치한 뒤 타입 검사, 테스트, 빌드, 검증을 순서대로 실행해 배포 가능한 상태인지 확인합니다.
 
@@ -222,6 +224,16 @@ Vite 개발 서버가 출력하는 로컬 URL을 브라우저에서 열면 됩�
 ```bash
 pnpm --filter @ncai/design-system-preview dev -- --port 5174
 ```
+
+### Vercel 미리보기 배포
+
+이 저장소는 루트의 `vercel.json`으로 Vercel 배포 대상을 `preview` 앱으로 고정합니다.
+
+- Install Command: `pnpm install --frozen-lockfile`
+- Build Command: `pnpm --filter @ncai/design-system-preview build`
+- Output Directory: `preview/dist`
+
+Vercel에서 GitHub 저장소를 Import할 때 Root Directory는 저장소 루트로 둡니다. 프로젝트가 GitHub에 연결되면 main 브랜치 push마다 `preview/dist`가 자동으로 빌드되어 배포됩니다. Vercel에서 생성된 Production Domain이 README 상단의 미리보기 링크와 다르면 해당 링크 URL만 실제 도메인으로 바꿉니다.
 
 ```bash
 pnpm install

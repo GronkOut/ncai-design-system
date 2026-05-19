@@ -184,7 +184,6 @@ export function App() {
             </section>
 
             <section className="gallery-intro text-stack-section" id="gallery">
-              <p className="eyebrow">One scrollable page</p>
               <h2>All Base UI components</h2>
               <p>
                 모든 카드는 Base UI 접근성 구조를 유지하면서 재사용 가능한 CSS 클래스를 통해 NCAI 시각 언어를
@@ -1041,7 +1040,6 @@ export function App() {
             </div>
 
             <section className="handoff-tile text-stack-section" id="handoff">
-              <p className="eyebrow">Handoff note</p>
               <h2>스타일 레이어에서 디자인 언어를 교체하세요</h2>
               <p>
                 Base UI 구조와 컴포넌트 커버리지는 그대로 유지하고, CSS 토큰과 클래스 처리를 새로운 design-system.md에
@@ -1060,7 +1058,6 @@ export function App() {
 function AllIconsSection() {
   return (
     <section className="all-icons-section text-stack-section" id="all-icons">
-      <p className="eyebrow">Icon library</p>
       <h2>All icons</h2>
       <p>
         {iconMetadata.length} SVG icons from <code>packages/icons/icons</code>, rendered at 24px.
