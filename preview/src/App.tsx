@@ -36,6 +36,7 @@ import { Toggle } from '@base-ui/react/toggle';
 import { ToggleGroup } from '@base-ui/react/toggle-group';
 import { Toolbar } from '@base-ui/react/toolbar';
 import { Tooltip } from '@base-ui/react/tooltip';
+import { icons as iconMetadata } from '@ncai/design-system-icons';
 import checkIcon from '@ncai/design-system-icons/icons/check.svg';
 import chevronDownIcon from '@ncai/design-system-icons/icons/chevron-down.svg';
 import searchIcon from '@ncai/design-system-icons/icons/search.svg?raw';
@@ -68,6 +69,21 @@ import chevronRightIcon from '@ncai/design-system-icons/icons/chevron-right.svg?
 const FLOATING_OFFSET = 8;          // 기본
 const FLOATING_OFFSET_LOOSE = 10;   // Popover, PreviewCard
 const VIEWPORT_PADDING = 16;
+
+const allIconModules = import.meta.glob('../../packages/icons/icons/*.svg', {
+  eager: true,
+  import: 'default',
+  query: '?raw'
+}) as Record<string, string>;
+
+const allIconSvgByFileName = Object.fromEntries(
+  Object.entries(allIconModules).map(([path, svg]) => [path.split('/').pop() ?? path, svg])
+) as Record<string, string>;
+
+const allPreviewIcons = iconMetadata.map((icon) => ({
+  ...icon,
+  svg: allIconSvgByFileName[icon.fileName]
+}));
 
 const products = ['AI 어시스턴트', '디자인 시스템', '아이콘 패키지', '컴포넌트 라이브러리', '디자인 토큰'];
 const teams = ['서울 본사', '부산 지사', '대전 R&D', '광주 크리에이티브', '인천 물류'];
@@ -1032,10 +1048,31 @@ export function App() {
                 맞춰 업데이트하는 것만으로 전체 디자인 시스템을 전환할 수 있습니다.
               </p>
             </section>
+
+            <AllIconsSection />
           </main>
         </div>
       </Tooltip.Provider>
     </Toast.Provider>
+  );
+}
+
+function AllIconsSection() {
+  return (
+    <section className="all-icons-section text-stack-section" id="all-icons">
+      <p className="eyebrow">Icon library</p>
+      <h2>All icons</h2>
+      <p>
+        {iconMetadata.length} SVG icons from <code>packages/icons/icons</code>, rendered at 24px.
+      </p>
+      <div className="all-icons-grid" aria-label="All design-system icons">
+        {allPreviewIcons.map((icon) => (
+          <div className="all-icon-cell" key={icon.fileName} title={`${icon.title} (${icon.fileName})`}>
+            {icon.svg ? <Icon svg={icon.svg} size={24} /> : <span className="all-icon-missing" aria-hidden="true" />}
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 

@@ -2410,6 +2410,57 @@ h3 {
   color: var(--color-primary);
 }
 
+.all-icons-section {
+  padding: var(--spacing-section) var(--spacing-lg);
+  background: var(--color-canvas);
+}
+
+.all-icons-section > p {
+  max-width: 720px;
+  color: var(--color-body-muted);
+}
+
+.all-icons-section code {
+  padding: 2px 6px;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-soft);
+  color: var(--color-ink);
+  font-size: 0.9em;
+}
+
+.all-icons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+  gap: 8px;
+  width: min(1440px, calc(100vw - 48px));
+  margin: var(--spacing-xl) auto 0;
+}
+
+.all-icon-cell {
+  display: grid;
+  width: 100%;
+  min-width: 44px;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-soft);
+  color: var(--color-ink);
+}
+
+.all-icon-cell .icon-inline {
+  width: 24px;
+  height: 24px;
+}
+
+.all-icon-missing {
+  width: 24px;
+  height: 24px;
+  border: 1px dashed var(--color-semantic-error);
+  border-radius: var(--radius-sm);
+}
+
 /* ============================================================
    Responsive Breakpoints
    ============================================================ */
