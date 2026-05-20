@@ -63,6 +63,7 @@ import calendarIcon from '@ncai/design-system-icons/icons/calendar.svg?raw';
 import layersIcon from '@ncai/design-system-icons/icons/layers.svg?raw';
 import codeIcon from '@ncai/design-system-icons/icons/code.svg?raw';
 import chevronRightIcon from '@ncai/design-system-icons/icons/chevron-right.svg?raw';
+import menuIcon from '@ncai/design-system-icons/icons/menu.svg?raw';
 
 // === Floating element spacing tokens (styles.css의 --floating-* 와 동일 값) ===
 // Tooltip / Popover / Menu / Dropdown 등 anchored UI의 trigger 간격 / viewport 여백 강제.
@@ -91,6 +92,8 @@ const sections = [
   'Typography',
   'Accordion',
   'Alert Dialog',
+  'Modal',
+  'Bottom Sheet',
   'Autocomplete',
   'Avatar',
   'Badge',
@@ -101,7 +104,6 @@ const sections = [
   'Collapsible',
   'Combobox',
   'Context Menu',
-  'Dialog',
   'Drawer',
   'Field',
   'Fieldset',
@@ -192,7 +194,7 @@ export function App() {
             </section>
 
             <div className="component-grid">
-              <PreviewSection title="Typography" description="Linear Display/Text/Mono — 13개 타이포그래피 토큰." wide>
+              <PreviewSection title="Typography" description="Linear Display/Text/Mono — 15개 타이포그래피 토큰." wide>
                 <div className="type-scale">
                   {[
                     { token: 'display-xl', size: '80 / 600', sample: '최상위 히어로 제목' },
@@ -202,10 +204,12 @@ export function App() {
                     { token: 'card-title', size: '22 / 500', sample: '카드 제목' },
                     { token: 'subhead',    size: '20 / 400', sample: '보조 제목과 도입 문장' },
                     { token: 'body-lg',    size: '18 / 400', sample: '도입부 문단과 강조 본문' },
-                    { token: 'body',       size: '16 / 400', sample: '기본 본문 — 가독성 확보.' },
+                    { token: 'body-md',    size: '16 / 400', sample: '기본 본문 — 가독성 확보.' },
                     { token: 'body-sm',    size: '14 / 400', sample: '보조 텍스트와 메타 정보' },
                     { token: 'caption',    size: '12 / 400', sample: '작은 캡션과 부가 정보' },
-                    { token: 'button',     size: '14 / 500', sample: '버튼 라벨' },
+                    { token: 'button-lg',  size: '18 / 500', sample: '주요 CTA 버튼 라벨' },
+                    { token: 'button-md',  size: '16 / 500', sample: '기본 버튼 라벨' },
+                    { token: 'button-sm',  size: '14 / 500', sample: '보조 버튼 라벨' },
                     { token: 'eyebrow',    size: '13 / 500', sample: 'SECTION LABEL' },
                     { token: 'mono',       size: '13 / 400', sample: 'v1.0.0 · build-20260101' },
                   ].map(({ token, size, sample }) => (
@@ -238,7 +242,7 @@ export function App() {
                         </svg>
                       </Accordion.Trigger>
                     </Accordion.Header>
-                    <Accordion.Panel className="accordion-panel">
+                    <Accordion.Panel keepMounted className="accordion-panel">
                       색상, 간격, 반경, 그림자를 CSS 변수로 정의하여 다크 모드 전환 및 브랜드 교체를 단일 파일에서
                       처리합니다.
                     </Accordion.Panel>
@@ -261,7 +265,7 @@ export function App() {
                         </svg>
                       </Accordion.Trigger>
                     </Accordion.Header>
-                    <Accordion.Panel className="accordion-panel">
+                    <Accordion.Panel keepMounted className="accordion-panel">
                       xs(4px) · sm(8px) · md(16px) · lg(24px) · xl(32px) · xxl(48px) — 모든 여백은 이 체계를
                       따릅니다.
                     </Accordion.Panel>
@@ -269,23 +273,142 @@ export function App() {
                 </Accordion.Root>
               </PreviewSection>
 
-              <PreviewSection title="Alert Dialog" description="되돌릴 수 없는 액션에 사용하는 확인 다이얼로그.">
-                <AlertDialog.Root>
-                  <AlertDialog.Trigger className="button-primary">계정 삭제</AlertDialog.Trigger>
-                  <AlertDialog.Portal>
-                    <AlertDialog.Backdrop className="overlay-backdrop" />
-                    <AlertDialog.Popup className="modal-card">
-                      <AlertDialog.Title className="modal-title">계정을 삭제할까요?</AlertDialog.Title>
-                      <AlertDialog.Description className="modal-copy">
-                        이 작업은 되돌릴 수 없습니다. 모든 데이터가 영구적으로 삭제됩니다.
-                      </AlertDialog.Description>
-                      <div className="inline-actions">
-                        <AlertDialog.Close className="button-secondary">취소</AlertDialog.Close>
-                        <AlertDialog.Close className="button-primary">삭제</AlertDialog.Close>
+              <PreviewSection title="Alert Dialog" description="중앙 정렬 텍스트와 풀-너비 액션 풋터로 구성된 확인 다이얼로그. Default(Primary) · Negative(Danger) · 단일 Action 세 가지 변형을 지원합니다.">
+                <div className="inline-actions">
+                  <AlertDialog.Root>
+                    <AlertDialog.Trigger className="button-primary">변경 저장 (기본)</AlertDialog.Trigger>
+                    <AlertDialog.Portal>
+                      <AlertDialog.Backdrop className="overlay-backdrop" />
+                      <AlertDialog.Popup className="modal-card alert-dialog-card">
+                        <div className="alert-dialog-content">
+                          <AlertDialog.Title className="alert-dialog-title">변경 사항을 저장할까요?</AlertDialog.Title>
+                          <AlertDialog.Description className="modal-copy alert-dialog-copy">
+                            저장하지 않은 변경 사항이 있습니다. 지금 저장하면 모든 편집 내용이 반영됩니다.
+                          </AlertDialog.Description>
+                        </div>
+                        <div className="alert-dialog-actions">
+                          <AlertDialog.Close className="button-secondary">취소</AlertDialog.Close>
+                          <AlertDialog.Close className="button-primary">저장</AlertDialog.Close>
+                        </div>
+                      </AlertDialog.Popup>
+                    </AlertDialog.Portal>
+                  </AlertDialog.Root>
+                  <AlertDialog.Root>
+                    <AlertDialog.Trigger className="button-danger">계정 삭제 (부정)</AlertDialog.Trigger>
+                    <AlertDialog.Portal>
+                      <AlertDialog.Backdrop className="overlay-backdrop" />
+                      <AlertDialog.Popup className="modal-card alert-dialog-card">
+                        <div className="alert-dialog-content">
+                          <AlertDialog.Title className="alert-dialog-title">계정을 삭제할까요?</AlertDialog.Title>
+                          <AlertDialog.Description className="modal-copy alert-dialog-copy">
+                            이 작업은 되돌릴 수 없습니다. 모든 데이터가 영구적으로 삭제됩니다.
+                          </AlertDialog.Description>
+                        </div>
+                        <div className="alert-dialog-actions">
+                          <AlertDialog.Close className="button-secondary">취소</AlertDialog.Close>
+                          <AlertDialog.Close className="button-danger">삭제</AlertDialog.Close>
+                        </div>
+                      </AlertDialog.Popup>
+                    </AlertDialog.Portal>
+                  </AlertDialog.Root>
+                  <AlertDialog.Root>
+                    <AlertDialog.Trigger className="button-primary">알림 확인 (단일)</AlertDialog.Trigger>
+                    <AlertDialog.Portal>
+                      <AlertDialog.Backdrop className="overlay-backdrop" />
+                      <AlertDialog.Popup className="modal-card alert-dialog-card">
+                        <div className="alert-dialog-content">
+                          <AlertDialog.Title className="alert-dialog-title">업데이트가 완료되었습니다</AlertDialog.Title>
+                          <AlertDialog.Description className="modal-copy alert-dialog-copy">
+                            새로운 버전이 적용되었습니다. 변경 사항은 다음 세션부터 반영됩니다.
+                          </AlertDialog.Description>
+                        </div>
+                        <div className="alert-dialog-actions">
+                          <AlertDialog.Close className="button-primary">확인</AlertDialog.Close>
+                        </div>
+                      </AlertDialog.Popup>
+                    </AlertDialog.Portal>
+                  </AlertDialog.Root>
+                </div>
+              </PreviewSection>
+
+              <PreviewSection title="Modal" description="입력/편집이 필요한 큰 다이얼로그 — 440px 폭, 최소 260px 높이, 우측 정착 풋터. Alert Dialog(컴팩트 컨펌)와 달리 폼·다단 콘텐츠를 담는 가로형 컨테이너입니다.">
+                <Dialog.Root>
+                  <Dialog.Trigger className="button-primary">새 프로젝트 만들기</Dialog.Trigger>
+                  <Dialog.Portal>
+                    <Dialog.Backdrop className="overlay-backdrop" />
+                    <Dialog.Popup className="modal-card">
+                      <Dialog.Title className="modal-title">새 프로젝트 만들기</Dialog.Title>
+                      <Dialog.Description className="modal-copy">
+                        프로젝트 정보를 입력하세요. 멤버는 생성 후 초대할 수 있습니다.
+                      </Dialog.Description>
+                      <div className="modal-form">
+                        <Field.Root name="project-name" className="field-root">
+                          <Field.Label className="field-label">프로젝트 이름</Field.Label>
+                          <Field.Control className="text-input" placeholder="예: 디자인 시스템 v2" />
+                        </Field.Root>
+                        <Field.Root name="project-team" className="field-root">
+                          <Field.Label className="field-label">소속 팀</Field.Label>
+                          <Field.Control className="text-input" placeholder="팀 선택" />
+                        </Field.Root>
+                        <label className="check-row">
+                          <Checkbox.Root defaultChecked className="checkbox">
+                            <Checkbox.Indicator className="check-indicator">
+                              <img src={checkIcon} alt="" className="check-icon" />
+                            </Checkbox.Indicator>
+                          </Checkbox.Root>
+                          생성 후 바로 멤버 초대 패널 열기
+                        </label>
                       </div>
-                    </AlertDialog.Popup>
-                  </AlertDialog.Portal>
-                </AlertDialog.Root>
+                      <div className="inline-actions">
+                        <Dialog.Close className="button-secondary">취소</Dialog.Close>
+                        <Dialog.Close className="button-primary">프로젝트 만들기</Dialog.Close>
+                      </div>
+                    </Dialog.Popup>
+                  </Dialog.Portal>
+                </Dialog.Root>
+              </PreviewSection>
+
+              <PreviewSection title="Bottom Sheet" description="반응형 시트 패턴 — 모바일(≤768px)은 하단 슬라이드업 + 드래그 핸들, 데스크톱은 중앙 Modal로 전환됩니다. 뷰포트를 줄여서 차이를 확인하세요.">
+                <Dialog.Root>
+                  <Dialog.Trigger className="button-primary">시트 열기</Dialog.Trigger>
+                  <Dialog.Portal>
+                    <Dialog.Backdrop className="overlay-backdrop" />
+                    <Dialog.Popup className="responsive-sheet">
+                      <span className="bottom-sheet-handle" aria-hidden="true" />
+                      <Dialog.Title className="modal-title">공유</Dialog.Title>
+                      <Dialog.Description className="modal-copy">
+                        공유 방법을 선택하세요. 링크는 24시간 동안 유효합니다.
+                      </Dialog.Description>
+                      <ul className="bottom-sheet-list">
+                        <li>
+                          <Dialog.Close className="bottom-sheet-option">
+                            <Icon svg={copyIcon} className="icon-inline icon-ink" size={20} />
+                            <span>링크 복사</span>
+                          </Dialog.Close>
+                        </li>
+                        <li>
+                          <Dialog.Close className="bottom-sheet-option">
+                            <Icon svg={mailIcon} className="icon-inline icon-ink" size={20} />
+                            <span>이메일로 보내기</span>
+                          </Dialog.Close>
+                        </li>
+                        <li>
+                          <Dialog.Close className="bottom-sheet-option">
+                            <Icon svg={userIcon} className="icon-inline icon-ink" size={20} />
+                            <span>팀 멤버에게 공유</span>
+                          </Dialog.Close>
+                        </li>
+                        <li>
+                          <Dialog.Close className="bottom-sheet-option">
+                            <Icon svg={downloadIcon} className="icon-inline icon-ink" size={20} />
+                            <span>PDF로 내보내기</span>
+                          </Dialog.Close>
+                        </li>
+                      </ul>
+                      <Dialog.Close className="button-secondary bottom-sheet-cancel">취소</Dialog.Close>
+                    </Dialog.Popup>
+                  </Dialog.Portal>
+                </Dialog.Root>
               </PreviewSection>
 
               <PreviewSection title="Autocomplete" description="검색어 기반 자동 완성 입력 컴포넌트.">
@@ -510,41 +633,82 @@ export function App() {
                 </ContextMenu.Root>
               </PreviewSection>
 
-              <PreviewSection title="Dialog" description="표준 모달 다이얼로그.">
-                <Dialog.Root>
-                  <Dialog.Trigger className="button-primary">상세 보기</Dialog.Trigger>
-                  <Dialog.Portal>
-                    <Dialog.Backdrop className="overlay-backdrop" />
-                    <Dialog.Popup className="modal-card">
-                      <Dialog.Title className="modal-title">컴포넌트 상세</Dialog.Title>
-                      <Dialog.Description className="modal-copy">
-                        Canvas 배경, radius-lg 카드 스타일, Level-3 그림자를 적용한 표준 모달입니다. Header·Body·Footer
-                        여백은 각각 design-system.md 명세를 따릅니다.
-                      </Dialog.Description>
-                      <Dialog.Close className="button-primary">확인</Dialog.Close>
-                    </Dialog.Popup>
-                  </Dialog.Portal>
-                </Dialog.Root>
-              </PreviewSection>
-
-              <PreviewSection title="Drawer" description="집중 작업을 위한 하단 시트.">
+              <PreviewSection title="Drawer" description="우측에서 슬라이드되는 풀-하이트 사이드 패널. 메인 컨텍스트를 유지한 채 상세/설정을 노출합니다.">
                 <Drawer.Root>
-                  <Drawer.Trigger className="button-primary">설정 열기</Drawer.Trigger>
+                  <Drawer.Trigger className="button-primary">설정 패널 열기</Drawer.Trigger>
                   <Drawer.Portal>
                     <Drawer.Backdrop className="overlay-backdrop" />
+                    <Drawer.Viewport>
                     <Drawer.Popup className="drawer-card">
-                      <Drawer.Title className="modal-title">테마 선택</Drawer.Title>
-                      <Drawer.Description className="modal-copy">
-                        스와이프로 닫을 수 있는 하단 시트 컴포넌트입니다. Surface Soft 배경에 Level-3 그림자를
-                        적용합니다.
-                      </Drawer.Description>
-                      <div className="chip-row">
-                        <button className="option-chip selected">라이트 모드</button>
-                        <button className="option-chip">다크 모드</button>
-                        <button className="option-chip">시스템 설정</button>
+                      <header className="drawer-header">
+                        <div className="drawer-header-text">
+                          <Drawer.Title className="modal-title">알림 설정</Drawer.Title>
+                          <Drawer.Description className="modal-copy">
+                            수신 방식과 빈도를 선택합니다.
+                          </Drawer.Description>
+                        </div>
+                        <Drawer.Close className="drawer-close" aria-label="닫기">
+                          <Icon svg={xIcon} className="icon-inline icon-muted" size={18} />
+                        </Drawer.Close>
+                      </header>
+                      <div className="drawer-body">
+                        <div className="drawer-field-group">
+                          <span className="drawer-field-group-label">수신 채널</span>
+                          <label className="check-row">
+                            <Checkbox.Root defaultChecked className="checkbox">
+                              <Checkbox.Indicator className="check-indicator">
+                                <img src={checkIcon} alt="" className="check-icon" />
+                              </Checkbox.Indicator>
+                            </Checkbox.Root>
+                            이메일
+                          </label>
+                          <label className="check-row">
+                            <Checkbox.Root className="checkbox">
+                              <Checkbox.Indicator className="check-indicator">
+                                <img src={checkIcon} alt="" className="check-icon" />
+                              </Checkbox.Indicator>
+                            </Checkbox.Root>
+                            푸시 알림
+                          </label>
+                          <label className="check-row">
+                            <Checkbox.Root defaultChecked className="checkbox">
+                              <Checkbox.Indicator className="check-indicator">
+                                <img src={checkIcon} alt="" className="check-icon" />
+                              </Checkbox.Indicator>
+                            </Checkbox.Root>
+                            인앱 메시지
+                          </label>
+                        </div>
+                        <div className="drawer-field-group">
+                          <span className="drawer-field-group-label">빈도</span>
+                          <RadioGroup name="drawer-frequency" defaultValue="daily" className="choice-stack">
+                            <label className="check-row">
+                              <Radio.Root value="realtime" className="radio">
+                                <Radio.Indicator className="radio-indicator" />
+                              </Radio.Root>
+                              실시간
+                            </label>
+                            <label className="check-row">
+                              <Radio.Root value="daily" className="radio">
+                                <Radio.Indicator className="radio-indicator" />
+                              </Radio.Root>
+                              일간 요약
+                            </label>
+                            <label className="check-row">
+                              <Radio.Root value="weekly" className="radio">
+                                <Radio.Indicator className="radio-indicator" />
+                              </Radio.Root>
+                              주간 요약
+                            </label>
+                          </RadioGroup>
+                        </div>
                       </div>
-                      <Drawer.Close className="button-primary">적용</Drawer.Close>
+                      <footer className="drawer-footer">
+                        <Drawer.Close className="button-secondary">취소</Drawer.Close>
+                        <Drawer.Close className="button-primary">저장</Drawer.Close>
+                      </footer>
                     </Drawer.Popup>
+                    </Drawer.Viewport>
                   </Drawer.Portal>
                 </Drawer.Root>
               </PreviewSection>
@@ -863,59 +1027,37 @@ export function App() {
                 </div>
               </PreviewSection>
 
-              <PreviewSection title="Sidebar" description="아이콘과 2뎁스 메뉴를 지원하는 좌측 내비게이션.">
-                <nav className="sidebar" aria-label="사이드바">
-                  <div className="sidebar-section-label">메인</div>
-                  <a className="sidebar-item is-active" href="#sidebar-home">
-                    <Icon svg={homeIcon} className="sidebar-item-icon" size={18} />
-                    <span className="sidebar-item-label">대시보드</span>
-                  </a>
-                  <a className="sidebar-item" href="#sidebar-mail">
-                    <Icon svg={mailIcon} className="sidebar-item-icon" size={18} />
-                    <span className="sidebar-item-label">메시지</span>
-                    <span className="sidebar-item-badge">3</span>
-                  </a>
-                  <a className="sidebar-item" href="#sidebar-calendar">
-                    <Icon svg={calendarIcon} className="sidebar-item-icon" size={18} />
-                    <span className="sidebar-item-label">일정</span>
-                  </a>
-
-                  <div className="sidebar-section-label">작업공간</div>
-                  <Collapsible.Root defaultOpen className="sidebar-group">
-                    <Collapsible.Trigger className="sidebar-item sidebar-group-trigger">
-                      <Icon svg={layersIcon} className="sidebar-item-icon" size={18} />
-                      <span className="sidebar-item-label">디자인</span>
-                      <Icon svg={chevronRightIcon} className="sidebar-item-chevron" size={14} />
-                    </Collapsible.Trigger>
-                    <Collapsible.Panel className="sidebar-subitems">
-                      <a className="sidebar-subitem is-active" href="#sidebar-tokens">토큰</a>
-                      <a className="sidebar-subitem" href="#sidebar-components">컴포넌트</a>
-                      <a className="sidebar-subitem" href="#sidebar-templates">템플릿</a>
-                    </Collapsible.Panel>
-                  </Collapsible.Root>
-                  <Collapsible.Root className="sidebar-group">
-                    <Collapsible.Trigger className="sidebar-item sidebar-group-trigger">
-                      <Icon svg={codeIcon} className="sidebar-item-icon" size={18} />
-                      <span className="sidebar-item-label">개발</span>
-                      <Icon svg={chevronRightIcon} className="sidebar-item-chevron" size={14} />
-                    </Collapsible.Trigger>
-                    <Collapsible.Panel className="sidebar-subitems">
-                      <a className="sidebar-subitem" href="#sidebar-build">빌드</a>
-                      <a className="sidebar-subitem" href="#sidebar-test">테스트</a>
-                      <a className="sidebar-subitem" href="#sidebar-deploy">배포</a>
-                    </Collapsible.Panel>
-                  </Collapsible.Root>
-
-                  <div className="sidebar-section-label">계정</div>
-                  <a className="sidebar-item" href="#sidebar-user">
-                    <Icon svg={userIcon} className="sidebar-item-icon" size={18} />
-                    <span className="sidebar-item-label">프로필</span>
-                  </a>
-                  <a className="sidebar-item" href="#sidebar-settings">
-                    <Icon svg={settingsIcon} className="sidebar-item-icon" size={18} />
-                    <span className="sidebar-item-label">설정</span>
-                  </a>
-                </nav>
+              <PreviewSection title="Sidebar" description="아이콘과 2뎁스 메뉴를 지원하는 좌측 내비게이션. 모바일에서는 햄버거 트리거로 Drawer(left) 변형으로 전환합니다.">
+                <SidebarDemo />
+                <div className="mobile-sidebar-demo">
+                  <div className="mobile-sidebar-demo-label">모바일 뷰 (≤768px)</div>
+                  <Drawer.Root>
+                    <Drawer.Trigger
+                      className="hamburger-button"
+                      aria-label="메뉴 열기"
+                    >
+                      <Icon svg={menuIcon} className="icon-inline icon-ink" size={20} />
+                    </Drawer.Trigger>
+                    <Drawer.Portal>
+                      <Drawer.Backdrop className="overlay-backdrop" />
+                      <Drawer.Viewport>
+                      <Drawer.Popup className="drawer-card drawer-card--left">
+                        <header className="drawer-header">
+                          <div className="drawer-header-text">
+                            <Drawer.Title className="modal-title">NCAI Design</Drawer.Title>
+                          </div>
+                          <Drawer.Close className="drawer-close" aria-label="닫기">
+                            <Icon svg={xIcon} className="icon-inline icon-muted" size={18} />
+                          </Drawer.Close>
+                        </header>
+                        <div className="drawer-body" style={{ padding: 0 }}>
+                          <SidebarDemo />
+                        </div>
+                      </Drawer.Popup>
+                      </Drawer.Viewport>
+                    </Drawer.Portal>
+                  </Drawer.Root>
+                </div>
               </PreviewSection>
 
               <PreviewSection title="Slider" description="Primary 액센트 컬러 인디케이터를 가진 범위 입력.">
@@ -929,12 +1071,24 @@ export function App() {
                 </Slider.Root>
               </PreviewSection>
 
-              <PreviewSection title="Switch" description="온/오프 설정 토글 컨트롤.">
+              <PreviewSection title="Switch" description="온/오프 설정 토글 컨트롤. sm / md / lg 3가지 사이즈.">
+                <label className="switch-row">
+                  <Switch.Root className="switch switch--sm">
+                    <Switch.Thumb className="switch-thumb" />
+                  </Switch.Root>
+                  Small (32×20)
+                </label>
                 <label className="switch-row">
                   <Switch.Root defaultChecked className="switch">
                     <Switch.Thumb className="switch-thumb" />
                   </Switch.Root>
-                  자동 업데이트
+                  Medium (42×24) — 기본
+                </label>
+                <label className="switch-row">
+                  <Switch.Root defaultChecked className="switch switch--lg">
+                    <Switch.Thumb className="switch-thumb" />
+                  </Switch.Root>
+                  Large (56×32)
                 </label>
               </PreviewSection>
 
@@ -1153,6 +1307,85 @@ function ToastList() {
       </Toast.Root>
     );
   });
+}
+
+function SidebarDemo() {
+  const [active, setActive] = React.useState('home');
+  const designChildren = ['tokens', 'components', 'templates'];
+  const devChildren = ['build', 'test', 'deploy'];
+  const designHasActive = designChildren.includes(active);
+  const devHasActive = devChildren.includes(active);
+
+  const item = (key: string, label: string, icon: string, badge?: string) => (
+    <a
+      className={`sidebar-item${active === key ? ' is-active' : ''}`}
+      href={`#sidebar-${key}`}
+      onClick={(e) => {
+        e.preventDefault();
+        setActive(key);
+      }}
+    >
+      <Icon svg={icon} className="sidebar-item-icon" size={18} />
+      <span className="sidebar-item-label">{label}</span>
+      {badge ? <span className="sidebar-item-badge">{badge}</span> : null}
+    </a>
+  );
+
+  const sub = (key: string, label: string) => (
+    <a
+      className={`sidebar-subitem${active === key ? ' is-active' : ''}`}
+      href={`#sidebar-${key}`}
+      onClick={(e) => {
+        e.preventDefault();
+        setActive(key);
+      }}
+    >
+      {label}
+    </a>
+  );
+
+  return (
+    <nav className="sidebar" aria-label="사이드바">
+      <div className="sidebar-section-label">메인</div>
+      {item('home', '대시보드', homeIcon)}
+      {item('mail', '메시지', mailIcon, '3')}
+      {item('calendar', '일정', calendarIcon)}
+
+      <div className="sidebar-section-label">작업공간</div>
+      <Collapsible.Root defaultOpen className="sidebar-group">
+        <Collapsible.Trigger
+          className={`sidebar-item sidebar-group-trigger${designHasActive ? ' has-active-child' : ''}`}
+        >
+          <Icon svg={layersIcon} className="sidebar-item-icon" size={18} />
+          <span className="sidebar-item-label">디자인</span>
+          <Icon svg={chevronRightIcon} className="sidebar-item-chevron" size={14} />
+        </Collapsible.Trigger>
+        <Collapsible.Panel keepMounted className="sidebar-subitems">
+          {sub('tokens', '토큰')}
+          {sub('components', '컴포넌트')}
+          {sub('templates', '템플릿')}
+        </Collapsible.Panel>
+      </Collapsible.Root>
+      <Collapsible.Root className="sidebar-group">
+        <Collapsible.Trigger
+          className={`sidebar-item sidebar-group-trigger${devHasActive ? ' has-active-child' : ''}`}
+        >
+          <Icon svg={codeIcon} className="sidebar-item-icon" size={18} />
+          <span className="sidebar-item-label">개발</span>
+          <Icon svg={chevronRightIcon} className="sidebar-item-chevron" size={14} />
+        </Collapsible.Trigger>
+        <Collapsible.Panel keepMounted className="sidebar-subitems">
+          {sub('build', '빌드')}
+          {sub('test', '테스트')}
+          {sub('deploy', '배포')}
+        </Collapsible.Panel>
+      </Collapsible.Root>
+
+      <div className="sidebar-section-label">계정</div>
+      {item('user', '프로필', userIcon)}
+      {item('settings', '설정', settingsIcon)}
+    </nav>
+  );
 }
 
 function Icon({ svg, className, size = 24 }: { svg: string; className?: string; size?: number }) {

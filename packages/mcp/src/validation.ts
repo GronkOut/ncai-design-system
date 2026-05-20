@@ -13,7 +13,8 @@ export type ValidationResult = {
 
 const rawBaseUiPackagePattern = /@base-ui-components\/react/;
 const currentBaseUiPattern = /@base-ui\/react/;
-const interactiveHintPattern = /\b(Dialog|Popover|Menu|Select|Checkbox|Switch|Tabs|Accordion|Tooltip)\b/;
+const interactiveHintPattern =
+  /\b(Dialog|AlertDialog|Popover|Menu|ContextMenu|NavigationMenu|Select|Combobox|Autocomplete|Checkbox|CheckboxGroup|Radio|RadioGroup|Switch|Tabs|Accordion|Tooltip|Toolbar|Toggle|ToggleGroup|Slider|Progress|Meter|ScrollArea|PreviewCard|Collapsible|NumberField|OtpField|Field|Fieldset|Form|Toast|Separator|Avatar)\b/;
 const arbitraryColorPattern = /#[0-9a-fA-F]{3,8}\b|rgba?\(|hsla?\(/;
 const inlineStylePattern = /style=\{\{/;
 
