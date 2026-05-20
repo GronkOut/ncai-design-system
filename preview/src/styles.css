@@ -5,10 +5,12 @@
 
 :root {
   color-scheme: light;
+  interpolate-size: allow-keywords;
 
   /* === SURFACE === */
   --color-canvas: #ffffff;
   --color-surface-soft: #f8fafc;
+  --color-surface-elevated: #ffffff; /* 라이트 모드는 canvas와 동일 — 보더로 분리 */
   --color-surface-sunken: #eef1f5;
   --color-hairline: #e5e7eb;
 
@@ -23,7 +25,7 @@
 
   /* === SEMANTIC === */
   --color-semantic-success: #006eff;
-  --color-semantic-error: #dc2626;
+  --color-semantic-error: #f33942;
   --color-semantic-warning: #f59e0b;
 
   /* === AVATAR PALETTE (Subtle Tint) === */
@@ -99,6 +101,7 @@
   --ls-button-md:   -0.16px;
   --ls-button-sm:   0;
   --ls-button:      var(--ls-button-md);
+  --ls-body-md:     var(--ls-body);
   --ls-eyebrow:     0.4px;
   --ls-mono:        0;
 
@@ -123,10 +126,10 @@
   /* === VERTICAL STACK RHYTHM ===
      Eyebrow → Title → Body 수직 리듬. 타이포 스케일에 1:1 대응하는 4-tier.
      같은 패턴이라도 컨텍스트(폰트 크기)가 바뀌면 티어를 바꿔서 비례를 유지합니다. */
-  --stack-hero-eyebrow-gap:    var(--spacing-lg);   /* 24px — display-xl/lg */
-  --stack-hero-title-gap:      var(--spacing-lg);   /* 24px */
-  --stack-section-eyebrow-gap: var(--spacing-md);   /* 16px — display-md 인트로 */
-  --stack-section-title-gap:   var(--spacing-md);   /* 16px */
+  --stack-hero-eyebrow-gap:    12px;                /* 12px — eyebrow는 title의 레이블: 붙여서 읽힘 */
+  --stack-hero-title-gap:      var(--spacing-xl);   /* 32px — display 다음 body: 충분한 호흡 */
+  --stack-section-eyebrow-gap: var(--spacing-sm);   /*  8px — section eyebrow: 타이트하게 */
+  --stack-section-title-gap:   var(--spacing-lg);   /* 24px — section heading → body: 여유 */
   --stack-card-eyebrow-gap:    var(--spacing-sm);   /*  8px — card-title 22px */
   --stack-card-title-gap:      12px;
   --stack-inline-eyebrow-gap:  var(--spacing-xs);   /*  4px — 본문 내 미니 라벨 */
@@ -165,6 +168,8 @@ body {
   font-size: var(--type-body);
   line-height: var(--lh-body);
   letter-spacing: var(--ls-body);
+  word-break: keep-all;
+  text-wrap: pretty;
 }
 
 button,
@@ -187,6 +192,11 @@ h3 {
   font-family: var(--font-display);
   font-weight: 600;
   color: var(--color-ink);
+}
+
+h2,
+h3 {
+  text-wrap: balance;
 }
 
 /* display-xl: 80px, lh 1.05, ls -3.0px */
@@ -390,7 +400,8 @@ h3 {
 
 .button-primary,
 .button-secondary,
-.button-ghost {
+.button-ghost,
+.button-danger {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -465,9 +476,21 @@ h3 {
   background: var(--color-surface-soft);
 }
 
+/* Danger — 되돌릴 수 없는 파괴적 액션 전용 (Alert Dialog 부정 변형). */
+.button-danger {
+  border: 1px solid var(--color-semantic-error);
+  background: var(--color-semantic-error);
+  color: var(--color-on-primary);
+}
+
+.button-danger:hover {
+  filter: brightness(0.92);
+}
+
 .button-primary:active,
 .button-secondary:active,
 .button-ghost:active,
+.button-danger:active,
 .nav-action:active,
 .button-utility:active,
 .option-chip:active,
@@ -516,10 +539,13 @@ h3 {
   text-align: center;
 }
 
-.gallery-intro p,
-.handoff-tile p {
-  max-width: 640px;
+.gallery-intro p:not(.eyebrow),
+.handoff-tile p:not(.eyebrow) {
+  max-width: 540px;
   margin: 0 auto;
+  font-size: var(--type-body-lg);
+  line-height: var(--lh-body-lg);
+  letter-spacing: var(--ls-body-lg);
   color: var(--color-body-muted);
 }
 
@@ -678,6 +704,19 @@ h3 {
   color: var(--color-body-muted);
   font-size: 14px;
   line-height: 1.5;
+  overflow: hidden;
+  height: auto;
+  transition: height 240ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              padding-top 240ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              padding-bottom 240ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.accordion-panel[data-starting-style],
+.accordion-panel[data-ending-style],
+.accordion-panel[data-closed] {
+  height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .tab-panel {
@@ -815,7 +854,7 @@ h3 {
 
 .badge-error {
   background: #fef2f2;
-  color: #dc2626;
+  color: var(--color-semantic-error);
 }
 
 /* Solid Ink — 가장 권위 있는 스타일 */
@@ -874,10 +913,13 @@ h3 {
   border-radius: var(--radius-full);
 }
 
+/* 선택된 라디오: 5px primary 링 + 내부 흰 점.
+   배경을 canvas로 두면 다크 모드(canvas=#111)에서 내부 점이 검게 보여
+   "비어 있는 라디오"처럼 인식됨. on-primary(고정 흰색)로 점을 항상 유지. */
 .radio[data-checked] {
   border-width: 5px;
   border-color: var(--color-primary);
-  background: var(--color-canvas);
+  background: var(--color-on-primary);
 }
 
 .radio-indicator {
@@ -913,7 +955,6 @@ h3 {
 .combo-input-group:focus-within,
 .number-group:focus-within {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(0, 110, 255, 0.12);
 }
 
 /* text-input: 48px 높이, 16px 좌우 패딩, radius-md */
@@ -932,7 +973,6 @@ h3 {
 
 .text-input:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(0, 110, 255, 0.12);
   outline: none;
 }
 
@@ -967,10 +1007,6 @@ h3 {
   color: var(--color-primary);
   cursor: pointer;
   transition: background 120ms ease;
-}
-
-.icon-button:hover {
-  background: var(--color-surface-soft);
 }
 
 .icon-button:focus-visible,
@@ -1164,20 +1200,314 @@ h3 {
   align-self: flex-end;
 }
 
-/* Drawer — 하단 시트, 프로스티드 글래스 */
-.drawer-card {
-  right: 16px;
-  bottom: 16px;
-  left: 16px;
-  width: auto;
-  max-width: 720px;
-  margin: 0 auto;
-  padding: var(--spacing-xl);  /* 32px 균일 — 모달과 동일 호흡 */
-  border: 0;                   /* 보더 없이 그림자로만 떠 있는 느낌 */
-  border-radius: var(--radius-xl);  /* 20px — 모달과 동일 */
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: saturate(180%) blur(24px);
+/* Responsive Sheet — Modal ↔ BottomSheet 반응형 페어.
+   데스크톱(>768px)에서는 중앙 Modal로, 모바일(≤768px)에서는 하단 BottomSheet로 렌더링.
+   같은 콘텐츠를 뷰포트에 맞춰 자연스러운 컨테이너로 전환하는 패턴입니다. */
+.responsive-sheet {
+  position: fixed;
+  z-index: 31;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
   box-shadow: var(--shadow-level-3);
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Desktop: Modal 위계 — 중앙, 440px, radius.xl, level-3 그림자 */
+@media (min-width: 769px) {
+  .responsive-sheet {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(440px, calc(100vw - 32px));
+    min-height: 260px;
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-xl);
+    background: var(--color-canvas);
+  }
+  .responsive-sheet .bottom-sheet-handle {
+    display: none;       /* 데스크톱 Modal은 drag handle 없음 */
+  }
+}
+
+/* Mobile: BottomSheet 위계 — 하단 정착, 상단만 라운딩.
+   배경은 Modal과 동일하게 canvas로 통일하여 반응형 페어의 시각 정체성을 유지합니다. */
+@media (max-width: 768px) {
+  .responsive-sheet {
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: min(560px, 100vw);
+    padding: 20px var(--spacing-xl) var(--spacing-xl);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    background: var(--color-canvas);
+  }
+  .responsive-sheet[data-starting-style],
+  .responsive-sheet[data-ending-style] {
+    transform: translate(-50%, 100%);
+  }
+}
+
+/* BottomSheet — 모바일/태블릿 하단에서 올라오는 임시 컨테이너.
+   Modal의 가로형 변형 — 상단만 radius.xl로 라운딩하여 화면 하단 edge와 정렬.
+   Drag handle을 상단 중앙에 배치하여 제스처 어포던스를 시각적으로 노출합니다. */
+.bottom-sheet-card {
+  position: fixed;
+  z-index: 31;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  width: min(560px, 100vw);
+  padding: 20px var(--spacing-xl) var(--spacing-xl);
+  border: 0;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  background: var(--color-surface-soft);
+  box-shadow: var(--shadow-level-3);
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bottom-sheet-card[data-starting-style],
+.bottom-sheet-card[data-ending-style] {
+  transform: translate(-50%, 100%);
+}
+
+.bottom-sheet-handle {
+  align-self: center;
+  width: 36px;
+  height: 4px;
+  margin-bottom: 12px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.16);
+}
+
+html[data-theme="dark"] .bottom-sheet-handle {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.bottom-sheet-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
+
+/* Sheet Action Item — 시트 내부 액션 리스트.
+   시트 본체 좌우 패딩(32px) 내부에 정착하여 풋터 취소 버튼과 동일한 좌우 여백을 갖습니다.
+   호버 배경은 항목 라운딩 안에 contained pill로 표시되어 시트 가장자리까지 늘어지지 않습니다. */
+.bottom-sheet-list {
+  list-style: none;
+  margin: var(--spacing-sm) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.bottom-sheet-option {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  width: 100%;
+  min-height: 48px;
+  padding: 12px var(--spacing-md);
+  border: 0;
+  border-radius: var(--radius-md);  /* 풋터 버튼(button-primary/secondary)과 동일한 radius로 정렬 */
+  background: transparent;
+  color: var(--color-ink);
+  font-family: inherit;
+  font-size: var(--type-body);
+  text-align: left;
+  cursor: pointer;
+  transition: background 100ms ease;
+}
+
+/* Sheet Action 아이콘 — Sidebar와 동일한 opacity 0.75 → 1 패턴.
+   라벨이 시선을 먼저 받고 아이콘이 부가 단서로 따라가도록 톤 다운. */
+.bottom-sheet-option .icon-inline {
+  opacity: 0.75;
+  transition: opacity 100ms ease;
+}
+
+.bottom-sheet-option:hover {
+  background: var(--color-surface-soft);
+}
+
+.bottom-sheet-option:hover .icon-inline {
+  opacity: 1;
+}
+
+.bottom-sheet-cancel {
+  align-self: stretch;
+  margin-top: var(--spacing-sm);
+  justify-content: center;
+}
+
+/* Modal 폼 본문 — Title/Description과 풋터 사이 입력 그룹 */
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+/* Drawer — 우측 슬라이드 사이드 패널
+   화면 가장자리에 붙는 풀-하이트 보조 패널.
+   Modal(중앙 집중) / BottomSheet(모바일 하단)과 역할을 분리하여,
+   메인 컨텐츠의 컨텍스트를 유지한 채 우측에서 상세/설정 패널을 노출합니다. */
+.drawer-card {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: min(440px, 92vw);
+  padding: 0;                       /* 헤더/바디/풋터가 각자 패딩 관리 */
+  border: 0;                        /* 가장자리에 붙으므로 보더 없음 */
+  border-radius: 0;                 /* 화면 edge에 정렬 — 안쪽 라운딩 없이 직선 */
+  background: var(--color-canvas);
+  box-shadow: var(--shadow-level-3);
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.drawer-card[data-starting-style],
+.drawer-card[data-ending-style] {
+  transform: translateX(100%);
+}
+
+/* Drawer (left) — 모바일에서 Sidebar의 1차 네비게이션을 대체.
+   햄버거 트리거로 좌측에서 슬라이드 인. 데스크톱에서는 Sidebar 정착 패턴을 유지하고
+   이 변형은 좁은 뷰포트(<= 768px)에서만 사용합니다. */
+.drawer-card.drawer-card--left {
+  right: auto;
+  left: 0;
+  /* 데스크톱 Sidebar 264px 기준. 모바일에서는 최소 56px 스크림을 보장하여
+     본문 컨텍스트가 항상 시각적으로 노출되도록 viewport - 56px로 캡. */
+  width: min(280px, calc(100vw - 56px));
+}
+
+.drawer-card.drawer-card--left[data-starting-style],
+.drawer-card.drawer-card--left[data-ending-style] {
+  transform: translateX(-100%);
+}
+
+/* Drawer-left 안에 들어가는 Sidebar는 가장자리에 붙으므로 컨테이너 보더/라운딩을 제거합니다.
+   Sidebar 자체는 데스크톱 카드형이지만, Drawer 안에서는 화면 edge에 정렬된 풀-하이트 패널로 동작. */
+.drawer-card--left .sidebar {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: var(--spacing-md) var(--spacing-sm);
+  height: 100%;
+}
+
+/* 햄버거 버튼 — Drawer-left 트리거.
+   데스크톱에서는 보통 노출하지 않지만 preview 데모에서는 항상 노출합니다. */
+.hamburger-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-md);
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.hamburger-button:hover {
+  background: var(--color-surface-soft);
+}
+
+.mobile-sidebar-demo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  border-top: 1px dashed var(--color-hairline);
+}
+
+.mobile-sidebar-demo-label {
+  font-size: var(--type-body-sm);
+  color: var(--color-body-muted);
+}
+
+.drawer-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.drawer-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.drawer-close {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin: -4px -8px -4px 0;       /* optical alignment — 헤더 텍스트 baseline */
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-body-muted);
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.drawer-close:hover {
+  background: var(--color-surface-soft);
+  color: var(--color-ink);
+}
+
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-lg) var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.drawer-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-top: 1px solid var(--color-hairline);
+  background: var(--color-canvas);
+}
+
+.drawer-footer .button-primary,
+.drawer-footer .button-secondary {
+  min-width: 96px;
+}
+
+/* Drawer 내 섹션 그룹 */
+.drawer-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.drawer-field-group-label {
+  font-size: var(--type-body-sm);
+  font-weight: 500;
+  color: var(--color-body-muted);
+  letter-spacing: var(--ls-body-sm);
 }
 
 /* Modal / BottomSheet title: card-title 22px
@@ -1229,6 +1559,66 @@ h3 {
   font-size: var(--type-body);
   line-height: var(--lh-body);
   letter-spacing: var(--ls-body);
+}
+
+/* ============================================================
+   Alert Dialog — 중앙 정렬 텍스트 + 풀-너비 액션 풋터
+   되돌릴 수 없는 액션 확인용. 정보 위계가 단순할 때 시선을
+   중앙에 집중시키고, 액션은 카드 폭 전체에 균등 분할합니다.
+   ============================================================ */
+.alert-dialog-card {
+  min-height: 0;                  /* 컴팩트 컨펌 UI — 1.7:1 비율 강제 해제 */
+  width: min(400px, calc(100vw - 32px));
+  padding: 40px 24px 24px;        /* 상 40 / 좌우 24 / 하 24 — 이미지 스펙 */
+  gap: 40px;                      /* 본문 ↔ 액션 풋터 사이 40 */
+  text-align: center;
+}
+
+/* 풋터를 풀-너비로 정착시키되 마지막 자식 자동 우측 정렬은 해제 */
+.alert-dialog-card > :last-child {
+  align-self: stretch;
+  margin-top: 0;                  /* modal-card의 margin-top: auto 무력화 — 명시적 40px gap 사용 */
+}
+
+.alert-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;                      /* Title ↔ Description 12 — 이미지 스펙 */
+  align-items: center;
+}
+
+/* Alert Dialog Title — body-md weight 600 (16px semibold).
+   컴팩트 컨펌 UI의 절제된 위계 — 본문보다 한 단계만 위에 둡니다. */
+.alert-dialog-title {
+  margin: 0;
+  font-family: var(--font-text);
+  font-size: var(--type-body);
+  font-weight: 600;
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-body);
+  color: var(--color-ink);
+  text-align: center;
+}
+
+/* Alert Dialog Description — body-sm regular (14px).
+   Modal 본문(body-md 16px)에서 한 단계 다운. 짧은 컨펌 카피에 적합. */
+.alert-dialog-copy {
+  font-size: var(--type-body-sm);
+  line-height: var(--lh-body-sm);
+  letter-spacing: var(--ls-body-sm);
+  text-align: center;
+}
+
+/* Actions: 카드 폭 전체를 채우며 버튼이 균등하게 분할 */
+.alert-dialog-actions {
+  display: flex;
+  gap: 10px;                      /* 이미지 스펙 — 두 버튼 사이 10 */
+  width: 100%;
+}
+
+.alert-dialog-actions > * {
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 /* ============================================================
@@ -1360,7 +1750,7 @@ h3 {
 
 /* 섹션 라벨 — 작고 조용하게, 대문자 제거 */
 .sidebar-section-label {
-  margin: 16px 0 6px;
+  margin: 22px 0 8px;
   padding: 0 10px;
   font-size: 11.5px;
   font-weight: 500;
@@ -1369,7 +1759,7 @@ h3 {
   color: var(--color-body-muted);
 }
 .sidebar-section-label:first-child {
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 /* 항목 — 적당히 호흡 있게 (36px) */
@@ -1401,7 +1791,6 @@ h3 {
 .sidebar-item.is-active {
   background: var(--color-surface-soft);
   color: var(--color-ink);
-  font-weight: 600;
 }
 
 .sidebar-item-icon {
@@ -1412,7 +1801,6 @@ h3 {
   opacity: 0.75;
 }
 
-.sidebar-item.is-active .sidebar-item-icon,
 .sidebar-item:hover .sidebar-item-icon {
   opacity: 1;
 }
@@ -1430,15 +1818,15 @@ h3 {
    status 시그널이므로 navigation/primary 컬러와 역할 분리 */
 .sidebar-item-badge {
   flex: 0 0 auto;
-  min-width: 20px;
-  height: 20px;
-  padding: 0 7px;
-  border-radius: 10px;
-  background: #FEF2F2; /* Error BG (doc 토큰) */
-  color: #DC2626;      /* Error Text (doc 토큰) */
-  font-size: 11.5px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 9px;
+  background: var(--color-semantic-error); /* Error solid (doc: semantic-error Light) */
+  color: #FFFFFF;
+  font-size: 11px;
   font-weight: 600;
-  line-height: 20px;
+  line-height: 18px;
   text-align: center;
 }
 
@@ -1460,16 +1848,43 @@ h3 {
   transform: rotate(90deg);
 }
 
-/* 2뎁스 — 들여쓰기만으로 위계 표현 */
+/* 자식이 active인 부모 — 별도 강조 없음 (Notion/Vercel 패턴).
+   부모는 펼쳐진 상태와 자식 active 표시만으로 그룹 위치 전달. */
+
+/* 2뎁스 — 들여쓰기 + 좌측 vertical guide line으로 tree 위계 표현 */
 .sidebar-subitems {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 2px;
   padding: 2px 0 4px 28px;
   overflow: hidden;
+  height: auto;
+  transition: height 240ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              padding-top 240ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              padding-bottom 240ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.sidebar-subitems[data-starting-style],
+.sidebar-subitems[data-ending-style],
+.sidebar-subitems[data-closed] {
+  height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.sidebar-subitems::before {
+  content: '';
+  position: absolute;
+  left: 19px;
+  top: 4px;
+  bottom: 6px;
+  width: 1px;
+  background: var(--color-hairline);
 }
 
 .sidebar-subitem {
+  position: relative;
   display: flex;
   align-items: center;
   min-height: 32px;
@@ -1477,8 +1892,8 @@ h3 {
   border-radius: 7px;
   background: transparent;
   color: var(--color-body-muted);
-  font-size: 13.5px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 400;
   text-decoration: none;
   cursor: pointer;
   transition: background 100ms ease, color 100ms ease;
@@ -1492,7 +1907,7 @@ h3 {
 .sidebar-subitem.is-active {
   background: var(--color-surface-soft);
   color: var(--color-ink);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 /* 강조 툴바 버튼 */
@@ -1707,7 +2122,6 @@ h3 {
 
 .otp-input:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(0, 110, 255, 0.12);
   outline: none;
 }
 
@@ -1876,7 +2290,6 @@ h3 {
 .select-trigger[data-popup-open] {
   border-color: var(--color-primary);
   outline: 0;
-  box-shadow: 0 0 0 3px rgba(0, 110, 255, 0.12);
 }
 
 .select-icon {
@@ -1942,39 +2355,51 @@ h3 {
   overflow: visible;
 }
 
+/* Apple Music / Linear 풍 미니멀 슬라이더 thumb.
+   순수 흰색 + 1px hairline 보더(라이트 모드 윤곽) + 매우 옅은 single shadow.
+   파란 thumb + 흰 halo 조합의 "스티커처럼 붙은" 느낌을 제거. */
 .slider-thumb {
   position: absolute;
   top: 50%;
-  width: 22px;
-  height: 22px;
-  border: 2px solid var(--color-canvas);
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--color-hairline);
   border-radius: var(--radius-full);
-  background: var(--color-primary);
-  box-shadow: var(--shadow-level-1);
+  background: var(--color-on-primary);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
   cursor: grab;
-  transition: box-shadow 120ms ease;
+  transition: transform 120ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* 드래그 중에는 살짝 확장 — 사용자의 직접 조작 피드백 */
 .slider-thumb:active {
   cursor: grabbing;
-  box-shadow: var(--shadow-level-2);
+  transform: scale(1.15);
+}
+
+/* 다크 모드: 흰 thumb가 어두운 트랙에서 충분히 대비되므로 보더 제거, shadow도 더 줄임 */
+html[data-theme="dark"] .slider-thumb {
+  border-color: transparent;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 /* ============================================================
    Switch
    ============================================================ */
 
+/* 미니멀 스위치 — md(기본) 44x24, sm 36x20, lg 56x30.
+   knob 슬라이드 + press squish 만으로 iOS의 부드러운 인터랙션을 표현. */
 .switch {
   position: relative;
-  width: 52px;
-  height: 30px;
+  width: 42px;
+  height: 24px;
   flex: none;
   border: 0;
   border-radius: var(--radius-pill);
   background: var(--color-hairline);
-  padding: 3px;
+  padding: 2px;
   cursor: pointer;
-  transition: background 160ms ease;
+  transition: background 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .switch[data-checked] {
@@ -1983,16 +2408,46 @@ h3 {
 
 .switch-thumb {
   display: block;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   border-radius: var(--radius-full);
-  background: var(--color-canvas);
-  box-shadow: var(--shadow-level-1);
-  transition: transform 160ms ease;
+  background: var(--color-on-primary);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .switch[data-checked] .switch-thumb {
-  transform: translateX(22px);
+  transform: translateX(18px);
+}
+
+/* --- Size: sm (32×20) --- */
+.switch--sm {
+  width: 32px;
+  height: 20px;
+}
+
+.switch--sm .switch-thumb {
+  width: 16px;
+  height: 16px;
+}
+
+.switch--sm[data-checked] .switch-thumb {
+  transform: translateX(12px);
+}
+
+/* --- Size: lg (56×32) --- knob 28, ratio 1.75 */
+.switch--lg {
+  width: 56px;
+  height: 32px;
+}
+
+.switch--lg .switch-thumb {
+  width: 28px;
+  height: 28px;
+}
+
+.switch--lg[data-checked] .switch-thumb {
+  transform: translateX(24px);
 }
 
 /* ============================================================
@@ -2286,6 +2741,14 @@ h3 {
   letter-spacing: var(--ls-body);
   color: var(--color-ink);
 }
+.type-body-md {
+  font-family: var(--font-text);
+  font-size: var(--type-body-md);
+  font-weight: 400;
+  line-height: var(--lh-body-md);
+  letter-spacing: var(--ls-body-md);
+  color: var(--color-ink);
+}
 .type-body-sm {
   font-family: var(--font-text);
   font-size: var(--type-body-sm);
@@ -2308,6 +2771,30 @@ h3 {
   font-weight: 500;
   line-height: var(--lh-button);
   letter-spacing: var(--ls-button);
+  color: var(--color-primary);
+}
+.type-button-lg {
+  font-family: var(--font-text);
+  font-size: var(--type-button-lg);
+  font-weight: 500;
+  line-height: var(--lh-button-lg);
+  letter-spacing: var(--ls-button-lg);
+  color: var(--color-primary);
+}
+.type-button-md {
+  font-family: var(--font-text);
+  font-size: var(--type-button-md);
+  font-weight: 500;
+  line-height: var(--lh-button-md);
+  letter-spacing: var(--ls-button-md);
+  color: var(--color-primary);
+}
+.type-button-sm {
+  font-family: var(--font-text);
+  font-size: var(--type-button-sm);
+  font-weight: 500;
+  line-height: var(--lh-button-sm);
+  letter-spacing: var(--ls-button-sm);
   color: var(--color-primary);
 }
 .type-eyebrow {
@@ -2541,6 +3028,7 @@ html[data-theme="dark"] {
   /* Surface — 블루 틴트 0%, 순수 중립 다크 */
   --color-canvas: #111111;
   --color-surface-soft: #1a1a1a;
+  --color-surface-elevated: #2c2c2e;
   --color-surface-sunken: #232326;
   --color-hairline: #2a2a2a;
 
@@ -2553,7 +3041,7 @@ html[data-theme="dark"] {
   --color-primary-hover: #3d8eff;
 
   /* Semantic */
-  --color-semantic-error: #ff453a;
+  --color-semantic-error: #ff5560;
   --color-semantic-warning: #ff9f0a;
 
   /* Shadows — 순수 블랙 기반으로 불투명도 높임 */
@@ -2603,7 +3091,7 @@ html[data-theme="dark"] .sub-nav {
 html[data-theme="dark"] .button-secondary,
 html[data-theme="dark"] .nav-action,
 html[data-theme="dark"] .button-utility {
-  background: #2c2c2e;
+  background: var(--color-surface-elevated);
   border-color: transparent;
 }
 
@@ -2614,15 +3102,13 @@ html[data-theme="dark"] .button-utility:hover {
 }
 
 html[data-theme="dark"] .button-ghost:hover {
-  background: #2c2c2e;
+  background: var(--color-surface-elevated);
 }
 
 /* -----------------------------------------------------------
    Hover states — surface-soft → #2C2C2E 로 강화
    ----------------------------------------------------------- */
 
-html[data-theme="dark"] .accordion-trigger:hover,
-html[data-theme="dark"] .icon-button:hover,
 html[data-theme="dark"] .autocomplete-item[data-highlighted],
 html[data-theme="dark"] .list-item[data-highlighted],
 html[data-theme="dark"] .menu-item[data-highlighted],
@@ -2632,7 +3118,20 @@ html[data-theme="dark"] .nav-menu-link:hover,
 html[data-theme="dark"] .toolbar-button:hover,
 html[data-theme="dark"] .toggle-item:hover:not([data-pressed]),
 html[data-theme="dark"] .toggle-button:hover:not([data-pressed]) {
-  background: #2c2c2e;
+  background: var(--color-surface-elevated);
+}
+
+/* Accordion 다크모드 레이어 역전 방지
+   기본 .accordion-item은 Canvas(#111)인데, 부모 카드가 Surface Soft(#1a1a1a)일 때
+   오히려 더 어두워져 인풋처럼 함몰돼 보임. 카드 배경보다 밝은 #2C2C2E 레이어로 올려
+   "들어간 인풋"이 아닌 "떠 있는 패널"로 보이게 한다. (button-secondary와 동일 원칙) */
+html[data-theme="dark"] .accordion-item {
+  background: var(--color-surface-elevated);
+  border-color: transparent;
+}
+
+html[data-theme="dark"] .accordion-trigger:hover {
+  background: #3a3a3c;
 }
 
 /* -----------------------------------------------------------
@@ -2662,15 +3161,15 @@ html[data-theme="dark"] .sidebar-subitem:hover {
 /* Dark: active — 한 단계 더 진한 중립 톤 */
 html[data-theme="dark"] .sidebar-item.is-active,
 html[data-theme="dark"] .sidebar-subitem.is-active {
-  background: #2c2c2e;
+  background: var(--color-surface-elevated);
   color: var(--color-ink);
 }
 
 /* Dark: 알림 배지 — design-system.md Dark Mode Badge & Tag Principle 준수
-   BG: 원색 + 투명도 18%, Text: vibrant red(#FF453A) */
+   BG: 원색 + 투명도 18%, Text: semantic-error Dark */
 html[data-theme="dark"] .sidebar-item-badge {
-  background: rgba(255, 69, 58, 0.18);
-  color: #FF453A;
+  background: rgba(255, 85, 96, 0.18);
+  color: var(--color-semantic-error);
 }
 
 
@@ -2681,7 +3180,7 @@ html[data-theme="dark"] .toolbar {
 }
 
 html[data-theme="dark"] .toggle-item[data-pressed] {
-  background: #2c2c2e;
+  background: var(--color-surface-elevated);
   color: var(--color-ink);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
@@ -2716,7 +3215,12 @@ html[data-theme="dark"] .toast-card--negative {
 }
 
 html[data-theme="dark"] .drawer-card {
-  background: rgba(26, 26, 26, 0.95);
+  background: var(--color-canvas);
+}
+
+html[data-theme="dark"] .drawer-header,
+html[data-theme="dark"] .drawer-footer {
+  border-color: var(--color-hairline);
 }
 
 html[data-theme="dark"] .overlay-backdrop {
@@ -2734,7 +3238,7 @@ html[data-theme="dark"] .nav-menu-feature {
 }
 
 html[data-theme="dark"] .nav-menu-feature:hover {
-  background: #2c2c2e;
+  background: var(--color-surface-elevated);
 }
 
 /* -----------------------------------------------------------
