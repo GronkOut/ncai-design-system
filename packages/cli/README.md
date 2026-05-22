@@ -10,7 +10,7 @@ npx @ncai/design-system-cli setup --agent <agent>
 
 - `setup`: 선택한 에이전트의 지침 파일과 MCP 설정을 함께 생성합니다.
 - `show`: 패키지에 포함된 `design-system.md`를 조회하거나 검색합니다.
-- `doctor`: 의존성, 에이전트 지침 파일, MCP 설정 파일 또는 스니펫을 진단합니다.
+- `doctor`: 의존성, 에이전트 지침 파일, MCP 설정 파일 또는 스니펫을 진단합니다. `--agent <agent>`를 주면 해당 에이전트만 확인합니다.
 - `validate`: 생성된 UI 코드의 기본 가드레일을 점검합니다.
 
 필수 런타임 의존성은 보통 다음 두 패키지입니다.

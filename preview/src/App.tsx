@@ -1243,10 +1243,9 @@ export function App() {
                   {/* 지속 토글 — 눌린 상태가 유지됨 (텍스트 서식) */}
                   <Toolbar.Group className="toolbar-group">
                     <Toolbar.Button
-                      render={<Toggle />}
+                      render={<Toggle defaultPressed />}
                       className="toolbar-button toolbar-icon-button"
                       aria-label="굵게"
-                      defaultPressed
                     >
                       <Icon svg={boldIcon} size={18} />
                     </Toolbar.Button>

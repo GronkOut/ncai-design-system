@@ -193,6 +193,10 @@ function installCommand(packages: string[], dev = false) {
   return `${npmCommand} i${dev ? ' -D' : ''} ${packages.join(' ')}`;
 }
 
+function optionalDevPackages(agent: AgentChoice) {
+  return agent === 'cursor' ? [cliPackage, mcpPackage, skillsPackage] : [cliPackage, mcpPackage];
+}
+
 async function installSkill(agent?: AgentChoice) {
   const selectedAgent = agent ?? (await selectAgent('Agent Skill 설치'));
   if (!selectedAgent) return;
@@ -278,19 +282,21 @@ async function setupMcp(agent?: AgentChoice) {
 }
 
 async function setup() {
-  const agent = await selectAgent('전체 설치');
+  const agent = await selectAgent('설정');
   if (!agent) return;
 
+  console.log(`${agentLabels[agent]} 전용 설정을 진행합니다. 다른 에이전트 파일은 생성하지 않습니다.`);
+  console.log('');
   console.log('소비자 프로젝트 런타임 의존성으로 아래 패키지를 설치하세요.');
   console.log(installCommand([designSystemPackage, iconsPackage, baseUiPackage]));
   console.log('');
   console.log('npx 대신 로컬 고정 버전을 쓰고 싶다면 아래 개발 의존성을 추가할 수 있습니다.');
-  console.log(installCommand([cliPackage, mcpPackage, skillsPackage], true));
+  console.log(installCommand(optionalDevPackages(agent), true));
   console.log('');
   await installSkill(agent);
   await setupMcp(agent);
   console.log('');
-  console.log('설치 후 에이전트에게 UI 작업을 요청하면 MCP/Skill이 design-system.md와 Base UI 우선 규칙을 제공합니다.');
+  console.log(`${agentLabels[agent]}에게 UI 작업을 요청하면 작성된 지침과 MCP 설정이 design-system.md와 Base UI 우선 규칙을 제공합니다.`);
 }
 
 async function validate() {
@@ -324,6 +330,15 @@ async function validate() {
 
 async function doctor() {
   const projectRoot = resolve(optionValue('--cwd') ?? process.cwd());
+  const requestedAgent = optionValue('--agent') ?? optionValue('--ide');
+  const selectedAgent = normalizeAgent(requestedAgent);
+  if (requestedAgent && !selectedAgent) {
+    console.error(`지원하지 않는 에이전트입니다: ${requestedAgent}`);
+    console.error(`지원 값: ${agentChoices.join(', ')}`);
+    process.exitCode = 1;
+    return;
+  }
+
   const packageJson = await readJson<PackageJson>(join(projectRoot, 'package.json'));
   const deps = {
     ...(packageJson?.dependencies ?? {}),
@@ -337,7 +352,12 @@ async function doctor() {
   console.log(deps[designSystemPackage] ? `[PASS] ${designSystemPackage}: ${deps[designSystemPackage]}` : `[WARN] ${designSystemPackage} 의존성이 없습니다.`);
   console.log(deps[iconsPackage] ? `[PASS] ${iconsPackage}: ${deps[iconsPackage]}` : `[WARN] ${iconsPackage} 의존성이 없습니다.`);
   console.log(deps[baseUiPackage] ? `[PASS] ${baseUiPackage}: ${deps[baseUiPackage]}` : `[WARN] ${baseUiPackage} 의존성이 없습니다.`);
-  for (const agent of agentChoices) {
+  if (selectedAgent) {
+    console.log(`agent: ${agentLabels[selectedAgent]}`);
+  }
+
+  const agentsToCheck = selectedAgent ? [selectedAgent] : agentChoices;
+  for (const agent of agentsToCheck) {
     const instructionPath = join(projectRoot, agentInstructionRelativeTarget(agent));
     console.log((await pathExists(instructionPath)) ? `[PASS] ${agentLabels[agent]} 지침 파일 있음: ${instructionPath}` : `[INFO] ${agentLabels[agent]} 지침 파일 없음: ${instructionPath}`);
 

@@ -88,10 +88,10 @@ npm.cmd i @ncai/design-system @ncai/design-system-icons @base-ui/react
 
 `setup` 명령은 선택한 에이전트가 읽을 수 있는 지침 파일과 MCP 설정을 생성합니다. 자동 설정 형식이 안정적인 에이전트는 설정 파일을 직접 작성하고, 도구나 버전에 따라 설정 방식이 달라질 수 있는 에이전트는 `.ncai` 아래에 가져다 쓸 MCP JSON 스니펫을 생성합니다.
 
-일반적인 사용자는 위 세 패키지만 소비자 프로젝트 의존성으로 설치하면 됩니다. `npx` 대신 로컬에 버전을 고정하고 싶거나 오프라인/사내 레지스트리 환경에서 반복 실행해야 한다면 다음 패키지를 개발 의존성으로 추가할 수 있습니다.
+일반적인 사용자는 위 세 패키지만 소비자 프로젝트 의존성으로 설치하면 됩니다. `npx` 대신 로컬에 버전을 고정하고 싶거나 오프라인/사내 레지스트리 환경에서 반복 실행해야 한다면 CLI가 출력하는 선택 에이전트별 개발 의존성을 추가할 수 있습니다. Cursor Skill을 로컬에서 설치할 때만 `@ncai/design-system-skills`가 추가로 필요합니다.
 
 ```bash
-npm i -D @ncai/design-system-cli @ncai/design-system-mcp @ncai/design-system-skills
+npm i -D @ncai/design-system-cli @ncai/design-system-mcp
 ```
 
 지원하는 에이전트는 다음과 같습니다.
