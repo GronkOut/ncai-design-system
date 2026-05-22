@@ -928,6 +928,35 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 - **Select-specific**: 입력란이 아니라 trigger 자체가 선택값을 표시. trigger 텍스트는 `{typography.body-md}` (16px) / `{colors.ink}`, placeholder는 `{colors.body-muted}`.
 - **금지**: Popup에 그라데이션 배경, Primary 채움 행(highlight는 `surface-soft`로 통일).
 
+#### Date Picker
+날짜 선택은 독립 패키지 컴포넌트가 아니라 **Base UI primitive 조합 패턴**입니다. Base UI에 완성형 Calendar/DatePicker primitive가 없으면 `Field` + `Popover` + `Button` + `Select`를 조합하고, 달력 grid와 날짜 계산만 소비자 프로젝트 로직으로 구현합니다.
+
+- **Single Date**
+  - Trigger: `button-secondary` 형태. 좌측 18px calendar icon(`{colors.body-muted}`), 우측 선택 날짜 또는 placeholder.
+  - Placeholder: `"날짜 선택"`. 날짜를 선택하기 전에는 선택 상태를 표시하지 않습니다.
+  - Selected value: 한국어 서비스에서는 `YYYY년 M월 D일` 형식을 권장합니다.
+- **Date Range**
+  - Trigger label: `"날짜 구간 선택"`.
+  - 첫 클릭은 시작일, 두 번째 클릭은 종료일입니다. 종료일이 시작일보다 앞이면 내부 로직에서 자동 정렬합니다.
+  - 시작/종료일은 `{colors.primary}` 배경 + `{colors.on-primary}` 텍스트. 사이 구간은 Primary를 옅게 tint한 배경으로만 연결하고, 과한 pill/gradient를 만들지 않습니다.
+- **Popover**
+  - Date Picker popup은 Popover 계열 표면을 사용합니다: Light `Canvas + hairline + shadow.level-3`, Dark `Surface Soft + rgba(255,255,255,.10) border + shadow.level-3`.
+  - `sideOffset`은 Popover와 동일하게 8~10px, viewport collision padding은 16px를 사용합니다.
+- **Calendar Header**
+  - 좌우 44×44 이전/다음 버튼을 두고, 중앙에는 Base UI `Select`로 **연도 → 월** 순서의 드롭다운을 배치합니다.
+  - Select trigger는 `{radius.md}`(10px), `{typography.body-md}`, 1px `{colors.hairline}` 보더를 따릅니다. Focus/Open 상태는 보더만 `{colors.primary}`로 변경합니다.
+  - 월 표시는 `5월`, 연도 표시는 `2026년`처럼 단위를 포함합니다. 내부 index 값(예: 4)을 직접 노출하지 않습니다.
+- **Calendar Grid**
+  - 요일 헤더는 `{typography.caption}` / `{colors.body-muted}`.
+  - 날짜 셀은 최소 44×44 터치 영역, `{radius.md}`(10px), `{typography.body-sm}`.
+  - 현재 달이 아닌 날짜는 `{colors.body-muted}` + 낮은 opacity로 표시합니다.
+  - 오늘 날짜는 1px `{colors.primary}` inset border로만 표시하고, 선택 상태와 구분합니다.
+  - 해당 달에 필요한 주(row)만 렌더링합니다. 모든 달을 고정 6주로 채워 불필요한 다음 달 전체 행을 노출하지 않습니다.
+- **금지**
+  - Base UI `Select` 대신 네이티브 `<select>`를 사용해 스타일/접근성 패턴을 분리하는 것.
+  - Popup이나 range highlight에 그라데이션, 강한 그림자, Primary solid fill을 과도하게 사용하는 것.
+  - 날짜 선택 전 임의 날짜를 기본 선택값으로 박아두는 것. 기본값이 필요하면 사용자/도메인 요구가 명확할 때만 사용합니다.
+
 #### Number Field
 숫자 증감 입력. 좌우 증감 버튼 + 중앙 숫자 입력의 grouped 컨트롤.
 

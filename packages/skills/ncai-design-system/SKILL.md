@@ -19,6 +19,7 @@ description: Builds, reviews, and styles React UI using NC AI design-system.md a
 
 - For dialogs (modal/alert), popovers, tooltips, menus (incl. context/navigation menu), selects/combobox/autocomplete, checkboxes, radios, switches, toggles & toggle groups, tabs, accordions, collapsibles, sliders, progress, meter, scroll areas, preview cards, toolbars, separators, avatars, toasts, number fields, OTP fields, and field/fieldset/form primitives, start from the matching Base UI component.
 - For static layout such as hero tiles, cards, navigation shells, sidebars, bottom sheets, drawers, and marketing sections, use semantic React/HTML and apply `design-system.md` layout, typography, spacing, radius, and color guidance. (BottomSheet, Drawer, and Sidebar are NC AI compositions — typically built on top of Base UI Dialog/Popover where applicable.)
+- If a complete component does not exist in Base UI, build it as a composition of the closest Base UI primitives instead of introducing an unrelated component library. Example: Date Picker should compose `Field`, `Popover`, `Button`, `Select`, NC AI calendar icon, and local calendar-grid logic while following the `Date Picker` section in `design-system.md`.
 - Do not create a custom primitive when a Base UI primitive exists unless the user explicitly asks or Base UI cannot express the behavior.
 
 ## Styling Rules

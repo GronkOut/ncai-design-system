@@ -1697,6 +1697,194 @@ html[data-theme="dark"] .bottom-sheet-handle {
 }
 
 /* ============================================================
+   Date Picker — Popover + Calendar composition
+   ============================================================ */
+
+.date-picker-stack {
+  display: grid;
+  gap: var(--spacing-lg);
+  width: min(100%, 320px);
+}
+
+.date-picker-field {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+}
+
+.date-picker-trigger {
+  justify-content: flex-start;
+  width: 100%;
+  gap: 10px;
+}
+
+.date-picker-trigger .icon-inline {
+  color: var(--color-body-muted);
+}
+
+.date-picker-popover {
+  display: grid;
+  gap: 12px;
+  width: min(348px, var(--available-width));
+  padding: 14px;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  background: var(--color-canvas);
+  box-shadow: var(--shadow-level-3);
+  transform-origin: var(--transform-origin);
+  transition: transform 120ms ease, opacity 120ms ease;
+}
+
+.date-picker-popover[data-starting-style],
+.date-picker-popover[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+.date-picker-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin: 0;
+}
+
+.date-picker-nav-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-body-muted);
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.date-picker-nav-button:first-child .icon-inline {
+  transform: rotate(180deg);
+}
+
+.date-picker-nav-button:hover {
+  background: var(--color-surface-soft);
+  color: var(--color-ink);
+}
+
+.date-picker-nav-button:focus-visible {
+  outline: 0;
+  box-shadow: inset 0 0 0 1.5px var(--color-primary);
+}
+
+.date-picker-selects {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+.date-picker-select-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  min-width: 96px;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-md);
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  padding: 0 10px 0 12px;
+  font-size: var(--type-body);
+  font-weight: 600;
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-body);
+  cursor: pointer;
+  transition: border-color 120ms ease, background 120ms ease;
+}
+
+.date-picker-select-trigger:focus-visible,
+.date-picker-select-trigger[data-popup-open] {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+.date-picker-select-trigger .select-icon {
+  margin-left: 6px;
+}
+
+.date-picker-select-popup {
+  min-width: var(--anchor-width);
+  width: max-content;
+}
+
+.date-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px;
+}
+
+.date-picker-weekday {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  color: var(--color-body-muted);
+  font-size: var(--type-caption);
+  font-weight: 600;
+  line-height: var(--lh-caption);
+}
+
+.date-picker-day {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 44px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-ink);
+  font-size: var(--type-body-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+
+.date-picker-day:hover {
+  background: var(--color-surface-soft);
+}
+
+.date-picker-day:focus-visible {
+  outline: 0;
+  box-shadow: inset 0 0 0 1.5px var(--color-primary);
+}
+
+.date-picker-day[data-outside-month] {
+  color: var(--color-body-muted);
+  opacity: 0.48;
+}
+
+.date-picker-day[data-today] {
+  box-shadow: inset 0 0 0 1px var(--color-primary);
+}
+
+.date-picker-day[data-today]:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-primary);
+}
+
+.date-picker-day[data-in-range] {
+  background: rgba(0, 110, 255, 0.10);
+  color: var(--color-primary);
+}
+
+.date-picker-day[data-selected] {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  box-shadow: none;
+}
+
+/* ============================================================
    Option Chip (Drawer 내 선택지)
    ============================================================ */
 
@@ -3433,9 +3621,25 @@ html[data-theme="dark"] .nav-menu-popup {
    부모 카드와 같은 톤일 때 hairline(#2A2A2A)이 흐려 보이는 문제는 translucent white overlay 보더로 해결 —
    아래 어느 레이어(canvas/soft/elevated) 위에서도 일정한 광학 대비를 확보 (iOS Dark separator 원칙). */
 html[data-theme="dark"] .popover-card,
-html[data-theme="dark"] .preview-card {
+html[data-theme="dark"] .preview-card,
+html[data-theme="dark"] .date-picker-popover {
   background: var(--color-surface-soft);
   border-color: rgba(255, 255, 255, 0.10);
+}
+
+html[data-theme="dark"] .date-picker-nav-button:hover,
+html[data-theme="dark"] .date-picker-day:hover {
+  background: var(--color-surface-elevated);
+}
+
+html[data-theme="dark"] .date-picker-select-trigger {
+  background: var(--color-surface-elevated);
+  border-color: transparent;
+}
+
+html[data-theme="dark"] .date-picker-day[data-in-range] {
+  background: rgba(0, 110, 255, 0.18);
+  color: #7ab0ff;
 }
 
 /* Modal은 backdrop(rgba(0,0,0,0.70))이 톤 대비를 만들어 주므로 보더 없이 Surface Soft + Level 3 그림자만 사용 */

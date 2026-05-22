@@ -70,11 +70,43 @@ const aliases: Record<string, string[]> = {
   tooltip: ['hint', '도움말', '툴팁']
 };
 
+type BaseUiComponent = (typeof baseUiComponents)[number];
+type CompositionRecipe = {
+  id: string;
+  matches: string[];
+  components: BaseUiComponent[];
+  icons: string[];
+  summary: string;
+  steps: string[];
+};
+
+const compositionRecipes: CompositionRecipe[] = [
+  {
+    id: 'date-picker',
+    matches: ['date picker', 'datepicker', 'date range', 'calendar picker', 'calendar', '날짜', '달력', '기간', '구간'],
+    components: ['field', 'popover', 'select'],
+    icons: ['calendar.svg'],
+    summary:
+      'Base UI에는 완성형 Date Picker primitive가 없으므로 Field + Popover + Button + Select를 조합하고 calendar grid/date math만 로컬 로직으로 구현합니다.',
+    steps: [
+      'Trigger는 button-secondary 형태로 만들고 calendar icon과 선택값/placeholder를 표시한다.',
+      'Popover 안에는 이전/다음 44px 버튼과 Base UI Select 기반 연도 -> 월 드롭다운을 둔다.',
+      '날짜 grid는 필요한 주(row)만 렌더링하고, 오늘/선택일/구간 내부 상태를 각각 분리해 표시한다.',
+      '단일 날짜는 선택 전 placeholder를 유지하고, 구간 선택은 첫 클릭 시작일/두 번째 클릭 종료일로 처리하며 역순 선택은 정렬한다.',
+      'Date Picker, Popover, Field, Select 섹션의 typography, radius, focus, floating surface 규칙을 적용한다.'
+    ]
+  }
+];
+
 export function composeBaseUiRecipe(query: string) {
   const normalizedQuery = query.toLowerCase();
+  const matchedCompositions = compositionRecipes.filter((recipe) =>
+    recipe.matches.some((word) => normalizedQuery.includes(word.toLowerCase()))
+  );
+  const compositionComponents = matchedCompositions.flatMap((recipe) => recipe.components);
   const components = baseUiComponents.filter((component) => {
     const words = [component, ...(aliases[component] ?? [])];
-    return words.some((word) => normalizedQuery.includes(word.toLowerCase()));
+    return words.some((word) => normalizedQuery.includes(word.toLowerCase())) || compositionComponents.includes(component);
   });
   const designSections = searchDesignSystem(query, 5);
   const iconMatches = searchIcons(query, 8);
@@ -98,8 +130,16 @@ export function composeBaseUiRecipe(query: string) {
       fileName: icon.fileName,
       exportPath: icon.exportPath
     })),
+    compositions: matchedCompositions.map((recipe) => ({
+      id: recipe.id,
+      summary: recipe.summary,
+      baseUiPrimitives: recipe.components,
+      recommendedIcons: recipe.icons,
+      steps: recipe.steps
+    })),
     steps: [
       'Base UI에서 가장 가까운 primitive를 고른다.',
+      'Base UI에 완성형 컴포넌트가 없으면 가장 가까운 primitive들을 조합하고, 누락된 상태/계산 로직만 소비자 프로젝트에서 직접 구현한다.',
       '필요한 경우 get_base_ui_component_doc 또는 search_base_ui_docs로 최신 Base UI API 문서를 확인한다.',
       'Base UI의 Root/Trigger/Portal/Positioner/Popup 같은 접근성 구조를 유지한다.',
       'design-system.md의 관련 섹션에서 색상, typography, spacing, radius, elevation 근거를 찾는다.',

@@ -8,4 +8,10 @@ describe('composeBaseUiRecipe', () => {
     expect(recipe.components).toContain('popover');
     expect(recipe.steps.length).toBeGreaterThan(0);
   });
+
+  it('composes Date Picker from Base UI primitives', () => {
+    const recipe = composeBaseUiRecipe('날짜 구간 선택 Date Picker를 만들어줘');
+    expect(recipe.components).toEqual(expect.arrayContaining(['field', 'popover', 'select']));
+    expect(recipe.compositions.map((composition) => composition.id)).toContain('date-picker');
+  });
 });

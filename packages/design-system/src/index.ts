@@ -32,7 +32,7 @@ export function parseDesignSystemMarkdown(markdown: string): DesignSystemSection
   let current: DesignSystemSection | undefined;
 
   for (const line of lines) {
-    const heading = /^(#{2,3})\s+(.+?)\s*$/.exec(line);
+    const heading = /^(#{2,4})\s+(.+?)\s*$/.exec(line);
     if (heading) {
       if (current) {
         current.content = current.content.trim();

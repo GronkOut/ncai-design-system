@@ -16,6 +16,13 @@ describe('design system document', () => {
     expect(searchDesignSystem('button').map((section) => section.title)).toContain('Buttons');
   });
 
+  it('includes Date Picker composition guidance', () => {
+    const section = getDesignSystemSection('date-picker');
+    expect(section?.content).toContain('Field');
+    expect(section?.content).toContain('Popover');
+    expect(section?.content).toContain('Select');
+  });
+
   it('tracks current Base UI package name', () => {
     expect(baseUiGuidance.packageName).toBe('@base-ui/react');
   });

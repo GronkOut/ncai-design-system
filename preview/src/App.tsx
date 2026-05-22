@@ -117,6 +117,7 @@ const sections = [
   'Collapsible',
   'Combobox',
   'Context Menu',
+  'Date Picker',
   'Drawer',
   'Field',
   'Fieldset',
@@ -193,7 +194,7 @@ export function App() {
 
             <section className="sub-nav" id="tokens">
               <strong>Preview</strong>
-              <span>39 Base UI components</span>
+              <span>Base UI components + patterns</span>
               <span>single accent #006EFF</span>
               <span>bold whitespace · 8px grid</span>
             </section>
@@ -698,6 +699,13 @@ export function App() {
                     </ContextMenu.Positioner>
                   </ContextMenu.Portal>
                 </ContextMenu.Root>
+              </PreviewSection>
+
+              <PreviewSection
+                title="Date Picker"
+                description="Calendar와 Popover를 조합한 날짜 선택 패턴. 선택값은 버튼에 요약되고 팝오버 안에서 월 단위로 탐색합니다."
+              >
+                <DatePickerDemo />
               </PreviewSection>
 
               <PreviewSection title="Drawer" description="우측에서 슬라이드되는 풀-하이트 사이드 패널. 메인 컨텍스트를 유지한 채 상세/설정을 노출합니다.">
@@ -1511,6 +1519,313 @@ function ToastList() {
       </Toast.Root>
     );
   });
+}
+
+const dayLabels = ['일', '월', '화', '수', '목', '금', '토'];
+const monthFormatter = new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long' });
+const dateFormatter = new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+const today = startOfDay(new Date());
+const monthOptions = Array.from({ length: 12 }, (_, index) => index);
+const yearOptions = Array.from({ length: 201 }, (_, index) => 1900 + index);
+type DateRange = { from?: Date; to?: Date };
+
+function DatePickerDemo() {
+  const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
+  const [visibleMonth, setVisibleMonth] = React.useState(() => startOfMonth(today));
+  const [selectedRange, setSelectedRange] = React.useState<DateRange>({});
+  const [rangeVisibleMonth, setRangeVisibleMonth] = React.useState(() => startOfMonth(today));
+  const selectedLabel = selectedDate ? dateFormatter.format(selectedDate) : '날짜 선택';
+  const rangeLabel =
+    selectedRange.from && selectedRange.to
+      ? `${formatShortDate(selectedRange.from)} - ${formatShortDate(selectedRange.to)}`
+      : selectedRange.from
+        ? `${formatShortDate(selectedRange.from)} - 종료일 선택`
+        : '날짜 구간 선택';
+  const days = React.useMemo(() => getCalendarDays(visibleMonth), [visibleMonth]);
+  const rangeDays = React.useMemo(() => getCalendarDays(rangeVisibleMonth), [rangeVisibleMonth]);
+
+  const handleRangeSelect = (day: Date) => {
+    if (!selectedRange.from || selectedRange.to) {
+      setSelectedRange({ from: day });
+      setRangeVisibleMonth(startOfMonth(day));
+      return;
+    }
+
+    const [from, to] = sortDates(selectedRange.from, day);
+    setSelectedRange({ from, to });
+    setRangeVisibleMonth(startOfMonth(day));
+  };
+
+  return (
+    <div className="date-picker-stack">
+      <Field.Root name="preview-date" className="date-picker-field">
+        <Field.Label className="field-label">날짜 선택</Field.Label>
+        <Popover.Root>
+          <Popover.Trigger
+            render={<Button className="date-picker-trigger button-secondary" />}
+            aria-label={selectedDate ? `선택된 날짜: ${selectedLabel}` : '날짜 선택'}
+          >
+            <Icon svg={calendarIcon} size={18} />
+            <span>{selectedLabel}</span>
+          </Popover.Trigger>
+          <DatePickerPopover visibleMonth={visibleMonth} onVisibleMonthChange={setVisibleMonth}>
+            <CalendarGrid
+              days={days}
+              visibleMonth={visibleMonth}
+              isSelected={(day) => Boolean(selectedDate && isSameDay(day, selectedDate))}
+              onSelect={(day) => {
+                setSelectedDate(day);
+                setVisibleMonth(startOfMonth(day));
+              }}
+            />
+          </DatePickerPopover>
+        </Popover.Root>
+      </Field.Root>
+
+      <Field.Root name="preview-date-range" className="date-picker-field">
+        <Field.Label className="field-label">날짜 구간 선택</Field.Label>
+        <Popover.Root>
+          <Popover.Trigger
+            render={<Button className="date-picker-trigger button-secondary" />}
+            aria-label={`선택된 날짜 구간: ${rangeLabel}`}
+          >
+            <Icon svg={calendarIcon} size={18} />
+            <span>{rangeLabel}</span>
+          </Popover.Trigger>
+          <DatePickerPopover visibleMonth={rangeVisibleMonth} onVisibleMonthChange={setRangeVisibleMonth}>
+            <CalendarGrid
+              days={rangeDays}
+              visibleMonth={rangeVisibleMonth}
+              isSelected={(day) =>
+                Boolean(
+                  (selectedRange.from && isSameDay(day, selectedRange.from)) ||
+                    (selectedRange.to && isSameDay(day, selectedRange.to))
+                )
+              }
+              isInRange={(day) => Boolean(selectedRange.from && selectedRange.to && isDateBetween(day, selectedRange.from, selectedRange.to))}
+              onSelect={handleRangeSelect}
+            />
+          </DatePickerPopover>
+        </Popover.Root>
+      </Field.Root>
+    </div>
+  );
+}
+
+function DatePickerPopover({
+  visibleMonth,
+  onVisibleMonthChange,
+  children
+}: {
+  visibleMonth: Date;
+  onVisibleMonthChange: React.Dispatch<React.SetStateAction<Date>>;
+  children: React.ReactNode;
+}) {
+  return (
+    <Popover.Portal>
+      <Popover.Positioner
+        className="popover-positioner"
+        align="start"
+        sideOffset={FLOATING_OFFSET_LOOSE}
+        collisionPadding={VIEWPORT_PADDING}
+      >
+        <Popover.Popup className="date-picker-popover">
+          <Popover.Arrow className="popup-arrow" />
+          <Popover.Title className="date-picker-caption">
+            <button
+              type="button"
+              className="date-picker-nav-button"
+              aria-label="이전 달"
+              onClick={() => onVisibleMonthChange((month) => addMonths(month, -1))}
+            >
+              <Icon svg={chevronRightIcon} size={16} />
+            </button>
+            <div className="date-picker-selects" aria-live="polite">
+              <CalendarSelect
+                ariaLabel="연도 선택"
+                options={yearOptions.map((year) => ({ label: `${year}년`, value: String(year) }))}
+                value={String(visibleMonth.getFullYear())}
+                onValueChange={(value) => onVisibleMonthChange((month) => setYearPart(month, Number(value)))}
+              />
+              <CalendarSelect
+                ariaLabel="월 선택"
+                options={monthOptions.map((month) => ({ label: `${month + 1}월`, value: String(month) }))}
+                value={String(visibleMonth.getMonth())}
+                onValueChange={(value) => onVisibleMonthChange((month) => setMonthPart(month, Number(value)))}
+              />
+            </div>
+            <button
+              type="button"
+              className="date-picker-nav-button"
+              aria-label="다음 달"
+              onClick={() => onVisibleMonthChange((month) => addMonths(month, 1))}
+            >
+              <Icon svg={chevronRightIcon} size={16} />
+            </button>
+          </Popover.Title>
+          {children}
+        </Popover.Popup>
+      </Popover.Positioner>
+    </Popover.Portal>
+  );
+}
+
+function CalendarSelect({
+  ariaLabel,
+  options,
+  value,
+  onValueChange
+}: {
+  ariaLabel: string;
+  options: Array<{ label: string; value: string }>;
+  value: string;
+  onValueChange: (value: string) => void;
+}) {
+  const selectedOption = options.find((option) => option.value === value);
+
+  return (
+    <Select.Root
+      value={value}
+      onValueChange={(nextValue) => {
+        if (nextValue) onValueChange(nextValue);
+      }}
+    >
+      <Select.Trigger className="date-picker-select-trigger" aria-label={ariaLabel}>
+        <Select.Value>{selectedOption?.label}</Select.Value>
+        <Select.Icon className="select-icon">
+          <Icon svg={chevronDownIcon} className="trigger-icon" size={16} />
+        </Select.Icon>
+      </Select.Trigger>
+      <Select.Portal>
+        <Select.Positioner
+          className="autocomplete-positioner"
+          align="start"
+          alignItemWithTrigger={false}
+          sideOffset={FLOATING_OFFSET}
+          collisionPadding={VIEWPORT_PADDING}
+        >
+          <Select.Popup className="autocomplete-popup autocomplete-list date-picker-select-popup">
+            {options.map((option) => (
+              <Select.Item key={option.value} value={option.value} className="autocomplete-item select-item">
+                <Select.ItemIndicator className="select-item-indicator">
+                  <svg
+                    className="select-check-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M19.2929 5.29289C19.6834 4.90237 20.3164 4.90237 20.707 5.29289C21.0975 5.68341 21.0975 6.31643 20.707 6.70695L9.70696 17.7069C9.31643 18.0975 8.68342 18.0975 8.29289 17.7069L3.29289 12.7069C2.90237 12.3164 2.90237 11.6834 3.29289 11.2929C3.68342 10.9023 4.31643 10.9023 4.70696 11.2929L8.99992 15.5858L19.2929 5.29289Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </Select.ItemIndicator>
+                <Select.ItemText>{option.label}</Select.ItemText>
+              </Select.Item>
+            ))}
+          </Select.Popup>
+        </Select.Positioner>
+      </Select.Portal>
+    </Select.Root>
+  );
+}
+
+function CalendarGrid({
+  days,
+  visibleMonth,
+  isSelected,
+  isInRange,
+  onSelect
+}: {
+  days: Date[];
+  visibleMonth: Date;
+  isSelected: (day: Date) => boolean;
+  isInRange?: (day: Date) => boolean;
+  onSelect: (day: Date) => void;
+}) {
+  return (
+    <div className="date-picker-grid" role="grid" aria-label={`${monthFormatter.format(visibleMonth)} 달력`}>
+      {dayLabels.map((day) => (
+        <span key={day} className="date-picker-weekday" role="columnheader">
+          {day}
+        </span>
+      ))}
+      {days.map((day) => {
+        const selected = isSelected(day);
+        const inRange = isInRange?.(day) ?? false;
+        const isCurrentMonth = day.getMonth() === visibleMonth.getMonth();
+        const isToday = isSameDay(day, today);
+
+        return (
+          <button
+            key={day.toISOString()}
+            type="button"
+            className="date-picker-day"
+            data-outside-month={!isCurrentMonth || undefined}
+            data-selected={selected || undefined}
+            data-in-range={inRange || undefined}
+            data-today={isToday || undefined}
+            aria-label={dateFormatter.format(day)}
+            aria-pressed={selected}
+            onClick={() => onSelect(day)}
+          >
+            {day.getDate()}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function startOfDay(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+function startOfMonth(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+}
+
+function addDays(date: Date, amount: number) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate() + amount);
+}
+
+function addMonths(date: Date, amount: number) {
+  return new Date(date.getFullYear(), date.getMonth() + amount, 1);
+}
+
+function setMonthPart(date: Date, month: number) {
+  return new Date(date.getFullYear(), month, 1);
+}
+
+function setYearPart(date: Date, year: number) {
+  return new Date(year, date.getMonth(), 1);
+}
+
+function isSameDay(a: Date, b: Date) {
+  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+}
+
+function sortDates(a: Date, b: Date): [Date, Date] {
+  return a.getTime() <= b.getTime() ? [a, b] : [b, a];
+}
+
+function isDateBetween(date: Date, from: Date, to: Date) {
+  return date.getTime() > from.getTime() && date.getTime() < to.getTime();
+}
+
+function formatShortDate(date: Date) {
+  return `${date.getMonth() + 1}월 ${date.getDate()}일`;
+}
+
+function getCalendarDays(month: Date) {
+  const start = startOfMonth(month);
+  const end = new Date(month.getFullYear(), month.getMonth() + 1, 0);
+  const gridStart = addDays(start, -start.getDay());
+  const gridEnd = addDays(end, 6 - end.getDay());
+  const days = Math.round((gridEnd.getTime() - gridStart.getTime()) / 86400000) + 1;
+
+  return Array.from({ length: days }, (_, index) => addDays(gridStart, index));
 }
 
 function SidebarDemo() {

@@ -88,10 +88,16 @@ npm.cmd i @ncai/design-system @ncai/design-system-icons @base-ui/react
 
 `setup` 명령은 선택한 에이전트가 읽을 수 있는 지침 파일과 MCP 설정을 생성합니다. 자동 설정 형식이 안정적인 에이전트는 설정 파일을 직접 작성하고, 도구나 버전에 따라 설정 방식이 달라질 수 있는 에이전트는 `.ncai` 아래에 가져다 쓸 MCP JSON 스니펫을 생성합니다.
 
-일반적인 사용자는 위 세 패키지만 소비자 프로젝트 의존성으로 설치하면 됩니다. `npx` 대신 로컬에 버전을 고정하고 싶거나 오프라인/사내 레지스트리 환경에서 반복 실행해야 한다면 CLI가 출력하는 선택 에이전트별 개발 의존성을 추가할 수 있습니다. Cursor Skill을 로컬에서 설치할 때만 `@ncai/design-system-skills`가 추가로 필요합니다.
+일반적인 사용자는 위 세 패키지만 소비자 프로젝트 의존성으로 설치하면 됩니다. `npx` 대신 로컬에 버전을 고정하고 싶거나 오프라인/사내 레지스트리 환경에서 반복 실행해야 한다면 CLI/MCP를 개발 의존성으로 추가합니다.
 
 ```bash
 npm i -D @ncai/design-system-cli @ncai/design-system-mcp
+```
+
+`@ncai/design-system-skills`는 Cursor Skill 파일(`.cursor/skills/ncai-design-system/SKILL.md`)을 로컬에서 설치할 때만 필요합니다. Claude, Codex, VS Code/Copilot 등은 CLI가 각 에이전트용 지침 파일을 직접 생성하므로 이 패키지를 별도로 설치하지 않아도 됩니다.
+
+```bash
+npm i -D @ncai/design-system-skills
 ```
 
 지원하는 에이전트는 다음과 같습니다.
@@ -110,6 +116,35 @@ npm i -D @ncai/design-system-cli @ncai/design-system-mcp
 npx @ncai/design-system-cli setup --agent claude
 npx @ncai/design-system-cli setup --agent vscode
 ```
+
+### 기존 프로젝트 업데이트
+
+이미 소비자 프로젝트에 NC AI Design System을 설치했다면 새 버전 배포 후 의존성을 업데이트합니다.
+
+```bash
+npm update @ncai/design-system @ncai/design-system-icons @base-ui/react
+```
+
+CLI/MCP를 로컬 개발 의존성으로 고정해 둔 프로젝트라면 함께 업데이트합니다.
+
+```bash
+npm update @ncai/design-system-cli @ncai/design-system-mcp
+```
+
+`@ncai/design-system-skills`는 Cursor Skill 파일(`.cursor/skills/ncai-design-system/SKILL.md`)을 로컬에서 설치할 때만 필요합니다. Claude, Codex, VS Code/Copilot 등은 CLI가 각 에이전트용 지침 파일(`CLAUDE.md`, `AGENTS.md`, `.github/copilot-instructions.md` 등)을 직접 생성하므로 이 패키지를 별도로 설치하지 않아도 됩니다.
+
+```bash
+npm update @ncai/design-system-skills
+```
+
+업데이트 후 사용하는 에이전트 설정을 다시 생성해 최신 지침과 MCP 설정을 반영합니다.
+
+```bash
+npx @ncai/design-system-cli setup --agent <agent>
+npx @ncai/design-system-cli doctor --agent <agent>
+```
+
+업데이트는 패키지의 `design-system.md`, 아이콘 메타데이터, CLI/MCP/Skill 지침을 최신화합니다. 기존 애플리케이션 UI 코드를 자동으로 마이그레이션하지는 않으므로, 이후 UI 작업이나 리팩터링 때 에이전트가 최신 문서를 기준으로 반영하도록 요청합니다.
 
 ### 디자인 시스템 문서 조회
 
