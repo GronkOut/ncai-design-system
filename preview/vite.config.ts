@@ -14,8 +14,6 @@ const iconsReadmePath = join(iconsDir, 'README.md');
 export default defineConfig({
   plugins: [previewIconsPlugin(), react()],
   build: {
-    outDir: '../dist',
-    emptyOutDir: true,
     chunkSizeWarningLimit: 3500
   },
   server: {
