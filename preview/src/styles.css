@@ -13,6 +13,7 @@
   --color-surface-elevated: #ffffff; /* 라이트 모드는 canvas와 동일 — 보더로 분리 */
   --color-surface-sunken: #eef1f5;
   --color-hairline: #e5e7eb;
+  --color-control-track: #e5e7eb; /* Switch off 트랙 등. 라이트는 hairline과 동일 */
 
   /* === TEXT === */
   --color-ink: #13151a;
@@ -24,9 +25,13 @@
   --color-primary-hover: #0059cc;
 
   /* === SEMANTIC === */
-  --color-semantic-success: #006eff;
+  --color-semantic-success: #059669;
+  --color-semantic-success-bg: #ecfdf5;
   --color-semantic-error: #f33942;
-  --color-semantic-warning: #f59e0b;
+  --color-semantic-error-bg: #fef2f2;
+  --color-semantic-warning: #d97706;
+  --color-semantic-warning-bg: #fffbeb;
+  --color-on-ink-muted: rgba(255, 255, 255, 0.64);
 
   /* === AVATAR PALETTE (Subtle Tint) === */
   --avatar-indigo-bg: #eef2ff;
@@ -549,6 +554,11 @@ h3 {
   color: var(--color-body-muted);
 }
 
+/* Handoff은 ink 배경이라 body-muted 대신 on-ink-muted */
+.handoff-tile p:not(.eyebrow) {
+  color: var(--color-on-ink-muted);
+}
+
 /* Footer/Handoff — {colors.ink} 배경으로 페이지 마감 */
 .handoff-tile {
   background: var(--color-ink);
@@ -560,11 +570,11 @@ h3 {
 }
 
 .handoff-tile .eyebrow {
-  color: #999999;
+  color: var(--color-on-ink-muted);
 }
 
 .handoff-tile p {
-  color: #999999;
+  color: var(--color-on-ink-muted);
 }
 
 /* ============================================================
@@ -843,17 +853,17 @@ h3 {
 
 /* Functional: 상태 표시 */
 .badge-success {
-  background: #ecfdf5;
-  color: #059669;
+  background: var(--color-semantic-success-bg);
+  color: var(--color-semantic-success);
 }
 
 .badge-warning {
-  background: #fffbeb;
-  color: #d97706;
+  background: var(--color-semantic-warning-bg);
+  color: var(--color-semantic-warning);
 }
 
 .badge-error {
-  background: #fef2f2;
+  background: var(--color-semantic-error-bg);
   color: var(--color-semantic-error);
 }
 
@@ -1018,12 +1028,12 @@ h3 {
 .trigger-icon {
   width: 16px;
   height: 16px;
-  opacity: 0.55;
-  transition: transform 120ms ease, opacity 120ms ease;
+  color: var(--color-body-muted);
+  transition: transform 120ms ease, color 120ms ease;
 }
 
 .icon-button[data-popup-open] .trigger-icon {
-  opacity: 0.9;
+  color: var(--color-ink);
   transform: rotate(180deg);
 }
 
@@ -1117,11 +1127,51 @@ h3 {
   text-decoration: none;
   cursor: default;
   transition: background 80ms ease;
+  outline: 0;
+}
+
+.list-item:focus-visible,
+.menu-item:focus-visible,
+.menu-popup:focus-visible,
+.menu-popup [tabindex]:focus-visible {
+  outline: 0;
 }
 
 .list-item[data-highlighted],
-.menu-item[data-highlighted] {
+.menu-item[data-highlighted],
+.menu-item[data-popup-open] {
   background: var(--color-surface-soft);
+}
+
+.menu-item-icon {
+  flex: 0 0 auto;
+}
+
+.menu-item-label {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.menu-item-shortcut {
+  flex: 0 0 auto;
+  margin-left: var(--spacing-md);
+  color: var(--color-body-muted);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.menu-item-submenu-indicator {
+  flex: 0 0 auto;
+  margin-left: var(--spacing-sm);
+}
+
+.menu-item-destructive,
+.menu-item-destructive .menu-item-icon {
+  color: var(--color-semantic-error);
+}
+
+.menu-item-destructive[data-highlighted] {
+  background: color-mix(in srgb, var(--color-semantic-error) 8%, transparent);
 }
 
 .empty-state {
@@ -1398,8 +1448,15 @@ html[data-theme="dark"] .bottom-sheet-handle {
   border: 0;
   border-radius: 0;
   background: transparent;
-  padding: var(--spacing-md) var(--spacing-sm);
+  padding: var(--spacing-md);
+  width: 100%;
   height: 100%;
+}
+
+/* Drawer-left header — 사이드바 아이템 라벨 시작점에 정렬
+   (sidebar padding 16px + item padding 10px = 26px) */
+.drawer-card--left .drawer-header {
+  padding: var(--spacing-lg) calc(var(--spacing-md) + 10px);
 }
 
 /* 햄버거 버튼 — Drawer-left 트리거.
@@ -1587,13 +1644,13 @@ html[data-theme="dark"] .bottom-sheet-handle {
   align-items: center;
 }
 
-/* Alert Dialog Title — body-md weight 600 (16px semibold).
+/* Alert Dialog Title — body-md weight 500 (16px medium).
    컴팩트 컨펌 UI의 절제된 위계 — 본문보다 한 단계만 위에 둡니다. */
 .alert-dialog-title {
   margin: 0;
   font-family: var(--font-text);
   font-size: var(--type-body);
-  font-weight: 600;
+  font-weight: 500;
   line-height: var(--lh-body);
   letter-spacing: var(--ls-body);
   color: var(--color-ink);
@@ -1687,8 +1744,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
 }
 
 /* pill 컨테이너 */
-.toggle-group,
-.toolbar {
+.toggle-group {
   border: 1px solid var(--color-hairline);
   border-radius: var(--radius-pill);
   background: var(--color-canvas);
@@ -1696,8 +1752,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
 }
 
 /* Segmented-control 트랙 — surface-sunken 배경 + medium radius로 시스템 통일 */
-.toggle-group,
-.toolbar {
+.toggle-group {
   border-color: transparent;
   background: var(--color-surface-sunken);
   border-radius: var(--radius-md);
@@ -1706,9 +1761,38 @@ html[data-theme="dark"] .bottom-sheet-handle {
 }
 
 /* 트랙 안의 칩/버튼은 한 단계 작은 radius (inner = outer - padding) */
-.toggle-group .toggle-item,
-.toolbar .toolbar-button {
+.toggle-group .toggle-item {
   border-radius: var(--radius-sm);
+}
+
+/* Toolbar — 액션 바: 트랙 배경 없이 캔버스 위에 직접 놓이는 컨트롤 모음 */
+.toolbar {
+  background: transparent;
+  padding: 0;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.toolbar .toolbar-group {
+  gap: 2px;
+}
+
+/* 아이콘 전용 버튼 — 36×36 정사각, B/I/U/S 라벨 폭 차이 제거 */
+.toolbar-icon-button {
+  width: 36px;
+  min-width: 36px;
+  padding: 0;
+  justify-content: center;
+  color: var(--color-body);
+}
+
+.toolbar-icon-button:hover {
+  color: var(--color-ink);
+}
+
+/* 우측 정렬용 가변 스페이서 — 주요 액션을 끝으로 밀어냄 */
+.toolbar-spacer {
+  flex: 1 1 auto;
 }
 
 /* 공통 트리거/버튼 스타일 */
@@ -1718,7 +1802,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   align-items: center;
   min-height: 36px;
   border: 0;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-md);
   background: transparent;
   padding: 0 14px;
   color: var(--color-ink);
@@ -1728,8 +1812,17 @@ html[data-theme="dark"] .bottom-sheet-handle {
   transition: background 120ms ease, color 120ms ease;
 }
 
+.nav-menu-trigger {
+  border-radius: var(--radius-pill);
+}
+
 .toolbar-button:hover {
   background: var(--color-surface-soft);
+}
+
+.toolbar-button[data-pressed] {
+  background: var(--color-surface-soft);
+  color: var(--color-ink);
 }
 
 /* ============================================================
@@ -1823,7 +1916,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   padding: 0 6px;
   border-radius: 9px;
   background: var(--color-semantic-error); /* Error solid (doc: semantic-error Light) */
-  color: #FFFFFF;
+  color: var(--color-on-primary);
   font-size: 11px;
   font-weight: 600;
   line-height: 18px;
@@ -1914,6 +2007,12 @@ html[data-theme="dark"] .bottom-sheet-handle {
 .toolbar-button.primary {
   background: var(--color-primary);
   color: var(--color-on-primary);
+  gap: 6px;
+}
+
+.toolbar-button.primary:hover {
+  background: var(--color-primary-hover);
+  color: var(--color-on-primary);
 }
 
 /* ============================================================
@@ -1968,12 +2067,12 @@ html[data-theme="dark"] .bottom-sheet-handle {
 .nav-menu-icon {
   width: 14px;
   height: 14px;
-  opacity: 0.5;
-  transition: transform 120ms ease, opacity 120ms ease;
+  color: var(--color-body-muted);
+  transition: transform 120ms ease, color 120ms ease;
 }
 
 .nav-menu-trigger[data-popup-open] .nav-menu-icon {
-  opacity: 0.85;
+  color: var(--color-ink);
   transform: rotate(180deg);
 }
 
@@ -2169,7 +2268,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
 .mini-product {
   height: 120px;
   border-radius: var(--radius-md);
-  background: linear-gradient(145deg, var(--color-surface-soft), #d1d5db);
+  background: linear-gradient(145deg, var(--color-surface-soft), var(--color-hairline));
   box-shadow: var(--shadow-level-1);
 }
 
@@ -2396,7 +2495,7 @@ html[data-theme="dark"] .slider-thumb {
   flex: none;
   border: 0;
   border-radius: var(--radius-pill);
-  background: var(--color-hairline);
+  background: var(--color-control-track);
   padding: 2px;
   cursor: pointer;
   transition: background 200ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -2420,9 +2519,9 @@ html[data-theme="dark"] .slider-thumb {
   transform: translateX(18px);
 }
 
-/* --- Size: sm (32×20) --- */
+/* --- Size: sm (34×20) --- */
 .switch--sm {
-  width: 32px;
+  width: 34px;
   height: 20px;
 }
 
@@ -2432,7 +2531,7 @@ html[data-theme="dark"] .slider-thumb {
 }
 
 .switch--sm[data-checked] .switch-thumb {
-  transform: translateX(12px);
+  transform: translateX(14px);
 }
 
 /* --- Size: lg (56×32) --- knob 28, ratio 1.75 */
@@ -2449,6 +2548,8 @@ html[data-theme="dark"] .slider-thumb {
 .switch--lg[data-checked] .switch-thumb {
   transform: translateX(24px);
 }
+
+/* on 트랙은 양 모드 모두 primary 유지 */
 
 /* ============================================================
    Toggle Button (단독) & Toggle Item (그룹 내)
@@ -2482,7 +2583,30 @@ html[data-theme="dark"] .slider-thumb {
 }
 
 /* 그룹 내 Toggle — pill 컨테이너와 어울리도록 */
+.toggle-group {
+  position: relative;
+}
+
+.toggle-indicator {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 0;
+  background: var(--color-canvas);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+  z-index: 0;
+  transition:
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 180ms ease;
+  will-change: transform, width;
+}
+
 .toggle-item {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2490,22 +2614,22 @@ html[data-theme="dark"] .slider-thumb {
   border: 0;
   border-radius: var(--radius-pill);
   background: transparent;
-  color: var(--color-ink);
+  color: var(--color-body-muted);
   padding: 0 14px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: background 120ms ease, color 120ms ease;
+  transition: color 200ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .toggle-item:hover:not([data-pressed]) {
-  background: var(--color-surface-soft);
+  color: var(--color-ink);
 }
 
 .toggle-item[data-pressed] {
-  background: var(--color-canvas);
+  background: transparent;
   color: var(--color-ink);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  box-shadow: none;
 }
 
 /* ============================================================
@@ -2524,14 +2648,58 @@ html[data-theme="dark"] .slider-thumb {
    ============================================================ */
 
 .tooltip-popup {
+  min-width: 56px;
   max-width: 260px;
-  border-radius: var(--radius-sm);
+  max-height: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: var(--radius-md);
   background: var(--color-ink);
   color: var(--color-on-primary);
   padding: 8px 12px;
   font-size: 12px;    /* caption */
   line-height: 1.4;
   box-shadow: var(--shadow-level-2);
+  transform-origin: var(--transform-origin, center);
+  transition: opacity 140ms ease-out, transform 140ms ease-out;
+  opacity: 1;
+  transform: scale(1);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tooltip-popup .tooltip-kbd-group {
+  display: inline-flex;
+  gap: 1px;
+  flex: 0 0 auto;
+}
+
+.tooltip-popup kbd,
+.tooltip-popup .tooltip-kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.65);
+  background: transparent;
+}
+
+.tooltip-popup[data-starting-style],
+.tooltip-popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+.tooltip-popup[data-instant] {
+  transition-duration: 0ms;
 }
 
 /* ============================================================
@@ -2838,8 +3006,8 @@ html[data-theme="dark"] .slider-thumb {
 .icon-ink     { color: var(--color-ink); }
 .icon-primary { color: var(--color-primary); }
 .icon-muted   { color: var(--color-body-muted); }
-.icon-success { color: #059669; }
-.icon-warning { color: #d97706; }
+.icon-success { color: var(--color-semantic-success); }
+.icon-warning { color: var(--color-semantic-warning); }
 .icon-error   { color: var(--color-semantic-error); }
 
 /* 색상 비교 행 */
@@ -3031,6 +3199,7 @@ html[data-theme="dark"] {
   --color-surface-elevated: #2c2c2e;
   --color-surface-sunken: #232326;
   --color-hairline: #2a2a2a;
+  --color-control-track: #3e3e41; /* 다크 surface 스케일 한 단계 연장 (#2C → #3E). 카드/Elevated 위에서도 시인성 확보 */
 
   /* Text */
   --color-ink: #f2f2f2;
@@ -3040,9 +3209,14 @@ html[data-theme="dark"] {
   --color-primary: #1a78ff;
   --color-primary-hover: #3d8eff;
 
-  /* Semantic */
-  --color-semantic-error: #ff5560;
-  --color-semantic-warning: #ff9f0a;
+  /* Semantic — vibrant 유지하되 흰 글자 대비 확보 위해 미세하게 톤 다운.
+     base는 solid 배경(흰 글자 대비 AA)과 틴트 배경 위 텍스트 모두 통과하는 값 */
+  --color-semantic-success: #34d399;
+  --color-semantic-success-bg: rgba(5, 150, 105, 0.15);
+  --color-semantic-error: #ED3D4A;
+  --color-semantic-error-bg: rgba(220, 38, 38, 0.15);
+  --color-semantic-warning: #fbbf24;
+  --color-semantic-warning-bg: rgba(217, 119, 6, 0.15);
 
   /* Shadows — 순수 블랙 기반으로 불투명도 높임 */
   --shadow-level-1: 0 4px 12px rgba(0, 0, 0, 0.30);
@@ -3115,8 +3289,7 @@ html[data-theme="dark"] .menu-item[data-highlighted],
 html[data-theme="dark"] .nav-menu-trigger:hover,
 html[data-theme="dark"] .nav-menu-trigger[data-popup-open],
 html[data-theme="dark"] .nav-menu-link:hover,
-html[data-theme="dark"] .toolbar-button:hover,
-html[data-theme="dark"] .toggle-item:hover:not([data-pressed]),
+html[data-theme="dark"] .toolbar-button:not(.primary):hover,
 html[data-theme="dark"] .toggle-button:hover:not([data-pressed]) {
   background: var(--color-surface-elevated);
 }
@@ -3134,14 +3307,35 @@ html[data-theme="dark"] .accordion-trigger:hover {
   background: #3a3a3c;
 }
 
+/* Open divider: hairline(#2A2A2A)은 elevated(#2C2C2E) 위에서 luminance 차이가 없어 사라짐.
+   translucent white overlay로 바꿔 아래 레이어 밝기와 무관하게 일정 대비를 확보 (iOS Dark separator 원칙) */
+html[data-theme="dark"] .accordion-trigger[data-panel-open] {
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+}
+
 /* -----------------------------------------------------------
    Pill 컨테이너 (Tabs, ToggleGroup, Toolbar)
    ----------------------------------------------------------- */
 
-html[data-theme="dark"] .toggle-group,
+/* Dark: segmented 트랙 — 카드(Surface Soft)와 구분되도록 Surface Sunken 유지
+   (Soft로 덮으면 카드 위에서 컨테이너 경계가 사라짐) */
+html[data-theme="dark"] .toggle-group {
+  background: var(--color-surface-sunken);
+  border-color: transparent;
+}
+
+/* Dark: Toolbar는 트랙이 없으므로 배경 투명 유지 */
 html[data-theme="dark"] .toolbar {
-  background: var(--color-surface-soft);
-  border-color: var(--color-hairline);
+  background: transparent;
+}
+
+html[data-theme="dark"] .toolbar-button:not(.primary)[data-pressed] {
+  background: var(--color-surface-elevated);
+  color: var(--color-on-primary);
+}
+
+html[data-theme="dark"] .toolbar-button.primary:hover {
+  background: var(--color-primary-hover);
 }
 
 /* -----------------------------------------------------------
@@ -3168,8 +3362,8 @@ html[data-theme="dark"] .sidebar-subitem.is-active {
 /* Dark: 알림 배지 — design-system.md Dark Mode Badge & Tag Principle 준수
    BG: 원색 + 투명도 18%, Text: semantic-error Dark */
 html[data-theme="dark"] .sidebar-item-badge {
-  background: rgba(255, 85, 96, 0.18);
-  color: var(--color-semantic-error);
+  background: var(--color-semantic-error);
+  color: var(--color-on-primary);
 }
 
 
@@ -3179,10 +3373,47 @@ html[data-theme="dark"] .toolbar {
   border-color: transparent;
 }
 
+/* Dark: Unselected 텍스트 — 라이트 모드의 #6B7280을 다크 Track(#232326)에 그대로 두면
+   대비가 너무 낮아 disabled처럼 보임. Apple 다크 segmented control의 tertiary label과
+   동일한 톤으로 올려 enabled 상태임을 분명히 한다. */
+html[data-theme="dark"] .toggle-item,
+html[data-theme="dark"] .toolbar-button:not(.primary) {
+  color: #c7c7cc;
+}
+
+html[data-theme="dark"] .toggle-item:hover:not([data-pressed]),
+html[data-theme="dark"] .toolbar-button:not(.primary):hover {
+  color: var(--color-on-primary);
+}
+
+/* Dark: Primary 강조 — on-primary는 모드 무관 흰색 고정 */
+html[data-theme="dark"] .toolbar-button.primary {
+  color: var(--color-on-primary);
+}
+
 html[data-theme="dark"] .toggle-item[data-pressed] {
-  background: var(--color-surface-elevated);
-  color: var(--color-ink);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  background: transparent;
+  color: var(--color-on-primary);
+  box-shadow: none;
+}
+
+/* Dark: Disabled 상태와 분리 — 실제 disabled는 한 단계 더 어두운 톤 */
+html[data-theme="dark"] .toggle-item:disabled,
+html[data-theme="dark"] .toggle-item[data-disabled],
+html[data-theme="dark"] .toolbar-button:disabled,
+html[data-theme="dark"] .toolbar-button[data-disabled] {
+  color: #5a5a5e;
+  cursor: not-allowed;
+}
+
+/* Dark: Indicator — Track(#232326)의 cool neutral 패밀리를 그대로 연장한 한 단계 위 톤.
+   다크 surface 스케일(11 → 1A → 23 → 2C, +9 간격)에서 두 단계 위(#3E3E41) 사용.
+   #48484A는 따뜻하게 떠 보여 트랙과 톤이 어긋남. */
+html[data-theme="dark"] .toggle-indicator {
+  background: #3e3e41;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.45);
 }
 
 /* -----------------------------------------------------------
@@ -3198,10 +3429,19 @@ html[data-theme="dark"] .nav-menu-popup {
   border-color: var(--color-hairline);
 }
 
+/* 떠 있는 카드: 배경은 Surface Soft 유지(내부 button-secondary가 Surface Elevated이므로 충돌 방지).
+   부모 카드와 같은 톤일 때 hairline(#2A2A2A)이 흐려 보이는 문제는 translucent white overlay 보더로 해결 —
+   아래 어느 레이어(canvas/soft/elevated) 위에서도 일정한 광학 대비를 확보 (iOS Dark separator 원칙). */
 html[data-theme="dark"] .popover-card,
-html[data-theme="dark"] .preview-card,
+html[data-theme="dark"] .preview-card {
+  background: var(--color-surface-soft);
+  border-color: rgba(255, 255, 255, 0.10);
+}
+
+/* Modal은 backdrop(rgba(0,0,0,0.70))이 톤 대비를 만들어 주므로 보더 없이 Surface Soft + Level 3 그림자만 사용 */
 html[data-theme="dark"] .modal-card {
   background: var(--color-surface-soft);
+  border-color: transparent;
 }
 
 /* Toast 다크 오버라이드 — 캔버스보다 한 단계 밝은 elevated surface */
@@ -3276,8 +3516,19 @@ html[data-theme="dark"] .mini-product {
    ----------------------------------------------------------- */
 
 html[data-theme="dark"] .tooltip-popup {
-  background: var(--color-surface-soft);
+  background: #ffffff;
+  color: #000000;
   border: 1px solid var(--color-hairline);
+}
+
+html[data-theme="dark"] .tooltip-popup .popup-arrow {
+  fill: #ffffff;
+}
+
+html[data-theme="dark"] .tooltip-popup kbd,
+html[data-theme="dark"] .tooltip-popup .tooltip-kbd {
+  color: rgba(0, 0, 0, 0.55);
+  background: transparent;
 }
 
 /* -----------------------------------------------------------
@@ -3310,28 +3561,9 @@ html[data-theme="dark"] .icon-grid-item:hover .icon-inline {
   color: var(--color-primary);
 }
 
-html[data-theme="dark"] .icon-success { color: #34d399; }
-html[data-theme="dark"] .icon-warning { color: #fbbf24; }
-html[data-theme="dark"] .icon-error   { color: #f87171; }
+/* icon-success/warning/error는 --color-semantic-* 토큰이 테마별로 반전되어 별도 오버라이드 불필요 */
 
-/* -----------------------------------------------------------
-   Badge — 다크모드: 배경 15% 투명도 + Vibrant 텍스트
-   ----------------------------------------------------------- */
-
-html[data-theme="dark"] .badge-success {
-  background: rgba(5, 150, 105, 0.15);
-  color: #34d399;
-}
-
-html[data-theme="dark"] .badge-warning {
-  background: rgba(217, 119, 6, 0.15);
-  color: #fbbf24;
-}
-
-html[data-theme="dark"] .badge-error {
-  background: rgba(220, 38, 38, 0.15);
-  color: #f87171;
-}
+/* badge-success/warning/error도 --color-semantic-*-bg / -on-bg 토큰이 처리 */
 
 /* badge-ink: 다크모드에서 ink = #F2F2F2 (밝은 배경)으로 반전되므로
    텍스트는 다크 캔버스 톤(#13151A)으로 반전하여 Solid Ink Style의 가독성을 유지합니다. */

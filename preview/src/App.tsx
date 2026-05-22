@@ -38,7 +38,7 @@ import { Toolbar } from '@base-ui/react/toolbar';
 import { Tooltip } from '@base-ui/react/tooltip';
 import { icons as iconMetadata } from '@ncai/design-system-icons';
 import checkIcon from '@ncai/design-system-icons/icons/check.svg';
-import chevronDownIcon from '@ncai/design-system-icons/icons/chevron-down.svg';
+import chevronDownIcon from '@ncai/design-system-icons/icons/chevron-down.svg?raw';
 import searchIcon from '@ncai/design-system-icons/icons/search.svg?raw';
 import starIcon from '@ncai/design-system-icons/icons/star.svg?raw';
 import heartIcon from '@ncai/design-system-icons/icons/heart.svg?raw';
@@ -49,8 +49,9 @@ import downloadIcon from '@ncai/design-system-icons/icons/download.svg?raw';
 import plusIcon from '@ncai/design-system-icons/icons/plus.svg?raw';
 import xIcon from '@ncai/design-system-icons/icons/x.svg?raw';
 import arrowRightIcon from '@ncai/design-system-icons/icons/arrow-right.svg?raw';
+import shareIcon from '@ncai/design-system-icons/icons/share-2.svg?raw';
 import eyeIcon from '@ncai/design-system-icons/icons/eye.svg?raw';
-import trashIcon from '@ncai/design-system-icons/icons/trash.svg?raw';
+import trashIcon from '@ncai/design-system-icons/icons/trash-2.svg?raw';
 import pencilIcon from '@ncai/design-system-icons/icons/pencil.svg?raw';
 import userIcon from '@ncai/design-system-icons/icons/user.svg?raw';
 import zapIcon from '@ncai/design-system-icons/icons/zap.svg?raw';
@@ -64,6 +65,18 @@ import layersIcon from '@ncai/design-system-icons/icons/layers.svg?raw';
 import codeIcon from '@ncai/design-system-icons/icons/code.svg?raw';
 import chevronRightIcon from '@ncai/design-system-icons/icons/chevron-right.svg?raw';
 import menuIcon from '@ncai/design-system-icons/icons/menu.svg?raw';
+import boldIcon from '@ncai/design-system-icons/icons/bold.svg?raw';
+import italicIcon from '@ncai/design-system-icons/icons/italic.svg?raw';
+import underlineIcon from '@ncai/design-system-icons/icons/underline.svg?raw';
+import strikethroughIcon from '@ncai/design-system-icons/icons/strikethrough.svg?raw';
+import alignLeftIcon from '@ncai/design-system-icons/icons/align-left.svg?raw';
+import alignCenterIcon from '@ncai/design-system-icons/icons/align-center.svg?raw';
+import alignRightIcon from '@ncai/design-system-icons/icons/align-right.svg?raw';
+import linkIcon from '@ncai/design-system-icons/icons/link.svg?raw';
+import listIcon from '@ncai/design-system-icons/icons/list.svg?raw';
+import listOrderedIcon from '@ncai/design-system-icons/icons/list-ordered.svg?raw';
+import undoIcon from '@ncai/design-system-icons/icons/undo-2.svg?raw';
+import redoIcon from '@ncai/design-system-icons/icons/redo-2.svg?raw';
 
 // === Floating element spacing tokens (styles.css의 --floating-* 와 동일 값) ===
 // Tooltip / Popover / Menu / Dropdown 등 anchored UI의 trigger 간격 / viewport 여백 강제.
@@ -142,7 +155,7 @@ export function App() {
 
   return (
     <Toast.Provider>
-      <Tooltip.Provider>
+      <Tooltip.Provider delay={100} closeDelay={0}>
         <div className="app-shell">
           <header className="global-nav" aria-label="Preview navigation">
             <span className="brand-mark">NCAI Design</span>
@@ -416,7 +429,7 @@ export function App() {
                   <Autocomplete.InputGroup className="combo-root combo-input-group">
                     <Autocomplete.Input placeholder="기능 검색" className="text-input" />
                     <Autocomplete.Trigger className="icon-button" aria-label="목록 열기">
-                      <img src={chevronDownIcon} alt="" className="trigger-icon" />
+                      <Icon svg={chevronDownIcon} className="trigger-icon" size={16} />
                     </Autocomplete.Trigger>
                   </Autocomplete.InputGroup>
                   <Autocomplete.Portal>
@@ -523,7 +536,7 @@ export function App() {
                     [xIcon, 'x'],
                     [arrowRightIcon, 'arrow-right'],
                     [eyeIcon, 'eye'],
-                    [trashIcon, 'trash'],
+                    [trashIcon, 'trash-2'],
                     [pencilIcon, 'pencil'],
                     [zapIcon, 'zap'],
                     [copyIcon, 'copy'],
@@ -587,7 +600,7 @@ export function App() {
                   <Combobox.InputGroup className="combo-root combo-input-group">
                     <Combobox.Input placeholder="팀 선택" className="text-input" />
                     <Combobox.Trigger className="icon-button" aria-label="팀 목록 열기">
-                      <img src={chevronDownIcon} alt="" className="trigger-icon" />
+                      <Icon svg={chevronDownIcon} className="trigger-icon" size={16} />
                     </Combobox.Trigger>
                   </Combobox.InputGroup>
                   <Combobox.Portal>
@@ -611,7 +624,10 @@ export function App() {
                 </Combobox.Root>
               </PreviewSection>
 
-              <PreviewSection title="Context Menu" description="타일 영역을 우클릭해 보세요.">
+              <PreviewSection
+                title="Context Menu"
+                description="타일 영역을 우클릭해 보세요. 아이콘 항목과 2-depth 서브메뉴를 포함합니다."
+              >
                 <ContextMenu.Root>
                   <ContextMenu.Trigger className="context-target">
                     우클릭 또는 길게 눌러 컨텍스트 메뉴를 열어보세요.
@@ -623,10 +639,61 @@ export function App() {
                       collisionPadding={VIEWPORT_PADDING}
                     >
                       <ContextMenu.Popup className="menu-popup">
-                        <ContextMenu.Item className="menu-item">항목 열기</ContextMenu.Item>
-                        <ContextMenu.Item className="menu-item">복제</ContextMenu.Item>
+                        <ContextMenu.Item className="menu-item">
+                          <Icon svg={eyeIcon} className="menu-item-icon icon-muted" size={16} />
+                          <span className="menu-item-label">항목 열기</span>
+                          <span className="menu-item-shortcut">⏎</span>
+                        </ContextMenu.Item>
+                        <ContextMenu.Item className="menu-item">
+                          <Icon svg={copyIcon} className="menu-item-icon icon-muted" size={16} />
+                          <span className="menu-item-label">복제</span>
+                          <span className="menu-item-shortcut">⌘ D</span>
+                        </ContextMenu.Item>
+                        <ContextMenu.Item className="menu-item">
+                          <Icon svg={pencilIcon} className="menu-item-icon icon-muted" size={16} />
+                          <span className="menu-item-label">이름 변경</span>
+                        </ContextMenu.Item>
                         <ContextMenu.Separator className="menu-separator" />
-                        <ContextMenu.Item className="menu-item">공유</ContextMenu.Item>
+                        <ContextMenu.SubmenuRoot>
+                          <ContextMenu.SubmenuTrigger className="menu-item">
+                            <Icon svg={shareIcon} className="menu-item-icon icon-muted" size={16} />
+                            <span className="menu-item-label">공유</span>
+                            <Icon
+                              svg={chevronRightIcon}
+                              className="menu-item-submenu-indicator icon-muted"
+                              size={14}
+                            />
+                          </ContextMenu.SubmenuTrigger>
+                          <ContextMenu.Portal>
+                            <ContextMenu.Positioner
+                              className="positioner"
+                              sideOffset={FLOATING_OFFSET}
+                              alignOffset={-4}
+                              collisionPadding={VIEWPORT_PADDING}
+                            >
+                              <ContextMenu.Popup className="menu-popup">
+                                <ContextMenu.Item className="menu-item">
+                                  <Icon svg={copyIcon} className="menu-item-icon icon-muted" size={16} />
+                                  <span className="menu-item-label">링크 복사</span>
+                                </ContextMenu.Item>
+                                <ContextMenu.Item className="menu-item">
+                                  <Icon svg={mailIcon} className="menu-item-icon icon-muted" size={16} />
+                                  <span className="menu-item-label">이메일로 보내기</span>
+                                </ContextMenu.Item>
+                                <ContextMenu.Item className="menu-item">
+                                  <Icon svg={userIcon} className="menu-item-icon icon-muted" size={16} />
+                                  <span className="menu-item-label">팀원에게 공유</span>
+                                </ContextMenu.Item>
+                              </ContextMenu.Popup>
+                            </ContextMenu.Positioner>
+                          </ContextMenu.Portal>
+                        </ContextMenu.SubmenuRoot>
+                        <ContextMenu.Separator className="menu-separator" />
+                        <ContextMenu.Item className="menu-item menu-item-destructive">
+                          <Icon svg={trashIcon} className="menu-item-icon" size={16} />
+                          <span className="menu-item-label">삭제</span>
+                          <span className="menu-item-shortcut">⌫</span>
+                        </ContextMenu.Item>
                       </ContextMenu.Popup>
                     </ContextMenu.Positioner>
                   </ContextMenu.Portal>
@@ -796,7 +863,7 @@ export function App() {
                     <NavigationMenu.Item value="solutions">
                       <NavigationMenu.Trigger className="nav-menu-trigger">
                         솔루션
-                        <img src={chevronDownIcon} alt="" className="nav-menu-icon" />
+                        <Icon svg={chevronDownIcon} className="nav-menu-icon" size={14} />
                       </NavigationMenu.Trigger>
                       <NavigationMenu.Content className="nav-menu-content">
                         <NavigationMenu.Link className="nav-menu-feature" href="#gallery">
@@ -816,7 +883,7 @@ export function App() {
                     <NavigationMenu.Item value="design">
                       <NavigationMenu.Trigger className="nav-menu-trigger">
                         디자인
-                        <img src={chevronDownIcon} alt="" className="nav-menu-icon" />
+                        <Icon svg={chevronDownIcon} className="nav-menu-icon" size={14} />
                       </NavigationMenu.Trigger>
                       <NavigationMenu.Content className="nav-menu-content nav-menu-content-compact">
                         <NavigationMenu.Link className="nav-menu-link" href="#tokens">
@@ -836,7 +903,7 @@ export function App() {
                     <NavigationMenu.Item value="resources">
                       <NavigationMenu.Trigger className="nav-menu-trigger">
                         리소스
-                        <img src={chevronDownIcon} alt="" className="nav-menu-icon" />
+                        <Icon svg={chevronDownIcon} className="nav-menu-icon" size={14} />
                       </NavigationMenu.Trigger>
                       <NavigationMenu.Content className="nav-menu-content nav-menu-content-compact">
                         <NavigationMenu.Link className="nav-menu-link" href="#gallery">
@@ -978,7 +1045,7 @@ export function App() {
                   <Select.Trigger className="select-trigger" aria-label="카테고리 선택">
                     <Select.Value />
                     <Select.Icon className="select-icon">
-                      <img src={chevronDownIcon} alt="" className="trigger-icon" />
+                      <Icon svg={chevronDownIcon} className="trigger-icon" size={16} />
                     </Select.Icon>
                   </Select.Trigger>
                   <Select.Portal>
@@ -1153,43 +1220,134 @@ export function App() {
               </PreviewSection>
 
               <PreviewSection title="Toggle Group" description="공유 상태를 가진 세그먼트 컨트롤.">
-                <ToggleGroup className="toggle-group" defaultValue={['compact']} aria-label="레이아웃 밀도">
-                  <Toggle value="compact" className="toggle-item">
-                    컴팩트
-                  </Toggle>
-                  <Toggle value="comfortable" className="toggle-item">
-                    편안함
-                  </Toggle>
-                </ToggleGroup>
+                <ToggleGroupDemo />
               </PreviewSection>
 
-              <PreviewSection title="Toolbar" description="그룹화된 컨트롤 및 액션 모음.">
+              <PreviewSection
+                title="Toolbar"
+                description="에디터 액션 바: 즉시 실행(Undo/Redo/Link) + 지속 토글(B/I/U/S) + 단일선택(정렬) + 주요 액션(공유)."
+              >
                 <Toolbar.Root className="toolbar">
+                  {/* 즉시 실행 — 클릭 시 1회 실행, 상태 유지 없음 */}
                   <Toolbar.Group className="toolbar-group">
-                    <Toolbar.Button className="toolbar-button">B</Toolbar.Button>
-                    <Toolbar.Button className="toolbar-button">I</Toolbar.Button>
+                    <Toolbar.Button className="toolbar-button toolbar-icon-button" aria-label="실행 취소">
+                      <Icon svg={undoIcon} size={18} />
+                    </Toolbar.Button>
+                    <Toolbar.Button className="toolbar-button toolbar-icon-button" aria-label="다시 실행">
+                      <Icon svg={redoIcon} size={18} />
+                    </Toolbar.Button>
                   </Toolbar.Group>
+
                   <Toolbar.Separator className="toolbar-separator" />
+
+                  {/* 지속 토글 — 눌린 상태가 유지됨 (텍스트 서식) */}
+                  <Toolbar.Group className="toolbar-group">
+                    <Toolbar.Button
+                      render={<Toggle />}
+                      className="toolbar-button toolbar-icon-button"
+                      aria-label="굵게"
+                      defaultPressed
+                    >
+                      <Icon svg={boldIcon} size={18} />
+                    </Toolbar.Button>
+                    <Toolbar.Button
+                      render={<Toggle />}
+                      className="toolbar-button toolbar-icon-button"
+                      aria-label="기울임"
+                    >
+                      <Icon svg={italicIcon} size={18} />
+                    </Toolbar.Button>
+                    <Toolbar.Button
+                      render={<Toggle />}
+                      className="toolbar-button toolbar-icon-button"
+                      aria-label="밑줄"
+                    >
+                      <Icon svg={underlineIcon} size={18} />
+                    </Toolbar.Button>
+                    <Toolbar.Button
+                      render={<Toggle />}
+                      className="toolbar-button toolbar-icon-button"
+                      aria-label="취소선"
+                    >
+                      <Icon svg={strikethroughIcon} size={18} />
+                    </Toolbar.Button>
+                  </Toolbar.Group>
+
+                  <Toolbar.Separator className="toolbar-separator" />
+
+                  {/* 단일 선택 — 셋 중 하나만 활성 (정렬) */}
+                  <ToggleGroup defaultValue={['left']} className="toolbar-group toolbar-segment">
+                    <Toggle value="left" className="toolbar-button toolbar-icon-button" aria-label="왼쪽 정렬">
+                      <Icon svg={alignLeftIcon} size={18} />
+                    </Toggle>
+                    <Toggle value="center" className="toolbar-button toolbar-icon-button" aria-label="가운데 정렬">
+                      <Icon svg={alignCenterIcon} size={18} />
+                    </Toggle>
+                    <Toggle value="right" className="toolbar-button toolbar-icon-button" aria-label="오른쪽 정렬">
+                      <Icon svg={alignRightIcon} size={18} />
+                    </Toggle>
+                  </ToggleGroup>
+
+                  <Toolbar.Separator className="toolbar-separator" />
+
+                  {/* 즉시 실행 — 다이얼로그/리스트 삽입 */}
+                  <Toolbar.Group className="toolbar-group">
+                    <Toolbar.Button className="toolbar-button toolbar-icon-button" aria-label="링크 삽입">
+                      <Icon svg={linkIcon} size={18} />
+                    </Toolbar.Button>
+                    <Toolbar.Button className="toolbar-button toolbar-icon-button" aria-label="글머리 기호">
+                      <Icon svg={listIcon} size={18} />
+                    </Toolbar.Button>
+                    <Toolbar.Button className="toolbar-button toolbar-icon-button" aria-label="번호 매기기">
+                      <Icon svg={listOrderedIcon} size={18} />
+                    </Toolbar.Button>
+                  </Toolbar.Group>
+
+                  <div className="toolbar-spacer" />
+
+                  {/* 주요 액션 */}
                   <Toolbar.Button className="toolbar-button primary">공유</Toolbar.Button>
                 </Toolbar.Root>
               </PreviewSection>
 
-              <PreviewSection title="Tooltip" description="호버 또는 포커스 시 표시되는 힌트.">
-                <Tooltip.Root>
-                  <Tooltip.Trigger className="button-secondary">힌트 보기</Tooltip.Trigger>
-                  <Tooltip.Portal>
-                    <Tooltip.Positioner
-                      className="positioner"
-                      sideOffset={FLOATING_OFFSET}
-                      collisionPadding={VIEWPORT_PADDING}
-                    >
-                      <Tooltip.Popup className="tooltip-popup">
-                        <Tooltip.Arrow className="popup-arrow" />
-                        NCAI 디자인 원칙: 절제를 통한 위계의 완성.
-                      </Tooltip.Popup>
-                    </Tooltip.Positioner>
-                  </Tooltip.Portal>
-                </Tooltip.Root>
+              <PreviewSection title="Tooltip" description="호버 또는 포커스 시 표시되는 힌트. 단축키 hint를 함께 노출할 수 있습니다.">
+                <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+                  <Tooltip.Root>
+                    <Tooltip.Trigger className="button-secondary">힌트 보기</Tooltip.Trigger>
+                    <Tooltip.Portal>
+                      <Tooltip.Positioner
+                        className="positioner"
+                        sideOffset={FLOATING_OFFSET}
+                        collisionPadding={VIEWPORT_PADDING}
+                      >
+                        <Tooltip.Popup className="tooltip-popup">
+                          <Tooltip.Arrow className="popup-arrow" />
+                          NCAI 디자인 원칙: 절제를 통한 위계의 완성.
+                        </Tooltip.Popup>
+                      </Tooltip.Positioner>
+                    </Tooltip.Portal>
+                  </Tooltip.Root>
+
+                  <Tooltip.Root>
+                    <Tooltip.Trigger className="button-secondary">저장</Tooltip.Trigger>
+                    <Tooltip.Portal>
+                      <Tooltip.Positioner
+                        className="positioner"
+                        sideOffset={FLOATING_OFFSET}
+                        collisionPadding={VIEWPORT_PADDING}
+                      >
+                        <Tooltip.Popup className="tooltip-popup">
+                          <Tooltip.Arrow className="popup-arrow" />
+                          <span>저장</span>
+                          <span className="tooltip-kbd-group">
+                            <kbd>⌘</kbd>
+                            <kbd>S</kbd>
+                          </span>
+                        </Tooltip.Popup>
+                      </Tooltip.Positioner>
+                    </Tooltip.Portal>
+                  </Tooltip.Root>
+                </div>
               </PreviewSection>
             </div>
 
@@ -1247,6 +1405,53 @@ function PreviewSection({
       </div>
       <div className="component-demo">{children}</div>
     </section>
+  );
+}
+
+function ToggleGroupDemo() {
+  const [value, setValue] = React.useState<string[]>(['compact']);
+  const groupRef = React.useRef<HTMLDivElement>(null);
+  const [indicator, setIndicator] = React.useState({ left: 0, width: 0, visible: false });
+
+  React.useLayoutEffect(() => {
+    const group = groupRef.current;
+    if (!group) return;
+    const pressed = group.querySelector<HTMLElement>('.toggle-item[data-pressed]');
+    if (!pressed) {
+      setIndicator((prev) => ({ ...prev, visible: false }));
+      return;
+    }
+    setIndicator({
+      left: pressed.offsetLeft,
+      width: pressed.offsetWidth,
+      visible: true,
+    });
+  }, [value]);
+
+  return (
+    <ToggleGroup
+      ref={groupRef}
+      className="toggle-group"
+      value={value}
+      onValueChange={setValue}
+      aria-label="레이아웃 밀도"
+    >
+      <span
+        className="toggle-indicator"
+        aria-hidden
+        style={{
+          transform: `translateX(${indicator.left}px)`,
+          width: indicator.width,
+          opacity: indicator.visible ? 1 : 0,
+        }}
+      />
+      <Toggle value="compact" className="toggle-item">
+        컴팩트
+      </Toggle>
+      <Toggle value="comfortable" className="toggle-item">
+        편안함
+      </Toggle>
+    </ToggleGroup>
   );
 }
 
