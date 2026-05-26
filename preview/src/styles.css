@@ -9,9 +9,9 @@
 
   /* === SURFACE === */
   --color-canvas: #ffffff;
-  --color-surface-soft: #f8fafc;
+  --color-surface-soft: #f9fafb;
   --color-surface-elevated: #ffffff; /* 라이트 모드는 canvas와 동일 — 보더로 분리 */
-  --color-surface-sunken: #eef1f5;
+  --color-surface-inset: #eef1f5;
   --color-hairline: #e5e7eb;
   --color-control-track: #e5e7eb; /* Switch off 트랙 등. 라이트는 hairline과 동일 */
 
@@ -22,20 +22,24 @@
 
   /* === PRIMARY === */
   --color-primary: #006eff;
-  --color-primary-hover: #0059cc;
+  --color-primary-hover: #005bed;
 
-  /* === SEMANTIC === */
+  /* === SEMANTIC ===
+     단일 팔레트로 운영. Success만 두 변형(전통 녹색 / Primary 블루 brand)을 제공합니다.
+     - Status Success (녹): 활성·정상 뱃지, 일반 성공 알림
+     - Brand Success (Primary): 폼 유효 입력, 브랜드 일관성이 중요한 확정 액션 */
   --color-semantic-success: #059669;
   --color-semantic-success-bg: #ecfdf5;
+  --color-semantic-success-brand: var(--color-primary); /* Primary Blue 별칭 — 라이트/다크 자동 적응 */
   --color-semantic-error: #f33942;
   --color-semantic-error-bg: #fef2f2;
-  --color-semantic-warning: #d97706;
+  --color-semantic-warning: #ffa201;
   --color-semantic-warning-bg: #fffbeb;
   --color-on-ink-muted: rgba(255, 255, 255, 0.64);
 
   /* === AVATAR PALETTE (Subtle Tint) === */
-  --avatar-indigo-bg: #eef2ff;
-  --avatar-indigo-text: #4f46e5;
+  --avatar-indigo-bg: #eef5ff;
+  --avatar-indigo-text: #1c4ba4;
   --avatar-sage-bg: #f0f4f2;
   --avatar-sage-text: #3e5c54;
   --avatar-sand-bg: #f6f2ec;
@@ -46,7 +50,6 @@
   --avatar-azure-text: #0070f3;
 
   /* === TYPOGRAPHY — Font Family === */
-  --font-display: "Pretendard Variable", "Pretendard", system-ui, -apple-system, sans-serif;
   --font-text: "Pretendard Variable", "Pretendard", system-ui, -apple-system, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, Monaco, monospace;
   --font-sans: var(--font-text);
@@ -56,16 +59,21 @@
   --type-display-lg:      56px;
   --type-display-md:      40px;
   --type-headline:        28px;
-  --type-card-title:      22px;
-  --type-subhead:         20px;
+  --type-title-md:      22px;
+  --type-title-sm:        20px;
   --type-body-lg:         18px;
   --type-body:            16px;
   --type-body-sm:         14px;
   --type-caption:         12px;
-  --type-button-lg:       18px;
-  --type-button-md:       16px;
-  --type-button-sm:       14px;
-  --type-button:          var(--type-button-md);
+  /* Label — 인터랙티브 라벨 역할(버튼·탭·메뉴·칩·트리거) 공유 토큰.
+     body 스케일과 독립적인 자체 스케일 — 오늘 값은 우연히 body와 같지만,
+     역할이 다르므로(body는 가독성/weight 400, label은 클릭 신호/weight 500)
+     앞으로 독립적으로 진화할 수 있도록 alias하지 않고 직접 값을 보유합니다.
+     weight·line-height·letter-spacing은 --fw-label / --lh-label / --ls-label 참조. */
+  --type-label-xl:        18px;   /* Display 버튼(60px) 라벨 */
+  --type-label-lg:        16px;   /* 기본 버튼(48px) · 메뉴 · 탭 라벨 */
+  --type-label-md:        15px;   /* 40px 컨테이너 — 14 과소·16 과중 사이 중간값 */
+  --type-label-sm:        14px;   /* 작은 버튼(32px) · 칩 라벨 */
   --type-eyebrow:         13px;
   --type-mono:            13px;
   --type-body-md:         var(--type-body);
@@ -76,16 +84,15 @@
   --lh-display-lg:   1.10;
   --lh-display-md:   1.15;
   --lh-headline:     1.20;
-  --lh-card-title:   1.25;
-  --lh-subhead:      1.40;
+  --lh-title-md:   1.25;
+  --lh-title-sm:     1.30;
   --lh-body-lg:      1.50;
   --lh-body:         1.50;
   --lh-body-sm:      1.50;
   --lh-caption:      1.40;
-  --lh-button-lg:    1.50;
-  --lh-button-md:    1.60;
-  --lh-button-sm:    1.40;
-  --lh-button:       var(--lh-button-md);
+  /* Label 전용 — 단일 줄·고정 높이 컨테이너에 맞춘 tight line-height
+     (한글 ascender/descender 비대칭으로 인한 광학 정렬 어긋남 방지) */
+  --lh-label:        1.2;
   --lh-eyebrow:      1.30;
   --lh-mono:         1.50;
   --lh-body-md:      var(--lh-body);
@@ -96,21 +103,24 @@
   --ls-display-lg:  -1.8px;
   --ls-display-md:  -1.0px;
   --ls-headline:    -0.6px;
-  --ls-card-title:  -0.4px;
-  --ls-subhead:     -0.2px;
+  --ls-title-md:  -0.4px;
+  --ls-title-sm:    -0.2px;
   --ls-body-lg:     -0.1px;
   --ls-body:        -0.05px;
   --ls-body-sm:     0;
   --ls-caption:     0;
-  --ls-button-lg:   -0.18px;
-  --ls-button-md:   -0.16px;
-  --ls-button-sm:   0;
-  --ls-button:      var(--ls-button-md);
+  --ls-label:       -0.16px;
   --ls-body-md:     var(--ls-body);
   --ls-eyebrow:     0.4px;
   --ls-mono:        0;
 
+  /* === TYPOGRAPHY — Font Weight (역할별 단일 토큰) === */
+  --fw-regular:     400;  /* body, caption */
+  --fw-label:       500;  /* 인터랙티브 라벨 + title-md — 버튼·탭·메뉴·칩·트리거·카드 헤더 */
+  --fw-heading:     600;  /* title-sm(모달·드로어), headline, display */
+
   /* === BORDER RADIUS === */
+  --radius-none: 0;       /* 풀블리드 섹션 배경, 풀블리드 이미지 */
   --radius-sm: 6px;       /* 체크박스, 뱃지, 작은 라벨 */
   --radius-md: 10px;      /* 버튼, 인풋 */
   --radius-lg: 16px;      /* 카드 */
@@ -125,8 +135,10 @@
   --spacing-md: 16px;
   --spacing-lg: 24px;
   --spacing-xl: 32px;
-  --spacing-xxl: 48px;
+  --spacing-xxl: 40px;
+  --spacing-xxxl: 48px;
   --spacing-section: 120px;
+  --spacing-footer-anchor: calc(var(--spacing-section) * 2);  /* 240px — 페이지 마지막 섹션 종결 여백 */
 
   /* === VERTICAL STACK RHYTHM ===
      Eyebrow → Title → Body 수직 리듬. 타이포 스케일에 1:1 대응하는 4-tier.
@@ -135,8 +147,8 @@
   --stack-hero-title-gap:      var(--spacing-xl);   /* 32px — display 다음 body: 충분한 호흡 */
   --stack-section-eyebrow-gap: var(--spacing-sm);   /*  8px — section eyebrow: 타이트하게 */
   --stack-section-title-gap:   var(--spacing-lg);   /* 24px — section heading → body: 여유 */
-  --stack-card-eyebrow-gap:    var(--spacing-sm);   /*  8px — card-title 22px */
-  --stack-card-title-gap:      12px;
+  --stack-card-eyebrow-gap:    var(--spacing-sm);   /*  8px — title-md 22px */
+  --stack-card-title-gap:      var(--spacing-sm);   /*  8px — card title → body: 컴팩트 */
   --stack-inline-eyebrow-gap:  var(--spacing-xs);   /*  4px — 본문 내 미니 라벨 */
   --stack-inline-title-gap:    var(--spacing-sm);   /*  8px */
 
@@ -146,6 +158,18 @@
   --floating-offset: 8px;            /* 기본: Tooltip / Menu / Dropdown */
   --floating-offset-loose: 10px;     /* 큰 카드: Popover / PreviewCard */
   --floating-viewport-padding: 16px; /* 화면 경계와의 최소 여백 */
+
+  /* === MODAL WIDTH SCALE ===
+     Modal / Alert Dialog가 공유하는 폭 스케일. 모든 단은 공통적으로
+     `min(<size>, calc(100vw - 32px))` 공식으로 적용되어, 모바일에서 16px씩의
+     좌우 여백을 자동으로 확보합니다.
+     - sm: Alert Dialog 등 컴팩트 컨펌
+     - md: 표준 Modal (기본)
+     - lg: 다필드/2-column 등 폼이 많은 Modal */
+  --modal-width-sm: 400px;   /*  50 × 8 — 컴팩트 컨펌 */
+  --modal-width-md: 480px;   /*  60 × 8 — 표준 (기본) */
+  --modal-width-lg: 640px;   /*  80 × 8 — 큰 폼, 2-column */
+  --modal-width-xl: 880px;   /* 110 × 8 — 갤러리·테이블·다단 작업 */
 
   /* === SHADOWS (Cool Grey — rgba(15,23,42)) === */
   --shadow-level-1: 0 4px 12px rgba(15, 23, 42, 0.08);
@@ -194,8 +218,8 @@ h1,
 h2,
 h3 {
   margin: 0;
-  font-family: var(--font-display);
-  font-weight: 600;
+  font-family: var(--font-text);
+  font-weight: var(--fw-heading);
   color: var(--color-ink);
 }
 
@@ -219,12 +243,12 @@ h2 {
   letter-spacing: var(--ls-display-lg);
 }
 
-/* card-title: 22px, lh 1.25, ls -0.4px */
+/* title-md: 22px, lh 1.25, ls -0.4px */
 h3 {
-  font-size: var(--type-card-title);
-  font-weight: 500;
-  line-height: var(--lh-card-title);
-  letter-spacing: var(--ls-card-title);
+  font-size: var(--type-title-md);
+  font-weight: var(--fw-label);
+  line-height: var(--lh-title-md);
+  letter-spacing: var(--ls-title-md);
 }
 
 /* eyebrow: 13px, weight 500, lh 1.30, ls 0.4px */
@@ -233,7 +257,7 @@ h3 {
   color: var(--color-body-muted);
   font-family: var(--font-text);
   font-size: var(--type-eyebrow);
-  font-weight: 500;
+  font-weight: var(--fw-label);
   line-height: var(--lh-eyebrow);
   letter-spacing: var(--ls-eyebrow);
   text-transform: uppercase;
@@ -315,10 +339,10 @@ h3 {
 .global-nav a {
   color: var(--color-body-muted);
   text-decoration: none;
-  font-size: var(--type-button);
-  font-weight: 500;
-  line-height: var(--lh-button);
-  letter-spacing: var(--ls-button);
+  font-size: var(--type-label-lg);
+  font-weight: var(--fw-label);
+  line-height: var(--lh-label);
+  letter-spacing: var(--ls-label);
   transition: color 120ms ease;
 }
 
@@ -327,9 +351,9 @@ h3 {
 }
 
 .brand-mark {
-  font-family: var(--font-display);
+  font-family: var(--font-text);
   font-size: var(--type-body);
-  font-weight: 600;
+  font-weight: var(--fw-heading);
   line-height: var(--lh-body);
   letter-spacing: var(--ls-body);
   color: var(--color-ink);
@@ -347,10 +371,10 @@ h3 {
   background: var(--color-canvas);
   color: var(--color-ink);
   padding: 0 var(--spacing-md);
-  font-size: var(--type-button);
-  font-weight: 500;
-  line-height: var(--lh-button);
-  letter-spacing: var(--ls-button);
+  font-size: var(--type-label-lg);
+  font-weight: var(--fw-label);
+  line-height: var(--lh-label);
+  letter-spacing: var(--ls-label);
   cursor: pointer;
   text-decoration: none;
   transition: background 120ms ease, border-color 120ms ease;
@@ -410,13 +434,14 @@ h3 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: var(--spacing-sm);  /* 8px — 아이콘 ↔ 텍스트 */
   height: 48px;           /* Large: 마케팅 페이지 CTA */
   border-radius: var(--radius-md);
-  padding: 0 var(--spacing-lg);
-  font-size: var(--type-button);
-  font-weight: 500;
-  line-height: var(--lh-button);
-  letter-spacing: var(--ls-button);
+  padding: 0 20px;
+  font-size: var(--type-label-lg);
+  font-weight: var(--fw-label);
+  line-height: var(--lh-label);
+  letter-spacing: var(--ls-label);
   text-decoration: none;
   cursor: pointer;
   transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
@@ -426,25 +451,19 @@ h3 {
 .button-display {
   height: 60px;                /* 랜딩/히어로 전용, 페이지당 1회 */
   padding: 0 var(--spacing-xl);
-  font-size: var(--type-button-lg);
-  line-height: var(--lh-button-lg);
-  letter-spacing: var(--ls-button-lg);
+  font-size: var(--type-label-xl);  /* 18 */
 }
 
 .button-md {
   height: 40px;
   padding: 0 var(--spacing-md);
-  font-size: var(--type-button-md);
-  line-height: var(--lh-button-md);
-  letter-spacing: var(--ls-button-md);
+  font-size: var(--type-label-md);  /* 15 — body 스케일에 없는 의도적 중간값 */
 }
 
 .button-sm {
   height: 32px;
   padding: 0 12px; /* 좁은 영역을 위한 패딩 */
-  font-size: var(--type-button-sm);
-  line-height: var(--lh-button-sm);
-  letter-spacing: var(--ls-button-sm);
+  font-size: var(--type-label-sm);  /* 14 */
 }
 
 /* Primary — 단 하나의 핵심 CTA */
@@ -505,6 +524,108 @@ h3 {
 }
 
 /* ============================================================
+   Icon Button — 아이콘 전용 정사각 버튼
+   - 크기: sm 32 / md 40(기본) / lg 48  → Button 높이 시스템(32/40/48)과 일치
+   - 변형: ghost(기본) · secondary · primary · danger
+   - 모양: 기본 radius.md(10px), .icon-btn--circle 로 원형 (아바타·FAB 등)
+   - 라벨이 없는 버튼이므로 aria-label 필수, 옆에 Tooltip 권장
+   ============================================================ */
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease, color 120ms ease, transform 120ms ease;
+}
+
+.icon-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.icon-btn:active:not(:disabled):not([data-disabled]) {
+  transform: scale(0.94);
+}
+
+.icon-btn:disabled,
+.icon-btn[data-disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Sizes — Button과 동일한 32/40/48 토큰 */
+.icon-btn--sm { width: 32px; height: 32px; }
+.icon-btn--md { width: 40px; height: 40px; }
+.icon-btn--lg { width: 48px; height: 48px; }
+
+/* 원형 변형 — 프로필 아이콘, 플로팅 액션 */
+.icon-btn--circle { border-radius: var(--radius-full); }
+
+/* Variants */
+.icon-btn--ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--color-body);
+}
+.icon-btn--ghost:hover:not(:disabled):not([data-disabled]) {
+  background: var(--color-surface-soft);
+  color: var(--color-ink);
+}
+
+.icon-btn--secondary {
+  background: var(--color-canvas);
+  border-color: var(--color-hairline);
+  color: var(--color-ink);
+}
+.icon-btn--secondary:hover:not(:disabled):not([data-disabled]) {
+  background: var(--color-surface-soft);
+}
+
+.icon-btn--primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+.icon-btn--primary:hover:not(:disabled):not([data-disabled]) {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+.icon-btn--danger {
+  background: var(--color-semantic-error);
+  border-color: var(--color-semantic-error);
+  color: var(--color-on-primary);
+}
+.icon-btn--danger:hover:not(:disabled):not([data-disabled]) {
+  filter: brightness(0.92);
+}
+
+/* Toggle 상태 — Toggle render와 함께 사용 시 */
+.icon-btn[data-pressed] {
+  background: var(--color-surface-soft);
+  color: var(--color-ink);
+}
+
+/* 다크 모드 — Button과 동일한 역전 처리 (Canvas가 카드보다 어두워지는 문제) */
+html[data-theme="dark"] .icon-btn--secondary {
+  background: var(--color-surface-elevated);
+  border-color: transparent;
+}
+html[data-theme="dark"] .icon-btn--secondary:hover:not(:disabled):not([data-disabled]) {
+  background: #3a3a3c;
+}
+html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled]) {
+  background: var(--color-surface-elevated);
+}
+
+/* ============================================================
    Sub Navigation
    ============================================================ */
 
@@ -529,7 +650,7 @@ h3 {
 .sub-nav strong {
   margin-right: auto;
   font-size: 20px;        /* headline */
-  font-weight: 600;
+  font-weight: var(--fw-heading);
   line-height: 1.4;
   color: var(--color-ink);
 }
@@ -619,7 +740,7 @@ h3 {
   margin-bottom: var(--spacing-sm);
   color: var(--color-primary);
   font-size: 12px;        /* caption */
-  font-weight: 600;
+  font-weight: var(--fw-heading);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -638,7 +759,6 @@ h3 {
 
 .accordion,
 .choice-stack,
-.field-root,
 .form-card,
 .tabs-root {
   display: grid;
@@ -646,9 +766,16 @@ h3 {
   width: 100%;
 }
 
+/* Field — Label·Control·Description이 한 묶음으로 읽히도록 4px(spacing.xs) 타이트 본드 간격. */
+.field-root {
+  display: grid;
+  gap: var(--spacing-xs);
+  width: 100%;
+}
+
 .fieldset {
   display: grid;
-  gap: var(--spacing-md);
+  gap: var(--spacing-lg);
   width: 100%;
   padding: var(--spacing-lg);
 }
@@ -678,7 +805,7 @@ h3 {
   padding: var(--spacing-md) 20px;
   color: var(--color-ink);
   font-size: 16px;
-  font-weight: 500;
+  font-weight: var(--fw-label);
   text-align: left;
   cursor: pointer;
   display: flex;
@@ -776,7 +903,7 @@ h3 {
   border-radius: var(--radius-full);
   background: var(--avatar-indigo-bg);
   color: var(--avatar-indigo-text);
-  font-weight: 600;
+  font-weight: var(--fw-heading);
   font-size: 18px;
 }
 
@@ -846,7 +973,7 @@ h3 {
   padding: 0 8px;
   border-radius: var(--radius-pill);
   font-size: 12px;    /* caption */
-  font-weight: 500;
+  font-weight: var(--fw-label);
   line-height: 1;
   white-space: nowrap;
 }
@@ -1032,9 +1159,50 @@ h3 {
   transition: transform 120ms ease, color 120ms ease;
 }
 
-.icon-button[data-popup-open] .trigger-icon {
+.icon-button[data-popup-open]:not(.input-clear-button) .trigger-icon {
   color: var(--color-ink);
   transform: rotate(180deg);
+}
+
+/* Autocomplete: 좌측 search 아이콘 + 우측 clear(x) 버튼 (검색 메타포) */
+.autocomplete-input-group .input-leading-icon {
+  display: grid;
+  width: 40px;
+  height: 48px;
+  flex: none;
+  place-items: center;
+  padding-left: 4px;
+  pointer-events: none;
+}
+
+.autocomplete-input-group .input-leading-icon .trigger-icon {
+  color: var(--color-body-muted);
+  transform: none;
+}
+
+.autocomplete-input-group .text-input {
+  padding-left: 0;
+  line-height: 48px;
+}
+
+.input-clear-button {
+  width: 48px;
+  padding-right: 8px;
+}
+
+.clear-chip {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-body-muted) 55%, var(--color-canvas));
+  color: var(--color-on-primary);
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.input-clear-button:hover .clear-chip {
+  background: color-mix(in srgb, var(--color-body-muted) 75%, var(--color-canvas));
 }
 
 /* ============================================================
@@ -1073,6 +1241,10 @@ h3 {
   padding: var(--spacing-sm);
   outline: 0;
   scroll-padding-block: var(--spacing-sm);
+}
+
+.autocomplete-list:empty {
+  display: none;
 }
 
 .autocomplete-item {
@@ -1175,7 +1347,10 @@ h3 {
 }
 
 .empty-state {
-  padding: 12px;
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 12px;
   color: var(--color-body-muted);
   font-size: 14px;
 }
@@ -1223,20 +1398,41 @@ h3 {
   position: fixed;
   z-index: 31;
   display: grid;
-  gap: var(--spacing-md);
-  width: min(440px, calc(100vw - 32px));
+  gap: var(--spacing-xxl);  /* 40px — Body ↔ Footer 분리. Header ↔ Body(xl 32px)는 .modal-body 내부 gap이 담당 */
+  width: min(var(--modal-width-md), calc(100vw - 32px));
 }
 
-/* Modal — Level-3 shadow, Canvas bg
-   납작해지지 않도록 min-height로 시각적 무게를 확보하고,
-   액션 버튼(footer)을 하단에 anchor하여 Header / Body / Footer 위계를 강조합니다. */
+/* Modal Header — Title과 Description을 하나의 묶음으로 결합.
+   카드 최상단에서 정보 위계를 형성: 두 텍스트가 같은 그룹임을 8px gap으로 표현하고,
+   카드 본문(.modal-form / 액션 풋터)과는 24px(.modal-card gap)로 분리합니다. */
+.modal-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);  /* 8px — title-sm 20 → body-md 16 묶음 */
+}
+
+/* Size modifiers — Modal의 노출 스케일은 md(기본) / lg / xl 3단.
+   sm(400)은 Alert Dialog 전용이므로 .modal-card 모디파이어로 노출하지 않습니다
+   (Alert Dialog가 .alert-dialog-card를 통해 --modal-width-sm을 직접 소비).
+   lg/xl은 폼 길이·레이아웃 콘텐츠에 맡기므로 min-height 해제. */
+.modal-card.modal-lg {
+  width: min(var(--modal-width-lg), calc(100vw - 32px));
+  min-height: 0;
+}
+.modal-card.modal-xl {
+  width: min(var(--modal-width-xl), calc(100vw - 32px));
+  min-height: 0;
+}
+
+/* Modal — Level-3 shadow, Canvas bg.
+   Header / Body / Footer 간격은 .modal-card gap(xl 32px)으로 일관 처리하며,
+   카드 높이는 콘텐츠에 맞춰 자연스럽게 축소됩니다. */
 .modal-card {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
-  min-height: 260px;        /* 440px 폭과 약 1.7:1 비율, 자연스러운 가로형 */
   padding: var(--spacing-xl);  /* 32px 균일 패딩 — 상하좌우 동일한 호흡 */
   border: 0;                   /* 모달은 보더 없이 그림자로만 떠 있는 느낌 */
   border-radius: var(--radius-xl);  /* 20px — 떠 있는 컨테이너의 부드러운 가장자리 */
@@ -1244,10 +1440,153 @@ h3 {
   box-shadow: var(--shadow-level-3);
 }
 
-/* 마지막 자식(주요 액션 버튼/버튼 묶음)을 하단 우측에 정착시켜 footer 역할을 부여 */
-.modal-card > :last-child {
-  margin-top: auto;
+/* Footer (Form variant) — 우측 정렬. 본문과의 간격은 .modal-card gap(xxl 40px)에 위임. */
+.modal-card > .inline-actions:last-child {
   align-self: flex-end;
+}
+
+/* Modal Body — Header와 본문(.modal-form / .modal-gallery-grid 등)을 하나의 정보 묶음으로 결합.
+   풋터와는 .modal-card gap(xxl 40px)으로 더 강하게 분리하고, 내부 Header → 본문 간격은 xl(32px). */
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+/* === Modal Variants — Picker / Browse ===
+   풋터 없는 리스트형 모달. 카드 자체 패딩과 gap을 해제하고,
+   toolbar(고정 72px) → list 순서로 자체 패딩을 가져갑니다.
+   리스트 영역은 좌우 인셋 패딩을 가져 hairline이 카드 가장자리까지 늘어나지 않고,
+   toolbar(헤더)와 콘텐츠가 시각적으로 분리됩니다. */
+.modal-card.modal-picker,
+.modal-card.modal-browse {
+  min-height: 0;
+  gap: 0;
+  padding: 0;
+}
+
+/* Header toolbar — 타이틀과 상단 액션(닫기 X / 보조 유틸리티)을 한 행으로 정렬.
+   Form variant의 .modal-header(column)와 달리 row 정렬: 단일 라인 타이틀이 좌측, 액션이 우측.
+   고정 72px 높이 — 컴팩트 컨테이너에서 헤더 비율을 안정적으로 유지합니다.
+   좌측 패딩(spacing-lg 24)은 타이틀 호흡용, 우측(spacing-md 16)은 액션 클러스터까지 시각적 무게가
+   이미 있어 좁게 두어 카드 가장자리에 액션이 너무 떨어져 보이지 않도록 합니다. */
+.modal-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  height: 72px;
+  flex: 0 0 72px;
+  padding: 0 var(--spacing-md) 0 var(--spacing-lg);
+  border-bottom: 1px solid var(--color-hairline);
+}
+.modal-toolbar > .modal-title {
+  flex: 1;
+  min-width: 0;
+}
+.modal-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);  /* 8px — 보조 액션 ↔ 닫기 X */
+}
+
+/* Picker/Browse 리스트 — toolbar 좌우 패딩과 정렬되도록 컨테이너에 비대칭 인셋 패딩
+   (좌 spacing-lg, 우 spacing-md)을 부여합니다. 컨테이너 자체의 border-top은 해제하고
+   첫 행의 border-top으로 hairline을 옮겨, 라인이 패딩 안쪽으로 들어와 toolbar와
+   시각적으로 분리됩니다. row 타이틀은 toolbar 타이틀과 수직으로 정확히 정렬됩니다. */
+.modal-card.modal-picker .modal-list,
+.modal-card.modal-browse .modal-list {
+  padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md) var(--spacing-lg);
+  border-top: 0;
+}
+.modal-card.modal-picker .modal-list-item:first-child,
+.modal-card.modal-browse .modal-list-item:first-child {
+  border-top: 0;
+}
+
+/* 모달 헤더 아이콘 버튼 (닫기 X) — 40x40 터치 영역, 아이콘 24px (design-system.md 규칙) */
+.modal-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+.modal-close:hover {
+  background: var(--color-surface-soft);
+}
+.modal-close > svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Picker/Browse 공통 리스트 — hairline으로 행을 구분 */
+/* Picker/Browse 리스트 행 — toolbar 타이틀(title-sm 20/600)을 기준으로 위계 구성:
+   - Row title: body-md (16/400) — toolbar보다 작고 가벼움.
+   - Row meta:  body-sm (14/400) muted — 보조 정보. 색상 톤다운으로 한 단계 더 약화.
+   세로 패딩은 spacing-sm(8) — toolbar 68px보다 한 단계 컴팩트한 row 리듬을 만듭니다. */
+.modal-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--color-hairline);
+}
+.modal-list-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) 0;
+  min-height: 56px;
+  border-bottom: 1px solid var(--color-hairline);
+}
+.modal-list-item:last-child {
+  border-bottom: 0;
+}
+.modal-list-item-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+.modal-list-item-title {
+  font-size: var(--type-body-md);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-body-md);
+  color: var(--color-ink);
+}
+.modal-list-item-meta {
+  font-size: var(--type-body-sm);
+  line-height: var(--lh-body-sm);
+  color: var(--color-body-muted);
+}
+.modal-list-item-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-shrink: 0;
+}
+.modal-list-item-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: var(--type-body-sm);
+  color: var(--color-body-muted);
+}
+
+/* Browse variant — 긴 리스트의 스크롤 영역.
+   카드 자체 max-height을 두고, 리스트 영역만 overflow.
+   카드 패딩이 0이므로 hairline은 자연스럽게 카드 가장자리까지 그어집니다. */
+.modal-card.modal-browse {
+  max-height: min(720px, calc(100vh - 64px));
+}
+.modal-card.modal-browse .modal-list {
+  overflow-y: auto;
 }
 
 /* Responsive Sheet — Modal ↔ BottomSheet 반응형 페어.
@@ -1269,8 +1608,8 @@ h3 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: min(440px, calc(100vw - 32px));
-    min-height: 260px;
+    width: min(var(--modal-width-md), calc(100vw - 32px));
+    min-height: 320px;
     padding: var(--spacing-xl);
     border-radius: var(--radius-xl);
     background: var(--color-canvas);
@@ -1388,17 +1727,71 @@ html[data-theme="dark"] .bottom-sheet-handle {
   opacity: 1;
 }
 
+/* BottomSheet 풋터의 취소 — iOS Action Sheet 패턴에 맞춘 회색 fill.
+   시트 컨텍스트 전용 슬롯이므로 전역 Button 위계를 침범하지 않습니다. */
 .bottom-sheet-cancel {
   align-self: stretch;
   margin-top: var(--spacing-sm);
   justify-content: center;
+  border-color: var(--color-surface-inset);
+  background: var(--color-surface-inset);
+  color: var(--color-ink);
+}
+
+.bottom-sheet-cancel:hover {
+  background: var(--color-hairline);
+  border-color: var(--color-hairline);
 }
 
 /* Modal 폼 본문 — Title/Description과 풋터 사이 입력 그룹 */
 .modal-form {
   display: flex;
   flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+/* Form 본문 내부 — 필수 입력 묶음(Fieldset). 내부 필드 간격은 24px(spacing.lg). */
+.modal-form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+/* lg(640) 모달용 2-column 폼 그리드 — 가로 폭이 충분할 때만 사용 */
+.modal-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-lg);
+}
+
+/* 그리드 내부에서 풀 너비로 펼쳐야 하는 필드(예: 메시지/메모 등 긴 텍스트) */
+.field-root-span-2 {
+  grid-column: 1 / -1;
+}
+
+/* xl(880) 모달용 갤러리 그리드 — 본문이 "레이아웃 컨테이너"가 되는 케이스 시각화 */
+.modal-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: var(--spacing-md);
+}
+.modal-gallery-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+.modal-gallery-thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--color-surface-soft), var(--color-surface-inset));
+  border: 1px solid var(--color-hairline);
+}
+.modal-gallery-label {
+  font-size: var(--type-caption);
+  color: var(--color-body-muted);
+  text-align: center;
 }
 
 /* Drawer — 우측 슬라이드 사이드 패널
@@ -1562,19 +1955,21 @@ html[data-theme="dark"] .bottom-sheet-handle {
 
 .drawer-field-group-label {
   font-size: var(--type-body-sm);
-  font-weight: 500;
+  font-weight: var(--fw-label);
   color: var(--color-body-muted);
   letter-spacing: var(--ls-body-sm);
 }
 
-/* Modal / BottomSheet title: card-title 22px
-   (modal-card 폭 440px, drawer-card 단순 콘텐츠 — design-system.md 다운그레이드 규칙) */
+/* Modal / BottomSheet / Drawer title: title-sm 20px / 600
+   Card·Modal·Drawer·Sheet 공용 컨테이너 타이틀 토큰 — 모든 modal variant(form / picker / browse,
+   alert dialog, bottom sheet, drawer)가 동일한 sm 위계를 공유합니다.
+   title-md(22px/500)보다 작은 사이즈를 600 weight로 보강해 시선 끌림을 유지합니다. */
 .modal-title {
-  font-family: var(--font-display);
-  font-size: var(--type-card-title);
-  font-weight: 600;
-  line-height: var(--lh-card-title);
-  letter-spacing: var(--ls-card-title);
+  font-family: var(--font-text);
+  font-size: var(--type-title-sm);
+  font-weight: var(--fw-heading);
+  line-height: var(--lh-title-sm);
+  letter-spacing: var(--ls-title-sm);
   color: var(--color-ink);
 }
 
@@ -1583,7 +1978,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
 .popover-title {
   font-family: var(--font-text);
   font-size: var(--type-body);
-  font-weight: 600;
+  font-weight: var(--fw-heading);
   line-height: 1.3;
   letter-spacing: var(--ls-body);
   color: var(--color-ink);
@@ -1594,13 +1989,24 @@ html[data-theme="dark"] .bottom-sheet-handle {
   margin: 0;
   font-family: var(--font-text);
   font-size: var(--type-body);
-  font-weight: 500;
+  font-weight: var(--fw-label);
   line-height: 1.3;
   letter-spacing: var(--ls-body);
   color: var(--color-ink);
 }
 
-.field-help,
+/* Field Help/Description — caption (12px) / body-muted. Control 아래에서
+   보조 안내 위계. body-sm(14)이면 라벨과 위계가 충돌해 평평해 보입니다. */
+.field-help {
+  margin: 0;
+  color: var(--color-body-muted);
+  font-size: var(--type-caption);
+  line-height: var(--lh-caption);
+  letter-spacing: var(--ls-caption);
+}
+
+/* Toast Description — body-sm. Toast는 독립 알림 카드라 caption까지
+   내리면 가독성이 떨어집니다. Field 보조 텍스트와는 다른 컨텍스트. */
 .toast-description {
   margin: 0;
   color: var(--color-body-muted);
@@ -1625,7 +2031,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
    ============================================================ */
 .alert-dialog-card {
   min-height: 0;                  /* 컴팩트 컨펌 UI — 1.7:1 비율 강제 해제 */
-  width: min(400px, calc(100vw - 32px));
+  width: min(var(--modal-width-sm), calc(100vw - 32px));
   padding: 40px 24px 24px;        /* 상 40 / 좌우 24 / 하 24 — 이미지 스펙 */
   gap: 40px;                      /* 본문 ↔ 액션 풋터 사이 40 */
   text-align: center;
@@ -1650,7 +2056,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   margin: 0;
   font-family: var(--font-text);
   font-size: var(--type-body);
-  font-weight: 500;
+  font-weight: var(--fw-label);
   line-height: var(--lh-body);
   letter-spacing: var(--ls-body);
   color: var(--color-ink);
@@ -1682,18 +2088,33 @@ html[data-theme="dark"] .bottom-sheet-handle {
    Field / Fieldset
    ============================================================ */
 
-.field-label,
-.fieldset-legend {
-  font-size: 14px;
-  font-weight: 600;
+/* Field Label — body-sm (14px) weight 500. 컨트롤 위에 얹히는 라벨은
+   본문 흐름의 일부이지 헤더가 아니므로 weight를 medium에서 멈춥니다. */
+.field-label {
+  font-size: var(--type-body-sm);
+  line-height: var(--lh-body-sm);
+  letter-spacing: var(--ls-body-sm);
+  font-weight: var(--fw-label);
   color: var(--color-ink);
 }
 
-/* 에러 색상 — semantic-error */
+/* Fieldset Legend — body-md (16px) weight 600. 필드 그룹의 섹션 헤더로
+   field-label보다 한 단계 무게를 더해 그루핑을 명확히 합니다. */
+.fieldset-legend {
+  font-size: var(--type-body);
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-body);
+  font-weight: var(--fw-heading);
+  color: var(--color-ink);
+}
+
+/* 에러 텍스트 — caption (12px) / semantic-error. Description과 동일 위계. */
 .field-error {
   display: none;
   color: var(--color-semantic-error);
-  font-size: 14px;
+  font-size: var(--type-caption);
+  line-height: var(--lh-caption);
+  letter-spacing: var(--ls-caption);
 }
 
 /* ============================================================
@@ -1796,7 +2217,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   color: var(--color-ink);
   padding: 0 10px 0 12px;
   font-size: var(--type-body);
-  font-weight: 600;
+  font-weight: var(--fw-heading);
   line-height: var(--lh-body);
   letter-spacing: var(--ls-body);
   cursor: pointer;
@@ -1831,7 +2252,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   height: 32px;
   color: var(--color-body-muted);
   font-size: var(--type-caption);
-  font-weight: 600;
+  font-weight: var(--fw-heading);
   line-height: var(--lh-caption);
 }
 
@@ -1846,7 +2267,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   background: transparent;
   color: var(--color-ink);
   font-size: var(--type-body-sm);
-  font-weight: 500;
+  font-weight: var(--fw-label);
   cursor: pointer;
   transition: background 120ms ease, color 120ms ease, box-shadow 120ms ease;
 }
@@ -1939,10 +2360,10 @@ html[data-theme="dark"] .bottom-sheet-handle {
   padding: 6px;
 }
 
-/* Segmented-control 트랙 — surface-sunken 배경 + medium radius로 시스템 통일 */
+/* Segmented-control 트랙 — surface-inset 배경 + medium radius로 시스템 통일 */
 .toggle-group {
   border-color: transparent;
-  background: var(--color-surface-sunken);
+  background: var(--color-surface-inset);
   border-radius: var(--radius-md);
   padding: 4px;
   gap: 4px;
@@ -1995,7 +2416,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   padding: 0 14px;
   color: var(--color-ink);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: var(--fw-label);
   cursor: pointer;
   transition: background 120ms ease, color 120ms ease;
 }
@@ -2034,7 +2455,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   margin: 22px 0 8px;
   padding: 0 10px;
   font-size: 11.5px;
-  font-weight: 500;
+  font-weight: var(--fw-label);
   letter-spacing: 0;
   text-transform: none;
   color: var(--color-body-muted);
@@ -2055,7 +2476,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   background: transparent;
   color: var(--color-body);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: var(--fw-label);
   text-decoration: none;
   cursor: pointer;
   text-align: left;
@@ -2106,7 +2527,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   background: var(--color-semantic-error); /* Error solid (doc: semantic-error Light) */
   color: var(--color-on-primary);
   font-size: 11px;
-  font-weight: 600;
+  font-weight: var(--fw-heading);
   line-height: 18px;
   text-align: center;
 }
@@ -2174,7 +2595,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   background: transparent;
   color: var(--color-body-muted);
   font-size: 14px;
-  font-weight: 400;
+  font-weight: var(--fw-regular);
   text-decoration: none;
   cursor: pointer;
   transition: background 100ms ease, color 100ms ease;
@@ -2188,7 +2609,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
 .sidebar-subitem.is-active {
   background: var(--color-surface-soft);
   color: var(--color-ink);
-  font-weight: 500;
+  font-weight: var(--fw-label);
 }
 
 /* 강조 툴바 버튼 */
@@ -2223,7 +2644,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   border-bottom: 2px solid transparent;
   color: var(--color-body-muted);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: var(--fw-label);
   cursor: pointer;
   transition: color 120ms ease, border-color 120ms ease;
 }
@@ -2335,7 +2756,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
 .nav-menu-feature span,
 .nav-menu-link span {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: var(--fw-heading);
 }
 
 .nav-menu-feature small,
@@ -2377,7 +2798,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   border: 0;
   border-radius: 0;
   text-align: center;
-  font-weight: 500;
+  font-weight: var(--fw-label);
 }
 
 /* ============================================================
@@ -2400,7 +2821,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   background: var(--color-canvas);
   padding: 0;
   font-size: 20px;
-  font-weight: 500;
+  font-weight: var(--fw-label);
   font-family: var(--font-mono);
   text-align: center;
   color: var(--color-ink);
@@ -2482,7 +2903,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   background: var(--color-surface-soft);
   text-align: left;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: var(--fw-heading);
   color: var(--color-ink);
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -2755,7 +3176,7 @@ html[data-theme="dark"] .slider-thumb {
   color: var(--color-ink);
   padding: 0 var(--spacing-md);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: var(--fw-label);
   cursor: pointer;
   transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
 }
@@ -2805,7 +3226,7 @@ html[data-theme="dark"] .slider-thumb {
   color: var(--color-body-muted);
   padding: 0 14px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: var(--fw-label);
   cursor: pointer;
   transition: color 200ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -2836,7 +3257,6 @@ html[data-theme="dark"] .slider-thumb {
    ============================================================ */
 
 .tooltip-popup {
-  min-width: 56px;
   max-width: 260px;
   max-height: 120px;
   overflow: hidden;
@@ -2854,6 +3274,7 @@ html[data-theme="dark"] .slider-thumb {
   transform: scale(1);
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
 }
 
@@ -2873,7 +3294,7 @@ html[data-theme="dark"] .slider-thumb {
   border: 0;
   font-family: inherit;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: var(--fw-heading);
   line-height: 1;
   letter-spacing: 0;
   color: rgba(255, 255, 255, 0.65);
@@ -2977,7 +3398,7 @@ html[data-theme="dark"] .slider-thumb {
   background: transparent;
   color: rgba(255, 255, 255, 0.48);
   font-size: 16px;
-  font-weight: 400;
+  font-weight: var(--fw-regular);
   line-height: 1;
   cursor: pointer;
   transition: background 120ms ease, color 120ms ease;
@@ -3034,57 +3455,57 @@ html[data-theme="dark"] .slider-thumb {
 
 /* 각 토큰별 샘플 스타일 — Linear 13 tokens */
 .type-display-xl {
-  font-family: var(--font-display);
+  font-family: var(--font-text);
   font-size: var(--type-display-xl);
-  font-weight: 600;
+  font-weight: var(--fw-heading);
   line-height: var(--lh-display-xl);
   letter-spacing: var(--ls-display-xl);
   color: var(--color-ink);
 }
 .type-display-lg {
-  font-family: var(--font-display);
+  font-family: var(--font-text);
   font-size: var(--type-display-lg);
-  font-weight: 600;
+  font-weight: var(--fw-heading);
   line-height: var(--lh-display-lg);
   letter-spacing: var(--ls-display-lg);
   color: var(--color-ink);
 }
 .type-display-md {
-  font-family: var(--font-display);
+  font-family: var(--font-text);
   font-size: var(--type-display-md);
-  font-weight: 600;
+  font-weight: var(--fw-heading);
   line-height: var(--lh-display-md);
   letter-spacing: var(--ls-display-md);
   color: var(--color-ink);
 }
 .type-headline {
-  font-family: var(--font-display);
+  font-family: var(--font-text);
   font-size: var(--type-headline);
-  font-weight: 600;
+  font-weight: var(--fw-heading);
   line-height: var(--lh-headline);
   letter-spacing: var(--ls-headline);
   color: var(--color-ink);
 }
-.type-card-title {
-  font-family: var(--font-display);
-  font-size: var(--type-card-title);
-  font-weight: 500;
-  line-height: var(--lh-card-title);
-  letter-spacing: var(--ls-card-title);
+.type-title-md {
+  font-family: var(--font-text);
+  font-size: var(--type-title-md);
+  font-weight: var(--fw-label);
+  line-height: var(--lh-title-md);
+  letter-spacing: var(--ls-title-md);
   color: var(--color-ink);
 }
-.type-subhead {
-  font-family: var(--font-display);
-  font-size: var(--type-subhead);
-  font-weight: 400;
-  line-height: var(--lh-subhead);
-  letter-spacing: var(--ls-subhead);
+.type-title-sm {
+  font-family: var(--font-text);
+  font-size: var(--type-title-sm);
+  font-weight: var(--fw-heading);
+  line-height: var(--lh-title-sm);
+  letter-spacing: var(--ls-title-sm);
   color: var(--color-ink);
 }
 .type-body-lg {
   font-family: var(--font-text);
   font-size: var(--type-body-lg);
-  font-weight: 400;
+  font-weight: var(--fw-regular);
   line-height: var(--lh-body-lg);
   letter-spacing: var(--ls-body-lg);
   color: var(--color-ink);
@@ -3092,7 +3513,7 @@ html[data-theme="dark"] .slider-thumb {
 .type-body {
   font-family: var(--font-text);
   font-size: var(--type-body);
-  font-weight: 400;
+  font-weight: var(--fw-regular);
   line-height: var(--lh-body);
   letter-spacing: var(--ls-body);
   color: var(--color-ink);
@@ -3100,7 +3521,7 @@ html[data-theme="dark"] .slider-thumb {
 .type-body-md {
   font-family: var(--font-text);
   font-size: var(--type-body-md);
-  font-weight: 400;
+  font-weight: var(--fw-regular);
   line-height: var(--lh-body-md);
   letter-spacing: var(--ls-body-md);
   color: var(--color-ink);
@@ -3108,7 +3529,7 @@ html[data-theme="dark"] .slider-thumb {
 .type-body-sm {
   font-family: var(--font-text);
   font-size: var(--type-body-sm);
-  font-weight: 400;
+  font-weight: var(--fw-regular);
   line-height: var(--lh-body-sm);
   letter-spacing: var(--ls-body-sm);
   color: var(--color-ink);
@@ -3116,47 +3537,29 @@ html[data-theme="dark"] .slider-thumb {
 .type-caption {
   font-family: var(--font-text);
   font-size: var(--type-caption);
-  font-weight: 400;
+  font-weight: var(--fw-regular);
   line-height: var(--lh-caption);
   letter-spacing: var(--ls-caption);
   color: var(--color-body-muted);
 }
-.type-button {
+.type-label-xl,
+.type-label-lg,
+.type-label-md,
+.type-label-sm {
   font-family: var(--font-text);
-  font-size: var(--type-button);
-  font-weight: 500;
-  line-height: var(--lh-button);
-  letter-spacing: var(--ls-button);
+  font-weight: var(--fw-label);
+  line-height: var(--lh-label);
+  letter-spacing: var(--ls-label);
   color: var(--color-primary);
 }
-.type-button-lg {
-  font-family: var(--font-text);
-  font-size: var(--type-button-lg);
-  font-weight: 500;
-  line-height: var(--lh-button-lg);
-  letter-spacing: var(--ls-button-lg);
-  color: var(--color-primary);
-}
-.type-button-md {
-  font-family: var(--font-text);
-  font-size: var(--type-button-md);
-  font-weight: 500;
-  line-height: var(--lh-button-md);
-  letter-spacing: var(--ls-button-md);
-  color: var(--color-primary);
-}
-.type-button-sm {
-  font-family: var(--font-text);
-  font-size: var(--type-button-sm);
-  font-weight: 500;
-  line-height: var(--lh-button-sm);
-  letter-spacing: var(--ls-button-sm);
-  color: var(--color-primary);
-}
+.type-label-xl { font-size: var(--type-label-xl); }
+.type-label-lg { font-size: var(--type-label-lg); }
+.type-label-md { font-size: var(--type-label-md); }
+.type-label-sm { font-size: var(--type-label-sm); }
 .type-eyebrow {
   font-family: var(--font-text);
   font-size: var(--type-eyebrow);
-  font-weight: 500;
+  font-weight: var(--fw-label);
   line-height: var(--lh-eyebrow);
   letter-spacing: var(--ls-eyebrow);
   color: var(--color-primary);
@@ -3165,7 +3568,7 @@ html[data-theme="dark"] .slider-thumb {
 .type-mono {
   font-family: var(--font-mono);
   font-size: var(--type-mono);
-  font-weight: 400;
+  font-weight: var(--fw-regular);
   line-height: var(--lh-mono);
   letter-spacing: var(--ls-mono);
   color: var(--color-primary);
@@ -3382,29 +3785,29 @@ html[data-theme="dark"] {
   color-scheme: dark;
 
   /* Surface — 블루 틴트 0%, 순수 중립 다크 */
-  --color-canvas: #111111;
-  --color-surface-soft: #1a1a1a;
-  --color-surface-elevated: #2c2c2e;
-  --color-surface-sunken: #232326;
-  --color-hairline: #2a2a2a;
-  --color-control-track: #3e3e41; /* 다크 surface 스케일 한 단계 연장 (#2C → #3E). 카드/Elevated 위에서도 시인성 확보 */
+  --color-canvas: #121315;
+  --color-surface-soft: #1a1b1e;
+  --color-surface-elevated: #2a2b30;
+  --color-surface-inset: #232326;
+  --color-hairline: #2a2b30;
+  --color-control-track: #3e3e41; /* 다크 surface 스케일 한 단계 연장 (#2A → #3E). 카드/Elevated 위에서도 시인성 확보 */
 
   /* Text */
   --color-ink: #f2f2f2;
-  --color-body-muted: #999999;
+  --color-body-muted: #959799;
 
   /* Primary — 밝기만 미세 조정 */
-  --color-primary: #1a78ff;
-  --color-primary-hover: #3d8eff;
+  --color-primary: #1c82ff;
+  --color-primary-hover: #3791ff;
 
   /* Semantic — vibrant 유지하되 흰 글자 대비 확보 위해 미세하게 톤 다운.
      base는 solid 배경(흰 글자 대비 AA)과 틴트 배경 위 텍스트 모두 통과하는 값 */
   --color-semantic-success: #34d399;
   --color-semantic-success-bg: rgba(5, 150, 105, 0.15);
-  --color-semantic-error: #ED3D4A;
-  --color-semantic-error-bg: rgba(220, 38, 38, 0.15);
-  --color-semantic-warning: #fbbf24;
-  --color-semantic-warning-bg: rgba(217, 119, 6, 0.15);
+  --color-semantic-error: #f74b53;
+  --color-semantic-error-bg: rgba(247, 75, 83, 0.15);
+  --color-semantic-warning: #fe9f19;
+  --color-semantic-warning-bg: rgba(254, 159, 25, 0.15);
 
   /* Shadows — 순수 블랙 기반으로 불투명도 높임 */
   --shadow-level-1: 0 4px 12px rgba(0, 0, 0, 0.30);
@@ -3505,10 +3908,10 @@ html[data-theme="dark"] .accordion-trigger[data-panel-open] {
    Pill 컨테이너 (Tabs, ToggleGroup, Toolbar)
    ----------------------------------------------------------- */
 
-/* Dark: segmented 트랙 — 카드(Surface Soft)와 구분되도록 Surface Sunken 유지
+/* Dark: segmented 트랙 — 카드(Surface Soft)와 구분되도록 Surface Inset 유지
    (Soft로 덮으면 카드 위에서 컨테이너 경계가 사라짐) */
 html[data-theme="dark"] .toggle-group {
-  background: var(--color-surface-sunken);
+  background: var(--color-surface-inset);
   border-color: transparent;
 }
 

@@ -111,7 +111,6 @@ const sections = [
   'Avatar',
   'Badge',
   'Button',
-  'Icons',
   'Checkbox',
   'Checkbox Group',
   'Collapsible',
@@ -208,22 +207,23 @@ export function App() {
             </section>
 
             <div className="component-grid">
-              <PreviewSection title="Typography" description="Linear Display/Text/Mono — 15개 타이포그래피 토큰." wide>
+              <PreviewSection title="Typography" description="Linear Display/Text/Mono — 16개 타이포그래피 토큰." wide>
                 <div className="type-scale">
                   {[
                     { token: 'display-xl', size: '80 / 600', sample: '최상위 히어로 제목' },
                     { token: 'display-lg', size: '56 / 600', sample: '주요 페이지 섹션 제목' },
                     { token: 'display-md', size: '40 / 600', sample: '서브 섹션 제목' },
                     { token: 'headline',   size: '28 / 600', sample: '패널과 카드 그룹 제목' },
-                    { token: 'card-title', size: '22 / 500', sample: '카드 제목' },
-                    { token: 'subhead',    size: '20 / 400', sample: '보조 제목과 도입 문장' },
+                    { token: 'title-md',   size: '22 / 500', sample: '카드·아코디언 헤더' },
+                    { token: 'title-sm',   size: '20 / 600', sample: '모달·드로어·시트 타이틀' },
                     { token: 'body-lg',    size: '18 / 400', sample: '도입부 문단과 강조 본문' },
                     { token: 'body-md',    size: '16 / 400', sample: '기본 본문 — 가독성 확보.' },
                     { token: 'body-sm',    size: '14 / 400', sample: '보조 텍스트와 메타 정보' },
                     { token: 'caption',    size: '12 / 400', sample: '작은 캡션과 부가 정보' },
-                    { token: 'button-lg',  size: '18 / 500', sample: '주요 CTA 버튼 라벨' },
-                    { token: 'button-md',  size: '16 / 500', sample: '기본 버튼 라벨' },
-                    { token: 'button-sm',  size: '14 / 500', sample: '보조 버튼 라벨' },
+                    { token: 'label-xl',   size: '18 / 500', sample: 'Display 라벨 (히어로 CTA)' },
+                    { token: 'label-lg',   size: '16 / 500', sample: '기본 라벨 (버튼·메뉴·탭)' },
+                    { token: 'label-md',   size: '15 / 500', sample: '중간 라벨 (40px 컨테이너)' },
+                    { token: 'label-sm',   size: '14 / 500', sample: '보조 라벨 (칩·작은 버튼)' },
                     { token: 'eyebrow',    size: '13 / 500', sample: 'SECTION LABEL' },
                     { token: 'mono',       size: '13 / 400', sample: 'v1.0.0 · build-20260101' },
                   ].map(({ token, size, sample }) => (
@@ -280,8 +280,8 @@ export function App() {
                       </Accordion.Trigger>
                     </Accordion.Header>
                     <Accordion.Panel keepMounted className="accordion-panel">
-                      xs(4px) · sm(8px) · md(16px) · lg(24px) · xl(32px) · xxl(48px) — 모든 여백은 이 체계를
-                      따릅니다.
+                      xs(4px) · sm(8px) · md(16px) · lg(24px) · xl(32px) · xxl(40px) · xxxl(48px) — 모든 여백은 이
+                      체계를 따릅니다.
                     </Accordion.Panel>
                   </Accordion.Item>
                 </Accordion.Root>
@@ -297,7 +297,9 @@ export function App() {
                         <div className="alert-dialog-content">
                           <AlertDialog.Title className="alert-dialog-title">변경 사항을 저장할까요?</AlertDialog.Title>
                           <AlertDialog.Description className="modal-copy alert-dialog-copy">
-                            저장하지 않은 변경 사항이 있습니다. 지금 저장하면 모든 편집 내용이 반영됩니다.
+                            저장하지 않은 변경 사항이 있습니다.
+                            <br />
+                            지금 저장하면 모든 편집 내용이 반영됩니다.
                           </AlertDialog.Description>
                         </div>
                         <div className="alert-dialog-actions">
@@ -315,7 +317,9 @@ export function App() {
                         <div className="alert-dialog-content">
                           <AlertDialog.Title className="alert-dialog-title">계정을 삭제할까요?</AlertDialog.Title>
                           <AlertDialog.Description className="modal-copy alert-dialog-copy">
-                            이 작업은 되돌릴 수 없습니다. 모든 데이터가 영구적으로 삭제됩니다.
+                            이 작업은 되돌릴 수 없습니다.
+                            <br />
+                            모든 데이터가 영구적으로 삭제됩니다.
                           </AlertDialog.Description>
                         </div>
                         <div className="alert-dialog-actions">
@@ -333,7 +337,9 @@ export function App() {
                         <div className="alert-dialog-content">
                           <AlertDialog.Title className="alert-dialog-title">업데이트가 완료되었습니다</AlertDialog.Title>
                           <AlertDialog.Description className="modal-copy alert-dialog-copy">
-                            새로운 버전이 적용되었습니다. 변경 사항은 다음 세션부터 반영됩니다.
+                            새로운 버전이 적용되었습니다.
+                            <br />
+                            변경 사항은 다음 세션부터 반영됩니다.
                           </AlertDialog.Description>
                         </div>
                         <div className="alert-dialog-actions">
@@ -345,41 +351,195 @@ export function App() {
                 </div>
               </PreviewSection>
 
-              <PreviewSection title="Modal" description="입력/편집이 필요한 큰 다이얼로그 — 440px 폭, 최소 260px 높이, 우측 정착 풋터. Alert Dialog(컴팩트 컨펌)와 달리 폼·다단 콘텐츠를 담는 가로형 컨테이너입니다.">
-                <Dialog.Root>
-                  <Dialog.Trigger className="button-primary">새 프로젝트 만들기</Dialog.Trigger>
-                  <Dialog.Portal>
-                    <Dialog.Backdrop className="overlay-backdrop" />
-                    <Dialog.Popup className="modal-card">
-                      <Dialog.Title className="modal-title">새 프로젝트 만들기</Dialog.Title>
-                      <Dialog.Description className="modal-copy">
-                        프로젝트 정보를 입력하세요. 멤버는 생성 후 초대할 수 있습니다.
-                      </Dialog.Description>
-                      <div className="modal-form">
-                        <Field.Root name="project-name" className="field-root">
-                          <Field.Label className="field-label">프로젝트 이름</Field.Label>
-                          <Field.Control className="text-input" placeholder="예: 디자인 시스템 v2" />
-                        </Field.Root>
-                        <Field.Root name="project-team" className="field-root">
-                          <Field.Label className="field-label">소속 팀</Field.Label>
-                          <Field.Control className="text-input" placeholder="팀 선택" />
-                        </Field.Root>
-                        <label className="check-row">
-                          <Checkbox.Root defaultChecked className="checkbox">
-                            <Checkbox.Indicator className="check-indicator">
-                              <img src={checkIcon} alt="" className="check-icon" />
-                            </Checkbox.Indicator>
-                          </Checkbox.Root>
-                          생성 후 바로 멤버 초대 패널 열기
-                        </label>
-                      </div>
-                      <div className="inline-actions">
-                        <Dialog.Close className="button-secondary">취소</Dialog.Close>
-                        <Dialog.Close className="button-primary">프로젝트 만들기</Dialog.Close>
-                      </div>
-                    </Dialog.Popup>
-                  </Dialog.Portal>
-                </Dialog.Root>
+              <PreviewSection title="Modal" description="3가지 Variant — Form(우측 정착 풋터) / Picker(per-row 액션 리스트, 풋터 없음) / Browse(상단 보조 액션 + 스크롤 리스트). 폭 스케일은 md(480, 기본) / lg(640) / xl(880). sm(400)은 Alert Dialog 전용.">
+                <div className="inline-actions">
+                  <Dialog.Root>
+                    <Dialog.Trigger className="button-primary">Form · md (기본)</Dialog.Trigger>
+                    <Dialog.Portal>
+                      <Dialog.Backdrop className="overlay-backdrop" />
+                      <Dialog.Popup className="modal-card">
+                        <div className="modal-body">
+                          <div className="modal-header">
+                            <Dialog.Title className="modal-title">새 프로젝트 만들기</Dialog.Title>
+                            <Dialog.Description className="modal-copy">
+                              프로젝트 정보를 입력하세요. 멤버는 생성 후 초대할 수 있습니다.
+                            </Dialog.Description>
+                          </div>
+                          <div className="modal-form">
+                            <div className="modal-form-fields">
+                              <Field.Root name="project-name" className="field-root">
+                                <Field.Label className="field-label">프로젝트 이름</Field.Label>
+                                <Field.Control className="text-input" placeholder="예: 디자인 시스템 v2" />
+                              </Field.Root>
+                              <Field.Root name="project-team" className="field-root">
+                                <Field.Label className="field-label">소속 팀</Field.Label>
+                                <Field.Control className="text-input" placeholder="팀 선택" />
+                              </Field.Root>
+                            </div>
+                            <label className="check-row modal-form-supplementary">
+                              <Checkbox.Root defaultChecked className="checkbox">
+                                <Checkbox.Indicator className="check-indicator">
+                                  <img src={checkIcon} alt="" className="check-icon" />
+                                </Checkbox.Indicator>
+                              </Checkbox.Root>
+                              생성 후 바로 멤버 초대 패널 열기
+                            </label>
+                          </div>
+                        </div>
+                        <div className="inline-actions">
+                          <Dialog.Close className="button-secondary">취소</Dialog.Close>
+                          <Dialog.Close className="button-primary">프로젝트 만들기</Dialog.Close>
+                        </div>
+                      </Dialog.Popup>
+                    </Dialog.Portal>
+                  </Dialog.Root>
+                  <Dialog.Root>
+                    <Dialog.Trigger className="button-secondary">Form · lg</Dialog.Trigger>
+                    <Dialog.Portal>
+                      <Dialog.Backdrop className="overlay-backdrop" />
+                      <Dialog.Popup className="modal-card modal-lg">
+                        <div className="modal-body">
+                          <div className="modal-header">
+                            <Dialog.Title className="modal-title">멤버 초대 설정</Dialog.Title>
+                            <Dialog.Description className="modal-copy">
+                              여러 명을 한 번에 초대하고 역할·권한을 지정하세요.
+                            </Dialog.Description>
+                          </div>
+                          <div className="modal-form">
+                            <div className="modal-form-grid">
+                              <Field.Root name="invitee-name" className="field-root">
+                                <Field.Label className="field-label">이름</Field.Label>
+                                <Field.Control className="text-input" placeholder="홍길동" />
+                              </Field.Root>
+                              <Field.Root name="invitee-email" className="field-root">
+                                <Field.Label className="field-label">이메일</Field.Label>
+                                <Field.Control className="text-input" type="email" placeholder="name@ncai.io" />
+                              </Field.Root>
+                              <Field.Root name="invitee-role" className="field-root">
+                                <Field.Label className="field-label">역할</Field.Label>
+                                <Field.Control className="text-input" placeholder="Editor" />
+                              </Field.Root>
+                              <Field.Root name="invitee-team" className="field-root">
+                                <Field.Label className="field-label">소속 팀</Field.Label>
+                                <Field.Control className="text-input" placeholder="디자인" />
+                              </Field.Root>
+                              <Field.Root name="invitee-message" className="field-root field-root-span-2">
+                                <Field.Label className="field-label">초대 메시지 (선택)</Field.Label>
+                                <Field.Control className="text-input" placeholder="환영합니다. 함께 작업하게 되어 기뻐요." />
+                              </Field.Root>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="inline-actions">
+                          <Dialog.Close className="button-secondary">취소</Dialog.Close>
+                          <Dialog.Close className="button-primary">초대 보내기</Dialog.Close>
+                        </div>
+                      </Dialog.Popup>
+                    </Dialog.Portal>
+                  </Dialog.Root>
+                  <Dialog.Root>
+                    <Dialog.Trigger className="button-secondary">Form · xl</Dialog.Trigger>
+                    <Dialog.Portal>
+                      <Dialog.Backdrop className="overlay-backdrop" />
+                      <Dialog.Popup className="modal-card modal-xl">
+                        <div className="modal-body">
+                          <div className="modal-header">
+                            <Dialog.Title className="modal-title">미디어 라이브러리</Dialog.Title>
+                            <Dialog.Description className="modal-copy">
+                              업로드된 이미지를 둘러보고 선택하세요. 항목을 클릭하면 상세 미리보기가 열립니다.
+                            </Dialog.Description>
+                          </div>
+                          <div className="modal-gallery-grid">
+                            {Array.from({ length: 10 }).map((_, i) => (
+                              <div key={i} className="modal-gallery-item">
+                                <span className="modal-gallery-thumb" aria-hidden />
+                                <span className="modal-gallery-label">asset-{String(i + 1).padStart(2, '0')}.png</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="inline-actions">
+                          <Dialog.Close className="button-secondary">취소</Dialog.Close>
+                          <Dialog.Close className="button-primary">선택 완료</Dialog.Close>
+                        </div>
+                      </Dialog.Popup>
+                    </Dialog.Portal>
+                  </Dialog.Root>
+                  <Dialog.Root>
+                    <Dialog.Trigger className="button-secondary">Picker (보이스 선택)</Dialog.Trigger>
+                    <Dialog.Portal>
+                      <Dialog.Backdrop className="overlay-backdrop" />
+                      <Dialog.Popup className="modal-card modal-picker modal-lg">
+                        <div className="modal-toolbar">
+                          <Dialog.Title className="modal-title">보이스 라운지</Dialog.Title>
+                          <div className="modal-toolbar-actions">
+                            <Dialog.Close className="icon-btn icon-btn--md icon-btn--ghost" aria-label="닫기">
+                              <Icon svg={xIcon} size={20} />
+                            </Dialog.Close>
+                          </div>
+                        </div>
+                        <div className="modal-list">
+                          {[
+                            { name: '상냥한 보이스', meta: '예의바른, 아나운서 언어', likes: '0.3K' },
+                            { name: '어쩌구저쩌구 보이스', meta: '상냥한, 예의바른', likes: '0.3K' },
+                            { name: '예쁜 목소리', meta: '상냥한, 아나운서 언어', likes: '0.3K' },
+                            { name: '김밥 먹고싶은 목소리', meta: '상냥한, 귀여운', likes: '0.3K' },
+                          ].map((item) => (
+                            <div key={item.name} className="modal-list-item">
+                              <div className="modal-list-item-main">
+                                <span className="modal-list-item-title">{item.name}</span>
+                                <span className="modal-list-item-meta">{item.meta}</span>
+                              </div>
+                              <div className="modal-list-item-actions">
+                                <span className="modal-list-item-stat">
+                                  <Icon svg={heartIcon} size={16} /> {item.likes}
+                                </span>
+                                <Button className="button-secondary button-md">
+                                  <Icon svg={plusIcon} size={16} />
+                                  캐스팅
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </Dialog.Popup>
+                    </Dialog.Portal>
+                  </Dialog.Root>
+                  <Dialog.Root>
+                    <Dialog.Trigger className="button-secondary">Browse (스크롤 + 상단 액션)</Dialog.Trigger>
+                    <Dialog.Portal>
+                      <Dialog.Backdrop className="overlay-backdrop" />
+                      <Dialog.Popup className="modal-card modal-browse modal-lg">
+                        <div className="modal-toolbar">
+                          <Dialog.Title className="modal-title">월별 사용량 데이터 조회</Dialog.Title>
+                          <div className="modal-toolbar-actions">
+                            <Button className="button-secondary button-md">
+                              <Icon svg={downloadIcon} size={16} />
+                              전체 다운로드
+                            </Button>
+                            <Dialog.Close className="icon-btn icon-btn--md icon-btn--ghost" aria-label="닫기">
+                              <Icon svg={xIcon} size={20} />
+                            </Dialog.Close>
+                          </div>
+                        </div>
+                        <div className="modal-list">
+                          {Array.from({ length: 14 }).map((_, i) => (
+                            <div key={i} className="modal-list-item">
+                              <div className="modal-list-item-main">
+                                <span className="modal-list-item-title">월별 사용량 데이터_2025-{String((i % 12) + 1).padStart(2, '0')}.xlsx</span>
+                              </div>
+                              <div className="modal-list-item-actions">
+                                <button type="button" className="icon-btn icon-btn--sm icon-btn--ghost" aria-label="다운로드">
+                                  <Icon svg={downloadIcon} size={16} />
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </Dialog.Popup>
+                    </Dialog.Portal>
+                  </Dialog.Root>
+                </div>
               </PreviewSection>
 
               <PreviewSection title="Bottom Sheet" description="반응형 시트 패턴 — 모바일(≤768px)은 하단 슬라이드업 + 드래그 핸들, 데스크톱은 중앙 Modal로 전환됩니다. 뷰포트를 줄여서 차이를 확인하세요.">
@@ -427,11 +587,16 @@ export function App() {
 
               <PreviewSection title="Autocomplete" description="검색어 기반 자동 완성 입력 컴포넌트.">
                 <Autocomplete.Root items={products}>
-                  <Autocomplete.InputGroup className="combo-root combo-input-group">
+                  <Autocomplete.InputGroup className="combo-root combo-input-group autocomplete-input-group">
+                    <span className="input-leading-icon" aria-hidden="true">
+                      <Icon svg={searchIcon} className="trigger-icon" size={16} />
+                    </span>
                     <Autocomplete.Input placeholder="기능 검색" className="text-input" />
-                    <Autocomplete.Trigger className="icon-button" aria-label="목록 열기">
-                      <Icon svg={chevronDownIcon} className="trigger-icon" size={16} />
-                    </Autocomplete.Trigger>
+                    <Autocomplete.Clear className="icon-button input-clear-button" aria-label="검색어 지우기">
+                      <span className="clear-chip">
+                        <Icon svg={xIcon} size={12} />
+                      </span>
+                    </Autocomplete.Clear>
                   </Autocomplete.InputGroup>
                   <Autocomplete.Portal>
                     <Autocomplete.Positioner
@@ -499,60 +664,73 @@ export function App() {
                 </div>
               </PreviewSection>
 
-              <PreviewSection title="Button" description="Primary · Secondary · Ghost — 3단계 위계 구조.">
-                <div className="inline-actions">
-                  <Button className="button-primary">시작하기</Button>
-                  <Button className="button-secondary">더 알아보기</Button>
-                  <Button className="button-ghost">취소</Button>
+              <PreviewSection title="Button" description="Primary · Secondary · Ghost — 3단계 위계 구조. 아이콘은 라벨 좌측(의미 보강) 또는 우측(흐름·이동)에 배치합니다.">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                  <div className="inline-actions">
+                    <Button className="button-primary">시작하기</Button>
+                    <Button className="button-secondary">더 알아보기</Button>
+                    <Button className="button-ghost">취소</Button>
+                  </div>
+                  <div className="inline-actions" style={{ alignItems: 'center' }}>
+                    <Button className="button-primary">
+                      <Icon svg={plusIcon} size={18} />
+                      새로 만들기
+                    </Button>
+                    <Button className="button-secondary">
+                      <Icon svg={downloadIcon} size={18} />
+                      다운로드
+                    </Button>
+                    <Button className="button-ghost">
+                      <Icon svg={trashIcon} size={18} />
+                      삭제
+                    </Button>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Leading icon — 액션의 의미를 보강</span>
+                  </div>
+                  <div className="inline-actions" style={{ alignItems: 'center' }}>
+                    <Button className="button-primary">
+                      계속하기
+                      <Icon svg={arrowRightIcon} size={18} />
+                    </Button>
+                    <Button className="button-secondary">
+                      자세히 보기
+                      <Icon svg={chevronRightIcon} size={18} />
+                    </Button>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Trailing icon — 다음 단계·이동 암시</span>
+                  </div>
+                  <div className="inline-actions" style={{ alignItems: 'center' }}>
+                    <Button className="button-primary button-md">
+                      <Icon svg={plusIcon} size={16} />
+                      추가
+                    </Button>
+                    <Button className="button-secondary button-sm">
+                      <Icon svg={pencilIcon} size={14} />
+                      수정
+                    </Button>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Size별 아이콘 — md 16 / sm 14</span>
+                  </div>
                 </div>
               </PreviewSection>
 
-              <PreviewSection title="Icons" description="currentColor 정규화 — 인라인 SVG로 어떤 색상에도 대응.">
-                <div className="icon-color-row">
-                  {[
-                    { label: 'Ink', cls: 'icon-ink' },
-                    { label: 'Primary', cls: 'icon-primary' },
-                    { label: 'Muted', cls: 'icon-muted' },
-                    { label: 'Success', cls: 'icon-success' },
-                    { label: 'Warning', cls: 'icon-warning' },
-                    { label: 'Error', cls: 'icon-error' }
-                  ].map(({ label, cls }) => (
-                    <div key={cls} className="icon-color-item">
-                      <Icon svg={starIcon} className={`icon-inline ${cls}`} size={24} />
-                      <span>{label}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="icon-grid">
-                  {[
-                    [searchIcon, 'search'],
-                    [heartIcon, 'heart'],
-                    [homeIcon, 'home'],
-                    [bellIcon, 'bell'],
-                    [mailIcon, 'mail'],
-                    [userIcon, 'user'],
-                    [settingsIcon, 'settings'],
-                    [downloadIcon, 'download'],
-                    [plusIcon, 'plus'],
-                    [xIcon, 'x'],
-                    [arrowRightIcon, 'arrow-right'],
-                    [eyeIcon, 'eye'],
-                    [trashIcon, 'trash-2'],
-                    [pencilIcon, 'pencil'],
-                    [zapIcon, 'zap'],
-                    [copyIcon, 'copy'],
-                    [moonIcon, 'moon'],
-                    [sunIcon, 'sun'],
-                    [lockIcon, 'lock'],
-                    [calendarIcon, 'calendar'],
-                    [layersIcon, 'layers'],
-                    [codeIcon, 'code']
-                  ].map(([svg, name]) => (
-                    <div key={name as string} className="icon-grid-item">
-                      <Icon svg={svg as string} className="icon-inline icon-ink" size={20} />
-                      <span>{name as string}</span>
-                    </div>
-                  ))}
+              <PreviewSection title="Icon Button" description="라벨 없는 정사각 액션 — sm 32 / md 40 / lg 48 (Button 높이와 동일). 변형은 Ghost(기본) · Secondary · Primary · Danger. 라벨이 가려져 있으므로 aria-label과 Tooltip이 필수입니다 — 아래 버튼에 hover/focus 시 라벨·단축키가 노출됩니다.">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                  <div className="inline-actions" style={{ alignItems: 'center' }}>
+                    <IconTooltipButton label="공유" svg={shareIcon} size={16} className="icon-btn icon-btn--sm icon-btn--ghost" />
+                    <IconTooltipButton label="공유" svg={shareIcon} size={20} className="icon-btn icon-btn--md icon-btn--ghost" />
+                    <IconTooltipButton label="공유" svg={shareIcon} size={22} className="icon-btn icon-btn--lg icon-btn--ghost" />
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Ghost — 기본 (sm / md / lg)</span>
+                  </div>
+                  <div className="inline-actions" style={{ alignItems: 'center' }}>
+                    <IconTooltipButton label="수정" shortcut={['⌘', 'E']} svg={pencilIcon} size={20} className="icon-btn icon-btn--md icon-btn--secondary" />
+                    <IconTooltipButton label="추가" shortcut={['⌘', 'N']} svg={plusIcon} size={20} className="icon-btn icon-btn--md icon-btn--primary" />
+                    <IconTooltipButton label="삭제" shortcut={['⌘', '⌫']} svg={trashIcon} size={20} className="icon-btn icon-btn--md icon-btn--danger" />
+                    <IconTooltipButton label="알림" svg={bellIcon} size={20} className="icon-btn icon-btn--md icon-btn--ghost" disabled />
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Secondary · Primary · Danger · Disabled (단축키 hint 포함)</span>
+                  </div>
+                  <div className="inline-actions" style={{ alignItems: 'center' }}>
+                    <IconTooltipButton label="새로 만들기" svg={plusIcon} size={22} className="icon-btn icon-btn--lg icon-btn--primary icon-btn--circle" />
+                    <IconTooltipButton label="프로필" svg={userIcon} size={20} className="icon-btn icon-btn--md icon-btn--secondary icon-btn--circle" />
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Circle — 프로필 / 플로팅 액션</span>
+                  </div>
                 </div>
               </PreviewSection>
 
@@ -1904,6 +2082,49 @@ function SidebarDemo() {
       {item('user', '프로필', userIcon)}
       {item('settings', '설정', settingsIcon)}
     </nav>
+  );
+}
+
+function IconTooltipButton({
+  label,
+  shortcut,
+  svg,
+  size,
+  className,
+  disabled
+}: {
+  label: string;
+  shortcut?: string[];
+  svg: string;
+  size: number;
+  className: string;
+  disabled?: boolean;
+}) {
+  return (
+    <Tooltip.Root>
+      <Tooltip.Trigger className={className} aria-label={label} disabled={disabled}>
+        <Icon svg={svg} size={size} />
+      </Tooltip.Trigger>
+      <Tooltip.Portal>
+        <Tooltip.Positioner
+          className="positioner"
+          sideOffset={FLOATING_OFFSET}
+          collisionPadding={VIEWPORT_PADDING}
+        >
+          <Tooltip.Popup className="tooltip-popup">
+            <Tooltip.Arrow className="popup-arrow" />
+            <span>{label}</span>
+            {shortcut && (
+              <span className="tooltip-kbd-group">
+                {shortcut.map((k) => (
+                  <kbd key={k}>{k}</kbd>
+                ))}
+              </span>
+            )}
+          </Tooltip.Popup>
+        </Tooltip.Positioner>
+      </Tooltip.Portal>
+    </Tooltip.Root>
   );
 }
 
