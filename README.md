@@ -157,7 +157,7 @@ npx @ncai/design-system-cli show --query typography
 
 ### 설치 상태 진단
 
-`doctor`는 소비자 프로젝트에 필요한 의존성과 에이전트 설정 파일이 있는지 확인하는 진단 명령입니다. `@ncai/design-system`, `@base-ui/react`, 지원 에이전트별 지침 파일, MCP 설정 파일 또는 MCP JSON 스니펫의 존재 여부를 확인합니다.
+`doctor`는 소비자 프로젝트에 필요한 의존성과 에이전트 설정 파일이 있는지 확인하는 진단 명령입니다. `@ncai/design-system`, `@ncai/design-system-icons`, `@base-ui/react`, 지원 에이전트별 지침 파일, MCP 설정 파일 또는 MCP JSON 스니펫의 존재 여부를 확인합니다.
 
 ```bash
 npx @ncai/design-system-cli doctor

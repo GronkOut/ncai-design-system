@@ -16,6 +16,7 @@ NC AI Design System과 Base UI 문서를 AI 에이전트가 조회할 수 있게
 제공 도구:
 
 - NC AI `design-system.md` 개요, 섹션 조회, 검색
+- NC AI SVG 아이콘 목록, 검색, 개별 메타데이터 조회
 - Base UI `llms.txt` 기반 문서 목록과 컴포넌트 API 문서 조회
 - Base UI 우선 구현 레시피 생성
 - 생성된 UI 코드의 기본 가드레일 검증
