@@ -98,17 +98,18 @@ NCAI Design System의 컬러 토큰은 **Surface / Text / Semantic / Avatar**의
 
 > [!IMPORTANT]
 > **다크모드 배경 철학: 중성(Neutral) 다크를 유지**
-> 다크 배경에 블루/쿨 그레이 색조를 과도하게 넣으면 화면이 차갑고 인위적으로 보입니다. Apple macOS/iOS Dark Mode처럼 **블루 언더톤을 배제한 중성(Near-Black) 배경**을 기반으로 하고, 레이어 간 위계는 채도 대신 **명도 차이(`#121315` → `#1A1B1E` → `#2A2B30`)**로만 구분합니다.
+> 다크 배경에 블루/쿨 그레이 색조를 과도하게 넣으면 화면이 차갑고 인위적으로 보입니다. Apple macOS/iOS Dark Mode처럼 **블루 언더톤을 배제한 중성(Near-Black) 배경**을 기반으로 하고, 레이어 간 위계는 채도 대신 **명도 차이(`#111212` → `#18191B` → `#27282D`)**로만 구분합니다.
 
 
 | Token | Light Mode | Dark Mode | 비고 |
 |---|---|---|---|
-| `{colors.canvas}` | `#FFFFFF` | `#121315` | 블루 틴트 0% 순수 중립 다크 |
-| `{colors.surface-soft}` | `#F9FAFB` | `#1A1B1E` | Pure Neutral Grey 레이어 |
-| `{colors.surface-inset}` | `#EEF1F5` | `#232326` | Segmented 트랙·인셋 표면. 다크에서는 `surface-soft(#1A1B1E)`와 `surface-elevated(#2A2B30)` **사이**에 자리잡아 3-레이어 스택(카드 → 트랙 → 선택 칩)을 형성 |
-| `{colors.surface-elevated}` | `#FFFFFF` | `#2A2B30` | 카드 위에 떠 있는 표면(버튼/아코디언/세그먼트 selected). 라이트 모드는 `canvas`와 동일하므로 보더로 분리 |
-| `{colors.hairline}` | `#E5E7EB` | `#2A2B30` | 중성 그레이 구분선 |
-| `{colors.control-track}` | `#E5E7EB` | `#3E3E41` | Switch off 트랙. 라이트는 hairline과 동일하나, 다크에서는 `hairline(#2A2B30)`·`surface-elevated(#2A2B30)`보다 한 단계 밝게 분기되어 카드 위에서도 트랙 형태가 시인 |
+| `{colors.canvas}` | `#FFFFFF` | `#111212` | 블루 틴트 0% 순수 중립 다크 |
+| `{colors.surface-soft}` | `#F9FAFB` | `#18191B` | Pure Neutral Grey 레이어 |
+| `{colors.surface-inset}` | `#EEF1F5` | `#232326` | Segmented 트랙·인셋 표면. 다크에서는 `surface-soft(#18191B)`와 `surface-elevated(#27282D)` **사이**에 자리잡아 3-레이어 스택(카드 → 트랙 → 선택 칩)을 형성 |
+| `{colors.surface-elevated}` | `#FFFFFF` | `#27282D` | 카드 위에 떠 있는 표면(버튼/아코디언/세그먼트 selected). 라이트 모드는 `canvas`와 동일하므로 보더로 분리 |
+| `{colors.surface-elevated-hover}` | `{colors.surface-soft}` | `color-mix(in oklab, surface-elevated 93%, body-muted 7%)` ≈ `#2E2F34` | elevated 표면 위 hover/highlighted 상태 전용. 라이트는 Surface Soft로 통합, 다크는 oklab 색공간에서 elevated에 `body-muted`를 7% 섞어 perceptually uniform lightness lift(+7). **반드시 oklab으로 mix** — sRGB mix는 brightness 변화에 비해 hue가 흔들려 warm/cool 사이를 오가지만, oklab은 hue를 보존하며 brightness만 끌어올림. 베이스 elevated가 바뀌어도 자동 추종 |
+| `{colors.hairline}` | `#E5E7EB` | `#25272B` | 중성 그레이 구분선 |
+| `{colors.control-track}` | `#E5E7EB` | `#3E3E41` | Switch off 트랙. 라이트는 hairline과 동일하나, 다크에서는 `hairline(#25272B)`·`surface-elevated(#27282D)`보다 한 단계 밝게 분기되어 카드 위에서도 트랙 형태가 시인 |
 | `{colors.ink}` | `#13151A` | `#F2F2F2` | 채도 없는 순수 오프화이트 |
 | `{colors.body-muted}` | `#6B7280` | `#959799` | 중립 미드 그레이 |
 | `{colors.primary}` | `#006EFF` | `#1C82FF` | 원본 색상 기반, 밝기만 미세 조정 |
@@ -119,7 +120,7 @@ NCAI Design System의 컬러 토큰은 **Surface / Text / Semantic / Avatar**의
 > [!IMPORTANT]
 > **"항상 흰색이어야 하는 것"에는 `canvas`가 아닌 `on-primary`를 사용합니다.**
 >
-> Primary 색 위에 얹히거나(버튼 라벨, 체크 아이콘) Primary 트랙 위에서 움직이는 컨트롤 부품(슬라이더 thumb, 스위치 knob, 라디오 내부 점)은 모드와 무관하게 흰색을 유지해야 시각 정체성이 보존됩니다. `canvas`는 다크 모드에서 `#121315`로 반전되므로 이런 용도에 절대 쓰지 마세요.
+> Primary 색 위에 얹히거나(버튼 라벨, 체크 아이콘) Primary 트랙 위에서 움직이는 컨트롤 부품(슬라이더 thumb, 스위치 knob, 라디오 내부 점)은 모드와 무관하게 흰색을 유지해야 시각 정체성이 보존됩니다. `canvas`는 다크 모드에서 `#111212`로 반전되므로 이런 용도에 절대 쓰지 마세요.
 >
 > 적용 대상: `button-primary` 텍스트, 체크박스 체크 아이콘, **`radio[data-checked]` 내부 점**, **`slider-thumb`** (흰 thumb 본체), **`switch-thumb`** knob.
 
@@ -129,35 +130,35 @@ NCAI Design System의 컬러 토큰은 **Surface / Text / Semantic / Avatar**의
 
 | 컴포넌트 | 라이트 모드 | 다크 모드 |
 |---|---|---|
-| `card-standard` | `Canvas(#FFF)` 배경 + `hairline` 테두리 | `Surface Soft(#1A1B1E)` 배경, **테두리 없음** |
-| `card-featured` | `Canvas(#FFF)` 배경 + `Level 2` 그림자 | `Surface Soft(#1A1B1E)` 배경 + `Level 3` 그림자 |
-| `modal-card` (backdrop 있음) | `Canvas(#FFF)` 배경 + `Level 3` 그림자, **테두리 없음** | `Surface Soft(#1A1B1E)` 배경 + `Level 3` 그림자, **테두리 없음** |
-| `popover-card` / `preview-card` (backdrop 없음) | `Canvas(#FFF)` 배경 + `hairline` 테두리 + `Level 3` 그림자 | `Surface Soft(#1A1B1E)` 배경 + **`rgba(255,255,255,.10)` 테두리** + `Level 3` 그림자 |
-| 섹션 배경 (`Surface Soft` 섹션) | `Surface Soft(#F9FAFB)` | **`Canvas(#121315)`** 로 반전하여 카드와 계층 확보 |
+| `card-standard` | `Canvas(#FFF)` 배경 + `hairline` 테두리 | `Surface Soft(#18191B)` 배경, **테두리 없음** |
+| `card-featured` | `Canvas(#FFF)` 배경 + `Level 2` 그림자 | `Surface Soft(#18191B)` 배경 + `Level 3` 그림자 |
+| `modal-card` (backdrop 있음) | `Canvas(#FFF)` 배경 + `Level 3` 그림자, **테두리 없음** | `Surface Soft(#18191B)` 배경 + `Level 3` 그림자, **테두리 없음** |
+| `popover-card` / `preview-card` (backdrop 없음) | `Canvas(#FFF)` 배경 + `hairline` 테두리 + `Level 3` 그림자 | `Surface Soft(#18191B)` 배경 + **`rgba(255,255,255,.10)` 테두리** + `Level 3` 그림자 |
+| 섹션 배경 (`Surface Soft` 섹션) | `Surface Soft(#F9FAFB)` | **`Canvas(#111212)`** 로 반전하여 카드와 계층 확보 |
 
 
 
 > [!IMPORTANT]
 > **Dark Separator Policy (밝은 레이어 위 구분선)**
 >
-> `{colors.hairline}` (다크 `#2A2B30`)는 `Canvas(#121315)` 레이어 위에서만 정상 동작합니다. 더 밝은 레이어(`Surface Soft #1A1B1E`, `Surface Elevated #2A2B30`) 위에서는 luminance 차이가 부족해 선이 사라집니다. 이 경우 **translucent white overlay**를 사용해 아래 레이어 밝기와 무관하게 일정 대비를 확보합니다. (Apple iOS Dark Mode separator 원칙과 동일)
+> `{colors.hairline}` (다크 `#25272B`)는 `Canvas(#111212)` 레이어 위에서만 정상 동작합니다. 더 밝은 레이어(`Surface Soft #18191B`, `Surface Elevated #27282D`) 위에서는 luminance 차이가 부족해 선이 사라집니다. 이 경우 **translucent white overlay**를 사용해 아래 레이어 밝기와 무관하게 일정 대비를 확보합니다. (Apple iOS Dark Mode separator 원칙과 동일)
 >
-> - `Surface Elevated(#2A2B30)` 위 구분선 (예: 열린 Accordion trigger ↔ panel divider): `rgba(255, 255, 255, 0.08)`
+> - `Surface Elevated(#27282D)` 위 구분선 (예: 열린 Accordion trigger ↔ panel divider): `rgba(255, 255, 255, 0.08)`
 > - 떠 있는 카드 보더 (Popover/PreviewCard): `rgba(255, 255, 255, 0.10)`
 > - Modal은 backdrop이 톤 대비를 만들므로 보더 자체를 사용하지 않습니다.
 
 
 > [!WARNING]
-> **`Surface Elevated(#2A2B30)`는 인터랙티브 표면 전용입니다.**
+> **`Surface Elevated(#27282D)`는 인터랙티브 표면 전용입니다.**
 >
-> `button-secondary` / `nav-action` / `accordion-item` / `toggle-item[selected]`이 모두 `Surface Elevated`를 차지하기 때문에, 모달·팝오버·카드 본체 배경을 `Surface Elevated`로 올리면 내부에 들어간 secondary 버튼이 배경에 묻혀 사라집니다. 떠 있는 카드 본체는 반드시 `Surface Soft(#1A1B1E)`를 유지하고, 깊이는 보더 또는 그림자로 표현하세요.
+> `button-secondary` / `nav-action` / `accordion-item` / `toggle-item[selected]`이 모두 `Surface Elevated`를 차지하기 때문에, 모달·팝오버·카드 본체 배경을 `Surface Elevated`로 올리면 내부에 들어간 secondary 버튼이 배경에 묻혀 사라집니다. 떠 있는 카드 본체는 반드시 `Surface Soft(#18191B)`를 유지하고, 깊이는 보더 또는 그림자로 표현하세요.
 
 > [!WARNING]
 > **카드는 어떤 모드에서도 섹션 배경과 반드시 다른 색이어야 합니다.**
 >
 > 다크 모드에서는 `canvas`와 `surface-soft` 두 가지 레벨만 존재합니다. 섹션과 카드가 같은 레벨을 쓰면 카드가 배경에 녹아들어 보이지 않습니다.
 >
-> **규칙**: 섹션 배경이 `Canvas(#121315)` → 카드는 `Surface Soft(#1A1B1E)` / 섹션 배경이 `Surface Soft` → 다크 모드에서 섹션을 `Canvas`로 반전시킵니다.
+> **규칙**: 섹션 배경이 `Canvas(#111212)` → 카드는 `Surface Soft(#18191B)` / 섹션 배경이 `Surface Soft` → 다크 모드에서 섹션을 `Canvas`로 반전시킵니다.
 >
 > ✅ **올바른 예**: `Canvas` 섹션 위에 `Surface Soft` 카드
 > ❌ **잘못된 예**: `Surface Soft` 섹션 위에 `Surface Soft` 카드 (카드가 사라짐)
@@ -204,8 +205,9 @@ NCAI는 **Pretendard(디스플레이·본문 공용) + Geist Mono(코드)** 2종
 | `mono` | Geist Mono | 13px | 400 | 1.50 | 0 | 코드, 버전, 기술 값 표기 |
 
 > [!NOTE]
-> **Label 토큰**: 인터랙티브 라벨(버튼·탭·메뉴·칩·트리거) 전용 타이포 군. weight 500 + lh 1.2 + tracking -0.16px이 한 군으로 정의됩니다. 컴포넌트 CSS에서는 `--type-label-*`, `--fw-label`, `--lh-label`, `--ls-label` 네 변수를 함께 참조해 적용합니다. (HTML 직접 작성 시엔 `.type-label-*` 유틸리티 클래스로 대체 가능)
-> **Font-weight 정책**: `--fw-regular(400)` / `--fw-label(500)` / `--fw-heading(600)` 세 토큰으로 통합. 컴포넌트는 `font-weight: 500` 같은 매직 넘버를 직접 쓰지 않습니다.
+> **타이포 적용 방식 — `@include type-*` mixin**: 각 타이포 역할(title-md, label-lg, body-md 등)은 font-size·font-weight·line-height·letter-spacing 네 속성을 한 묶음으로 캡슐화한 SCSS `@mixin`으로 노출됩니다. 컴포넌트는 네 변수를 하나씩 참조하는 대신 `@include type-title-md;` 한 줄로 적용합니다. 원본 값은 `:root`의 `--type-*` / `--fw-*` / `--lh-*` / `--ls-*` 토큰이 단일 소스로 유지하며, mixin은 그 토큰들을 역할별로 묶어 노출하는 어휘 계층입니다. (HTML 직접 작성 시엔 `.type-*` 유틸리티 클래스로 대체 가능)
+> **Label 토큰**: 인터랙티브 라벨(버튼·탭·메뉴·칩·트리거) 전용 타이포 군. weight 500 + lh 1.2 + tracking -0.16px이 한 군으로 정의되며, 컴포넌트는 `@include type-label-lg;`처럼 사이즈 단위 mixin 한 줄로 적용합니다.
+> **Font-weight 정책**: `--fw-regular(400)` / `--fw-label(500)` / `--fw-heading(600)` 세 토큰으로 통합. 컴포넌트는 `font-weight: 500` 같은 매직 넘버를 직접 쓰지 않으며, 역할 기본값에서 벗어날 때만 mixin 다음 줄에 `font-weight: var(--fw-...)` 한 줄로 override합니다.
 
 
 
@@ -250,8 +252,9 @@ NCAI는 **Pretendard(디스플레이·본문 공용) + Geist Mono(코드)** 2종
 ### Spacing System
 - **Base unit**: 8px (미세 조정이 필요할 때는 4px 사용)
 - **Tokens**: 
-  - `{spacing.xs}`: 4px
-  - `{spacing.sm}`: 8px
+  - `{spacing.xxs}`: 4px
+  - `{spacing.xs}`: 8px
+  - `{spacing.sm}`: 12px (menu-item·trigger 등 컴팩트 컴포넌트 padding/gap)
   - `{spacing.md}`: 16px (컴포넌트 내 기본 여백)
   - `{spacing.lg}`: 24px
   - `{spacing.xl}`: 32px (요소 간 여백)
@@ -290,10 +293,10 @@ Display 크기 헤딩과 본문 사이의 점프가 지나치게 크면 시각�
 
 | Tier | 용도 | Eyebrow → Title | Title → Body | 헤딩 타이포 | 바디 타이포 |
 |---|---|---|---|---|---|
-| `stack-hero` | 페이지/섹션 히어로 | **12px** | **32px** (`{spacing.xl}`) | `display-xl` / `display-lg` | `body-lg` (18px) |
-| `stack-section` | 갤러리·핸드오프 인트로 | **8px** (`{spacing.sm}`) | **24px** (`{spacing.lg}`) | `display-lg` / `display-md` | `body-lg` (18px) |
-| `stack-card` | 카드·모달·시트 타이틀 | **8px** (`{spacing.sm}`) | **8px** (`{spacing.sm}`) | `title-md` (22px) | `body-md` (16px) |
-| `stack-inline` | 본문 내 미니 라벨/필드 | **4px** (`{spacing.xs}`) | **8px** (`{spacing.sm}`) | `body-md` (16px, `h3` 또는 `.text-strong`로 강조) | `body-sm` (14px) |
+| `stack-hero` | 페이지/섹션 히어로 | **12px** (`{spacing.sm}`) | **32px** (`{spacing.xl}`) | `display-xl` / `display-lg` | `body-lg` (18px) |
+| `stack-section` | 갤러리·핸드오프 인트로 | **8px** (`{spacing.xs}`) | **24px** (`{spacing.lg}`) | `display-lg` / `display-md` | `body-lg` (18px) |
+| `stack-card` | 카드·모달·시트 타이틀 | **8px** (`{spacing.xs}`) | **8px** (`{spacing.xs}`) | `title-md` (22px) | `body-md` (16px) |
+| `stack-inline` | 본문 내 미니 라벨/필드 | **4px** (`{spacing.xxs}`) | **8px** (`{spacing.xs}`) | `body-md` (16px, `h3` 또는 `.text-strong`로 강조) | `body-sm` (14px) |
 
 **원칙**
 - **eyebrow → title 간격은 항상 title → body 간격보다 작아야 합니다.** Eyebrow는 title의 레이블이므로 시각적으로 title에 붙어 있어야 하고, body는 title이 끝난 뒤 별도의 호흡을 줘야 합니다.
@@ -362,6 +365,37 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
 
 
 
+## Motion
+
+인터랙션의 페이스(Duration)와 가속도 곡선(Easing)을 토큰화한 스케일입니다.
+디자이너와 개발자가 "fast", "normal", "expand" 같은 동일한 언어로 모션을 호출할 수 있게 하고, 글로벌 튜닝(예: 인터랙션이 살짝 느림 → `{motion.fast}` 한 곳만 조정)을 가능하게 합니다.
+
+### Duration
+
+| Token | Value | Use |
+|---|---|---|
+| `{motion.instant}` | 80ms | 매우 빠른 micro feedback (드물게 사용) |
+| `{motion.fast}` | 120ms | **기본** — hover, color, border, transform. 대부분의 인터랙티브 전환. |
+| `{motion.normal}` | 200ms | chevron 회전, Slider/Switch thumb, Segmented item color·opacity |
+| `{motion.expand}` | 240ms | Panel(Accordion·Collapsible) · Sheet · Drawer · Toast Enter 공용 표준 |
+| `{motion.slow}` | 320ms | 큰 슬라이드 — Segmented indicator transform·width |
+
+> **새 duration을 도입하기 전에** 위 다섯 단 중 하나로 의도를 표현할 수 있는지 먼저 확인하세요. 일관성이 모션 품질의 핵심입니다.
+
+### Easing
+
+| Token | Curve | Use |
+|---|---|---|
+| `{ease.standard}` | `ease` | 기본 — 대부분의 hover/color 전환 |
+| `{ease.out-quad}` | `cubic-bezier(0.25, 0.46, 0.45, 0.94)` | Panel height — 부드럽게 안착 |
+| `{ease.out-expo}` | `cubic-bezier(0.22, 1, 0.36, 1)` | Sheet · Drawer · 큰 슬라이드 — 극적 감속 |
+| `{ease.in-out}` | `cubic-bezier(0.4, 0, 0.2, 1)` | Slider/Switch thumb — 대칭 컨트롤 |
+
+`ease-out` 같은 CSS 표준 키워드는 토큰화하지 않습니다 — 일회성·짧은 사용(예: Popover 진입 페이드)은 키워드를 직접 사용합니다.
+
+
+
+
 
 
 
@@ -390,12 +424,12 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
   - *좌우 패딩은 height의 절반(24px)보다 의도적으로 좁힌 값입니다 — 아이콘이 동반될 때(아이콘 + gap 8px) 시각적으로 부풀어 보이는 현상을 방지하면서, 텍스트-only CTA에서도 단단한 비례를 유지합니다.*
   - *라벨 폰트 크기는 **height의 30~44% 비례**에 맞춰 사이즈별로 4단계 `label-*` 토큰을 사용합니다(`label-xl/lg/md/sm` = 18/16/15/14). 같은 16px을 모든 높이에 쓰면 md/sm에서 라벨이 과중해져 "키만 줄어든 lg"처럼 보이는 문제를 방지합니다. weight·line-height·letter-spacing은 `label-*` 토큰 군에 번들되어 있어 컴포넌트 CSS에서 따로 명시할 필요가 없습니다.*
 - **Gap (간격):** 게슈탈트 근접성의 원리(Proximity)를 따릅니다.
-  - **8px (`{spacing.sm}`):** 검색창-검색버튼 등 논리적으로 완전히 하나의 묶음일 때.
+  - **8px (`{spacing.xs}`):** 검색창-검색버튼 등 논리적으로 완전히 하나의 묶음일 때.
   - **12px**: **버튼 그룹 표준 간격**. 취소-확인 등 두 액션이 연관되어 있으면서도 명확히 구분되어야 할 때 가장 이상적인 간격입니다.
   - **16px (`{spacing.md}`):** 서로 다른 기능을 수행하는 독립적인 요소들 사이의 기본 여백. **Display 사이즈 히어로 액션 버튼**은 버튼 자체가 크므로 이 간격을 사용합니다.
 
 **Button with Icon (라벨 + 아이콘):**
-텍스트가 동반되는 일반 Button(`button-primary` / `button-secondary` / `button-ghost` / `button-danger`)은 내부에 `<Icon>` 자식을 직접 넣어 라벨과 함께 사용합니다. 별도 변형 토큰은 만들지 않습니다 — 베이스 Button이 이미 `display: inline-flex` + `gap: 8px`(`{spacing.sm}`)로 아이콘 동반을 전제하고 있습니다. (라벨 없는 정사각 액션은 별도 `icon-btn` 사용 — 아래 항목 참조.)
+텍스트가 동반되는 일반 Button(`button-primary` / `button-secondary` / `button-ghost` / `button-danger`)은 내부에 `<Icon>` 자식을 직접 넣어 라벨과 함께 사용합니다. 별도 변형 토큰은 만들지 않습니다 — 베이스 Button이 이미 `display: inline-flex` + `gap: 8px`(`{spacing.xs}`)로 아이콘 동반을 전제하고 있습니다. (라벨 없는 정사각 액션은 별도 `icon-btn` 사용 — 아래 항목 참조.)
 
 - **위치 — 의미로 결정합니다:**
   - **Leading(좌측):** 액션의 **의미를 보강**하는 아이콘. 라벨이 가리키는 동작의 시각 단서 — `+ 새로 만들기`, `↓ 다운로드`, `🗑 삭제`.
@@ -409,12 +443,12 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
 - **금지:** 양쪽 동시 아이콘, 라벨 폰트보다 큰 아이콘(시각 위계 역전), 아이콘만으로 의미를 전달하려는 시도(그 경우 `icon-btn` 사용 + `aria-label`).
 
 **다크모드 버튼 배경 처리 원칙:**
-`button-secondary`의 배경은 라이트 모드에서 `Canvas(흰색)`이지만, 다크 모드에서 `Canvas = #121315`로 전환되어 카드 배경(`Surface Soft = #1A1B1E`)보다 **오히려 더 어두워지는 역전 현상**이 발생합니다. 이를 방지하기 위해 다크 모드의 버튼은 카드 배경보다 반드시 밝은 레이어를 사용합니다.
+`button-secondary`의 배경은 라이트 모드에서 `Canvas(흰색)`이지만, 다크 모드에서 `Canvas = #111212`로 전환되어 카드 배경(`Surface Soft = #18191B`)보다 **오히려 더 어두워지는 역전 현상**이 발생합니다. 이를 방지하기 위해 다크 모드의 버튼은 카드 배경보다 반드시 밝은 레이어를 사용합니다.
 
 | 버튼 | 라이트 모드 배경 | 다크 모드 배경 |
 |---|---|---|
 | `button-secondary` | `Canvas(#FFF)` + `hairline` 테두리 | `{colors.surface-elevated}` (테두리 없음, 배경색만으로 구분) |
-| `button-secondary:hover` | `Surface Soft(#F9FAFB)` | `#3A3A3C` |
+| `button-secondary:hover` | `Surface Soft(#F9FAFB)` | `{colors.surface-elevated-hover}` (≈ `#2E2F34`) |
 | `button-ghost:hover` | `Surface Soft(#F9FAFB)` | `{colors.surface-elevated}` |
 
 **Icon Button (`icon-btn`) — 라벨 없는 정사각 액션:**
@@ -456,24 +490,24 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
 - **Shape**: `{radius.lg}` (16px). 카드와 동일한 곡률로 통일감을 유지합니다.
 - **Border**: 라이트 모드 1px `{colors.hairline}`. 다크 모드는 보더 없이 배경 톤 대비로만 경계를 표현합니다.
 - **Trigger**: 높이 약 56px, 좌우 패딩 20px, 폰트 `{typography.body-md}` weight 500. Chevron 아이콘 16px, `{colors.body-muted}`.
-- **Trigger Hover**: 라이트 `Surface Soft(#F9FAFB)`, 다크 `#3A3A3C`.
+- **Trigger Hover**: `{colors.surface-elevated-hover}` (라이트 `Surface Soft(#F9FAFB)`, 다크 `color-mix(in oklab, elevated 93%, body-muted 7%)` ≈ `#2E2F34`).
 - **Open Divider**: 트리거가 열렸을 때 본문과의 구분을 위해 1px 인셋 디바이더를 그립니다. 추가 보더를 쓰지 않아 라운드 모서리 잘림을 방지합니다.
   - 라이트: `box-shadow: inset 0 -1px 0 {colors.hairline}` (#E5E7EB on #FFF).
-  - **다크: `box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.08)`**. `accordion-item` 배경이 `Surface Elevated(#2A2B30)`로 올라가 있어 `hairline(#2A2B30)`이 묻혀버리므로 translucent white overlay를 사용합니다 (Dark Separator Policy).
+  - **다크: `box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.08)`**. `accordion-item` 배경이 `Surface Elevated(#27282D)`로 올라가 있어 `hairline(#25272B)`과의 luminance 차이가 부족하므로 translucent white overlay를 사용합니다 (Dark Separator Policy).
 - **Panel**: 상 16px / 하 20px / 좌우 20px 패딩. 본문 텍스트는 `{typography.body-sm}` (14px), 색상 `{colors.body-muted}`.
 - **Overflow**: `.accordion-item`은 `overflow: hidden`으로 부모 라운드가 트리거 hover 배경을 클리핑하도록 합니다.
 - **Panel Expand/Collapse 모션 (공용 표준)**: 모든 collapsible 류 패널(Accordion, Sidebar Collapsible 등)은 동일한 모션 토큰을 공유합니다.
   - `:root`에 `interpolate-size: allow-keywords`를 선언해 `height: 0 ↔ auto` 트랜지션을 활성화.
   - 패널에 `keepMounted` 적용 후, 기본 상태 `height: auto`, 닫힘 상태(`[data-starting-style]`, `[data-ending-style]`, `[data-closed]`)에서 `height: 0` + `padding-top/bottom: 0`.
-  - Duration **240ms**, easing `cubic-bezier(0.25, 0.46, 0.45, 0.94)` (out-quad 계열). `height`와 `padding`을 같은 곡선·시간으로 함께 트랜지션해 콘텐츠가 "위로 말려 올라가는/펼쳐지는" 자연스러운 모션을 만듭니다.
+  - Duration `{motion.expand}`, easing `{ease.out-quad}`. `height`와 `padding`을 같은 곡선·시간으로 함께 트랜지션해 콘텐츠가 "위로 말려 올라가는/펼쳐지는" 자연스러운 모션을 만듭니다.
 
 **다크모드 레이어 역전 방지 (필수):**
-`accordion-item`의 기본 배경은 `Canvas`이지만, 다크 모드에서 `Canvas = #121315`로 전환되어 부모 카드(`Surface Soft = #1A1B1E`)보다 **오히려 더 어두워지는 역전 현상**이 발생합니다. 이때 아코디언이 페이지에서 **함몰된 인풋 필드처럼** 보여 클릭 가능한 패널로 인식되지 않습니다. 다크 모드에서는 카드 배경보다 반드시 한 단계 밝은 레이어로 올려 "떠 있는 패널"의 인상을 유지합니다. (`button-secondary` 다크모드 처리와 동일 원칙.)
+`accordion-item`의 기본 배경은 `Canvas`이지만, 다크 모드에서 `Canvas = #111212`로 전환되어 부모 카드(`Surface Soft = #18191B`)보다 **오히려 더 어두워지는 역전 현상**이 발생합니다. 이때 아코디언이 페이지에서 **함몰된 인풋 필드처럼** 보여 클릭 가능한 패널로 인식되지 않습니다. 다크 모드에서는 카드 배경보다 반드시 한 단계 밝은 레이어로 올려 "떠 있는 패널"의 인상을 유지합니다. (`button-secondary` 다크모드 처리와 동일 원칙.)
 
 | 영역 | 라이트 모드 배경 | 다크 모드 배경 |
 |---|---|---|
 | `accordion-item` | `Canvas(#FFF)` + `hairline` 테두리 | `{colors.surface-elevated}` (테두리 없음) |
-| `accordion-trigger:hover` | `Surface Soft(#F9FAFB)` | `#3A3A3C` |
+| `accordion-trigger:hover` | `Surface Soft(#F9FAFB)` | `{colors.surface-elevated-hover}` (≈ `#2E2F34`) |
 | Open divider | `hairline` inset shadow | `hairline` inset shadow |
 
 **금지**: 아코디언 배경을 `Surface Inset`(#EEF1F5 / #232326)으로 두지 마세요. "선택된 입력 필드"처럼 보여 클릭 가능한 패널이 아닌 폼 요소로 오인됩니다. 또한 패널이 열렸을 때 본문에 별도 배경색을 깔지 않습니다 — 트리거와 본문은 동일한 배경 + 헤어라인 디바이더 한 줄로 위계를 표현합니다.
@@ -483,7 +517,7 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
 
 - **Knob**: 흰색 고정(`{colors.on-primary}`), 매우 옅은 single shadow(`0 1px 2px rgba(0,0,0,0.15)`)로만 부동감 표현. 강한 그림자는 미니멀 원칙에 어긋납니다.
 - **Track Color**: Off — `{colors.hairline}`, On — `{colors.primary}`.
-- **Transition**: `cubic-bezier(0.4, 0, 0.2, 1)` easing, 200ms 단일 슬라이드. 부가 애니메이션 없음 — 미니멀 원칙에 따라 transform 하나로 깔끔하게.
+- **Transition**: `{ease.in-out}` easing, `{motion.normal}` 단일 슬라이드. 부가 애니메이션 없음 — 미니멀 원칙에 따라 transform 하나로 깔끔하게.
 
 **Sizes (3단계):**
 
@@ -502,7 +536,7 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
 
 **인풋 + 버튼 조합 정책 (Input Group Policy):**
 인풋 필드와 버튼이 가로로 나열될 때, 시각적인 답답함을 해소하고 명확한 조작 영역을 확보하기 위해 다음 규칙을 준수합니다.
-1. **간격 (Gap)**: 8px(`{spacing.sm}`)은 너무 좁아 보이므로, **12px**를 권장합니다. (8px와 16px 사이의 균형)
+1. **간격 (Gap)**: 8px(`{spacing.xs}`)은 너무 좁아 보이므로, **12px**를 권장합니다. (8px와 16px 사이의 균형)
 2. **높이 일치 (Height Alignment)**: 인풋과 버튼의 높이는 반드시 동일하게(기본 48px) 맞춰야 합니다.
 3. **내부 여백 (Padding)**: 인풋 내부 텍스트가 테두리에 너무 붙지 않도록 최소 16px 이상의 좌우 여백을 확보합니다.
 
@@ -570,7 +604,7 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
 - **Internal Rhythm (위계 간격)**: Modal 내부는 세 영역(Header / Body / Footer)으로 위계가 나뉘며, **간격은 두 단으로만** 운용합니다 — 모든 자식에 같은 gap을 주면 위계가 사라집니다.
   - **Section gap**: **32px**(`{spacing.xl}`). Header ↔ Body 기본 간격. 카드의 `gap`으로 일괄 적용.
   - **Body ↔ Footer gap**: **48px**(`{spacing.xxl}` 효과). 결정 행위(액션)는 본문에서 한 단계 더 분리되어야 하므로 Section gap보다 한 티어 위 간격을 사용합니다. 구현은 `parent gap (32) + 풋터 padding-top (16) = 48`로 합산 적용 — `margin-top: auto`로 풋터를 하단에 정착시키는 규칙과 충돌하지 않게 padding으로 추가합니다.
-  - **Header inner gap**: **8px**(`{spacing.sm}`). Title과 Description은 한 묶음으로 읽혀야 하므로 타이트하게 붙입니다. 별도 컨테이너(`.modal-header`)로 감싸 두 텍스트를 그룹화합니다.
+  - **Header inner gap**: **8px**(`{spacing.xs}`). Title과 Description은 한 묶음으로 읽혀야 하므로 타이트하게 붙입니다. 별도 컨테이너(`.modal-header`)로 감싸 두 텍스트를 그룹화합니다.
   - **금지**: Title/Description/Form/Footer를 카드 직속으로 평행 배치하여 16px 균일 gap을 주는 패턴 — Title이 Description과 분리되어 보이고 정보 위계가 평탄해집니다.
 - **Form Body 내부 그루핑 (Form 변형 전용)**: Modal Form의 Body는 **단일 폼이 아니라 성격이 다른 컨트롤 묶음의 합**인 경우가 잦습니다(필수 입력 필드 묶음 + 보조 옵션 토글/체크박스 등). **모든 컨트롤을 한 컨테이너로 묶어 동일 gap·동일 패딩으로 평행 배치하지 마세요** — Fieldset(예: 프로젝트 이름·소속 팀 등 입력 묶음)과 보조 옵션(예: "생성 후 바로 멤버 초대 패널 열기" 같은 단일 체크박스)이 같은 위계로 읽히면 사용자가 "이 체크박스가 어느 필드에 종속되는지" 판단하지 못합니다.
   - **Group gap**: 입력 묶음 ↔ 보조 옵션 묶음 사이는 **32px**(`{spacing.xl}`) 이상. Fieldset 내부 필드 간격(24px)보다 한 티어 위로 두어 "다른 묶음"임을 spacing만으로 분리합니다. divider(hairline)는 사용하지 않습니다 — 모달 내부에 가로선이 들어가면 카드가 두 영역으로 쪼개져 보입니다.
@@ -583,7 +617,7 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
     - Body: 상하좌우 모두 **24px**(`{spacing.lg}`).
   - **Picker / Browse 변형**(toolbar + 리스트 구조, 카드 자체 패딩은 0):
     - Toolbar: 고정 높이 **72px**, 좌 **24px**(`{spacing.lg}`) / 우 **16px**(`{spacing.md}`) 비대칭. 좌측은 타이틀 호흡용으로 넓게, 우측은 액션 클러스터가 시각적 무게를 이미 가지므로 좁게.
-    - 리스트(`.modal-list`) 콘텐츠 영역: 상 **8px**(`{spacing.sm}`) / 하 **16px**(`{spacing.md}`) / 좌 **24px**(`{spacing.lg}`) / 우 **16px**(`{spacing.md}`). 상단은 toolbar hairline 바로 아래라 컴팩트하게 한 단(8px) 좁혀 toolbar와 첫 행이 과하게 떨어져 보이지 않게 합니다. 좌우 인셋은 toolbar와 동일 축으로 맞춰 row 타이틀이 toolbar 타이틀과 수직 정렬됩니다.
+    - 리스트(`.modal-list`) 콘텐츠 영역: 상 **8px**(`{spacing.xs}`) / 하 **16px**(`{spacing.md}`) / 좌 **24px**(`{spacing.lg}`) / 우 **16px**(`{spacing.md}`). 상단은 toolbar hairline 바로 아래라 컴팩트하게 한 단(8px) 좁혀 toolbar와 첫 행이 과하게 떨어져 보이지 않게 합니다. 좌우 인셋은 toolbar와 동일 축으로 맞춰 row 타이틀이 toolbar 타이틀과 수직 정렬됩니다.
 - **Shape**: `{radius.xl}` (20px)을 사용합니다. 카드(`radius.lg` 16px)보다 한 단계 더 부드럽게 처리해 떠 있는 컨테이너 특유의 정서를 강조합니다.
 - **Border**: **없음**. 모달은 `{shadow.level-3}`만으로 충분히 떠 있는 느낌을 형성하므로 hairline 보더를 사용하지 않습니다. 보더가 있으면 그림자와 이중 경계가 만들어져 가장자리가 답답해집니다. 다크 모드에서도 동일하게 보더를 제거하고 `Surface Soft` 배경 톤 대비로만 경계를 표현합니다.
 - **Elevation**: `{shadow.level-3}`와 어두운 배경(Scrim)을 조합하여 강력한 수직 계층을 형성합니다.
@@ -633,7 +667,7 @@ BottomSheet 풋터의 취소는 iOS Action Sheet 패턴을 따라 **회색 fill*
 
 BottomSheet 본문에 세로로 쌓이는 풀-너비 액션 행. iOS Action Sheet / Material List Item의 NCAI 변형으로, **시트 내부 전용 리스트 버튼**입니다. Menu Item이 좁은 popup 안의 dense 리스트(높이 32~36px)라면, Sheet Action은 시트 폭 전체를 차지하는 호흡 있는 터치 타겟(높이 48~52px)입니다. 단독 `<button>`이 아니라 시트 컨텍스트 안에서만 사용합니다.
 
-- **Container**: `<ul>` → `<li>` → `<button>` 또는 `<a>`. 시트 Title/Description 아래 `{spacing.sm}` (8px) 간격, 액션 풋터(취소 버튼 등) 위 `{spacing.sm}` 간격으로 분리.
+- **Container**: `<ul>` → `<li>` → `<button>` 또는 `<a>`. 시트 Title/Description 아래 `{spacing.xs}` (8px) 간격, 액션 풋터(취소 버튼 등) 위 `{spacing.xs}` 간격으로 분리.
 - **Contained alignment**: 리스트는 시트 본체의 좌우 패딩(`{spacing.xl}` = 32px) **내부에 정착**합니다. 풋터의 취소 버튼이 같은 좌우 여백 안에 있으므로 액션 리스트도 동일한 여백을 공유해야 시트 전체의 인너 컨테이너 정렬이 일관됩니다. *액션 항목의 호버 배경을 시트 가장자리까지 늘이지 마세요 — 풋터 버튼(여백 있음) ↔ 액션 항목(edge-to-edge) 간 시각 충돌이 발생합니다.*
 - **Size**: 높이 **48px** (기본) / **52px** (아이콘 + 보조 텍스트 2줄 구성). 패딩 `12px {spacing.md}` (16px — 항목 내부 좌측 여백).
 - **Radius — 풋터 버튼과 동일 토큰 사용 (`{radius.md}` = 10px)**: 같은 시트 안에서 함께 보이는 인터랙티브 요소는 라운딩 토큰을 통일합니다. 액션 항목만 `{radius.sm}` (8px), 풋터 취소/확인 버튼은 `{radius.md}` (10px)처럼 1~2px 차이가 나면 정렬은 같지만 모서리 곡률만 미묘하게 달라 "잘못 정렬된 느낌"이 발생합니다. **규칙**: *시트·다이얼로그·드로어 같은 컨테이너 안에 풀-너비 인터랙티브 요소(버튼, 액션 항목, 입력)가 함께 놓일 때, 라운딩은 그 컨테이너에서 가장 큰 요소(보통 풋터 버튼) 기준으로 통일합니다.* 호버 배경은 이 통일된 라운딩 안에 contained pill로 표시됩니다.
@@ -641,7 +675,7 @@ BottomSheet 본문에 세로로 쌓이는 풀-너비 액션 행. iOS Action Shee
 - **Layout**: `display: flex; align-items: center; gap: {spacing.md}` (16px). 좌측 정렬, 텍스트 + 선택적 아이콘/보조 라벨.
 - **Default**: background `transparent`, color `{colors.ink}`.
 - **Hover**: background `{colors.surface-soft}` — Sidebar Item / Menu Item과 동일 토큰. 반응형 시트는 데스크톱(Modal)과 모바일(BottomSheet) 모두 **`{colors.canvas}` 배경으로 통일**되므로, 호버 토큰도 단일 `surface-soft`로 통일하여 두 변형의 인터랙션 신호가 정확히 일치합니다. *임의의 `rgba(0,0,0,0.04)` 오버레이는 디자인 시스템 컬러 토큰을 벗어나므로 사용하지 않습니다.*
-- **Destructive Action**: 텍스트와 아이콘 모두 `{colors.semantic-error}`. 시트 안에서 시각적으로 분리하기 위해 **리스트 최하단에 배치**하고, 위 항목과 `{spacing.sm}` 간격을 둡니다. *주의: 같은 시트에 destructive 항목이 2개 이상이면 시트가 아닌 Alert Dialog로 분리하세요.*
+- **Destructive Action**: 텍스트와 아이콘 모두 `{colors.semantic-error}`. 시트 안에서 시각적으로 분리하기 위해 **리스트 최하단에 배치**하고, 위 항목과 `{spacing.xs}` 간격을 둡니다. *주의: 같은 시트에 destructive 항목이 2개 이상이면 시트가 아닌 Alert Dialog로 분리하세요.*
 - **금지**: 아이콘 뒤 컬러 배경 박스, 우측 chevron(시트는 navigation이 아닌 액션 셀렉터), 항목 간 hairline divider(여백으로 충분), Primary 컬러 채움 행.
 
 **Sheet Action Item — 아이콘 처리** (Sidebar와 동일 패턴)
@@ -652,7 +686,7 @@ BottomSheet 본문에 세로로 쌓이는 풀-너비 액션 행. iOS Action Shee
 - **Icon Color (Default)**: 부모 텍스트 컬러(`{colors.ink}`)를 상속하되 **`opacity 0.75`** 적용. 텍스트보다 한 단계 톤 다운하여 라벨이 우위에 서도록 합니다.
 - **Icon Color (Hover/Active)**: `opacity 1`로 복귀. 인터랙션 시점에 아이콘과 라벨이 동등한 무게로 정렬됩니다.
 - **Destructive Action 아이콘**: 텍스트와 동일하게 `{colors.semantic-error}` 솔리드, opacity 적용하지 않습니다. 위급도 신호는 톤 다운하지 않습니다.
-- **Transition**: `opacity 100ms ease, background 100ms ease`. Sidebar와 동일 토큰.
+- **Transition**: `opacity {motion.fast} {ease.standard}, background {motion.fast} {ease.standard}`. Sidebar와 동일 토큰.
 - **금지**: 아이콘 컬러를 라벨과 무관하게 `{colors.primary}` 등으로 별도 지정 (시트는 정보 전달이지 강조가 아님), 멀티컬러 아이콘, 아이콘 박스 배경, 아이콘만 opacity 1로 두고 텍스트는 muted 처리하는 역위계.
 
 ### Drawer
@@ -683,7 +717,7 @@ BottomSheet 본문에 세로로 쌓이는 풀-너비 액션 행. iOS Action Shee
 - **Border**: **없음**. 가장자리에 붙으므로 보더 대신 `{shadow.level-3}` + Scrim으로 분리.
 - **Border Radius**: **0**. 화면 edge에 정렬되는 변은 라운딩하지 않습니다. Modal/BottomSheet의 `radius.xl`과 달리 Drawer는 직선으로 마감하여 "정착한 패널"의 인상을 줍니다.
 - **Elevation**: `{shadow.level-3}` + 반투명 Scrim (Modal/BottomSheet와 동일).
-- **Motion**: `transform 240ms cubic-bezier(0.22, 1, 0.36, 1)`. `right` 변형은 `translateX(100%) → 0`, `left`는 `translateX(-100%) → 0`.
+- **Motion**: `transform {motion.expand} {ease.out-expo}`. `right` 변형은 `translateX(100%) → 0`, `left`는 `translateX(-100%) → 0`.
 
 **Structure (Header / Body / Footer)**
 Drawer는 BottomSheet의 단일 컨테이너와 달리 **3구역 위계**를 명시합니다.
@@ -693,7 +727,7 @@ Drawer는 BottomSheet의 단일 컨테이너와 달리 **3구역 위계**를 명
   - **Description** (선택): `{typography.body-md}` (16px), `{colors.body-muted}`. 1~2줄로 제한.
 - **Body**: 상하 `{spacing.lg}` / 좌우 `{spacing.xl}`. `overflow-y: auto`로 긴 컨텐츠 스크롤 허용. 섹션 간 `gap: {spacing.lg}` (24px).
   - 섹션 라벨은 `{typography.body-sm}` weight 500 / `{colors.body-muted}` (Sidebar section label과 동일 톤).
-- **Footer**: 상 `{spacing.md}` (16px) / 하 `{spacing.md}` / 좌우 `{spacing.xl}`. 상단 `1px solid {colors.hairline}`. 액션은 **우측 정착**(Modal과 동일), `gap: {spacing.sm}` (8px). 풀-너비 균등 분할은 적용하지 않습니다 — 그건 Alert Dialog/BottomSheet 컴팩트의 역할.
+- **Footer**: 상 `{spacing.md}` (16px) / 하 `{spacing.md}` / 좌우 `{spacing.xl}`. 상단 `1px solid {colors.hairline}`. 액션은 **우측 정착**(Modal과 동일), `gap: {spacing.xs}` (8px). 풀-너비 균등 분할은 적용하지 않습니다 — 그건 Alert Dialog/BottomSheet 컴팩트의 역할.
 
 **Close Affordance**
 - 헤더 우측 상단에 32×32 ghost 버튼 (`x` 아이콘 18px, `{colors.body-muted}`). hover 시 `{colors.surface-soft}` 배경.
@@ -735,15 +769,15 @@ Drawer는 BottomSheet의 단일 컨테이너와 달리 **3구역 위계**를 명
 좁고 일시적인 힌트. 즉각적인 반응성과 라이트/다크 반전이 핵심입니다.
 
 - **반응 속도**: hover open delay **100ms 이하**, close delay **0ms**. Base UI 기본값(600ms)은 너무 느리므로 `Tooltip.Provider`에서 `delay={100} closeDelay={0}`로 강제합니다. *근거: 보조 힌트는 사용자가 의도적으로 머무른 직후 즉시 떠야 인지 비용이 낮습니다.*
-- **애니메이션**: `opacity 0→1` + `transform scale(0.96→1)`, **140ms ease-out**. `data-starting-style` / `data-ending-style`로 진입·퇴장 모두 같은 곡선을 사용합니다. 슬라이드/바운스 금지 — 떠 있는 컨테이너는 정적인 등장이 원칙입니다.
+- **애니메이션**: `opacity 0→1` + `transform scale(0.96→1)`, `{motion.fast}` `ease-out`. `data-starting-style` / `data-ending-style`로 진입·퇴장 모두 같은 곡선을 사용합니다. 슬라이드/바운스 금지 — 떠 있는 컨테이너는 정적인 등장이 원칙입니다.
 - **컬러 (반전 패턴)**: Tooltip은 Popover와 달리 **모드 간 명도를 반전**시켜 본문과의 대비를 극대화합니다.
   - **라이트 모드**: 배경 `{colors.ink}` + 글자 `{colors.on-primary}` (어두운 surface, 밝은 텍스트).
   - **다크 모드**: 배경 `#FFFFFF` + 글자 `#000000` + arrow `fill: #FFFFFF` (밝은 surface, 어두운 텍스트). `surface-soft`로 동기화하지 않습니다 — 다크 본문 위에서 다시 어두운 surface를 쓰면 시인성이 떨어집니다.
-- **사이즈·타이포**: padding `8px 12px`, radius **`{radius.md}` (10px)**, **caption(12px)**, `line-height 1.4`. *radius 근거: Tooltip은 좁지만 인터랙티브 컨텍스트(버튼·아이콘 버튼) 옆에 떠 있는 경우가 많아, 같은 화면에 공존하는 Button(`radius.md` 10px)·Input(`radius.md` 10px)과 곡률을 맞춰야 floating 요소가 따로 노는 인상을 피할 수 있습니다. `radius.sm`(6px)은 뱃지·체크박스처럼 인라인 마이크로 요소 전용이며, Tooltip에 적용하면 옆 트리거와의 곡률 불일치로 어색해집니다.*
+- **사이즈·타이포**: padding `8px 12px`, radius **`{radius.md}` (10px)**, **body-sm(14px)**, `line-height 1.5`. *타이포 근거: caption(12px)은 Toast description처럼 독립 카드의 보조 라인에 쓰이는 최소 위계라 IconButton·Toolbar 옆 hover 힌트에서는 가독성이 부족합니다. Tooltip은 trigger 동작에 대한 1차 설명이므로 body-sm(14px)으로 한 단계 위계를 올려 trigger 라벨(Button body-sm)과 동일한 읽기 곡선을 유지합니다.* *radius 근거: Tooltip은 좁지만 인터랙티브 컨텍스트(버튼·아이콘 버튼) 옆에 떠 있는 경우가 많아, 같은 화면에 공존하는 Button(`radius.md` 10px)·Input(`radius.md` 10px)과 곡률을 맞춰야 floating 요소가 따로 노는 인상을 피할 수 있습니다. `radius.sm`(6px)은 뱃지·체크박스처럼 인라인 마이크로 요소 전용이며, Tooltip에 적용하면 옆 트리거와의 곡률 불일치로 어색해집니다.*
 - **최소·최대 치수**:
   - `min-width: 56px` — 짧은 라벨(예: "저장") 단독으로 떠도 어색한 좁은 버블이 되지 않도록 하한선을 둡니다.
   - `max-width: 260px` — 한 화면 안에서 본문 컬럼을 침범하지 않는 폭. 이보다 길어질 콘텐츠는 Popover로 승격합니다.
-  - `max-height: 120px` + `overflow: hidden` — 멀티라인이 폭발하지 않도록 상한. 두 줄(약 36px)을 권장하고 3줄 이상은 Popover.
+  - `max-height: 120px` + `overflow: hidden` — 멀티라인이 폭발하지 않도록 상한. body-sm(14×1.5≈21px) 기준 두 줄(약 42px)을 권장하고 3줄 이상은 Popover.
   - `min-height`은 별도 지정하지 않습니다. content-driven으로 두되 padding이 시각적 하한을 만들어 줍니다.
 - **그림자**: `{shadow.level-2}` (라이트). 다크 모드에서는 `1px solid {colors.hairline}`로 surface 분리.
 
@@ -761,9 +795,10 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 - **레이아웃**: `<라벨> <kbd-group>` 순서, gap `8px`. 단축키는 항상 우측에 그룹화합니다. 라벨 없이 단축키만 표시하지 않습니다(맥락 손실).
 - **kbd 토큰** — *테두리·배경 없이 글리프(타이포)만으로 표현합니다. Tooltip 자체가 이미 surface 위계를 갖고 있어 그 안에 다시 박스를 두면 위계가 중복되고 노이즈가 됩니다.*
   - 사이즈: `height 18px`, padding **0**, min-width 없음. 박스/보더/배경 모두 **0**. *글리프만 표시하므로 padding이나 min-width를 두면 단축키 글자 사이가 비정상적으로 벌어집니다 — 예: "⌘S"가 "⌘  S"처럼 보입니다.*
-  - 타이포: 11px / **weight 600** (글리프만으로 위계를 만들기 위해 본문보다 한 단계 굵게) / letter-spacing 0.02em.
-  - 컬러 (라이트): `rgba(255, 255, 255, 0.65)` — Tooltip 본문(`on-primary`)보다 한 톤 dim하여 라벨이 우선시되고 단축키는 보조 정보로 읽히게 합니다.
-  - 컬러 (다크): `rgba(0, 0, 0, 0.55)` — 같은 원리로 본문(`#000`)보다 dim.
+  - 타이포: **`{typography.caption}` (12px)** / **weight regular (400, inherit)**. *본문이 body-sm(14px)이므로 한 단계 작은 caption(12px)으로 위계 차이를 만듭니다. weight는 본문과 동일한 regular — kbd는 'dim한 보조 정보'가 컨셉이라 굵게 처리하면 의도와 모순됩니다 (굵기는 강조, dim은 약화). 사이즈와 컬러만으로 위계를 만들고 weight는 일관 유지.*
+  - 폰트 패밀리: **`{font.text}` (Pretendard)**. *브라우저 user-agent 기본 스타일이 `kbd { font-family: monospace }`라 명시적 override가 필요합니다 — `inherit`로 우회하지 않고 디자인 토큰을 직접 참조해 의도를 코드 표면에 드러냅니다. mono(`{font.mono}` Geist Mono)는 적용하지 않습니다. 좁은 tooltip 안에서 본문↔kbd 폰트 패밀리가 다르면 x-height·baseline 차이로 라벨과 kbd가 미세하게 어긋나 보입니다. macOS 심볼(⌘ ⇧ ⌥ ⌃)은 어떤 폰트에서도 동일한 유니코드 글리프로 렌더되므로 sans-serif에서도 가독성 손실이 없습니다. mono는 단축키만 모아 보여주는 Cheatsheet/Help Modal 같이 단축키 자체가 콘텐츠일 때만 사용합니다.*
+  - 컬러 (라이트): **`{colors.on-ink-muted}` (rgba(255,255,255,0.64))** — Tooltip 본문(`on-primary` 흰색)보다 한 톤 dim하여 라벨이 우선시되고 단축키는 보조 정보로 읽히게 합니다.
+  - 컬러 (다크): `rgba(0, 0, 0, 0.55)` — 같은 원리로 본문(`#000`)보다 dim. *다크 모드 tooltip은 흰 surface 위 검정 텍스트라 'ink 위 muted' 토큰(`on-ink-muted`)과 의미가 반대 — 현재 'canvas 위 muted' 토큰은 정의되어 있지 않아 하드 rgba를 유지합니다. 향후 `{colors.on-canvas-muted}` 추가 시 토큰화 후보.*
   - 다중 키: 각 키를 개별 `<kbd>`로 분리하고 **gap `1px`** (거의 붙여서)로 나열합니다 (예: `⌘S`). 박스가 없는 글리프 표현에서 gap을 4px 이상 두면 한 단축키 조합이 아닌 별개의 키 두 개로 읽힙니다. `+` 기호로도 잇지 않습니다 — 시각적 노이즈.
   - 심볼: macOS는 `⌘ ⇧ ⌥ ⌃`, Windows/Linux는 `Ctrl Shift Alt`. 플랫폼을 런타임에 감지하여 일관되게 표시.
   - **금지**: kbd 박스 테두리, 배경 fill, radius, 그림자. Tooltip 안의 kbd는 **타이포 전용 토큰**입니다.
@@ -773,6 +808,63 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 - 멀티라인 설명(2줄 이상이면 Popover로 승격).
 - 액션 버튼/링크/인터랙티브 콘텐츠.
 - `max-width` 260px 또는 `max-height` 120px 초과 콘텐츠.
+
+#### Popover 전용 규칙
+명시적 클릭으로 여는 인터랙티브 보조 패널. 멀티라인 본문을 담는 미니 카드. Tooltip(다크 라벨)과 달리 라이트 surface 위에 위계 있는 콘텐츠(제목 + 본문)를 둡니다.
+
+- **트리거 위계**: 시각 비중이 가벼운 트리거가 원칙. **`icon-btn icon-btn--ghost icon-btn--sm`** (32×32 ghost icon button + `info` / `circle-help` 등 아이콘)이 가장 보편적인 패턴 — GitHub/Linear/Vercel 표준. *근거: Popover는 보조 정보 제공이지 main 액션이 아님. 트리거가 콘텐츠를 압도하면 modal 의도와 충돌합니다.*
+- **사이즈·타이포** (`.popover-card`):
+  - `width: 260px`, `max-width: min(280px, var(--available-width))`.
+  - `padding: 16px 18px` — Tooltip(`8px 12px`)과 명확히 차별화되는 카드 톤 여유.
+  - `gap: 8px` — 제목과 본문 사이 spacing.
+  - `border-radius: {radius.md}` (10px) — 정보 카드(`{radius.lg}` 16px)보다 한 단계 컴팩트한 떠 있는 패널 톤. *card-standard 그룹(`.accordion-item`, `.form-card`, `.fieldset`, `.preview-card`, `.modal-card`)에서 `.popover-card`를 분리해 독립 정의.*
+- **본문 텍스트** (`.popover-copy`): font-size **14px** (body-sm) + line-height 1.5 + color `{colors.body-muted}`. *근거: `modal-copy`(16px body-md)를 그대로 쓰면 좁은 보조 패널 위계를 침범합니다. popover-title(16px body-md weight 600)과의 강도 위계도 명확해집니다.*
+- **그림자**: **`{shadow.level-2}`** (`0 8px 24px rgba(15,23,42,0.12)`). *근거: Modal급 `{shadow.level-3}`은 main surface 위계로, 보조 패널인 Popover가 쓰면 무게가 어울리지 않습니다. border + level-2의 이중 광학 대비로 floating 표현은 충분.*
+- **컬러 (모드별)**:
+  - **라이트**: 배경 `{colors.canvas}` + border `1px solid {colors.hairline}`.
+  - **다크**: 배경 `{colors.surface-soft}` + border `rgba(255,255,255,0.10)` (translucent white overlay). Tooltip의 라이트/다크 **반전 패턴**과 달리 Popover는 surface 위계 톤을 유지합니다 — 인터랙티브 카드라 본문 가독성이 우선.
+- **Enter / Exit animation**: **fade-only** (`opacity 0→1`, `{motion.fast}` `ease-out`). **`scale(0.98)` 진입 transform 금지** — popup-arrow가 popup-card의 자식이라 scale에 따라 transform-origin 기준으로 1px 시각적으로 움직이는 부작용이 발생합니다. Popover 시스템 전체(`.popover-card`, `.date-picker-popover`)가 이 규칙을 공유. *근거: Tooltip은 자식 콘텐츠가 단일 텍스트뿐이라 scale이 자연스러운 인지 신호지만, Popover는 Arrow + 멀티라인 콘텐츠를 담은 카드라 scale이 alignment 정밀도를 깹니다.*
+
+##### Popover 금지 사항
+- 큰 솔리드 버튼 트리거(`button-primary`/`button-secondary` height 48) — modal/drawer 의도와 충돌.
+- `chevron-down` 트리거 — select/dropdown 메타포와 충돌(Popover는 옵션 선택이 아니라 보조 패널 열기).
+- `{shadow.level-3}` (modal급 무게).
+- `transform: scale()` enter/exit animation (popup-arrow 1px shift).
+- `modal-copy`(16px) 본문 — 좁은 패널 위계 침범.
+- 시스템 외 임시 트리거 클래스 정의(`button-ghost button-sm` / `text-link` 등 시스템 클래스로 표현).
+
+#### Popup Arrow (꼬리)
+Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.Arrow>` wrapper의 SVG 사양. base-ui는 wrapper의 자동 position(left/right 가운데 정렬)만 처리하고 SVG children은 직접 제공해야 합니다. wrapper에 SVG가 없으면 빈 0×0 div로 렌더되어 화살표가 표시되지 않습니다.
+
+- **SVG 구조** (2-layer fill + stroke):
+  - **viewBox**: `0 0 16 9` — SVG element의 `width`/`height` attribute와 **1:1 매핑** (좌표 1단위 = 1px). *근거: viewBox와 element 크기가 다르면 path 좌표계가 비례 확대되어 stroke 두께도 같이 확대됨 → popover-card의 hairline border(1px)와 톤 불일치. 1:1 매핑이 stroke 두께 통제의 핵심.*
+  - **fill path** (closed, `.arrow-fill`): `M0 8 L8 0 L16 8 L16 9 L0 9 Z` — triangle + **1px 높이 baseline rectangle**. *baseline rect가 popover-card의 top hairline border(1px)를 정확히 같은 두께로 mask해 꼬리와 몸통이 같은 fill 영역으로 연결되는 시각 효과. 이게 빠지면 popover top hairline이 꼬리 base를 가로질러 두 개의 분리된 도형으로 보임.*
+  - **stroke path** (open, `.arrow-stroke`): `M0 8 L8 0 L16 8` — 두 변만(Z 없음, baseline 제외). *popover top edge가 stroke 양 끝점과 정확히 만나는 지점에서 hairline border와 자연스럽게 join. baseline에 stroke를 그리면 popover top hairline과 중복되어 어색해집니다.*
+- **CSS** (`.popup-arrow`):
+  - **`display: block` on inner svg** — SVG는 기본 `inline` 요소라 wrapper의 텍스트 baseline에 정렬됨 → 의도한 좌상단에서 line-box ascender만큼 밀림. 명시적 `block`으로 이 함정을 회피해야 wrapper top 좌표와 SVG 박스가 1:1 일치.
+  - **stroke**: `stroke-width: 1`, `stroke-linejoin: round` (꼭짓점 부드럽게), **`stroke-linecap`은 default `butt`** — `round`로 두면 stroke 양 끝(baseline 양 끝점)이 0.5px씩 반원으로 빠져나가 popover 보더와 만나는 지점이 미세하게 어긋남.
+  - **stroke color**: 라이트 `{colors.hairline}` / 다크 `rgba(255,255,255,0.10)` — popover-card border와 동일 톤.
+  - **fill color**: 라이트 `{colors.canvas}` / 다크 `{colors.surface-soft}` — popover-card 배경과 동일 톤.
+- **Position offset** (data-side 기준 — base-ui Floating UI 컨벤션: "popup이 trigger의 어느 쪽에 위치하는지"):
+
+| `data-side` | popup 위치 | 화살표 방향 | offset |
+|---|---|---|---|
+| `top`    | trigger 위    | ▽ popup 아래 | `bottom: -8px; rotate: 180deg` |
+| `bottom` | trigger 아래  | ▲ popup 위   | `top: -8px` (회전 없음) |
+| `left`   | trigger 왼쪽  | ▶ popup 오른쪽 | `right: -12px; rotate: 90deg` |
+| `right`  | trigger 오른쪽 | ◀ popup 왼쪽   | `left: -12px; rotate: -90deg` |
+
+  - *offset 값 계산: SVG height(9) + base-ui Arrow wrapper의 자체 ~1px padding 보정 + stroke-width/2 보정. 결과적으로 stroke 양 끝점이 popover-card top edge 위에 정확히 align.*
+  - **꼭짓점 prominence**: popover edge에서 약 **8px 위**로 튀어나옴 — 꼬리 끝이 trigger를 명확히 가리키는 인상.
+
+##### Popup Arrow 금지 사항
+- viewBox와 SVG element 크기 불일치 (stroke 두께 비례 확대 → hairline border와 톤 불일치).
+- base-ui 표준의 fill-based stroke 표현 (`arrow-outer-stroke` / `arrow-inner-stroke` 분리된 fill path). viewBox 변경 시 stroke 두께 통제 불가 — 항상 **진짜 stroke 속성** 사용.
+- baseline에 stroke 그리기 (popover top edge와의 join에서 hairline 중복).
+- baseline rectangle 없이 triangle만 fill 처리 (꼬리·몸통 분리 인상).
+- `stroke-linecap: round` (양 끝점 0.5px 반원 → alignment 어긋남).
+- SVG에 `display` 명시 안 함 (inline baseline 정렬로 위치 1px 밀림).
+- `data-side` 회전 매핑 반전 (꼬리가 거꾸로 그려짐) — SVG 기본형 ▲(꼭짓점 위쪽) 기준으로 `bottom` 배치는 회전 없음, `top` 배치는 180도 회전.
 
 ### Navigation
 - **`top-nav`**: 화면 상단 고정. 스크롤을 내리면 Apple처럼 배경이 흐려지는 블러(Blur) 처리나, 옅은 Level 2 그림자가 생겨 본문과 층을 분리함. 높이는 64px 내외. **다크 모드에서는 블루 틴트가 없는 중성적인 다크 컬러(`rgba(17, 17, 17, 0.85)`)를 사용하여 배경과 완벽하게 조화되도록 합니다.**
@@ -806,7 +898,7 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 - **Default**: color `{colors.body}`, background transparent.
 - **Hover**: background `{colors.surface-soft}`, color `{colors.ink}`.
 - **Active**: background `{colors.surface-soft}`, color `{colors.ink}`. weight는 default(500) 유지. *Primary 텍스트 컬러·좌측 액센트 바·트리 라인 사용 금지.*
-- **Transition**: `background 100ms ease, color 100ms ease`.
+- **Transition**: `background {motion.fast} {ease.standard}, color {motion.fast} {ease.standard}`.
 
 **Sub-item (2뎁스)**
 - **들여쓰기**: padding-left `28px` (부모 아이콘 18px + gap 10px 정렬). 자식 그룹 좌측에 **vertical guide line** (`::before` pseudo, 1px width, `{colors.hairline}`, 부모 아이콘 중앙 x-좌표에 정렬)을 그어 tree 구조를 명시.
@@ -822,7 +914,7 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 
 **Chevron (Disclosure Indicator)**
 - 14px, `currentColor`, `opacity 0.5`. 부모 항목 색을 그대로 상속.
-- Collapsed = 0deg (오른쪽), Expanded = 90deg (아래). `transform 160ms ease`로 부드럽게 회전.
+- Collapsed = 0deg (오른쪽), Expanded = 90deg (아래). `transform {motion.fast} {ease.standard}`로 부드럽게 회전.
 
 **Badge (알림 카운트)**
 - Min-width `18px` / height `18px` / radius `9px`. Font 11px / weight 600.
@@ -865,7 +957,7 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 - **Width**: **`min(280px, calc(100vw - 56px))`**. 데스크톱 Sidebar(264px)와 유사한 폭을 유지하되, 모바일에서는 **최소 56px의 스크림**을 항상 노출하여 "Drawer는 본문 위에 떠 있는 보조 패널"이라는 정체성을 시각적으로 유지합니다. `85vw` 같은 단순 비율은 좁은 화면에서 화면을 거의 덮어 Modal과 구분이 사라지므로 사용하지 않습니다.
 - **Border / Radius**: 화면 edge에 붙으므로 **0**. 데스크톱 Sidebar의 카드형 hairline 보더와 `{radius.md}`는 **모두 해제**합니다.
 - **Background**: `{colors.canvas}`. Sidebar 내부 컨테이너는 `transparent`로 두고 Drawer 배경이 표면을 담당.
-- **Padding**: Drawer 내부에서 sidebar 컨테이너 패딩을 `{spacing.md} {spacing.sm}`로 다운그레이드. 데스크톱의 `12px 10px`보다 살짝 여유를 두어 모바일 터치 리듬에 맞춤.
+- **Padding**: Drawer 내부에서 sidebar 컨테이너 패딩을 `{spacing.md} {spacing.xs}`로 다운그레이드. 데스크톱의 `12px 10px`보다 살짝 여유를 두어 모바일 터치 리듬에 맞춤.
 
 **Header (모바일 한정)**
 - 브랜드 마크(또는 페이지 타이틀) + 우측 32×32 닫기(`x`) 버튼. Drawer 표준 헤더와 동일.
@@ -876,7 +968,7 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 - 단, 터치 타겟이 부족하다고 판단되면 아이템 높이만 **40px**까지 상향 가능 (디자인 토큰화하여 일괄 관리).
 
 **인터랙션**
-- 트리거 클릭 → Drawer 슬라이드 인 (240ms ease-out).
+- 트리거 클릭 → Drawer 슬라이드 인 (`{motion.expand}` `{ease.out-expo}`).
 - 아이템 선택 시 **자동으로 Drawer를 닫습니다** (라우팅 직후 패널 닫힘). 사용자가 메뉴를 다시 열 필요 없는 자연스러운 흐름.
 - 스크림 클릭 / Esc / 닫기 버튼 모두 닫힘 트리거.
 
@@ -942,10 +1034,10 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 - **Border Radius**: `{radius.md}` (10px). 카드(`{radius.lg}` 16px)보다 한 단계 작게 잡아 토스트의 가벼움을 강조합니다.
 
 **Motion**
-- **Enter**: 우측에서 16px 슬라이드 + 페이드 인. `cubic-bezier(0.22, 1, 0.36, 1)`, **280ms**.
-- **Exit**: 우측으로 8px 슬라이드 + 페이드 아웃. `cubic-bezier(0.4, 0, 1, 1)`, **180ms**.
+- **Enter**: 우측에서 16px 슬라이드 + 페이드 인. `{ease.out-expo}`, `{motion.expand}`.
+- **Exit**: 우측으로 8px 슬라이드 + 페이드 아웃. `ease-in`, `{motion.normal}`.
 - **Auto-dismiss**: 기본 **5초**. 호버 시 타이머 일시 정지, 포커스 시에도 동일.
-- **스택 재정렬**: 새 토스트 추가 시 기존 토스트는 200ms ease-out으로 자연스럽게 아래로 밀려납니다.
+- **스택 재정렬**: 새 토스트 추가 시 기존 토스트는 `{motion.normal}` `ease-out`으로 자연스럽게 아래로 밀려납니다.
 
 **Accessibility**
 - ARIA: `role="status"` (Positive/Info) 또는 `role="alert"` (Negative/Warning).
@@ -1004,15 +1096,15 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 - **Radio**
   - **Outer**: 18×18, `{radius.full}`, 1px `{colors.hairline}` 보더, 배경 `{colors.canvas}`.
   - **Checked**: 보더 `{colors.primary}` 1.5px, 내부 점 8px 원형 `{colors.on-primary}` 위 `{colors.primary}` 배경. (다크 모드에서도 내부 점은 `{colors.on-primary}` 고정.)
-- **Label**: 우측에 `{spacing.sm}` (8px) 간격, `{typography.body-md}` (16px) / `{colors.ink}`. 라벨 전체가 클릭 영역.
-- **Group Spacing**: 세로 그룹은 `{spacing.sm}` (8px) 행 간격, 가로 그룹은 `{spacing.lg}` (24px) 간격.
+- **Label**: 우측에 `{spacing.xs}` (8px) 간격, `{typography.body-md}` (16px) / `{colors.ink}`. 라벨 전체가 클릭 영역.
+- **Group Spacing**: 세로 그룹은 `{spacing.xs}` (8px) 행 간격, 가로 그룹은 `{spacing.lg}` (24px) 간격.
 - **금지**: 라운드 모서리를 풀(`pill`)로 만들기, 체크 아이콘에 Primary 외 컬러 사용, 라디오 내부 점에 `canvas`/그 외 컬러 사용.
 
 ### Field / Fieldset / Form
 폼 구조 요소. 의미 있는 그루핑과 라벨링을 통해 접근성과 시각 위계를 동시에 만듭니다.
 
 - **Field (단일 필드 묶음: Label + Control + Description/Error)**
-  - **Layout**: 세로 스택, gap `{spacing.xs}` (4px). *Label과 Control을 한 덩어리로 강하게 본딩하는 타이트 간격입니다. `{spacing.sm}` (8px)은 라벨이 컨트롤과 분리되어 보이고, `12px` 이상은 별도 묶음으로 읽힙니다.*
+  - **Layout**: 세로 스택, gap `{spacing.xxs}` (4px). *Label과 Control을 한 덩어리로 강하게 본딩하는 타이트 간격입니다. `{spacing.xs}` (8px)은 라벨이 컨트롤과 분리되어 보이고, `12px` 이상은 별도 묶음으로 읽힙니다.*
   - **Label**: `{typography.body-sm}` weight 500 / `{colors.ink}`. Control 위 **4px** 간격.
   - **Description (Help)**: `{typography.caption}` (12px) / `{colors.body-muted}`. Control 아래 **4px**.
   - **Error**: `{typography.caption}` / `{colors.semantic-error}`. Description과 동일 위치(둘 다 있으면 Error가 Description 대체). Control 보더는 `{colors.semantic-error}` (전역 정책).
@@ -1043,6 +1135,7 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
   - **Empty 시 자동 숨김**: Base UI `Autocomplete.Clear`가 값이 비어있으면 자동으로 unmount.
   - *예외 메모*: List/Menu Item의 hover는 `surface-soft`지만, Clear chip은 이미 채워진 컨트롤이라 `surface-soft`로 hover하면 오히려 옅어져서 신호가 약해짐. 채워진 컨트롤은 "같은 축에서 한 단계 진하게" 규칙을 별도로 적용.
 - **Input 수직 정렬**: Autocomplete 입력은 좌/우 어댑터(아이콘 슬롯·clear 버튼)와 정렬을 맞추기 위해 `line-height: 48px`(입력 그룹 높이와 동일)을 지정. placeholder가 위쪽으로 치우치는 현상 방지.
+- **Base UI 합성 구조 (필수)**: `Trigger` 직속 자식이 아니라 **`Select.Portal` → `Select.Positioner` → `Select.Popup`** 3중 구조로 감싸야 floating overlay로 동작합니다. Portal/Positioner를 누락하면 popup이 폼 흐름 안에 인라인으로 렌더링되어 다음 필드와 겹치고, Popup 카드 토큰(배경/보더/그림자)도 시각적으로 무효화됩니다. Menu / Popover / Tooltip / Dialog도 동일.
 - **Popup (Listbox)** — 세 변형 공통
   - **Background**: `{colors.canvas}`, 1px `{colors.hairline}`, `{radius.md}` (10px), `{shadow.level-2}`.
   - **Width**: 트리거와 동일 폭(min-width = trigger width). max-height 280px, 초과 시 스크롤.
@@ -1096,24 +1189,37 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 #### Number Field
 숫자 증감 입력. 좌우 증감 버튼 + 중앙 숫자 입력의 grouped 컨트롤.
 
-- **Group**: 1px `{colors.hairline}` 보더로 감싸고, `{radius.md}` (10px) + `overflow: hidden`으로 내부 버튼 경계 클리핑.
-- **Stepper Button**: 40×48 (전체 그룹 높이 48px), 배경 `{colors.canvas}`, hover `{colors.surface-soft}`. 텍스트 `{typography.body-md}` weight 500.
-- **Input**: 중앙 정렬(`text-align: center`), 보더 없음(그룹이 보더 담당), 폭 80px.
-- **Disabled**: 버튼 opacity 0.4, cursor not-allowed.
+- **Group**: 1px `{colors.hairline}` 보더, `{radius.md}` (10px), `height: 48px` (공유 룰 — `.combo-input-group`과 동일 outer로 모든 인풋 컨트롤 baseline 통일), `padding: 0 4px`, `gap: 4px`. 세로 여백은 별도 padding으로 두지 않고 `align-items: center`로 40px 자식(버튼·입력)을 자동 3px씩 띄움. `overflow: hidden`을 유지해 hover fill 모서리가 그룹 곡률을 넘지 않게 합니다.
+
+> **그룹 컨테이너 공통 정책**: `.combo-input-group`(Autocomplete/Combobox)과 `.number-group`은 같은 chassis 룰을 공유하며 `height: 48px`로 고정됩니다. 단독 `.text-input`(48px outer)과 동일 라인에 정렬되도록 한 것. 내부 자식이 48px이면 border-box 1+46+1 안에서 위아래 1px씩 `overflow: hidden`으로 클립되는데, 자식이 transparent 배경 + borderless 입력이라 시각적으로 무손실. 자식을 굳이 46/40px로 줄이지 마세요(`.number-group`처럼 padding 어포던스가 필요할 때만 자식 사이즈를 축소).
+- **Stepper Button — `icon-btn--ghost` + `icon-btn--md` 재사용**
+  - **별도 `stepper-button` 토큰을 만들지 마세요.** 라벨 없는 정사각 보조 액션이라는 정의가 Icon Button과 동일하므로, 같은 클래스 조합(`icon-btn icon-btn--ghost icon-btn--md`)을 그대로 적용합니다. hover(`{colors.surface-soft}` 채움) · `[data-disabled]` (opacity 0.4 + cursor not-allowed) · focus 동작이 Icon Button 토큰에서 자동 상속됩니다.
+  - **크기**: 40×40 (`icon-btn--md`).
+  - **아이콘**: `Minus` / `Plus`, **16px** (Icon Button 표준 20px에서 한 단계 작은 예외). *근거: Plus/Minus는 직선 1~2개로 구성된 단순 도형이라 같은 nominal 사이즈에서 Search/Settings 같은 디테일 있는 아이콘보다 시각 무게가 무겁게 인지됨. 입력값 옆 보조 컨트롤이라는 위계에 맞추기 위해 한 단계 줄임.* 텍스트 문자(`−` / `+`)를 직접 넣지 마세요 — 폰트 weight/정렬에 의존하면 시각 무게가 들쭉날쭉하고, `currentColor`를 받아 색 토큰 시스템을 따르지 못합니다.
+  - **컬러**: ghost 기본 동작(`{colors.body}` → hover `{colors.ink}`). **`{colors.primary}` 채움 금지** — 스테퍼는 입력값을 보조하는 컨트롤이지 강조 액션이 아닙니다. 파란 채움/텍스트는 입력값과 시각적으로 경쟁합니다.
+- **Input**: 중앙 정렬(`text-align: center`), 보더 없음(그룹이 보더 담당), `min-height: 40px` — 스테퍼 버튼 높이와 같은 라인에 정렬되도록 텍스트 입력 기본값(48px)을 줄입니다. 좌우 패딩은 0(스테퍼와 4px gap이 시각적 여백을 담당).
+- **Disabled (min/max 도달)**: Base UI `NumberField`가 한계값에서 자동으로 `data-disabled` + `disabled`를 부여하므로 별도 처리 불필요 — `.icon-btn[data-disabled]` 규칙에서 opacity 0.4와 not-allowed 커서가 적용됩니다.
+- **접근성**: 두 스테퍼 모두 `aria-label` 필수 (`"값 감소"` / `"값 증가"`). 키보드 ↑/↓는 Base UI `NumberField.Input`이 처리합니다.
+- **금지**
+  - 별도 `.stepper-button` 클래스나 토큰 신설(Icon Button 재사용으로 충분 — 두 곳에 분기된 hover/disabled/focus 규칙을 유지하지 않습니다).
+  - `−` / `+` 텍스트 문자 사용(폰트 의존 + currentColor 미지원).
+  - Primary 컬러 채움이나 텍스트 컬러 강조(보조 컨트롤 위계 위반).
+  - `overflow: hidden`을 이용해 버튼을 그룹 모서리까지 붙이는 edge-to-edge 패턴 — 내부 4px padding으로 분리된 ghost 버튼이 hover 어포던스를 훨씬 명확히 전달합니다.
 
 #### OTP Field
 일회용 인증 코드 입력. n자리(보통 4/6자리) 개별 셀.
 
-- **Cell**: 48×56(살짝 세로로 긴 비율), `{radius.md}` (10px), 1px `{colors.hairline}`, 배경 `{colors.canvas}`, `{typography.headline}` (28px) weight 600 / 중앙 정렬.
-- **Cell Gap**: `{spacing.sm}` (8px). 셀이 6개를 넘어가면 3개 단위로 그룹 사이를 `{spacing.md}` (16px)로 벌려도 됨.
+- **Cell**: 48×56(살짝 세로로 긴 비율), `{radius.md}` (10px), 1px `{colors.hairline}`, 배경 `{colors.canvas}`, 중앙 정렬.
+- **Cell Typography**: `{font.mono}` (Geist Mono) / 24px / weight 500 (`{fw.label}`). *근거: headline 28px(weight 600)은 셀 폭(48px) 대비 비중이 과해 한 자리만 채워졌을 때 시각 무게가 흔들리고, 20px는 셀 높이(56px) 대비 가벼워 입력값이 셀 안에서 둥둥 떠 보임. 24px가 셀 비례에 균형 잡힌 비중. mono 패밀리는 모든 숫자 폭이 동일해 1·4·7 같이 글자폭이 다른 숫자가 섞여도 정렬이 또렷하게 유지되고, 일회용 코드 입력이라는 맥락(영문이 아닌 숫자 위주)에 부합. weight 500은 mono 굵기에 600을 더하면 디지털 시계처럼 무거워지는 인상을 피하기 위한 의도적 다운그레이드.*
+- **Cell Gap**: `{spacing.xs}` (8px). 셀이 6개를 넘어가면 3개 단위로 그룹 사이를 `{spacing.md}` (16px)로 벌려도 됨.
 - **Focus**: 보더 `{colors.primary}` 1.5px (전역 정책).
 - **Filled**: 텍스트 `{colors.ink}`. 자동 다음 셀로 포커스 이동(Base UI `OTPField` 기본 동작).
-- **Accessibility**: 첫 셀에만 `aria-label="인증 코드"`를 두고, 나머지 셀은 "인증 코드 N번째 자리" 라벨로 분리.
+- **Accessibility**: `<label>` (또는 `Field.Label`)을 OTP 그룹에 연결하면 Base UI가 첫 셀에 `aria-labelledby`를 자동 부여합니다 — 첫 셀의 `aria-label`은 Base UI `OTPField.Input`이 의도적으로 무시(dev 환경 경고)하므로 전달하지 않습니다. 2번째 셀부터는 `aria-label="인증 코드 N번째 자리"`로 분리.
 
 ### Menu / Context Menu
 키보드 탐색이 가능한 드롭다운 메뉴. **Menu**는 명시적 트리거 버튼, **Context Menu**는 우클릭/길게 누름으로 호출. 두 변형은 동일한 Popup/Item 토큰을 공유하므로, 동일 화면에 둘 다 등장해도 시각 언어가 유지됩니다.
 
-- **Popup**: Autocomplete Popup과 동일 토큰 (`{colors.canvas}` / 1px `{colors.hairline}` / `{radius.lg}` (16px) / `{shadow.level-2}`). 패딩 `{spacing.sm}` (8px), min-width 200px.
+- **Popup**: Autocomplete Popup과 동일 토큰 (`{colors.canvas}` / 1px `{colors.hairline}` / `{radius.lg}` (16px) / `{shadow.level-2}`). 패딩 `{spacing.xs}` (8px), min-width 200px.
 - **Menu Item — 기본**
   - 높이 40px(min-height), 좌우 패딩 12px, gap 10px, `{typography.body-sm}` (14px) / `{colors.ink}`.
   - **Hover/Highlighted**: 배경 `{colors.surface-soft}`, `{radius.md}` (10px). 키보드 포커스도 동일 토큰을 공유합니다.
@@ -1125,7 +1231,6 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 - **Menu Item — Destructive**
   - 텍스트·아이콘 모두 `{colors.semantic-error}`. Highlighted 배경은 `{colors.semantic-error}` 8% 알파(`color-mix`)로 채움 — `{colors.surface-soft}`를 사용하면 위험 신호가 약해집니다.
   - Destructive 항목은 메뉴 하단(또는 별도 그룹) 1개로 제한하고, 위에 separator를 1줄 둡니다.
-- **Checkbox/Radio Item**: 좌측 16px indicator 영역, 체크 시 16px check 아이콘 `{colors.primary}`. 아이콘 항목과 같은 슬롯을 점유하므로 한 메뉴 내에서 컬럼이 정렬됩니다.
 - **Separator**: 1px `{colors.hairline}`, 상하 margin 4px. 의미 그룹의 경계에서만 사용 — 시각적 호흡 목적이라면 spacing을 키우는 쪽을 선호합니다.
 
 #### 2-depth Submenu
@@ -1144,13 +1249,17 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 - **금지**: 메뉴 항목 좌측에 컬러 액센트 바, Primary 채움 hover, 항목 내부 멀티라인 본문(설명이 필요하면 Tooltip 또는 Navigation Menu Feature Link 패턴 사용).
 
 ### Navigation Menu
-사이트 1차 내비게이션(주로 데스크톱 헤더). 트리거 hover 시 mega-menu/dropdown content를 노출하는 패턴.
+사이트 1차 내비게이션(주로 데스크톱 헤더). 트리거 hover 시 mega-menu/dropdown content를 노출하는 패턴. Vercel/Linear/Stripe 계열의 텍스트-전용 트리거 + neutral surface 패턴을 따릅니다.
 
-- **Trigger**: `{typography.button-sm}` (14px / weight 500) / `{colors.ink}`. 높이 40px, 좌우 패딩 12px, gap 6px, 우측 12px `chevron-down`.
-- **Trigger Hover**: 배경 `{colors.surface-soft}`, `{radius.md}` (10px).
-- **Content (Popup)**: `{colors.canvas}` / 1px `{colors.hairline}` / `{radius.lg}` (16px) / `{shadow.level-2}`. 패딩 `{spacing.md}` (16px), 폭 360~480px.
-- **Feature Link (강조 항목)**: 첫 줄 `{typography.body-md}` weight 600, 보조 줄 `{typography.body-sm}` / `{colors.body-muted}`. hover 시 배경 `{colors.surface-soft}`, `{radius.md}`.
-- **Link (일반)**: Feature Link와 동일 구조, 첫 줄 weight 500.
+- **Trigger**: `{typography.label-lg}` (16px / weight 500) / `{colors.ink}`. 높이 40px, 좌우 패딩 `{spacing.sm}` (12px), gap 6px, 우측 14px `chevron-down`. *주: 일반 40px 컴포넌트는 `button-sm` (14px)을 쓰지만, nav menu는 사이트 1차 내비게이션이라 가독성을 더 중시하여 label-lg(16px) 사용.*
+- **Trigger Hover · Open**: 배경 `{colors.surface-soft}`, `{radius.md}` (10px). **hover와 open 동일 배경** — 열린 상태의 시각 단서는 chevron의 180° 회전이 담당 (Vercel/Linear 패턴).
+- **Content (Popup)**: `{colors.canvas}` / 1px `{colors.hairline}` / `{radius.lg}` (16px) / `{shadow.level-2}`. 폭 `min(560px, available-width)`, 패딩 `{spacing.sm}` (12px).
+- **Popup Grid**: 2-column `1fr 1fr`. 카드 간 gap `{spacing.sm}` (12px). Feature가 있는 popup은 feature가 col 1 / row 1~끝 spanning, 일반 link 2개가 col 2에 세로 스택. Feature 없는 compact 변형은 모든 link가 같은 1fr 셀에 auto-flow. **모든 카드(feature·link)는 같은 너비** — Feature 위계는 너비가 아니라 height·gradient·weight로 표현.
+- **Feature Link (강조 항목)**: 첫 줄 `{typography.label-lg}` (16px) / weight 600 (`{fw.heading}`) / `{colors.ink}`, 보조 줄 `{typography.body-sm}` (14px) / `{colors.body-muted}` / line-height `{lh.caption}` (1.4 — body 기본 1.5보다 타이트하게 카드 내 수직 점유 절약). min-height 168px, 패딩 `{spacing.md}` (16px), 콘텐츠 하단 정렬(`justify-content: flex-end`). 배경은 `radial-gradient(circle at 74% 24%, color-mix(in srgb, {color.primary} 8%, transparent), transparent 45%)` 위에 `{colors.canvas}` — **primary 8% glow는 장식이며 hover에도 고정**. hover 시 base만 canvas → `{colors.surface-soft}`로 톤 업.
+- **Link (일반)**: 첫 줄 `{typography.label-lg}` / weight 500 (`{fw.label}`) / `{colors.ink}`, 보조 줄은 Feature와 동일 (body-sm / muted / lh-caption). 패딩 `{spacing.sm}` (12px) all-sides. hover 시 배경 `{colors.surface-soft}`. *Feature와 link의 시각 차이는 weight(600 vs 500) · height(168 vs auto) · gradient bg·bottom-align.*
+- **Description Typography 정책**: nav menu 카드의 보조 텍스트는 본문 보조 정보이므로 `body-sm` 시멘틱이 기본. 단, popup 다층 행 사이에서 body 기본 `lh 1.5`는 수직 점유가 과해 보이므로 **`lh-caption` (1.4)을 차용**. weight·size·letter-spacing은 body-sm 그대로 유지.
+- **Active 상태 (현재 위치 표시)**: ⚠️ **미정 (TBD)** — 시스템 컨벤션상 컬러 강조 대신 중립 톤이 권장됨(Sidebar L2661 패턴 참조)이나, "weight bump만으로는 시각 변화가 미미", "muted→ink 컬러 전환은 default가 이미 ink면 무력화"의 트레이드오프가 있어 결정 보류. 향후 적용 시 후보: (a) 좌측 2px ink accent bar (b) trailing 인디케이터 (c) surface-inset 영구 배경.
+- **Hover/Active 컬러 정책**: primary 컬러를 surface 틴트로 사용하지 않음 — Sidebar의 *"컬러 강조 대신 중립 톤 배경 + ink 텍스트 (Linear/Vercel 패턴)"* 원칙(L2661 sidebar 주석) 준수.
 - **Motion**: trigger hover 후 80ms 지연 후 popup open, popup leave 시 160ms 지연 후 close. (실수 호버 방지)
 - **Mobile**: 1023px 이하에서는 햄버거 → Drawer-left로 전환(Sidebar 모바일 변형과 동일 패턴).
 
@@ -1222,10 +1331,22 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
     - **Hover (enabled, not selected)**: 텍스트만 `{colors.ink}`로 부드럽게 전환 — **배경 채움 금지**.
     - **Selected**: 텍스트 `{colors.ink}`. 자체 배경/그림자 없음.
   - **Sliding Indicator**: Track 내부에 `position: absolute`로 배치되는 단일 엘리먼트. 선택된 Item의 위치/너비로 `transform: translateX()` + `width`를 갱신하여 좌우로 슬라이드. 배경 `{colors.canvas}`, `{radius.sm}`, `{shadow.level-1}` (떠오른 칩 인상).
-  - **모션**: indicator의 `transform` / `width`는 320ms `cubic-bezier(0.22, 1, 0.36, 1)`, Item 텍스트 컬러 전환은 200ms 동일 이징. 페이드는 180ms ease.
+  - **선택 항상 1개 보장(단일 선택)**: 세그먼트(단일 선택) 모드에서는 **활성 항목을 한 번 더 눌러도 선택이 해제되지 않습니다.** Base UI `ToggleGroup`은 기본적으로 동일 항목 재클릭 시 deselect되어 "0개 선택" 상태가 가능하지만, 세그먼트 컨트롤은 라디오 그룹과 동일하게 항상 정확히 한 항목이 선택되어 있어야 합니다(인디케이터가 사라지면 현재 모드를 알 수 없고, 다음 클릭의 의미도 모호해집니다). 컨트롤드 패턴으로 `onValueChange`에서 `next.length === 0`이면 업데이트를 무시하세요.
+    ```tsx
+    const [value, setValue] = React.useState<string[]>(['left']);
+    <ToggleGroup
+      value={value}
+      onValueChange={(next) => {
+        if (next.length === 0) return; // 선택 해제 금지 — 항상 1개 유지
+        setValue(next);
+      }}
+    >
+    ```
+    이 규칙은 Toolbar 내부의 단일 선택 세그먼트(`Toolbar.Group` + `ToggleGroup`, 예: 정렬 좌/중/우)에도 동일하게 적용합니다. 반대로 Toolbar의 **지속 토글(Persistent Multi)** — Bold/Italic/Underline처럼 서로 독립인 토글 — 은 각각이 단일 on/off 상태이므로 이 규칙을 적용하지 않습니다(꺼진 상태가 정상 상태). 다중 선택(`multiple`) ToggleGroup도 0개 선택이 의미를 가질 수 있다면 이 가드를 두지 마세요.
+  - **모션**: indicator의 `transform` / `width`는 `{motion.slow}` `{ease.out-expo}`, Item 텍스트 컬러 전환은 `{motion.normal}` 동일 이징. 페이드는 `{motion.normal}` `{ease.standard}`.
   - 다크 모드:
-    - **Track**은 반드시 `{colors.surface-inset}` (`#232326`)을 유지합니다. 카드 배경(Surface Soft `#1A1B1E`)과 같은 톤으로 덮으면 컨테이너가 카드에 묻혀 보이지 않게 되므로 `Surface Soft`로 오버라이드하지 마세요.
-    - **Indicator**는 `#3E3E41`을 사용합니다. 다크 surface 스케일(`#12` → `#1A` → `#23` → `#2A`, 평균 +8 간격)을 한 칸 더 연장한 위치(`#3E ≈ #2A + 0x14`)로, Track(`#232326`)과 동일한 cool neutral 톤(B채널 +3)을 유지해 패밀리가 어긋나지 않습니다. `Surface Elevated (#2A2B30)`는 Track과 RGB 차이가 ~9에 불과해 인디케이터 용도로 부적합하고, `#48484A` 같은 mid-grey는 따뜻한 톤으로 떠 보여 트랙과 어울리지 않습니다. 추가로 inset 상단 하이라이트(`inset 0 1px 0 rgba(255,255,255,0.06)`) + 하단 그림자(`0 1px 2px rgba(0,0,0,0.45)`)로 떠오른 느낌을 강화합니다.
+    - **Track**은 반드시 `{colors.surface-inset}` (`#232326`)을 유지합니다. 카드 배경(Surface Soft `#18191B`)과 같은 톤으로 덮으면 컨테이너가 카드에 묻혀 보이지 않게 되므로 `Surface Soft`로 오버라이드하지 마세요.
+    - **Indicator**는 `#3E3E41`을 사용합니다. 다크 surface 스케일(`#11` → `#18` → `#23` → `#27`, 평균 +7 간격)을 두 칸 더 연장한 위치(`#3E ≈ #27 + 0x17`)로, Track(`#232326`)과 동일한 cool neutral 톤(B채널 +3)을 유지해 패밀리가 어긋나지 않습니다. `Surface Elevated (#27282D)`는 인터랙티브 표면 전용 토큰이라 의미가 충돌하고, Track과의 RGB 차이도 ~5에 불과해 인디케이터 시인성이 떨어집니다. `#48484A` 같은 mid-grey는 따뜻한 톤으로 떠 보여 트랙과 어울리지 않습니다. 추가로 inset 상단 하이라이트(`inset 0 1px 0 rgba(255,255,255,0.06)`) + 하단 그림자(`0 1px 2px rgba(0,0,0,0.45)`)로 떠오른 느낌을 강화합니다.
     - **텍스트 톤 위계 (필수)**: 라이트 모드의 `body-muted (#6B7280)`를 다크 Track(`#232326`) 위에 그대로 두면 enabled 상태가 disabled처럼 흐릿하게 보입니다. 다음 4단계 톤으로 enabled / hover / selected / disabled를 시각적으로 분리하세요.
       | 상태 | 텍스트 컬러 | 이유 |
       | --- | --- | --- |
@@ -1253,7 +1374,7 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 - **Track**: 8px 높이, `{colors.hairline}` 배경, `{radius.pill}`.
 - **Indicator**: `{colors.primary}` 배경, `{radius.pill}`. width는 value 비율.
 - **Variant — Slim**: 4px 높이 (페이지 상단 로딩 바 등).
-- **Indeterminate**: Indicator를 30% 폭으로 두고 좌→우 1.2s 무한 슬라이드(`cubic-bezier(0.4, 0, 0.2, 1)`).
+- **Indeterminate**: Indicator를 30% 폭으로 두고 좌→우 1.2s 무한 슬라이드(`{ease.in-out}`).
 - **Label (선택)**: Progress 위에 `{typography.body-sm}` weight 500 / `{colors.ink}`, 우측에 % 텍스트 `{colors.body-muted}`.
 - **금지**: 그라데이션 채움, 줄무늬 패턴, 펄스 글로우.
 
@@ -1279,7 +1400,7 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 
 - **Viewport**: 부모 컨테이너에 `overflow: hidden` + 내부 스크롤. `{radius.md}` 이상 컨테이너 안에 둘 때 모서리 클리핑 자동 처리.
 - **Scrollbar**
-  - **Width**: 세로 6px / 가로 6px. hover/active 시 10px로 확대(`transition: width 120ms ease`).
+  - **Width**: 세로 6px / 가로 6px. hover/active 시 10px로 확대(`transition: width {motion.fast} {ease.standard}`).
   - **Track**: 투명. hover 시에만 `{colors.hairline}` 0.4 opacity 노출.
 - **Thumb**: `{radius.pill}`, `{colors.body-muted}` 0.4 opacity. hover 시 0.6, active 시 0.8.
 - **Auto-hide**: 마우스가 영역을 벗어나면 600ms 후 thumb fade-out(opacity 0).
@@ -1290,19 +1411,77 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 
 - **Popup**: `{colors.canvas}` / 1px `{colors.hairline}` / `{radius.lg}` (16px) / `{shadow.level-2}`. 폭 280~360px, 패딩 `{spacing.md}` (16px).
 - **Offset**: 트리거에서 `10px`(`--floating-offset-loose`).
-- **Content Structure**: 상단 시각(이미지/일러스트) → `{typography.body-md}` weight 600 제목 → `{typography.body-sm}` / `{colors.body-muted}` 설명. 세로 gap `{spacing.sm}` (8px).
+- **Content Structure**: 상단 시각(이미지/일러스트) → `{typography.body-md}` weight 600 제목 → `{typography.body-sm}` / `{colors.body-muted}` 설명. 세로 gap `{spacing.xs}` (8px).
 - **Arrow**: 트리거 방향으로 8×8 화살표(Popup 컬러 + 보더 동일하게 연결).
 - **Trigger**: 본문 인라인 텍스트 링크(`{colors.primary}` 또는 `{colors.ink}` + underline).
 - **Motion**: hover 후 200ms 지연 open, leave 후 100ms 지연 close. 페이드+8px 슬라이드 인.
 - **금지**: 멀티 액션 버튼(Preview Card는 정보 노출 전용 — 액션이 필요하면 Popover/Drawer 사용).
 
-### Collapsible
-단일 트리거로 콘텐츠 블록을 펼치고 접는 가장 기본적인 disclosure 컴포넌트. Accordion이 "여러 항목의 묶음"이라면 Collapsible은 "독립된 한 블록".
 
-- **Trigger**: `button-secondary` 또는 텍스트 링크 형태 자유. 펼침 상태를 `aria-expanded`로 노출.
-- **Panel**: 별도 보더/배경 없이 본문 흐름에 자연스럽게 삽입. 필요 시 좌측 2px `{colors.hairline}` 가이드(인용처럼).
-- **Motion**: **Accordion의 *Panel Expand/Collapse 모션 (공용 표준)*과 동일 토큰** — `interpolate-size: allow-keywords`, height 0↔auto, 240ms `cubic-bezier(0.25, 0.46, 0.45, 0.94)`. Sidebar 2뎁스 그룹과 Accordion이 같은 모션을 공유합니다.
-- **금지**: 별도 카드/배경/그림자(독립 블록이지 컨테이너가 아님).
+
+
+### Collapsible
+단일 트리거로 콘텐츠 블록을 펼치고 접는 가장 기본적인 disclosure 컴포넌트. 
+Accordion이 "여러 항목의 묶음"이라면 Collapsible은 "독립된 한 블록"으로, 본문 흐름에 자연스럽게 삽입되는 **인라인 텍스트 링크** 형태가 기본형입니다.
+
+
+
+**구조**: `Collapsible.Root` → `Collapsible.Trigger`(좌측 chevron + 라벨) + `Collapsible.Panel`(들여쓰기된 본문). `aria-expanded`는 Base UI가 자동 부여합니다.
+
+#### Trigger
+
+- **형태**: chevron-right 아이콘(16px)이 **왼쪽**에 위치한 inline-flex 텍스트 링크. native `<details>/<summary>` 및 Notion toggle 컨벤션을 따릅니다. 풀-너비 행 트리거(우측 chevron)가 필요하면 Accordion 사용.
+- **Chevron**: closed `›`, open 시 90deg 회전(`▼`). 회전·색 트랜지션 모두 `{motion.fast}` `{ease.standard}`.
+- **Typography**: `{typography.label-lg}` (16px, weight 500, line-height 1.2, letter-spacing -0.16px). 본문이 아닌 **인터랙티브 라벨 역할**이라 label 스케일.
+- **Spacing**: padding `{spacing.xxs}` × `{spacing.xs}` (4 × 8). `margin-left`는 padding만큼 음의 오프셋(`calc(-1 * {spacing.xs})`)을 주어 시각적으로 컨테이너 가장자리에 정렬. 아이콘-텍스트 gap `{spacing.xs}` (8). Border radius `{radius.sm}` (6px).
+- **States**:
+
+
+| 상태 | 텍스트 | Chevron | 추가 표시 |
+|---|---|---|---|
+| Default | `{colors.ink}` | `{colors.body-muted}` | — |
+| Hover | `{colors.primary}` | `{colors.primary}` | — |
+| Focus (키보드) | `{colors.primary}` | `{colors.primary}` | `text-decoration: underline`, `text-underline-offset: 3px` |
+| Open (`[data-panel-open]`) | (Default와 동일) | 90deg 회전 | — |
+
+**디폴트가 `{colors.ink}`인 이유** (Primary 아님): Disclosure는 "조용히 있다가 펼치는" 패턴. 디폴트가 Primary면 페이지의 실제 CTA와 시각적으로 경합합니다. 같은 disclosure 계열인 Accordion 트리거도 `{colors.ink}`라 일관성 유지. 어포던스는 chevron + hover 컬러 트랜지션이 담당.
+
+**키보드 포커스에 outline ring이 아닌 underline인 이유**: 텍스트 링크 컨벤션(`<a>`)을 따름. solid outline은 박스형 버튼에 적합하지만 인라인 텍스트 트리거에는 시각적으로 무겁고 어색함. underline은 hover와 살짝 구별되면서도 가장 안 티남.
+
+
+#### Panel
+
+- **컨테이너**: **별도 보더/배경/그림자 없음**. 본문 흐름에 자연스럽게 삽입.
+- **Typography**: `{typography.body-sm}` (14px), line-height 1.5, 색상 `{colors.body-muted}`. 패널은 보조 정보 — body 스케일.
+- **Spacing**: `margin-top: {spacing.xs}` (8px) — 트리거와 8px 호흡. `padding-left: {spacing.lg}` (24px) — 트리거 텍스트와 패널 본문이 **수직 정렬**되도록(chevron 16 + gap 8 = 24).
+- **(옵션) 좌측 가이드 라인**: 패널 본문이 길거나 본문 흐름 한가운데 삽입되어 주변 텍스트와 그룹핑이 약할 때만 `border-left: 2px solid {colors.hairline}` 추가. 짧은 본문이나 카드 내 isolated 사용 시엔 인용문 인상을 주므로 **제외**.
+
+#### Motion (Accordion 공용 표준)
+
+`:root`에 `interpolate-size: allow-keywords` 선언 전제.
+
+- **Duration**: `{motion.expand}`
+- **Easing**: `{ease.out-quad}`
+- **Transitions**: `height` (auto ↔ 0), `margin-top` (`{spacing.xs}` ↔ 0) 동일 곡선·시간으로 함께 트랜지션
+- **Closed selectors**: `[data-starting-style]`, `[data-ending-style]`, `[data-closed]` — Base UI가 mount/unmount 시 자동 부여
+- **`keepMounted`** 권장 (접근성·SEO 측면 panel 항상 DOM 유지)
+
+Sidebar 2뎁스 그룹·Accordion이 동일 토큰을 공유합니다. (Accordion 섹션의 *Panel Expand/Collapse 모션 공용 표준* 참조.)
+
+#### Collapsible vs Accordion 결정 기준
+
+| 컨텍스트 | 컴포넌트 |
+|---|---|
+| 본문 안 "더보기" / "상세 보기" 단일 토글 | **Collapsible** |
+| FAQ Q1, Q2, Q3처럼 같은 패턴 다항목 | **Accordion** |
+| 사이드바 메뉴 그룹 펼침 | Sidebar 자체 패턴(Collapsible primitive 재사용) |
+
+#### 금지
+
+- **별도 카드/배경/그림자**: 독립 블록이지 컨테이너가 아닙니다. `{radius.lg}` border나 box-shadow 적용 시 Accordion과 위계가 겹쳐 무너집니다.
+- **풀-너비 행 트리거(우측 chevron)**: Accordion 영역.
+- **Primary 텍스트 디폴트**: 페이지 실제 CTA와 경합. Primary는 hover/focus에만 부여.
+- **Solid outline focus ring**: 인라인 텍스트 트리거에 부적합. text-link 컨벤션(underline) 사용.
 
 
 
