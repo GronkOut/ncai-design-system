@@ -41,6 +41,7 @@
   --color-semantic-success-bg: #eefbec;       /* 노란끼 도는 옅은 연두 — 부드러운 success 톤 */
   --color-semantic-success-brand: var(--color-primary); /* Primary Blue 별칭 — 라이트/다크 자동 적응 */
   --color-semantic-error: #f33942;
+  --color-semantic-error-hover: #e0343d;       /* button-danger hover — primary→primary-hover와 동일한 톤 다운 패턴 */
   --color-semantic-error-bg: #fef6f1;          /* 피치 끼 도는 따뜻한 rose — 부드러운 error 톤 */
   --color-semantic-warning: #f0900a;
   --color-semantic-warning-bg: #fefae6;        /* 채도만 미세 down (100→85), L 96 유지 — vibrancy 보존 */
@@ -147,10 +148,10 @@
   --spacing-xs:  8px;
   --spacing-sm: 12px;
   --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
-  --spacing-xxl: 40px;
-  --spacing-xxxl: 48px;
+  --spacing-lg: 20px;     /* button-lg padding 등 height 절반보다 좁힌 sub-md 슬롯 */
+  --spacing-xl: 24px;
+  --spacing-xxl: 32px;
+  --spacing-xxxl: 40px;
   --spacing-section: 120px;
   --spacing-footer-anchor: calc(var(--spacing-section) * 2);  /* 240px — 페이지 마지막 섹션 종결 여백 */
 
@@ -158,9 +159,9 @@
      Eyebrow → Title → Body 수직 리듬. 타이포 스케일에 1:1 대응하는 4-tier.
      같은 패턴이라도 컨텍스트(폰트 크기)가 바뀌면 티어를 바꿔서 비례를 유지합니다. */
   --stack-hero-eyebrow-gap:    var(--spacing-sm);   /* 12px — eyebrow는 title의 레이블: 붙여서 읽힘 */
-  --stack-hero-title-gap:      var(--spacing-xl);   /* 32px — display 다음 body: 충분한 호흡 */
+  --stack-hero-title-gap:      var(--spacing-xxl);   /* 32px — display 다음 body: 충분한 호흡 */
   --stack-section-eyebrow-gap: var(--spacing-xs);   /*  8px — section eyebrow: 타이트하게 */
-  --stack-section-title-gap:   var(--spacing-lg);   /* 24px — section heading → body: 여유 */
+  --stack-section-title-gap:   var(--spacing-xl);   /* 24px — section heading → body: 여유 */
   --stack-card-eyebrow-gap:    var(--spacing-xs);   /*  8px — title-md 22px */
   --stack-card-title-gap:      var(--spacing-xs);   /*  8px — card title → body: 컴팩트 */
   --stack-inline-eyebrow-gap:  var(--spacing-xxs);   /*  4px — 본문 내 미니 라벨 */
@@ -361,8 +362,8 @@ h3 {
   height: 64px;
   align-items: center;
   justify-content: space-between;
-  gap: var(--spacing-lg);
-  padding: 0 var(--spacing-xl);
+  gap: var(--spacing-xl);
+  padding: 0 var(--spacing-xxl);
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--color-hairline);
@@ -371,7 +372,7 @@ h3 {
 
 .global-nav nav {
   display: flex;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-xl);
 }
 
 .global-nav a {
@@ -435,7 +436,7 @@ h3 {
   min-height: 600px;
   align-content: center;
   justify-items: center;
-  padding: var(--spacing-section) var(--spacing-lg);
+  padding: var(--spacing-section) var(--spacing-xl);
   background: var(--color-canvas);
   text-align: center;
 }
@@ -473,14 +474,15 @@ h3 {
 .button-primary,
 .button-secondary,
 .button-ghost,
-.button-danger {
+.button-danger,
+.button-danger-ghost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--spacing-xs);  /* 8px — 아이콘 ↔ 텍스트 */
   height: 48px;           /* Large: 마케팅 페이지 CTA */
   border-radius: var(--radius-md);
-  padding: 0 20px;
+  padding: 0 var(--spacing-lg);  /* 20px — height(48) 절반보다 의도적으로 좁힌 값 */
   /* type-label-lg */
   font-size: var(--type-label-lg);
   font-weight: var(--fw-label);
@@ -488,13 +490,14 @@ h3 {
   letter-spacing: var(--ls-label);
   text-decoration: none;
   cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), transform var(--motion-fast) var(--ease-standard);
+  /* 색 전환은 motion-normal + ease-in-out (부드러운 의도적 변화). transform(:active scale)은 fast 유지 — 클릭 즉각 피드백 */
+  transition: background var(--motion-normal) var(--ease-in-out), border-color var(--motion-normal) var(--ease-in-out), transform var(--motion-fast) var(--ease-standard);
 }
 
 /* Button Size Modifiers */
 .button-display {
   height: 60px;                /* 랜딩/히어로 전용, 페이지당 1회 */
-  padding: 0 var(--spacing-xl);
+  padding: 0 var(--spacing-xxl);
   /* type-label-xl */
   font-size: var(--type-label-xl);
   font-weight: var(--fw-label);
@@ -515,6 +518,7 @@ h3 {
 .button-sm {
   height: 32px;
   padding: 0 var(--spacing-sm); /* 좁은 영역을 위한 패딩 */
+  gap: var(--spacing-xxs);      /* 4px — sm 한정으로 타이트하게(라벨↔아이콘) */
   /* type-label-sm */
   font-size: var(--type-label-sm);
   font-weight: var(--fw-label);
@@ -564,13 +568,28 @@ h3 {
 }
 
 .button-danger:hover {
-  filter: brightness(0.92);
+  /* Primary와 동일 패턴 — 토큰으로 배경/보더만 교체, 텍스트(흰색)는 보존. filter brightness는 텍스트까지 어두워져 가독성 ↓ */
+  background: var(--color-semantic-error-hover);
+  border-color: var(--color-semantic-error-hover);
+}
+
+/* Danger Ghost — 텍스트만 빨강. 표·리스트 행 안의 약한 파괴 액션 전용 (행마다 다수 허용). */
+.button-danger-ghost {
+  border: none;
+  background: transparent;
+  color: var(--color-semantic-error);
+}
+
+.button-danger-ghost:hover {
+  /* badge-error 배경과 동일 토큰 — semantic 빨간 톤 일관성 유지 */
+  background: var(--color-semantic-error-bg);
 }
 
 .button-primary:active,
 .button-secondary:active,
 .button-ghost:active,
 .button-danger:active,
+.button-danger-ghost:active,
 .nav-action:active,
 .button-utility:active,
 .option-chip:active,
@@ -598,8 +617,10 @@ h3 {
   background: transparent;
   color: var(--color-ink);
   cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard), transform var(--motion-fast) var(--ease-standard);
+  /* Hover 색 전환은 motion-normal + ease-in-out, transform(active scale)은 fast 유지 — Button과 동일 패턴 */
+  transition: background var(--motion-normal) var(--ease-in-out), border-color var(--motion-normal) var(--ease-in-out), color var(--motion-normal) var(--ease-in-out), transform var(--motion-fast) var(--ease-standard);
 }
+
 
 .icon-btn:focus-visible {
   outline: 2px solid var(--color-primary);
@@ -660,7 +681,8 @@ h3 {
   color: var(--color-on-primary);
 }
 .icon-btn--danger:hover:not(:disabled):not([data-disabled]) {
-  filter: brightness(0.92);
+  background: var(--color-semantic-error-hover);
+  border-color: var(--color-semantic-error-hover);
 }
 
 /* Toggle 상태 — Toggle render와 함께 사용 시 */
@@ -692,9 +714,9 @@ html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled
   display: flex;
   min-height: 52px;
   align-items: center;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-xl);
   overflow-x: auto;
-  padding: 0 var(--spacing-xl);
+  padding: 0 var(--spacing-xxl);
   border-bottom: 1px solid var(--color-hairline);
   background: rgba(248, 250, 252, 0.85);
   backdrop-filter: saturate(180%) blur(20px);
@@ -723,7 +745,7 @@ html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled
 
 .gallery-intro,
 .handoff-tile {
-  padding: var(--spacing-section) var(--spacing-lg);
+  padding: var(--spacing-section) var(--spacing-xl);
   text-align: center;
 }
 
@@ -769,8 +791,8 @@ html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled
 .component-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--spacing-lg);
-  width: min(1440px, calc(100% - var(--spacing-xxl) * 2));
+  gap: var(--spacing-xl);
+  width: min(1440px, calc(100% - var(--spacing-xxxl) * 2));
   margin: 0 auto 80px;
 }
 
@@ -779,8 +801,8 @@ html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled
   display: grid;
   min-height: 340px;
   grid-template-rows: auto 1fr;
-  gap: var(--spacing-lg);
-  padding: var(--spacing-xl);  /* 균형 있는 패딩 */
+  gap: var(--spacing-xl);
+  padding: var(--spacing-xxl);  /* 균형 있는 패딩 */
   border: 1px solid var(--color-hairline);
   border-radius: var(--radius-lg);
   background: var(--color-canvas);
@@ -844,9 +866,9 @@ html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled
 
 .fieldset {
   display: grid;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-xl);
   width: 100%;
-  padding: var(--spacing-lg);
+  padding: var(--spacing-xl);
 }
 
 /* card-standard 스타일 공유 — radius-lg(16px) 정보 카드 톤 */
@@ -991,7 +1013,7 @@ html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled
   overflow: hidden;
   height: auto;
   margin-top: var(--spacing-xs);
-  padding-left: var(--spacing-lg);
+  padding-left: var(--spacing-xl);
   color: var(--color-body-muted);
   /* type-body-sm */
   font-size: var(--type-body-sm);
@@ -1010,7 +1032,7 @@ html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled
 }
 
 .form-card {
-  padding: var(--spacing-lg);  /* body padding: 24px */
+  padding: var(--spacing-xl);  /* body padding: 24px */
 }
 
 .form-card .button-primary {
@@ -1603,7 +1625,7 @@ html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled
 /* Context Menu 트리거 영역 */
 .context-target {
   width: 100%;
-  padding: var(--spacing-xl);
+  padding: var(--spacing-xxl);
   border: 1px solid var(--color-hairline);
   border-radius: var(--radius-lg);
   background: var(--color-surface-soft);
@@ -1642,7 +1664,7 @@ html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled
   position: fixed;
   z-index: 31;
   display: grid;
-  gap: var(--spacing-xxl);  /* 40px — Body ↔ Footer 분리. Header ↔ Body(xl 32px)는 .modal-body 내부 gap이 담당 */
+  gap: var(--spacing-xxxl);  /* 40px — Body ↔ Footer 분리. Header ↔ Body(xl 32px)는 .modal-body 내부 gap이 담당 */
   width: min(var(--modal-width-md), calc(100vw - 32px));
 }
 
@@ -1675,7 +1697,7 @@ html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
-  padding: var(--spacing-xl);  /* 32px 균일 패딩 — 상하좌우 동일한 호흡 */
+  padding: var(--spacing-xxl);  /* 32px 균일 패딩 — 상하좌우 동일한 호흡 */
   border: 0;                   /* 모달은 보더 없이 그림자로만 떠 있는 느낌 */
   border-radius: var(--radius-xl);  /* 20px — 떠 있는 컨테이너의 부드러운 가장자리 */
   background: var(--color-canvas);
@@ -1692,7 +1714,7 @@ html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled
 .modal-body {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xl);
+  gap: var(--spacing-xxl);
 }
 
 /* === Modal Variants — Picker / Browse ===
@@ -1717,7 +1739,7 @@ html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled
   gap: var(--spacing-md);
   height: 72px;
   flex: 0 0 72px;
-  padding: 0 var(--spacing-md) 0 var(--spacing-lg);
+  padding: 0 var(--spacing-md) 0 var(--spacing-xl);
   border-bottom: 1px solid var(--color-hairline);
 }
 .modal-toolbar > .modal-title {
@@ -1736,7 +1758,7 @@ html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled
    시각적으로 분리됩니다. row 타이틀은 toolbar 타이틀과 수직으로 정확히 정렬됩니다. */
 .modal-card.modal-picker .modal-list,
 .modal-card.modal-browse .modal-list {
-  padding: var(--spacing-xs) var(--spacing-md) var(--spacing-md) var(--spacing-lg);
+  padding: var(--spacing-xs) var(--spacing-md) var(--spacing-md) var(--spacing-xl);
   border-top: 0;
 }
 .modal-card.modal-picker .modal-list-item:first-child,
@@ -1847,7 +1869,7 @@ html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled
     left: 50%;
     transform: translate(-50%, -50%);
     width: min(var(--modal-width-md), calc(100vw - 32px));
-    padding: var(--spacing-xl);
+    padding: var(--spacing-xxl);
     border-radius: var(--radius-xl);
     background: var(--color-canvas);
   }
@@ -1864,7 +1886,7 @@ html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled
     bottom: 0;
     transform: translateX(-50%);
     width: min(560px, 100vw);
-    padding: 20px var(--spacing-xl) var(--spacing-xl);
+    padding: 20px var(--spacing-xxl) var(--spacing-xxl);
     border-radius: var(--radius-xl) var(--radius-xl) 0 0;
     background: var(--color-canvas);
   }
@@ -1887,7 +1909,7 @@ html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled
   flex-direction: column;
   gap: var(--spacing-md);
   width: min(560px, 100vw);
-  padding: 20px var(--spacing-xl) var(--spacing-xl);
+  padding: 20px var(--spacing-xxl) var(--spacing-xxl);
   border: 0;
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   background: var(--color-canvas);
@@ -1988,21 +2010,21 @@ html[data-theme="dark"] .bottom-sheet-handle {
 .modal-form {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-xl);
 }
 
 /* Form 본문 내부 — 필수 입력 묶음(Fieldset). 내부 필드 간격은 24px(spacing.lg). */
 .modal-form-fields {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-xl);
 }
 
 /* lg(640) 모달용 2-column 폼 그리드 — 가로 폭이 충분할 때만 사용 */
 .modal-form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--spacing-lg);
+  gap: var(--spacing-xl);
 }
 
 /* 그리드 내부에서 풀 너비로 펼쳐야 하는 필드(예: 메시지/메모 등 긴 텍스트) */
@@ -2094,7 +2116,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
 /* Drawer-left header — 사이드바 아이템 라벨 시작점에 정렬
    (sidebar padding 16px + item padding 10px = 26px) */
 .drawer-card--left .drawer-header {
-  padding: var(--spacing-lg) calc(var(--spacing-md) + 10px);
+  padding: var(--spacing-xl) calc(var(--spacing-md) + 10px);
 }
 
 /* 햄버거 버튼 — Drawer-left 트리거.
@@ -2121,7 +2143,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   display: flex;
   align-items: center;
   gap: var(--spacing-md);
-  margin-top: var(--spacing-lg);
+  margin-top: var(--spacing-xl);
   padding-top: var(--spacing-md);
   border-top: 1px dashed var(--color-hairline);
 }
@@ -2140,7 +2162,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--spacing-md);
-  padding: var(--spacing-lg) var(--spacing-xl);
+  padding: var(--spacing-xl) var(--spacing-xxl);
   border-bottom: 1px solid var(--color-hairline);
 }
 
@@ -2175,17 +2197,17 @@ html[data-theme="dark"] .bottom-sheet-handle {
 .drawer-body {
   flex: 1;
   overflow-y: auto;
-  padding: var(--spacing-lg) var(--spacing-xl);
+  padding: var(--spacing-xl) var(--spacing-xxl);
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-xl);
 }
 
 .drawer-footer {
   display: flex;
   justify-content: flex-end;
   gap: var(--spacing-xs);
-  padding: var(--spacing-md) var(--spacing-xl);
+  padding: var(--spacing-md) var(--spacing-xxl);
   border-top: 1px solid var(--color-hairline);
   background: var(--color-canvas);
 }
@@ -2291,8 +2313,8 @@ html[data-theme="dark"] .bottom-sheet-handle {
    ============================================================ */
 .alert-dialog-card {
   width: min(var(--modal-width-sm), calc(100vw - 32px));
-  padding: var(--spacing-xxl) var(--spacing-lg) var(--spacing-lg);  /* 상 40 / 좌우 24 / 하 24 */
-  gap: var(--spacing-xxl);        /* 본문 ↔ 액션 풋터 사이 40 */
+  padding: var(--spacing-xxxl) var(--spacing-xl) var(--spacing-xl);  /* 상 40 / 좌우 24 / 하 24 */
+  gap: var(--spacing-xxxl);        /* 본문 ↔ 액션 풋터 사이 40 */
   text-align: center;
 }
 
@@ -2388,7 +2410,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
 
 .date-picker-stack {
   display: grid;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-xl);
   width: min(100%, 320px);
 }
 
@@ -4164,7 +4186,7 @@ html[data-theme="dark"] .slider-thumb {
 }
 
 .all-icons-section {
-  padding: var(--spacing-section) var(--spacing-lg);
+  padding: var(--spacing-section) var(--spacing-xl);
   background: var(--color-canvas);
   text-align: center;
 }
@@ -4189,7 +4211,7 @@ html[data-theme="dark"] .slider-thumb {
   grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
   gap: 8px;
   width: min(1440px, calc(100vw - 48px));
-  margin: var(--spacing-xl) auto 0;
+  margin: var(--spacing-xxl) auto 0;
 }
 
 .all-icon-cell {
@@ -4253,7 +4275,7 @@ html[data-theme="dark"] .slider-thumb {
   .hero-tile,
   .gallery-intro,
   .handoff-tile {
-    padding: 80px var(--spacing-lg);
+    padding: 80px var(--spacing-xl);
   }
 
   .hero-tile {
@@ -4261,7 +4283,7 @@ html[data-theme="dark"] .slider-thumb {
   }
 
   .hero-actions {
-    margin-top: var(--spacing-xl);
+    margin-top: var(--spacing-xxl);
   }
 
   h1 {
@@ -4315,6 +4337,7 @@ html[data-theme="dark"] {
   --color-semantic-success: #34d399;
   --color-semantic-success-bg: rgba(5, 150, 105, 0.15);
   --color-semantic-error: #f74b53;
+  --color-semantic-error-hover: #e3454c;
   --color-semantic-error-bg: rgba(247, 75, 83, 0.15);
   --color-semantic-warning: #fe9f19;
   --color-semantic-warning-bg: rgba(254, 159, 25, 0.15);

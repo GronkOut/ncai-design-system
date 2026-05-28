@@ -279,10 +279,10 @@ NCAI는 **Pretendard(디스플레이·본문 공용) + Geist Mono(코드)** 2종
   - `{spacing.xs}`: 8px
   - `{spacing.sm}`: 12px (menu-item·trigger 등 컴팩트 컴포넌트 padding/gap)
   - `{spacing.md}`: 16px (컴포넌트 내 기본 여백)
-  - `{spacing.lg}`: 24px
-  - `{spacing.xl}`: 32px (요소 간 여백)
-  - `{spacing.xxl}`: 40px
-  - `{spacing.xxxl}`: 48px
+  - `{spacing.lg}`: 20px (button-lg padding 등 height 절반보다 좁힌 sub-md 슬롯)
+  - `{spacing.xl}`: 24px
+  - `{spacing.xxl}`: 32px (요소 간 여백)
+  - `{spacing.xxxl}`: 40px
   - `{spacing.section}`: **120px** (섹션 간의 표준 세로 여백. 하이엔드 테크 감성을 위한 최소 수치)
   - `{spacing.footer-anchor}`: **240px** (`{spacing.section}` × 2 — 페이지의 가장 마지막 섹션에 부여하는 종결 여백)
 
@@ -316,8 +316,8 @@ Display 크기 헤딩과 본문 사이의 점프가 지나치게 크면 시각�
 
 | Tier | 용도 | Eyebrow → Title | Title → Body | 헤딩 타이포 | 바디 타이포 |
 |---|---|---|---|---|---|
-| `stack-hero` | 페이지/섹션 히어로 | **12px** (`{spacing.sm}`) | **32px** (`{spacing.xl}`) | `display-xl` / `display-lg` | `body-lg` (18px) |
-| `stack-section` | 갤러리·핸드오프 인트로 | **8px** (`{spacing.xs}`) | **24px** (`{spacing.lg}`) | `display-lg` / `display-md` | `body-lg` (18px) |
+| `stack-hero` | 페이지/섹션 히어로 | **12px** (`{spacing.sm}`) | **32px** (`{spacing.xxl}`) | `display-xl` / `display-lg` | `body-lg` (18px) |
+| `stack-section` | 갤러리·핸드오프 인트로 | **8px** (`{spacing.xs}`) | **24px** (`{spacing.xl}`) | `display-lg` / `display-md` | `body-lg` (18px) |
 | `stack-card` | 카드·모달·시트 타이틀 | **8px** (`{spacing.xs}`) | **8px** (`{spacing.xs}`) | `title-md` (22px) | `body-md` (16px) |
 | `stack-inline` | 본문 내 미니 라벨/필드 | **4px** (`{spacing.xxs}`) | **8px** (`{spacing.xs}`) | `body-md` (16px, `h3` 또는 `.text-strong`로 강조) | `body-sm` (14px) |
 
@@ -437,13 +437,14 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
 - **`button-secondary`**: 배경은 투명 또는 흰색 `{colors.canvas}`, 텍스트는 `{colors.ink}`. 테두리 1px `{colors.hairline}`. 화면 내 대부분의 일반적인 조작(예: "더 알아보기", "필터", "새 사용자 추가" 등 서브 액션)에 사용되는 **실질적인 기본 버튼**입니다.
 - **`button-ghost`**: 배경과 테두리가 모두 없는 텍스트 전용 버튼. 취소나 단순 링크 이동 등 가장 덜 중요한 액션에 사용합니다. 호버 시 옅은 회색이 깔립니다.
 - **`button-danger`**: 배경색 `{colors.semantic-error}` (Light `#F33942` / Dark `#F74B53`), 텍스트색 `{colors.on-primary}` (흰색). 모서리는 `{radius.md}`(10px). **되돌릴 수 없는 파괴적 액션**(예: "삭제", "영구 차단", "계정 폐쇄")에만 사용합니다. Alert Dialog의 부정(Negative) 변형 액션 버튼이 대표 적용처입니다. 한 화면 1개 원칙은 `button-primary`와 동일하게 적용되며, **`button-primary`와 동시에 사용하지 않습니다**(같은 화면에서 둘 다 등장하면 위계가 충돌합니다).
+- **`button-danger-ghost`**: 배경·테두리 없음, 텍스트만 `{colors.semantic-error}`. 데이터 테이블 행의 "제거", 리스트 행의 "보관" 등 **dense 영역의 약한 파괴 액션** 전용. ghost 위계라 시각 잉크가 가벼워 행마다 다수 배치 가능(`button-danger`의 "한 화면 1개" 예외 — 행 단위 반복 허용). Hover 배경은 `{colors.semantic-error-bg}` — **`badge-error` 배경과 동일 토큰**을 재사용해 semantic 빨간 톤(라이트 `#fef6f1` 피치 / 다크 `rgba(247, 75, 83, 0.15)`)의 일관성을 유지합니다. solid `button-danger`(채움)와 강도 차이가 명확해 위계 충돌 없이 파괴 신호를 한 번 더 환기하고, 일반 `button-ghost`의 중립 회색 hover와도 시각적으로 구별됩니다. **금지**: 단독 confirm/CTA 자리(거기는 채움형 `button-danger`), Form 옆 "초기화"·"되돌리기"(파괴 메시지 아님 — 일반 `button-ghost` 사용).
 
 **Button Sizing & Gaps (버튼 크기 및 간격 규칙):**
 - **Height (높이):** 8px 배수 시스템을 기준으로 용도에 따라 나눕니다.
-  - **Display (60px):** 랜딩/히어로 영역 전용 초대형 CTA. `display-xl`(80px) 헤드라인과 짝을 이루어 시각적 무게를 맞춥니다. **한 페이지 1회**만 사용합니다(Primary 남용 금지 원칙의 연장). 라벨 `{type.label-xl}` (18px), 좌우 패딩 32px(`{spacing.xl}`).
-  - **Large (48px, 기본):** 일반 마케팅 페이지 메인 CTA, 폼(Input) 옆 등 표준 강조 액션. 좌우 패딩 **20px**, 라벨 `{type.label-lg}` (16px).
+  - **Display (60px):** 랜딩/히어로 영역 전용 초대형 CTA. `display-xl`(80px) 헤드라인과 짝을 이루어 시각적 무게를 맞춥니다. **한 페이지 1회**만 사용합니다(Primary 남용 금지 원칙의 연장). 라벨 `{type.label-xl}` (18px), 좌우 패딩 32px(`{spacing.xxl}`).
+  - **Large (48px, 기본):** 일반 마케팅 페이지 메인 CTA, 폼(Input) 옆 등 표준 강조 액션. 좌우 패딩 20px(`{spacing.lg}`), 라벨 `{type.label-lg}` (16px).
   - **Medium (40px):** 대시보드 내부 기본 버튼 및 폼(Input) 요소 옆. 좌우 패딩 16px(`{spacing.md}`), 라벨 `{type.label-md}` (15px).
-  - **Small (32px):** 데이터 테이블 내부, 툴바 등 밀도가 높고 공간이 좁은 곳. 좌우 패딩 12px, 라벨 `{type.label-sm}` (14px).
+  - **Small (32px):** 데이터 테이블 내부, 툴바 등 밀도가 높고 공간이 좁은 곳. 좌우 패딩 12px, 라벨 `{type.label-sm}` (14px), 아이콘 동반 gap **4px** (`{spacing.xxs}`) — 아래 "Button with Icon" 항목의 gap 분기 규칙 참조.
   - *좌우 패딩은 height의 절반(24px)보다 의도적으로 좁힌 값입니다 — 아이콘이 동반될 때(아이콘 + gap 8px) 시각적으로 부풀어 보이는 현상을 방지하면서, 텍스트-only CTA에서도 단단한 비례를 유지합니다.*
   - *라벨 폰트 크기는 **height의 30~44% 비례**에 맞춰 사이즈별로 4단계 `label-*` 토큰을 사용합니다(`label-xl/lg/md/sm` = 18/16/15/14). 같은 16px을 모든 높이에 쓰면 md/sm에서 라벨이 과중해져 "키만 줄어든 lg"처럼 보이는 문제를 방지합니다. weight·line-height·letter-spacing은 `label-*` 토큰 군에 번들되어 있어 컴포넌트 CSS에서 따로 명시할 필요가 없습니다.*
 - **Gap (간격):** 게슈탈트 근접성의 원리(Proximity)를 따릅니다.
@@ -452,7 +453,12 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
   - **16px (`{spacing.md}`):** 서로 다른 기능을 수행하는 독립적인 요소들 사이의 기본 여백. **Display 사이즈 히어로 액션 버튼**은 버튼 자체가 크므로 이 간격을 사용합니다.
 
 **Button with Icon (라벨 + 아이콘):**
-텍스트가 동반되는 일반 Button(`button-primary` / `button-secondary` / `button-ghost` / `button-danger`)은 내부에 `<Icon>` 자식을 직접 넣어 라벨과 함께 사용합니다. 별도 변형 토큰은 만들지 않습니다 — 베이스 Button이 이미 `display: inline-flex` + `gap: 8px`(`{spacing.xs}`)로 아이콘 동반을 전제하고 있습니다. (라벨 없는 정사각 액션은 별도 `icon-btn` 사용 — 아래 항목 참조.)
+텍스트가 동반되는 일반 Button(`button-primary` / `button-secondary` / `button-ghost` / `button-danger` / `button-danger-ghost`)은 내부에 `<Icon>` 자식을 직접 넣어 라벨과 함께 사용합니다. 별도 변형 토큰은 만들지 않습니다 — 베이스 Button이 이미 `display: inline-flex` + `gap: 8px`(`{spacing.xs}`)로 아이콘 동반을 전제하고 있습니다. (라벨 없는 정사각 액션은 별도 `icon-btn` 사용 — 아래 항목 참조.)
+
+- **아이콘 ↔ 라벨 gap (사이즈별):**
+  - **Display / Large / Medium:** `gap: 8px` (`{spacing.xs}`) — 기본값.
+  - **Small (32px):** `gap: 4px` (`{spacing.xxs}`) — sm 한정 오버라이드.
+  - *근거: gap은 절대값으로 두면 작은 버튼에서 아이콘 대비 비율이 커져 헐거워 보입니다(lg 8/18 ≈ 44% vs sm 8/14 ≈ 57%). 14px 아이콘 옆 4px gap이면 아이콘 대비 비율(≈29%)이 lg와 더 가까워져 사이즈 간 일관된 밀착감을 유지합니다. sm은 데이터 테이블·툴바 등 dense 영역 전용이므로 더 타이트한 결합이 컨텍스트에도 부합합니다.*
 
 - **위치 — 의미로 결정합니다:**
   - **Leading(좌측):** 액션의 **의미를 보강**하는 아이콘. 라벨이 가리키는 동작의 시각 단서 — `+ 새로 만들기`, `↓ 다운로드`, `🗑 삭제`.
@@ -464,6 +470,10 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
   - **Small (32px):** 아이콘 **14px**.
   - *`icon-btn`(라벨 없는 정사각)보다 한 단계 작게 — 라벨이 주(主), 아이콘은 보조 신호이기 때문에 라벨 폰트 크기(14~18px)와 균형을 맞춥니다.*
 - **금지:** 양쪽 동시 아이콘, 라벨 폰트보다 큰 아이콘(시각 위계 역전), 아이콘만으로 의미를 전달하려는 시도(그 경우 `icon-btn` 사용 + `aria-label`).
+
+**Hover 전환 원칙 (모든 채움형 버튼 공통):**
+- 채움형 버튼(`button-primary` / `button-danger`)의 hover는 `*-hover` 토큰(`{colors.primary-hover}` / `{colors.semantic-error-hover}`)으로 **배경과 보더만 교체**합니다. **`filter: brightness()` 같은 element-wide 어두워짐 효과는 금지** — 요소 전체가 어두워지면 흰색 텍스트(`{colors.on-primary}`)까지 함께 dim 처리되어 가독성이 떨어지고, 토큰 시스템 밖의 변형이라 라이트/다크 모드 분기도 별도 제어가 안 됩니다.
+- **Transition**: 색 전환(`background` / `border-color`)은 `{motion.normal}` (200ms) + `{ease.in-out}` (대칭 곡선) — hover가 instant로 끊기지 않고 의도적으로 부드럽게 안착. `transform`(:active scale)은 `{motion.fast}` (120ms) + `{ease.standard}` 유지하여 클릭 피드백은 즉각적. Hover에서 형태 변화(lift/scale)는 사용하지 않습니다 — dense 영역(테이블 행 등)에서 시각 노이즈가 되고, button group에서 옆 버튼이 밀려보이는 인상이 생깁니다.
 
 **다크모드 버튼 배경 처리 원칙:**
 `button-secondary`의 배경은 라이트 모드에서 `Canvas(흰색)`이지만, 다크 모드에서 `Canvas = #111212`로 전환되어 카드 배경(`Surface Soft = #18191B`)보다 **오히려 더 어두워지는 역전 현상**이 발생합니다. 이를 방지하기 위해 다크 모드의 버튼은 카드 배경보다 반드시 밝은 레이어를 사용합니다.
@@ -624,25 +634,25 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
   - lg → xl: 갤러리·테이블·다단계 위저드처럼 본문이 **레이아웃 컨테이너**가 될 때 (단순한 폼 확장으로 xl을 쓰지 말 것)
 
   *상한 정책*: **xl(880)을 넘는 콘텐츠는 더 이상 모달이 아닙니다.** scrim 위의 "떠 있는 카드" 모티프가 무너지고 사용자의 컨텍스트 분리감이 약해집니다. 그 이상은 **풀스크린 다이얼로그 또는 페이지 라우팅**으로 전환합니다. 또한 xl(880)은 iPad 세로(≤834px) 뷰포트에서 공통 공식의 `calc(100vw - 32px)`에 의해 자동으로 축소되므로, 모바일·태블릿 세로에서 화면을 넘치지 않습니다.
-- **Height**: 별도 `min-height`를 지정하지 않습니다. 모든 사이즈에서 **콘텐츠 기준**으로 높이가 결정되며, 균일 패딩(`{spacing.xl}` 32px)과 섹션 gap(`{spacing.xl}`·`{spacing.xxl}`)이 시각적 하한을 만들어 줍니다. 납작해 보이는 카드는 콘텐츠 양 자체를 다시 점검하세요(높이 < 220px이면 정보가 부족하다는 신호).
+- **Height**: 별도 `min-height`를 지정하지 않습니다. 모든 사이즈에서 **콘텐츠 기준**으로 높이가 결정되며, 균일 패딩(`{spacing.xxl}` 32px)과 섹션 gap(`{spacing.xxl}`·`{spacing.xxxl}`)이 시각적 하한을 만들어 줍니다. 납작해 보이는 카드는 콘텐츠 양 자체를 다시 점검하세요(높이 < 220px이면 정보가 부족하다는 신호).
 - **Footer Anchoring**: 주요 액션 버튼(확인/닫기 등) 또는 버튼 묶음은 카드 **하단 우측**에 정착시킵니다(`align-self: flex-end`). 버튼이 카드 전체 폭으로 stretch되어 좌측까지 늘어지지 않도록 자연 너비를 유지합니다. 카드는 콘텐츠 기준 높이이므로 footer는 자연스럽게 마지막 행에 놓이며 별도 `margin-top: auto` 트릭은 사용하지 않습니다. 복수 버튼(Cancel + Confirm)은 12px 간격으로 묶어 우측 정렬합니다. Header / Body / Footer 위계를 시각적으로 명확히 합니다.
 - **Internal Rhythm (위계 간격)**: Modal 내부는 세 영역(Header / Body / Footer)으로 위계가 나뉘며, **간격은 두 단으로만** 운용합니다 — 모든 자식에 같은 gap을 주면 위계가 사라집니다.
-  - **Section gap (Header ↔ Body)**: **32px**(`{spacing.xl}`). `.modal-body`의 `gap`으로 적용 — Header(`.modal-header`)와 본문 콘텐츠(`.modal-form` 등)를 같은 정보 묶음으로 결합합니다.
-  - **Body ↔ Footer gap**: **40px**(`{spacing.xxl}`). 결정 행위(액션)는 본문에서 한 단계 더 분리되어야 하므로 Section gap(32)보다 한 티어 위로 둡니다. `.modal-card`의 `gap`으로 적용 — `.modal-body` 묶음과 풋터(`.inline-actions`) 사이를 분리합니다.
+  - **Section gap (Header ↔ Body)**: **32px**(`{spacing.xxl}`). `.modal-body`의 `gap`으로 적용 — Header(`.modal-header`)와 본문 콘텐츠(`.modal-form` 등)를 같은 정보 묶음으로 결합합니다.
+  - **Body ↔ Footer gap**: **40px**(`{spacing.xxxl}`). 결정 행위(액션)는 본문에서 한 단계 더 분리되어야 하므로 Section gap(32)보다 한 티어 위로 둡니다. `.modal-card`의 `gap`으로 적용 — `.modal-body` 묶음과 풋터(`.inline-actions`) 사이를 분리합니다.
   - **Header inner gap**: **8px**(`{spacing.xs}`). Title과 Description은 한 묶음으로 읽혀야 하므로 타이트하게 붙입니다. 별도 컨테이너(`.modal-header`)로 감싸 두 텍스트를 그룹화합니다.
   - **금지**: Title/Description/Form/Footer를 카드 직속으로 평행 배치하여 16px 균일 gap을 주는 패턴 — Title이 Description과 분리되어 보이고 정보 위계가 평탄해집니다.
 - **Form Body 내부 그루핑 (Form 변형 전용)**: Modal Form의 Body는 **단일 폼이 아니라 성격이 다른 컨트롤 묶음의 합**인 경우가 잦습니다(필수 입력 필드 묶음 + 보조 옵션 토글/체크박스 등). **모든 컨트롤을 한 컨테이너로 묶어 동일 gap·동일 패딩으로 평행 배치하지 마세요** — Fieldset(예: 프로젝트 이름·소속 팀 등 입력 묶음)과 보조 옵션(예: "생성 후 바로 멤버 초대 패널 열기" 같은 단일 체크박스)이 같은 위계로 읽히면 사용자가 "이 체크박스가 어느 필드에 종속되는지" 판단하지 못합니다.
-  - **Group gap**: 입력 묶음 ↔ 보조 옵션 묶음 사이는 **32px**(`{spacing.xl}`) 이상. Fieldset 내부 필드 간격(24px)보다 한 티어 위로 두어 "다른 묶음"임을 spacing만으로 분리합니다. divider(hairline)는 사용하지 않습니다 — 모달 내부에 가로선이 들어가면 카드가 두 영역으로 쪼개져 보입니다.
+  - **Group gap**: 입력 묶음 ↔ 보조 옵션 묶음 사이는 **32px**(`{spacing.xxl}`) 이상. Fieldset 내부 필드 간격(24px)보다 한 티어 위로 두어 "다른 묶음"임을 spacing만으로 분리합니다. divider(hairline)는 사용하지 않습니다 — 모달 내부에 가로선이 들어가면 카드가 두 영역으로 쪼개져 보입니다.
   - **묶음 식별**: 필수 입력은 `Fieldset`(또는 묵시적 필드 그룹), 보조 옵션 체크박스/스위치는 별도 컨테이너로 분리합니다. 의미가 다른 컨트롤은 시각적으로도 분리되어야 합니다.
   - **금지**: Fieldset과 체크박스를 같은 부모 `<div>`에 묶고 단일 패딩·단일 gap(8/12/16px 균일)으로 평행 배치하는 패턴. "한 덩어리"로 보여 위계가 무너집니다.
 - **Padding (여백)**:
-  - **Flat 컴팩트 모달**(섹션 구분 없이 단일 카드로 구성될 때, 기본 권장): 상하좌우 **32px**(`{spacing.xl}`) **균일 패딩**. 네 변의 여백을 동일하게 맞춰 떠 있는 카드의 시각적 균형을 잡습니다.
+  - **Flat 컴팩트 모달**(섹션 구분 없이 단일 카드로 구성될 때, 기본 권장): 상하좌우 **32px**(`{spacing.xxl}`) **균일 패딩**. 네 변의 여백을 동일하게 맞춰 떠 있는 카드의 시각적 균형을 잡습니다.
   - **Sectioned 모달**(Header / Body / Footer가 명시적 영역으로 분리될 때):
     - Header & Footer: 상하 **16px**, 좌우 **24px**.
-    - Body: 상하좌우 모두 **24px**(`{spacing.lg}`).
+    - Body: 상하좌우 모두 **24px**(`{spacing.xl}`).
   - **Picker / Browse 변형**(toolbar + 리스트 구조, 카드 자체 패딩은 0):
-    - Toolbar: 고정 높이 **72px**, 좌 **24px**(`{spacing.lg}`) / 우 **16px**(`{spacing.md}`) 비대칭. 좌측은 타이틀 호흡용으로 넓게, 우측은 액션 클러스터가 시각적 무게를 이미 가지므로 좁게.
-    - 리스트(`.modal-list`) 콘텐츠 영역: 상 **8px**(`{spacing.xs}`) / 하 **16px**(`{spacing.md}`) / 좌 **24px**(`{spacing.lg}`) / 우 **16px**(`{spacing.md}`). 상단은 toolbar hairline 바로 아래라 컴팩트하게 한 단(8px) 좁혀 toolbar와 첫 행이 과하게 떨어져 보이지 않게 합니다. 좌우 인셋은 toolbar와 동일 축으로 맞춰 row 타이틀이 toolbar 타이틀과 수직 정렬됩니다.
+    - Toolbar: 고정 높이 **72px**, 좌 **24px**(`{spacing.xl}`) / 우 **16px**(`{spacing.md}`) 비대칭. 좌측은 타이틀 호흡용으로 넓게, 우측은 액션 클러스터가 시각적 무게를 이미 가지므로 좁게.
+    - 리스트(`.modal-list`) 콘텐츠 영역: 상 **8px**(`{spacing.xs}`) / 하 **16px**(`{spacing.md}`) / 좌 **24px**(`{spacing.xl}`) / 우 **16px**(`{spacing.md}`). 상단은 toolbar hairline 바로 아래라 컴팩트하게 한 단(8px) 좁혀 toolbar와 첫 행이 과하게 떨어져 보이지 않게 합니다. 좌우 인셋은 toolbar와 동일 축으로 맞춰 row 타이틀이 toolbar 타이틀과 수직 정렬됩니다.
 - **Shape**: `{radius.xl}` (20px)을 사용합니다. 카드(`radius.lg` 16px)보다 한 단계 더 부드럽게 처리해 떠 있는 컨테이너 특유의 정서를 강조합니다.
 - **Border**: **없음**. 모달은 `{shadow.level-3}`만으로 충분히 떠 있는 느낌을 형성하므로 hairline 보더를 사용하지 않습니다. 보더가 있으면 그림자와 이중 경계가 만들어져 가장자리가 답답해집니다. 다크 모드에서도 동일하게 보더를 제거하고 `Surface Soft` 배경 톤 대비로만 경계를 표현합니다.
 - **Elevation**: `{shadow.level-3}`와 어두운 배경(Scrim)을 조합하여 강력한 수직 계층을 형성합니다.
@@ -654,7 +664,7 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
 - **Title**: `{typography.body-md}` (16px) **weight 500** (medium). 컴팩트 컨펌 UI는 본문보다 한 단계만 위에 두어 위계를 절제합니다 — semibold(600)는 본문 대비 시각적 무게가 과해 medium으로 한 단계 가볍게 둡니다.
 - **Description**: `{typography.body-sm}` (14px) regular. Modal 본문(16px)에서 한 단계 다운.
 - **Width**: **400px**(`min(400px, calc(100vw - 32px))`). Modal 440px보다 한 단계 좁힌 컴팩트 폭.
-- **Padding**: 상 **40px** / 좌우 **24px**(`{spacing.lg}`) / 하 **24px**. 상단을 두텁게 잡아 타이틀을 시각적 중앙으로 띄웁니다.
+- **Padding**: 상 **40px** / 좌우 **24px**(`{spacing.xl}`) / 하 **24px**. 상단을 두텁게 잡아 타이틀을 시각적 중앙으로 띄웁니다.
 - **Vertical Rhythm**: Title ↔ Description **12px**, Description ↔ Actions **40px**. 본문과 액션 사이를 넉넉히 띄워 컨펌 결정에 호흡을 줍니다.
 - **Footer (Actions)**: 카드 **하단 풀-너비 행**으로 배치하고, 버튼은 `flex: 1`로 **균등 분할**합니다. Modal의 우측 정착(footer-right-anchor)을 **적용하지 않습니다**.
   - **Default(기본) 듀얼**: `button-secondary` (취소) + `button-primary` (확인/저장/계속). 일반 컨펌 액션.
@@ -669,7 +679,7 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
 모바일/태블릿에서 하단에서 올라오는 임시 컨테이너. 모달의 가로형 변형으로 취급하며 타이틀 위계는 동일하게 적용합니다.
 - **Title**: `{typography.headline}` (28px). 시트 폭이 480px 이하이거나 콘텐츠가 1~2개 액션 정도로 단순한 경우 `{typography.title-md}` (24px)로 다운그레이드합니다.
 - **Description**: `{typography.body-md}` (16px). 한 줄 안내가 길면 두 줄까지 허용하며, 그 이상은 Body 콘텐츠로 분리합니다.
-- **Padding**: 단일 카드 컴팩트 구성은 상하좌우 **32px**(`{spacing.xl}`) 균일 패딩(기본 권장). 섹션이 분리된 큰 시트는 Header 상 **20px** / 하 **12px**, 좌우 **24px**. Body 상하좌우 **24px**.
+- **Padding**: 단일 카드 컴팩트 구성은 상하좌우 **32px**(`{spacing.xxl}`) 균일 패딩(기본 권장). 섹션이 분리된 큰 시트는 Header 상 **20px** / 하 **12px**, 좌우 **24px**. Body 상하좌우 **24px**.
 - **Shape**: `{radius.xl}` (20px). 모달과 동일하게 카드보다 한 단계 부드러운 가장자리로 떠 있는 느낌을 강조합니다.
 - **Border**: **없음**. 모달과 동일한 원칙. `{shadow.level-3}` + Surface 톤 대비로만 경계를 표현합니다.
 - **Drag Handle**: 시트 상단 중앙에 **36x4px** rounded bar (`rgba(0,0,0,0.16)` light / `rgba(255,255,255,0.24)` dark). 핸들과 타이틀 사이 간격 **12px**.
@@ -692,7 +702,7 @@ BottomSheet 풋터의 취소는 iOS Action Sheet 패턴을 따라 **회색 fill*
 BottomSheet 본문에 세로로 쌓이는 풀-너비 액션 행. iOS Action Sheet / Material List Item의 NCAI 변형으로, **시트 내부 전용 리스트 버튼**입니다. Menu Item이 좁은 popup 안의 dense 리스트(높이 32~36px)라면, Sheet Action은 시트 폭 전체를 차지하는 호흡 있는 터치 타겟(높이 48~52px)입니다. 단독 `<button>`이 아니라 시트 컨텍스트 안에서만 사용합니다.
 
 - **Container**: `<ul>` → `<li>` → `<button>` 또는 `<a>`. 시트 Title/Description 아래 `{spacing.xs}` (8px) 간격, 액션 풋터(취소 버튼 등) 위 `{spacing.xs}` 간격으로 분리.
-- **Contained alignment**: 리스트는 시트 본체의 좌우 패딩(`{spacing.xl}` = 32px) **내부에 정착**합니다. 풋터의 취소 버튼이 같은 좌우 여백 안에 있으므로 액션 리스트도 동일한 여백을 공유해야 시트 전체의 인너 컨테이너 정렬이 일관됩니다. *액션 항목의 호버 배경을 시트 가장자리까지 늘이지 마세요 — 풋터 버튼(여백 있음) ↔ 액션 항목(edge-to-edge) 간 시각 충돌이 발생합니다.*
+- **Contained alignment**: 리스트는 시트 본체의 좌우 패딩(`{spacing.xxl}` = 32px) **내부에 정착**합니다. 풋터의 취소 버튼이 같은 좌우 여백 안에 있으므로 액션 리스트도 동일한 여백을 공유해야 시트 전체의 인너 컨테이너 정렬이 일관됩니다. *액션 항목의 호버 배경을 시트 가장자리까지 늘이지 마세요 — 풋터 버튼(여백 있음) ↔ 액션 항목(edge-to-edge) 간 시각 충돌이 발생합니다.*
 - **Size**: 높이 **48px** (기본) / **52px** (아이콘 + 보조 텍스트 2줄 구성). 패딩 `12px {spacing.md}` (16px — 항목 내부 좌측 여백).
 - **Radius — 풋터 버튼과 동일 토큰 사용 (`{radius.md}` = 10px)**: 같은 시트 안에서 함께 보이는 인터랙티브 요소는 라운딩 토큰을 통일합니다. 액션 항목만 `{radius.sm}` (8px), 풋터 취소/확인 버튼은 `{radius.md}` (10px)처럼 1~2px 차이가 나면 정렬은 같지만 모서리 곡률만 미묘하게 달라 "잘못 정렬된 느낌"이 발생합니다. **규칙**: *시트·다이얼로그·드로어 같은 컨테이너 안에 풀-너비 인터랙티브 요소(버튼, 액션 항목, 입력)가 함께 놓일 때, 라운딩은 그 컨테이너에서 가장 큰 요소(보통 풋터 버튼) 기준으로 통일합니다.* 호버 배경은 이 통일된 라운딩 안에 contained pill로 표시됩니다.
 - **Typography**: `{typography.body-md}` (16px) / weight 400 / `{colors.ink}`. Menu Item(14px)보다 한 단계 큰 본문 위계 — 시트가 화면 하단을 차지하는 큰 컨테이너이기 때문에 라벨도 또렷하게 읽힙니다.
@@ -746,12 +756,12 @@ BottomSheet 본문에 세로로 쌓이는 풀-너비 액션 행. iOS Action Shee
 **Structure (Header / Body / Footer)**
 Drawer는 BottomSheet의 단일 컨테이너와 달리 **3구역 위계**를 명시합니다.
 
-- **Header**: 상하 `{spacing.lg}` (24px) / 좌우 `{spacing.xl}` (32px). 하단 `1px solid {colors.hairline}`로 Body와 분리. 우측에 32×32 닫기 버튼(`drawer-close`) 정렬.
+- **Header**: 상하 `{spacing.xl}` (24px) / 좌우 `{spacing.xxl}` (32px). 하단 `1px solid {colors.hairline}`로 Body와 분리. 우측에 32×32 닫기 버튼(`drawer-close`) 정렬.
   - **Title**: `{typography.title-md}` (24px). Modal과 동일 위계 — `headline`(28px) 이상은 금지.
   - **Description** (선택): `{typography.body-md}` (16px), `{colors.body-muted}`. 1~2줄로 제한.
-- **Body**: 상하 `{spacing.lg}` / 좌우 `{spacing.xl}`. `overflow-y: auto`로 긴 컨텐츠 스크롤 허용. 섹션 간 `gap: {spacing.lg}` (24px).
+- **Body**: 상하 `{spacing.xl}` / 좌우 `{spacing.xxl}`. `overflow-y: auto`로 긴 컨텐츠 스크롤 허용. 섹션 간 `gap: {spacing.xl}` (24px).
   - 섹션 라벨은 `{typography.body-sm}` weight 500 / `{colors.body-muted}` (Sidebar section label과 동일 톤).
-- **Footer**: 상 `{spacing.md}` (16px) / 하 `{spacing.md}` / 좌우 `{spacing.xl}`. 상단 `1px solid {colors.hairline}`. 액션은 **우측 정착**(Modal과 동일), `gap: {spacing.xs}` (8px). 풀-너비 균등 분할은 적용하지 않습니다 — 그건 Alert Dialog/BottomSheet 컴팩트의 역할.
+- **Footer**: 상 `{spacing.md}` (16px) / 하 `{spacing.md}` / 좌우 `{spacing.xxl}`. 상단 `1px solid {colors.hairline}`. 액션은 **우측 정착**(Modal과 동일), `gap: {spacing.xs}` (8px). 풀-너비 균등 분할은 적용하지 않습니다 — 그건 Alert Dialog/BottomSheet 컴팩트의 역할.
 
 **Close Affordance**
 - 헤더 우측 상단에 32×32 ghost 버튼 (`x` 아이콘 18px, `{colors.body-muted}`). hover 시 `{colors.surface-soft}` 배경.
@@ -1123,7 +1133,7 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
   - **Outer**: 20×20, `{radius.full}`, 1.5px `{colors.hairline}` 보더, 배경 `{colors.canvas}`.
   - **Checked**: 보더 `{colors.primary}` **5px**로 두껍게 채우고 배경 `{colors.on-primary}`(흰색 고정). 두꺼워진 primary 보더가 외곽 링을, on-primary 배경이 중앙 점을 동시에 만드는 단일-도형 구조 — `background-clip`/내부 점 엘리먼트 분리 없이 1개 box로 표현. (다크 모드에서도 배경은 `{colors.on-primary}` 고정.)
 - **Label**: 우측에 `{spacing.xs}` (8px) 간격, `{typography.body-md}` (16px) / `{colors.ink}`. 라벨 전체가 클릭 영역.
-- **Group Spacing**: 세로 그룹은 `{spacing.xs}` (8px) 행 간격, 가로 그룹은 `{spacing.lg}` (24px) 간격.
+- **Group Spacing**: 세로 그룹은 `{spacing.xs}` (8px) 행 간격, 가로 그룹은 `{spacing.xl}` (24px) 간격.
 - **금지**: 라운드 모서리를 풀(`pill`)로 만들기, 체크 아이콘에 Primary 외 컬러 사용, 라디오 내부 점에 `canvas`/그 외 컬러 사용.
 
 ### Field / Fieldset / Form
@@ -1137,10 +1147,10 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 - **Fieldset (관련 필드 그룹 컨테이너)**
   - **Legend**: `{typography.body-md}` weight 600 / `{colors.ink}`. 아래쪽 `{spacing.md}` (16px) 간격.
   - **Border**: 없음. 시각적 그룹화는 spacing과 legend 위계로만.
-  - **Field Gap**: 내부 필드 간 `{spacing.lg}` (24px).
+  - **Field Gap**: 내부 필드 간 `{spacing.xl}` (24px).
 - **Form**
-  - **Layout**: 세로 스택, 필드 간 `{spacing.lg}` (24px). 섹션(Fieldset) 간 `{spacing.xl}` (32px).
-  - **Submit**: 우측 정렬 또는 풀-너비. 폼 마지막에서 `{spacing.lg}` (24px) 상단 간격.
+  - **Layout**: 세로 스택, 필드 간 `{spacing.xl}` (24px). 섹션(Fieldset) 간 `{spacing.xxl}` (32px).
+  - **Submit**: 우측 정렬 또는 풀-너비. 폼 마지막에서 `{spacing.xl}` (24px) 상단 간격.
   - **Submission Error Summary**: 폼 상단에 `badge-error` 또는 `field-error` 톤의 한 줄 메시지로 노출.
 
 ### Inputs — Specialized
@@ -1331,13 +1341,13 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 ### Tabs
 한 컨테이너 안에서 관련 패널을 전환하는 컴포넌트. **Underline 변형**을 기본으로 합니다.
 
-- **List**: 하단 1px `{colors.hairline}` 디바이더. flex로 좌측 정렬, gap `{spacing.lg}` (24px).
+- **List**: 하단 1px `{colors.hairline}` 디바이더. flex로 좌측 정렬, gap `{spacing.xl}` (24px).
 - **Tab**
   - 높이(min-height) 40px, 좌우 패딩 16px, `{typography.label-sm}` (14px / weight 500 / lh 1.2 / tracking -0.16px) / `{colors.body-muted}`. *인터랙티브 라벨이므로 body-sm이 아닌 label-sm 토큰을 사용 — 동일 14/500 사이즈에서 line-height·letter-spacing이 label 군으로 묶여 다른 버튼·메뉴 라벨과 시각 무게가 일치합니다.*
   - **Hover**: 텍스트 `{colors.ink}`.
   - **Active**: 텍스트 `{colors.ink}`, 하단 2px `{colors.primary}` underline(`box-shadow: inset 0 -2px 0 {colors.primary}`). weight 500 유지.
   - **Focus**: underline 색만 유지. 키보드 접근성은 dotted outline 1px (전역 정책의 예외 — Tabs는 underline 자체가 신호이므로 보더 변화 대신 outline 사용).
-- **Panel**: 상단 `{spacing.lg}` (24px) 간격. `{typography.body-md}` (16px) / `{colors.ink}`.
+- **Panel**: 상단 `{spacing.xl}` (24px) 간격. `{typography.body-md}` (16px) / `{colors.ink}`.
 - **Pill Variant (선택)**: 카드 내부 좁은 영역에서는 underline 대신 `{colors.surface-soft}` 배경 + `{radius.pill}` 활성 칩 사용 가능. 단 한 화면에 두 변형을 섞지 않습니다.
 - **금지**: Active 텍스트를 Primary 컬러로 변경(언더라인이 신호), 굵기 변화로 위계 표현(레이아웃 점프 발생).
 
@@ -1418,7 +1428,7 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 - **Horizontal**: 1px 높이, `{colors.hairline}` 배경, full width.
 - **Vertical**: 1px 폭, `{colors.hairline}`, height는 부모 따라.
 - **With Label (decorative)**: 가운데 텍스트가 있는 구분선. 좌우 hairline + 중앙 `{typography.caption}` / `{colors.body-muted}`, 좌우 `{spacing.md}` 간격.
-- **Margin**: 섹션 구분 시 상하 `{spacing.lg}` (24px) ~ `{spacing.xl}` (32px).
+- **Margin**: 섹션 구분 시 상하 `{spacing.xl}` (24px) ~ `{spacing.xxl}` (32px).
 - **금지**: 점선/이중선 변형, 그라데이션 페이드, 컬러 강조.
 
 ### Scroll Area
@@ -1514,7 +1524,7 @@ Accordion이 "여러 항목의 묶음"이라면 Collapsible은 "독립된 한 �
 
 - **컨테이너**: **별도 보더/배경/그림자 없음**. 본문 흐름에 자연스럽게 삽입.
 - **Typography**: `{typography.body-sm}` (14px), line-height 1.5, 색상 `{colors.body-muted}`. 패널은 보조 정보 — body 스케일.
-- **Spacing**: `margin-top: {spacing.xs}` (8px) — 트리거와 8px 호흡. `padding-left: {spacing.lg}` (24px) — 트리거 텍스트와 패널 본문이 **수직 정렬**되도록(chevron 16 + gap 8 = 24).
+- **Spacing**: `margin-top: {spacing.xs}` (8px) — 트리거와 8px 호흡. `padding-left: {spacing.xl}` (24px) — 트리거 텍스트와 패널 본문이 **수직 정렬**되도록(chevron 16 + gap 8 = 24).
 - **(옵션) 좌측 가이드 라인**: 패널 본문이 길거나 본문 흐름 한가운데 삽입되어 주변 텍스트와 그룹핑이 약할 때만 `border-left: 2px solid {colors.hairline}` 추가. 짧은 본문이나 카드 내 isolated 사용 시엔 인용문 인상을 주므로 **제외**.
 
 #### Motion (Accordion 공용 표준)

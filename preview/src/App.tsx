@@ -728,12 +728,20 @@ export function App() {
                 </div>
               </PreviewSection>
 
-              <PreviewSection title="Button" description="Primary · Secondary · Ghost — 3단계 위계 구조. 아이콘은 라벨 좌측(의미 보강) 또는 우측(흐름·이동)에 배치합니다.">
+              <PreviewSection title="Button" description="Primary · Secondary · Ghost · Danger — 4단계 위계 구조. 아이콘은 라벨 좌측(의미 보강) 또는 우측(흐름·이동)에 배치합니다.">
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                   <div className="inline-actions">
                     <Button className="button-primary">시작하기</Button>
                     <Button className="button-secondary">더 알아보기</Button>
                     <Button className="button-ghost">취소</Button>
+                    <Button className="button-danger">삭제하기</Button>
+                  </div>
+                  <div className="inline-actions" style={{ alignItems: 'center' }}>
+                    <Button className="button-danger-ghost button-sm">
+                      <Icon svg={trashIcon} size={14} />
+                      제거
+                    </Button>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Danger Ghost — 표·리스트 행의 약한 파괴 액션(행마다 다수 허용)</span>
                   </div>
                   <div className="inline-actions" style={{ alignItems: 'center' }}>
                     <Button className="button-primary">
