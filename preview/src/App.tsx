@@ -701,11 +701,11 @@ export function App() {
                 </div>
                 <div className="avatar-row">
                   <Avatar.Root className="avatar avatar-lg avatar-azure">
-                    <Avatar.Fallback>AZ</Avatar.Fallback>
+                    <Avatar.Fallback>강</Avatar.Fallback>
                   </Avatar.Root>
                   <div>
-                    <strong>Profile Header</strong>
-                    <p>이니셜 전용 · 64 (.avatar-lg)</p>
+                    <strong>강엔씨</strong>
+                    <p>Field AX Team</p>
                   </div>
                 </div>
               </PreviewSection>
