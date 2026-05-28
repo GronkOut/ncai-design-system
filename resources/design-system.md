@@ -77,8 +77,31 @@ NCAI Design System의 컬러 토큰은 **Surface / Text / Semantic / Avatar**의
   - **Indigo (Cool)** — `.avatar-indigo` (`{colors.avatar-indigo-bg}` `#EEF5FF` / `{colors.avatar-indigo-text}` `#1C4BA4`): 지적이고 세련된 액센트.
   - **Sage (Natural)** — `.avatar-sage` (`{colors.avatar-sage-bg}` `#F0F4F2` / `{colors.avatar-sage-text}` `#3E5C54`): 차분한 자연의 녹색이 가미된 그레이.
   - **Sand (Warm)** — `.avatar-sand` (`{colors.avatar-sand-bg}` `#F6F2EC` / `{colors.avatar-sand-text}` `#7C6042`): 따뜻하고 고급스러운 베이지 톤.
-  - **Mauve (Elegant)** — `.avatar-mauve` (`{colors.avatar-mauve-bg}` `#F5F0F5` / `{colors.avatar-mauve-text}` `#6B4F6B`): 은은한 보랏빛이 감도는 우아한 무채색.
+  - **Plum (Berry)** — `.avatar-plum` (`{colors.avatar-plum-bg}` `#FDF5FA` / `{colors.avatar-plum-text}` `#8D567B`): 잘 익은 자두를 닮은 차분한 자주. 핑크빛이 살짝 도는 보라로, 팔레트에 부드러운 활기를 더합니다.
   - **Azure (System)** — `.avatar-azure` (`{colors.avatar-azure-bg}` `#F0F7FF` / `{colors.avatar-azure-text}` `#0070F3`): 시스템 정체성을 보여주는 맑은 블루.
+
+> [!IMPORTANT]
+> **Avatar 팔레트는 Avatar 컴포넌트 전용입니다 — 일반 UI에 절대 가져다 쓰지 마세요.**
+>
+> `avatar-*` 토큰(`{colors.avatar-indigo-bg}` 등)과 `.avatar-*` 유틸리티 클래스는 **Avatar 컴포넌트(`Avatar.Root` 내부의 원형 마크)** 안에서만 등장합니다. Avatar 외부에 이 컬러가 보이면 그것은 **버그**입니다.
+>
+> **금지 사례 (자주 일어나는 오용)**
+> - 버튼·카드·아코디언·배지·태그·칩의 배경/보더/텍스트
+> - 섹션 강조 배경, 띠(banner), 하이라이트 박스, "포인트 컬러"
+> - hover/focus/selected 틴트, 아이콘 배경 박스
+> - 차트의 데이터 시리즈 컬러(별도 데이터 비주얼 팔레트가 필요할 때까지 차트는 `{colors.primary}` 단일 톤)
+> - 상태/피드백(성공·경고·에러) — 반드시 `{colors.semantic-*}` 사용
+> - 카테고리·태그 색상 매핑(N개 카테고리에 N개 avatar 컬러 자동 배정 같은 패턴)
+>
+> **올바른 대체 토큰**
+> - 일반 배경/표면: `{colors.canvas}` · `{colors.surface-soft}` · `{colors.surface-inset}` · `{colors.surface-elevated}`
+> - 텍스트: `{colors.ink}` · `{colors.body-muted}` · `{colors.on-primary}`
+> - 강조/액션: `{colors.primary}` · `{colors.primary-hover}`
+> - 상태: `{colors.semantic-success}` · `{colors.semantic-warning}` · `{colors.semantic-error}`
+>
+> **이유**: 이 5색은 "여러 사용자·팀을 시각적으로 구분"하는 **식별 신호(identity signal)**입니다. Avatar 밖에 같은 색이 등장하는 순간 사용자의 "indigo = 그 사람의 색" 같은 무의식적 매핑이 깨지고, 팔레트는 의미 없는 장식 컬러로 전락합니다. 또한 `bg` 값(`#EEF5FF` 등)은 의도적으로 **채도가 낮은 틴트**라 일반 UI 면적에 깔면 흐릿하고 탁한 인상을 줍니다 — surface 토큰이 아닙니다.
+>
+> **AI/도구 사용 시 체크리스트**: 새 컴포넌트를 만들 때 색을 고르는 자리에서 `avatar-`로 시작하는 토큰/클래스가 후보로 떠오르면 **즉시 기각**하고 위 "올바른 대체 토큰"에서 다시 고르세요. design-system.md에서 색을 검색할 때는 Avatar 섹션을 **참조 대상에서 제외**해야 합니다.
 
 
 
@@ -489,7 +512,7 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
 
 - **Shape**: `{radius.lg}` (16px). 카드와 동일한 곡률로 통일감을 유지합니다.
 - **Border**: 라이트 모드 1px `{colors.hairline}`. 다크 모드는 보더 없이 배경 톤 대비로만 경계를 표현합니다.
-- **Trigger**: 높이 약 56px, 좌우 패딩 20px, 폰트 `{typography.body-md}` weight 500. Chevron 아이콘 16px, `{colors.body-muted}`.
+- **Trigger**: 높이 약 52px, 상하 패딩 `{spacing.md}` (16px) / 좌우 20px, 폰트 `{typography.label-lg}` (16px / weight 500 / lh 1.2 / ls -0.16px — Collapsible과 동일 disclosure 라벨 스케일). Chevron 아이콘 16px, `{colors.body-muted}`.
 - **Trigger Hover**: `{colors.surface-elevated-hover}` (라이트 `Surface Soft(#F9FAFB)`, 다크 `color-mix(in oklab, elevated 93%, body-muted 7%)` ≈ `#2E2F34`).
 - **Open Divider**: 트리거가 열렸을 때 본문과의 구분을 위해 1px 인셋 디바이더를 그립니다. 추가 보더를 쓰지 않아 라운드 모서리 잘림을 방지합니다.
   - 라이트: `box-shadow: inset 0 -1px 0 {colors.hairline}` (#E5E7EB on #FFF).
@@ -533,6 +556,8 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
 
 ### Inputs
 - **`text-input`**: 텍스트 필드. 배경색 `{colors.canvas}`, 테두리 1px `{colors.hairline}`. 높이는 약 48px로 타겟 크기를 확보합니다. 포커스 시 보더 컬러만 `{colors.primary}` (1.5px)로 변경합니다 — Minimalist Validation & Focus Policy를 따릅니다.
+
+- **Clearable Input (선택 적용)**: `text-input`과 `Field.Control`은 우측에 Clear(x) 버튼을 덧붙일 수 있습니다. 스펙은 Autocomplete Clear와 동일 — 48×48 hit area, 16×16 칩, 10px x 아이콘, `color-mix({colors.body-muted} 55%/75%, {colors.canvas})`. 값이 비어 있을 때 칩은 unmount합니다. 구현은 `position: absolute`로 입력 위에 얹고 입력 우측 패딩만 48px 확보 — `.combo-input-group`처럼 chassis를 별도로 두지 않아 기존 `text-input` 보더/포커스 토큰을 그대로 유지합니다. *Number Field·OTP·Combobox(우측 chevron 충돌)에는 적용하지 않습니다.*
 
 **인풋 + 버튼 조합 정책 (Input Group Policy):**
 인풋 필드와 버튼이 가로로 나열될 때, 시각적인 답답함을 해소하고 명확한 조작 영역을 확보하기 위해 다음 규칙을 준수합니다.
@@ -599,11 +624,11 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
   - lg → xl: 갤러리·테이블·다단계 위저드처럼 본문이 **레이아웃 컨테이너**가 될 때 (단순한 폼 확장으로 xl을 쓰지 말 것)
 
   *상한 정책*: **xl(880)을 넘는 콘텐츠는 더 이상 모달이 아닙니다.** scrim 위의 "떠 있는 카드" 모티프가 무너지고 사용자의 컨텍스트 분리감이 약해집니다. 그 이상은 **풀스크린 다이얼로그 또는 페이지 라우팅**으로 전환합니다. 또한 xl(880)은 iPad 세로(≤834px) 뷰포트에서 공통 공식의 `calc(100vw - 32px)`에 의해 자동으로 축소되므로, 모바일·태블릿 세로에서 화면을 넘치지 않습니다.
-- **Min-Height**: 표준 **md만 320px**로 고정합니다(`40 × 8`, 폭 480 기준 약 **1.5 : 1 가로형 비율**). 납작함을 방지하면서도 과하게 길지 않게 균형을 잡습니다. sm과 lg는 `auto` — sm은 컴팩트 컨펌 UI라 콘텐츠 높이를 그대로 따르고, lg는 어차피 폼이 길어져 자연스럽게 늘어나므로 별도 최소 높이가 의미 없습니다.
-- **Footer Anchoring**: 주요 액션 버튼(확인/닫기 등) 또는 버튼 묶음은 카드 **하단 우측**에 정착시킵니다(`margin-top: auto; align-self: flex-end;`). 버튼이 카드 전체 폭으로 stretch되어 좌측까지 늘어지지 않도록 자연 너비를 유지하며, 본문이 짧을 때도 액션이 타이틀에 붙어 올라오지 않게 합니다. 복수 버튼(Cancel + Confirm)은 12px 간격으로 묶어 우측 정렬합니다. Header / Body / Footer 위계를 시각적으로 명확히 합니다.
+- **Height**: 별도 `min-height`를 지정하지 않습니다. 모든 사이즈에서 **콘텐츠 기준**으로 높이가 결정되며, 균일 패딩(`{spacing.xl}` 32px)과 섹션 gap(`{spacing.xl}`·`{spacing.xxl}`)이 시각적 하한을 만들어 줍니다. 납작해 보이는 카드는 콘텐츠 양 자체를 다시 점검하세요(높이 < 220px이면 정보가 부족하다는 신호).
+- **Footer Anchoring**: 주요 액션 버튼(확인/닫기 등) 또는 버튼 묶음은 카드 **하단 우측**에 정착시킵니다(`align-self: flex-end`). 버튼이 카드 전체 폭으로 stretch되어 좌측까지 늘어지지 않도록 자연 너비를 유지합니다. 카드는 콘텐츠 기준 높이이므로 footer는 자연스럽게 마지막 행에 놓이며 별도 `margin-top: auto` 트릭은 사용하지 않습니다. 복수 버튼(Cancel + Confirm)은 12px 간격으로 묶어 우측 정렬합니다. Header / Body / Footer 위계를 시각적으로 명확히 합니다.
 - **Internal Rhythm (위계 간격)**: Modal 내부는 세 영역(Header / Body / Footer)으로 위계가 나뉘며, **간격은 두 단으로만** 운용합니다 — 모든 자식에 같은 gap을 주면 위계가 사라집니다.
-  - **Section gap**: **32px**(`{spacing.xl}`). Header ↔ Body 기본 간격. 카드의 `gap`으로 일괄 적용.
-  - **Body ↔ Footer gap**: **48px**(`{spacing.xxl}` 효과). 결정 행위(액션)는 본문에서 한 단계 더 분리되어야 하므로 Section gap보다 한 티어 위 간격을 사용합니다. 구현은 `parent gap (32) + 풋터 padding-top (16) = 48`로 합산 적용 — `margin-top: auto`로 풋터를 하단에 정착시키는 규칙과 충돌하지 않게 padding으로 추가합니다.
+  - **Section gap (Header ↔ Body)**: **32px**(`{spacing.xl}`). `.modal-body`의 `gap`으로 적용 — Header(`.modal-header`)와 본문 콘텐츠(`.modal-form` 등)를 같은 정보 묶음으로 결합합니다.
+  - **Body ↔ Footer gap**: **40px**(`{spacing.xxl}`). 결정 행위(액션)는 본문에서 한 단계 더 분리되어야 하므로 Section gap(32)보다 한 티어 위로 둡니다. `.modal-card`의 `gap`으로 적용 — `.modal-body` 묶음과 풋터(`.inline-actions`) 사이를 분리합니다.
   - **Header inner gap**: **8px**(`{spacing.xs}`). Title과 Description은 한 묶음으로 읽혀야 하므로 타이트하게 붙입니다. 별도 컨테이너(`.modal-header`)로 감싸 두 텍스트를 그룹화합니다.
   - **금지**: Title/Description/Form/Footer를 카드 직속으로 평행 배치하여 16px 균일 gap을 주는 패턴 — Title이 Description과 분리되어 보이고 정보 위계가 평탄해집니다.
 - **Form Body 내부 그루핑 (Form 변형 전용)**: Modal Form의 Body는 **단일 폼이 아니라 성격이 다른 컨트롤 묶음의 합**인 경우가 잦습니다(필수 입력 필드 묶음 + 보조 옵션 토글/체크박스 등). **모든 컨트롤을 한 컨테이너로 묶어 동일 gap·동일 패딩으로 평행 배치하지 마세요** — Fieldset(예: 프로젝트 이름·소속 팀 등 입력 묶음)과 보조 옵션(예: "생성 후 바로 멤버 초대 패널 열기" 같은 단일 체크박스)이 같은 위계로 읽히면 사용자가 "이 체크박스가 어느 필드에 종속되는지" 판단하지 못합니다.
@@ -635,8 +660,7 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
   - **Default(기본) 듀얼**: `button-secondary` (취소) + `button-primary` (확인/저장/계속). 일반 컨펌 액션.
   - **Negative(부정) 듀얼**: `button-secondary` (취소) + `button-danger` (삭제/차단/폐쇄). **되돌릴 수 없는 파괴적 액션** 전용. `button-primary`와 `button-danger`를 같은 다이얼로그에서 동시에 사용하지 않습니다.
   - **단일 버튼**: `button-primary` 하나만 풀-너비로 배치. 단순 알림 확인용.
-  - 공통: 기본 사이즈(**48px Large**), 두 버튼 사이 간격 **10px**.
-- **Min-Height**: Modal의 260px 최소 높이 규칙을 **해제**합니다. Alert Dialog는 콘텐츠에 맞춰 자연스럽게 컴팩트해지는 것이 정상입니다.
+  - 공통: 기본 사이즈(**48px Large**), 두 버튼 사이 간격 **12px**(`{spacing.sm}`).
 - **Shape / Elevation**: Modal과 동일(`radius.xl` 20px, `shadow.level-3`, 보더 없음).
 - **버튼 토큰**: 반드시 design-system.md에 정의된 `button-primary` / `button-secondary`만 사용. 신규 버튼 변형(soft, tinted 등) 생성 금지.
 - **금지**: 우측 정렬 풋터(우측 정착), 자동 너비 버튼, `title-md` 이상의 타이틀, 신규 버튼 토큰(반드시 `button-primary` / `button-secondary`만 사용).
@@ -674,7 +698,7 @@ BottomSheet 본문에 세로로 쌓이는 풀-너비 액션 행. iOS Action Shee
 - **Typography**: `{typography.body-md}` (16px) / weight 400 / `{colors.ink}`. Menu Item(14px)보다 한 단계 큰 본문 위계 — 시트가 화면 하단을 차지하는 큰 컨테이너이기 때문에 라벨도 또렷하게 읽힙니다.
 - **Layout**: `display: flex; align-items: center; gap: {spacing.md}` (16px). 좌측 정렬, 텍스트 + 선택적 아이콘/보조 라벨.
 - **Default**: background `transparent`, color `{colors.ink}`.
-- **Hover**: background `{colors.surface-soft}` — Sidebar Item / Menu Item과 동일 토큰. 반응형 시트는 데스크톱(Modal)과 모바일(BottomSheet) 모두 **`{colors.canvas}` 배경으로 통일**되므로, 호버 토큰도 단일 `surface-soft`로 통일하여 두 변형의 인터랙션 신호가 정확히 일치합니다. *임의의 `rgba(0,0,0,0.04)` 오버레이는 디자인 시스템 컬러 토큰을 벗어나므로 사용하지 않습니다.*
+- **Hover**: 라이트 `{colors.surface-soft}` / 다크 `{colors.surface-elevated}` — **Button Ghost와 동일한 모드별 분기**를 따릅니다. 다크 모드에서 시트 배경 자체가 `surface-soft(#18191B)`로 떨어지므로 hover도 같은 토큰이면 신호가 사라집니다. Button Ghost의 다크 hover(`surface-elevated #27282D`)를 재사용하여 시트 위 인터랙티브 액션 항목과 일관된 위계를 유지합니다. *임의의 `rgba(0,0,0,0.04)` 오버레이는 디자인 시스템 컬러 토큰을 벗어나므로 사용하지 않습니다.*
 - **Destructive Action**: 텍스트와 아이콘 모두 `{colors.semantic-error}`. 시트 안에서 시각적으로 분리하기 위해 **리스트 최하단에 배치**하고, 위 항목과 `{spacing.xs}` 간격을 둡니다. *주의: 같은 시트에 destructive 항목이 2개 이상이면 시트가 아닌 Alert Dialog로 분리하세요.*
 - **금지**: 아이콘 뒤 컬러 배경 박스, 우측 chevron(시트는 navigation이 아닌 액션 셀렉터), 항목 간 hairline divider(여백으로 충분), Primary 컬러 채움 행.
 
@@ -1062,13 +1086,13 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 - **금지**: 아이콘 뒤에 배경색 박스 두르기(Don'ts 항목 참조), 컬러 그라데이션, 멀티컬러 아이콘. 모든 아이콘은 단색.
 
 ### Avatar
-사용자/팀 식별을 위한 작은 원형 마크. Colors > Avatar 팔레트(`Indigo`/`Sage`/`Sand`/`Mauve`/`Azure`)의 **장식적 틴트**를 그대로 사용합니다.
+사용자/팀 식별을 위한 작은 원형 마크. Colors > Avatar 팔레트(`Indigo`/`Sage`/`Sand`/`Plum`/`Azure`)의 **장식적 틴트**를 그대로 사용합니다.
 
 - **Shape**: `{radius.full}` (50%). 정사각 컨테이너에 이미지/이니셜 중앙 정렬.
-- **Sizes**: `avatar-sm` 24px / `avatar` 32px(기본) / `avatar-lg` 40px / `avatar-xl` 56px.
-- **Typography**: 이니셜은 컨테이너 폭의 **40%** 크기 / weight 600 / Avatar 팔레트의 Text 컬러.
-- **Image Fallback**: 이미지가 없거나 로드 실패 시 이니셜로 자동 폴백 (Base UI `Avatar.Fallback`).
-- **금지**: Semantic 팔레트(Success/Warning/Error) 컬러를 아바타에 사용 금지 — 상태 정보로 오인됨. 그림자, 외곽 링도 사용하지 않습니다.
+- **Sizes**: `.avatar` 40px(기본) / `.avatar-lg` 64px. 두 단계 체제 — 일반 식별 마크는 기본 40, 프로필 헤더·강조 영역은 64.
+- **Typography**: 이니셜은 컨테이너 폭의 **40%** 크기 / weight 600 / Avatar 팔레트의 Text 컬러. (40 → 16px, 64 → 26px)
+- **Image Fallback**: 이미지가 없거나 로드 실패 시 이니셜로 자동 폴백 (Base UI `Avatar.Fallback`). 이미지는 기본 40 사이즈에서 주로 사용하고, `.avatar-lg`(64)는 현재 이니셜 전용으로 운영합니다.
+- **금지**: Semantic 팔레트(Success/Warning/Error) 컬러를 아바타에 사용 금지 — 상태 정보로 오인됨. 그림자, 외곽 링도 사용하지 않습니다. 또한 `avatar-*` 토큰/클래스를 Avatar 외부에 사용하는 것도 금지 — 위 Colors > Avatar 섹션의 IMPORTANT 블록 참조.
 
 ### Badge
 정보의 상태나 카테고리를 알리는 작은 라벨. Colors > Semantic 팔레트를 따릅니다.
@@ -1089,13 +1113,13 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 선택 컨트롤. **Checkbox는 "제출 시 반영"**, **Switch는 "즉시 반영"**, **Radio는 "그룹 내 단일 선택"**으로 mental model을 분리합니다.
 
 - **Checkbox**
-  - **Box**: 18×18, `{radius.sm}` (6px), 1px `{colors.hairline}` 보더, 배경 `{colors.canvas}`.
-  - **Checked**: 배경 `{colors.primary}`, 체크 아이콘 14px `{colors.on-primary}` (Primary 위 흰색 고정).
-  - **Indeterminate**: 배경 `{colors.primary}` + 14×2px 흰색 가로 막대(`{colors.on-primary}`).
+  - **Box**: 20×20, `{radius.sm}` (6px), 1.5px `{colors.hairline}` 보더, 배경 `{colors.canvas}`.
+  - **Checked**: 배경 `{colors.primary}`, 체크 아이콘 16px `{colors.on-primary}` (Primary 위 흰색 고정).
+  - **Indeterminate**: 배경 `{colors.primary}` + 흰색 가로 막대(`{colors.on-primary}`).
   - **Focus**: 보더 컬러 `{colors.primary}`로 변경 (전역 정책).
 - **Radio**
-  - **Outer**: 18×18, `{radius.full}`, 1px `{colors.hairline}` 보더, 배경 `{colors.canvas}`.
-  - **Checked**: 보더 `{colors.primary}` 1.5px, 내부 점 8px 원형 `{colors.on-primary}` 위 `{colors.primary}` 배경. (다크 모드에서도 내부 점은 `{colors.on-primary}` 고정.)
+  - **Outer**: 20×20, `{radius.full}`, 1.5px `{colors.hairline}` 보더, 배경 `{colors.canvas}`.
+  - **Checked**: 보더 `{colors.primary}` **5px**로 두껍게 채우고 배경 `{colors.on-primary}`(흰색 고정). 두꺼워진 primary 보더가 외곽 링을, on-primary 배경이 중앙 점을 동시에 만드는 단일-도형 구조 — `background-clip`/내부 점 엘리먼트 분리 없이 1개 box로 표현. (다크 모드에서도 배경은 `{colors.on-primary}` 고정.)
 - **Label**: 우측에 `{spacing.xs}` (8px) 간격, `{typography.body-md}` (16px) / `{colors.ink}`. 라벨 전체가 클릭 영역.
 - **Group Spacing**: 세로 그룹은 `{spacing.xs}` (8px) 행 간격, 가로 그룹은 `{spacing.lg}` (24px) 간격.
 - **금지**: 라운드 모서리를 풀(`pill`)로 만들기, 체크 아이콘에 Primary 외 컬러 사용, 라디오 내부 점에 `canvas`/그 외 컬러 사용.
@@ -1129,7 +1153,7 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
   - **Combobox / Select**: 우측 끝에 24×24 `chevron-down` 아이콘 버튼(`{colors.body-muted}` 닫힘 → `{colors.ink}` 열림, Disclosure Indicator 규칙과 일치). 클릭 시 popup 토글. 좌측 아이콘 없음.
 - **Autocomplete Clear 버튼 (Pill 스타일)**
   - **버튼 hit area**: 48×48(입력 그룹 높이와 동일), 우측 padding 8px로 칩이 가장자리에 붙지 않게 여백 확보.
-  - **Chip**: 18×18 원형(`border-radius: 999px`). 내부에 12px `x` 아이콘 중앙 배치.
+  - **Chip**: 16×16 원형(`border-radius: 999px`). 내부에 10px `x` 아이콘 중앙 배치. *48×48 hit area 안에서 칩은 시각 보조 신호이므로 한 단계 가볍게 — 너무 크면 입력값 옆에서 무게가 경쟁함.*
   - **Default**: 배경 `color-mix({colors.body-muted} 55%, {colors.canvas})` (약 #b3b7be), 아이콘 `{colors.on-primary}` (#FFFFFF). *기본 상태에서도 채워진 색을 유지해 "지우기 가능" 액션을 즉시 인지하게 함.*
   - **Hover**: 배경 `color-mix({colors.body-muted} 75%, {colors.canvas})` (약 #95989f). 같은 mix 축에서 한 단계만 진해지는 톤(풀톤 `body-muted`까지 가지 않음 — 점프 폭이 너무 커 칩이 갑자기 무거워 보임).
   - **Empty 시 자동 숨김**: Base UI `Autocomplete.Clear`가 값이 비어있으면 자동으로 unmount.
@@ -1138,10 +1162,10 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 - **Base UI 합성 구조 (필수)**: `Trigger` 직속 자식이 아니라 **`Select.Portal` → `Select.Positioner` → `Select.Popup`** 3중 구조로 감싸야 floating overlay로 동작합니다. Portal/Positioner를 누락하면 popup이 폼 흐름 안에 인라인으로 렌더링되어 다음 필드와 겹치고, Popup 카드 토큰(배경/보더/그림자)도 시각적으로 무효화됩니다. Menu / Popover / Tooltip / Dialog도 동일.
 - **Popup (Listbox)** — 세 변형 공통
   - **Background**: `{colors.canvas}`, 1px `{colors.hairline}`, `{radius.md}` (10px), `{shadow.level-2}`.
-  - **Width**: 트리거와 동일 폭(min-width = trigger width). max-height 280px, 초과 시 스크롤.
+  - **Width**: 트리거와 동일 폭(min-width = trigger width). max-height 320px, 초과 시 스크롤.
   - **Offset**: 트리거 아래 `8px` 간격(`--floating-offset`), 뷰포트 가장자리 `16px` collision padding.
 - **List Item**
-  - **Height**: 36px, 좌우 패딩 12px, gap 8px, `{typography.body-sm}` (14px) / `{colors.ink}`.
+  - **Height**: `min-height: 40px`, 좌우 패딩 12px(`{spacing.sm}`) · 상하 패딩 8px(`{spacing.xs}`), `{typography.body-sm}` (14px) / `{colors.ink}`. *Menu Item과 동일한 40px baseline을 공유해 같은 화면에 두 컴포넌트가 섞여도 행 높이가 어긋나지 않음.*
   - **Hover**: `{colors.surface-soft}`.
   - **Selected (Select.ItemIndicator)**: 좌측에 16px check 아이콘(`{colors.primary}`) 노출. weight는 default 유지.
   - **Highlighted (키보드 탐색)**: `{colors.surface-soft}` (hover와 동일).
@@ -1307,7 +1331,7 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 
 - **List**: 하단 1px `{colors.hairline}` 디바이더. flex로 좌측 정렬, gap `{spacing.lg}` (24px).
 - **Tab**
-  - 높이 44px, 패딩 좌우 4px, `{typography.body-sm}` (14px) weight 500 / `{colors.body-muted}`.
+  - 높이(min-height) 40px, 좌우 패딩 16px, `{typography.label-sm}` (14px / weight 500 / lh 1.2 / tracking -0.16px) / `{colors.body-muted}`. *인터랙티브 라벨이므로 body-sm이 아닌 label-sm 토큰을 사용 — 동일 14/500 사이즈에서 line-height·letter-spacing이 label 군으로 묶여 다른 버튼·메뉴 라벨과 시각 무게가 일치합니다.*
   - **Hover**: 텍스트 `{colors.ink}`.
   - **Active**: 텍스트 `{colors.ink}`, 하단 2px `{colors.primary}` underline(`box-shadow: inset 0 -2px 0 {colors.primary}`). weight 500 유지.
   - **Focus**: underline 색만 유지. 키보드 접근성은 dotted outline 1px (전역 정책의 예외 — Tabs는 underline 자체가 신호이므로 보더 변화 대신 outline 사용).
@@ -1407,15 +1431,50 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 - **금지**: 트랙에 강한 배경색, thumb에 Primary 컬러, 그림자.
 
 ### Preview Card
-링크에 hover 시 미리보기를 띄우는 hover card.
+본문 안의 링크 너머 내용을 페이지 이동 없이 미리 보여주는 inline hover card. 위키피디아의 문서 호버 미리보기, X의 사용자 프로필 카드, 디자인 시스템 내 토큰·컴포넌트 이름 참조처럼 본문 흐름을 끊지 않고 링크 너머의 맥락을 확인시키는 상황에 사용합니다.
 
-- **Popup**: `{colors.canvas}` / 1px `{colors.hairline}` / `{radius.lg}` (16px) / `{shadow.level-2}`. 폭 280~360px, 패딩 `{spacing.md}` (16px).
-- **Offset**: 트리거에서 `10px`(`--floating-offset-loose`).
-- **Content Structure**: 상단 시각(이미지/일러스트) → `{typography.body-md}` weight 600 제목 → `{typography.body-sm}` / `{colors.body-muted}` 설명. 세로 gap `{spacing.xs}` (8px).
-- **Arrow**: 트리거 방향으로 8×8 화살표(Popup 컬러 + 보더 동일하게 연결).
-- **Trigger**: 본문 인라인 텍스트 링크(`{colors.primary}` 또는 `{colors.ink}` + underline).
-- **Motion**: hover 후 200ms 지연 open, leave 후 100ms 지연 close. 페이드+8px 슬라이드 인.
-- **금지**: 멀티 액션 버튼(Preview Card는 정보 노출 전용 — 액션이 필요하면 Popover/Drawer 사용).
+#### Trigger
+- **형태**: 본문 prose 안에 섞인 inline `<a>` (`text-link` — `{colors.primary}` + underline). PreviewCard.Trigger는 base-ui가 anchor로 렌더링하므로 inline 흐름에 자연스럽게 임베드됩니다.
+- **금지**: 단독으로 떠 있는 버튼·블록형 트리거. *근거: PreviewCard는 위키피디아/X/노션 계열의 "본문 흐름 안 inline 링크 미리보기" 패턴이며, 스탠드얼론으로 두면 CTA 버튼으로 오인되어 패턴 의미가 깨집니다.* 액션을 유발하는 트리거가 필요하면 Popover/Drawer로 승격.
+
+#### Popup
+- **표면**: `{colors.canvas}` / 1px `{colors.hairline}` / `{radius.lg}` (16px) / `{shadow.level-2}`.
+- **폭**: `min(280px, var(--available-width))` — floating panel 표준 단일 선언 패턴(popover-card·date-picker-popover·nav-menu-popup과 동일). 좁은 viewport에서는 `--available-width`로 자동 클램프.
+- **패딩**: `{spacing.md}` (16px) — popover-card와 동일 위계.
+- **Offset**: `--floating-offset-loose` (10px) — 큰 카드 계열(popover와 공유).
+
+#### Content Structure (2단 gap)
+미디어 + 텍스트(타이틀+본문) 구조에서 두 단계 위계를 만들기 위해 root grid와 inner stack에 서로 다른 gap을 적용합니다.
+
+- **Root grid gap**: `{spacing.md}` (16px) — 미디어 ↔ 텍스트 묶음 분리.
+- **Inner text stack gap** (`.preview-card-text`): `{spacing.xs}` (8px) — 타이틀 ↔ 본문 묶음. `--stack-card-title-gap` 컨벤션과 동일.
+- *근거: 16/8 = 2× 위계 대비로 미디어와 텍스트 그룹이 또렷이 구분되어 시각 탐색 비용이 낮습니다.*
+
+#### Media Slot (`.mini-product`)
+- **비율**: `aspect-ratio: 16 / 9` — 웹 표준 링크 프리뷰 비율(OpenGraph 카드, 동영상 썸네일 계열). 임의 픽셀 높이 대신 비율로 선언해 카드 폭 변화에 자동 대응.
+- **형태**: `{radius.md}`. **자체 shadow 없음** — 부모 카드의 floating shadow에 위계 양보 (카드 내부 미디어 슬롯은 자체 그림자를 두지 않는다).
+- **배경(Light)**: `radial-gradient(circle at 74% 24%, primary 12%, transparent 50%)` 오버레이 + `{colors.surface-soft}` 베이스. nav-menu-feature와 동일한 primary glow 패턴 공유 → 디자인 시스템 내 "암시적 미디어 영역" 시각 언어 일관성.
+- **배경(Dark)**: 동일 radial(primary 14%) + `{colors.surface-elevated}` 베이스. *근거: 다크 모드 카드 bg는 `surface-soft`(#18191b)이므로, 미디어 슬롯은 한 단계 밝은 `surface-elevated`(#27282d)를 베이스로 깔아 "들어 올려진 타일"로 읽히도록 반전.*
+
+#### Typography
+- **Title** (`.popover-title` 공유): `{typography.body}` (16px) + `{font-weight.heading}` (600) + `{lh.title-sm}` (1.30) + `{ls.body}`. `margin: 0` — grid gap이 행간을 담당하므로 UA margin이 누적되지 않도록 리셋.
+- **Body** (`.popover-copy` 공유): `{typography.body-sm}` 4속성(size·weight·lh·ls) 일괄 적용 + `{colors.body-muted}`. `margin: 0`.
+- **Demo prose** (`.preview-card-demo-prose`): 트리거를 둘러싸는 본문 — `{typography.body}` 4속성 + `{colors.ink}`, `max-width: 56ch`(가독성 line-length), `text-align: center`.
+
+#### Motion
+- **Transition**: `transform/opacity` `{motion-fast}` (120ms) `{ease-standard}`.
+- **Fade-only enter/exit**: `[data-starting-style]`, `[data-ending-style]`에서 `opacity: 0`. *근거: scale transition은 transform-origin 기준으로 내부 미디어(mini-product) 위치가 시각적으로 흔들려 보이는 부작용이 있어 popover-card와 동일하게 opacity-only로 통일.*
+- **Open/Close delay**: base-ui PreviewCard 기본값 사용.
+
+#### Dark Mode
+- **Popup bg**: `{colors.surface-soft}` + 1px `rgba(255, 255, 255, 0.10)` translucent overlay 보더(iOS Dark separator 원칙) — popover-card·date-picker-popover와 동일 처리.
+- **Media slot bg**: Media Slot 절 참조.
+
+#### 금지
+- **멀티 액션 버튼**: Preview Card는 정보 노출 전용 — 액션이 필요하면 Popover/Drawer 사용.
+- **스탠드얼론 trigger**: 본문에서 분리된 단독 링크/버튼. 반드시 prose 안의 inline anchor로 사용.
+- **미디어 슬롯 shadow**: 카드 내부 미디어는 자체 그림자 없음.
+- **자체 width 토큰 신설**: floating panel은 각자 raw px(280·260·348·560)를 `min(value, available-width)` 안에 두는 관행 — 신규 width 토큰 스케일 도입 금지.
 
 
 

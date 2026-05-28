@@ -42,7 +42,6 @@ import chevronDownIcon from '@ncai/design-system-icons/icons/chevron-down.svg?ra
 import infoIcon from '@ncai/design-system-icons/icons/info.svg?raw';
 import searchIcon from '@ncai/design-system-icons/icons/search.svg?raw';
 import starIcon from '@ncai/design-system-icons/icons/star.svg?raw';
-import heartIcon from '@ncai/design-system-icons/icons/heart.svg?raw';
 import homeIcon from '@ncai/design-system-icons/icons/house.svg?raw';
 import settingsIcon from '@ncai/design-system-icons/icons/settings.svg?raw';
 import bellIcon from '@ncai/design-system-icons/icons/bell.svg?raw';
@@ -119,6 +118,51 @@ const allPreviewIcons = iconMetadata.map((icon) => ({
 }));
 
 const products = ['AI 어시스턴트', '디자인 시스템', '아이콘 패키지', '컴포넌트 라이브러리', '디자인 토큰'];
+
+// Clear(x) 칩이 우측에 붙는 텍스트 입력 래퍼.
+// Autocomplete.Clear와 동일 스펙(48×48 hit area, 16×16 chip, 10px x icon, body-muted mix 55%→75%).
+function ClearableInput({
+  as: BaseInput = Input,
+  defaultValue,
+  className,
+  onChange,
+  ...rest
+}: React.InputHTMLAttributes<HTMLInputElement> & {
+  as?: React.ElementType;
+}) {
+  const [value, setValue] = React.useState(defaultValue != null ? String(defaultValue) : '');
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
+  return (
+    <div className="clearable-input-wrap">
+      <BaseInput
+        ref={inputRef}
+        {...rest}
+        value={value}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          setValue(event.target.value);
+          onChange?.(event);
+        }}
+        className={['text-input clearable-text-input', className].filter(Boolean).join(' ')}
+      />
+      {value.length > 0 && (
+        <button
+          type="button"
+          className="icon-button input-clear-button"
+          aria-label="입력 지우기"
+          onMouseDown={(event) => event.preventDefault()}
+          onClick={() => {
+            setValue('');
+            inputRef.current?.focus();
+          }}
+        >
+          <span className="clear-chip">
+            <Icon svg={xIcon} size={10} />
+          </span>
+        </button>
+      )}
+    </div>
+  );
+}
 const teams = ['서울 본사', '부산 지사', '대전 R&D', '광주 크리에이티브', '인천 물류'];
 const sections = [
   'Typography',
@@ -233,7 +277,7 @@ export function App() {
                     { token: 'display-lg', size: '56 / 600', sample: '주요 페이지 섹션 제목' },
                     { token: 'display-md', size: '40 / 600', sample: '서브 섹션 제목' },
                     { token: 'headline',   size: '28 / 600', sample: '패널과 카드 그룹 제목' },
-                    { token: 'title-md',   size: '22 / 500', sample: '카드·아코디언 헤더' },
+                    { token: 'title-md',   size: '22 / 500', sample: '카드·모달·드로어·시트 컨테이너 타이틀' },
                     { token: 'title-sm',   size: '20 / 600', sample: '모달·드로어·시트 타이틀' },
                     { token: 'body-lg',    size: '18 / 400', sample: '도입부 문단과 강조 본문' },
                     { token: 'body-md',    size: '16 / 400', sample: '기본 본문 — 가독성 확보.' },
@@ -388,11 +432,11 @@ export function App() {
                             <div className="modal-form-fields">
                               <Field.Root name="project-name" className="field-root">
                                 <Field.Label className="field-label">프로젝트 이름</Field.Label>
-                                <Field.Control className="text-input" placeholder="예: 디자인 시스템 v2" />
+                                <ClearableInput as={Field.Control} placeholder="예: 디자인 시스템 v2" />
                               </Field.Root>
                               <Field.Root name="project-team" className="field-root">
                                 <Field.Label className="field-label">소속 팀</Field.Label>
-                                <Field.Control className="text-input" placeholder="팀 선택" />
+                                <ClearableInput as={Field.Control} placeholder="팀 선택" />
                               </Field.Root>
                             </div>
                             <label className="check-row modal-form-supplementary">
@@ -428,23 +472,23 @@ export function App() {
                             <div className="modal-form-grid">
                               <Field.Root name="invitee-name" className="field-root">
                                 <Field.Label className="field-label">이름</Field.Label>
-                                <Field.Control className="text-input" placeholder="홍길동" />
+                                <ClearableInput as={Field.Control} placeholder="홍길동" />
                               </Field.Root>
                               <Field.Root name="invitee-email" className="field-root">
                                 <Field.Label className="field-label">이메일</Field.Label>
-                                <Field.Control className="text-input" type="email" placeholder="name@ncai.io" />
+                                <ClearableInput as={Field.Control} type="email" placeholder="name@ncai.io" />
                               </Field.Root>
                               <Field.Root name="invitee-role" className="field-root">
                                 <Field.Label className="field-label">역할</Field.Label>
-                                <Field.Control className="text-input" placeholder="Editor" />
+                                <ClearableInput as={Field.Control} placeholder="Editor" />
                               </Field.Root>
                               <Field.Root name="invitee-team" className="field-root">
                                 <Field.Label className="field-label">소속 팀</Field.Label>
-                                <Field.Control className="text-input" placeholder="디자인" />
+                                <ClearableInput as={Field.Control} placeholder="디자인" />
                               </Field.Root>
                               <Field.Root name="invitee-message" className="field-root field-root-span-2">
                                 <Field.Label className="field-label">초대 메시지 (선택)</Field.Label>
-                                <Field.Control className="text-input" placeholder="환영합니다. 함께 작업하게 되어 기뻐요." />
+                                <ClearableInput as={Field.Control} placeholder="환영합니다. 함께 작업하게 되어 기뻐요." />
                               </Field.Root>
                             </div>
                           </div>
@@ -499,10 +543,13 @@ export function App() {
                         </div>
                         <div className="modal-list">
                           {[
-                            { name: '상냥한 보이스', meta: '예의바른, 아나운서 언어', likes: '0.3K' },
-                            { name: '어쩌구저쩌구 보이스', meta: '상냥한, 예의바른', likes: '0.3K' },
-                            { name: '예쁜 목소리', meta: '상냥한, 아나운서 언어', likes: '0.3K' },
-                            { name: '김밥 먹고싶은 목소리', meta: '상냥한, 귀여운', likes: '0.3K' },
+                            { name: '상냥한 보이스', meta: '예의바른, 아나운서 언어' },
+                            { name: '다정한 화자', meta: '상냥한, 예의바른' },
+                            { name: '예쁜 목소리', meta: '상냥한, 아나운서 언어' },
+                            { name: '발랄한 소녀', meta: '상냥한, 귀여운' },
+                            { name: '차분한 내레이션', meta: '낮은 톤, 다큐멘터리' },
+                            { name: '활기찬 진행자', meta: '밝은, 라이브' },
+                            { name: '신뢰감 있는 보이스', meta: '중후한, 비즈니스' },
                           ].map((item) => (
                             <div key={item.name} className="modal-list-item">
                               <div className="modal-list-item-main">
@@ -510,9 +557,6 @@ export function App() {
                                 <span className="modal-list-item-meta">{item.meta}</span>
                               </div>
                               <div className="modal-list-item-actions">
-                                <span className="modal-list-item-stat">
-                                  <Icon svg={heartIcon} size={16} /> {item.likes}
-                                </span>
                                 <Button className="button-secondary button-md">
                                   <Icon svg={plusIcon} size={16} />
                                   캐스팅
@@ -613,7 +657,7 @@ export function App() {
                     <Autocomplete.Input placeholder="기능 검색" className="text-input" />
                     <Autocomplete.Clear className="icon-button input-clear-button" aria-label="검색어 지우기">
                       <span className="clear-chip">
-                        <Icon svg={xIcon} size={12} />
+                        <Icon svg={xIcon} size={10} />
                       </span>
                     </Autocomplete.Clear>
                   </Autocomplete.InputGroup>
@@ -638,17 +682,17 @@ export function App() {
                 </Autocomplete.Root>
               </PreviewSection>
 
-              <PreviewSection title="Avatar" description="5가지 Subtle Tint 팔레트 — 장식적 용도.">
+              <PreviewSection title="Avatar" description="5가지 Subtle Tint 팔레트 — 장식적 용도. 사이즈는 기본 40 / lg 64 두 단계.">
                 <div className="avatar-palette-row">
                   {[
                     { cls: 'avatar-indigo', initials: 'IN', label: 'Indigo' },
                     { cls: 'avatar-sage', initials: 'SG', label: 'Sage' },
                     { cls: 'avatar-sand', initials: 'SA', label: 'Sand' },
-                    { cls: 'avatar-mauve', initials: 'MV', label: 'Mauve' },
+                    { cls: 'avatar-plum', initials: 'PL', label: 'Plum' },
                     { cls: 'avatar-azure', initials: 'AZ', label: 'Azure' }
                   ].map(({ cls, initials, label }) => (
                     <div key={cls} className="avatar-palette-item">
-                      <Avatar.Root className={`avatar avatar-sm ${cls}`}>
+                      <Avatar.Root className={`avatar ${cls}`}>
                         <Avatar.Fallback>{initials}</Avatar.Fallback>
                       </Avatar.Root>
                       <span>{label}</span>
@@ -656,13 +700,12 @@ export function App() {
                   ))}
                 </div>
                 <div className="avatar-row">
-                  <Avatar.Root className="avatar avatar-indigo">
-                    <Avatar.Image src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&h=160&fit=crop" />
-                    <Avatar.Fallback>NC</Avatar.Fallback>
+                  <Avatar.Root className="avatar avatar-lg avatar-azure">
+                    <Avatar.Fallback>AZ</Avatar.Fallback>
                   </Avatar.Root>
                   <div>
-                    <strong>NCAI Preview</strong>
-                    <p>Design review specialist</p>
+                    <strong>Profile Header</strong>
+                    <p>이니셜 전용 · 64 (.avatar-lg)</p>
                   </div>
                 </div>
               </PreviewSection>
@@ -991,7 +1034,7 @@ export function App() {
               <PreviewSection title="Field" description="레이블, 입력, 유효성 힌트가 결합된 필드.">
                 <Field.Root name="email" className="field-root">
                   <Field.Label className="field-label">이메일</Field.Label>
-                  <Field.Control className="text-input" required type="email" placeholder="you@ncai.io" />
+                  <ClearableInput as={Field.Control} required type="email" placeholder="you@ncai.io" />
                   <Field.Description className="field-help">알림 수신에 사용됩니다.</Field.Description>
                   <Field.Error className="field-error">올바른 이메일 주소를 입력하세요.</Field.Error>
                 </Field.Root>
@@ -1021,7 +1064,7 @@ export function App() {
                 <Form className="form-card" onSubmit={(event) => event.preventDefault()}>
                   <Field.Root name="name" className="field-root">
                     <Field.Label className="field-label">이름</Field.Label>
-                    <Field.Control className="text-input" required placeholder="홍길동" />
+                    <ClearableInput as={Field.Control} required placeholder="홍길동" />
                   </Field.Root>
                   <Button type="submit" className="button-primary">
                     제출
@@ -1030,7 +1073,7 @@ export function App() {
               </PreviewSection>
 
               <PreviewSection title="Input" description="독립형 텍스트 입력 필드.">
-                <Input className="text-input search-input" placeholder="컴포넌트 검색" />
+                <ClearableInput className="search-input" placeholder="컴포넌트 검색" />
               </PreviewSection>
 
               <PreviewSection
@@ -1212,9 +1255,13 @@ export function App() {
 
               <PreviewSection title="Preview Card" description="링크에 풍부한 미리보기를 제공하는 호버 카드.">
                 <PreviewCard.Root>
-                  <PreviewCard.Trigger className="text-link" href="#gallery">
-                    컴포넌트 미리보기 카드 열기
-                  </PreviewCard.Trigger>
+                  <p className="preview-card-demo-prose">
+                    본 시스템의{' '}
+                    <PreviewCard.Trigger className="text-link" href="#tokens">
+                      Surface Soft 토큰
+                    </PreviewCard.Trigger>
+                    을 적용한 카드 — 링크를 호버하면 미리보기가 나타납니다.
+                  </p>
                   <PreviewCard.Portal>
                     <PreviewCard.Positioner
                       className="positioner"
@@ -1223,8 +1270,10 @@ export function App() {
                     >
                       <PreviewCard.Popup className="preview-card">
                         <div className="mini-product" />
-                        <strong>Surface Soft 프리뷰</strong>
-                        <p>콘텐츠는 물러나고 핵심 시각 요소가 인터랙션을 이끕니다.</p>
+                        <div className="preview-card-text">
+                          <p className="popover-title">Preview Card</p>
+                          <p className="popover-copy">위키 문서로 가는 인라인 링크, 사용자 프로필 호버, 토큰·컴포넌트 이름 참조 — 본문 흐름을 끊지 않고 링크 너머를 미리 들여다보게 하고 싶을 때 사용합니다.</p>
+                        </div>
                       </PreviewCard.Popup>
                     </PreviewCard.Positioner>
                   </PreviewCard.Portal>
