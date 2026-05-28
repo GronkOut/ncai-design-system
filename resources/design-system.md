@@ -1098,14 +1098,16 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 정보의 상태나 카테고리를 알리는 작은 라벨. Colors > Semantic 팔레트를 따릅니다.
 
 - **Shape**: `{radius.pill}` (9999px).
-- **Size**: 높이 22px, 좌우 패딩 10px, gap 4px.
+- **Size**: 높이 24px, 좌우 패딩 `{spacing.xs}` (8px), gap `{spacing.xxs}` (4px).
 - **Typography**: `{typography.caption}` (12px) weight 500.
-- **Variants**:
-  - `badge-success` (활성): BG `#ECFDF5` / Text `#059669`
-  - `badge-warning` (대기): BG `#FFFBEB` / Text `#FFA201`
-  - `badge-error` (중단/실패): BG `#FEF2F2` / Text `#F33942`
-  - `badge-ink` (신규/중립): BG `{colors.ink}` / Text `{colors.on-primary}` — Solid Ink Style.
-- **Dot Variant**: 텍스트 앞에 6px 원형 점(`●`)을 두어 라이브 상태(온라인/검토 중 등)를 강조할 수 있습니다.
+- **Variants** (BG는 L ~96 유지 + 채도만 가볍게 down으로 시각 무게 균일화):
+  - `badge-success` (완료/정상): BG `#EEFBEC` / Text `#059669`
+  - `badge-info` (진행 중/정보): BG `#EFF6FF` / Text `{colors.primary}` — Primary alias로 브랜드 자동 동기화.
+  - `badge-warning` (대기): BG `#FEFAE6` / Text `#F0900A`
+  - `badge-error` (중단/실패): BG `#FEF6F1` / Text `#F33942`
+  - `badge-neutral` (백로그/초안/대기열): BG `#F3F4F6` / Text `{colors.body-muted}` — 무상태(passive) 표시.
+  - `badge-ink` (신규/강조): BG `{colors.ink}` / Text `{colors.on-primary}` — Solid Ink Style.
+- **Dot Variant**: 텍스트 앞에 6px 원형 점(`.badge-dot`)을 두어 라이브 상태(실행 중·일시정지·중지됨 등 프로세스 신호)를 강조할 수 있습니다. dot은 `currentColor`로 텍스트 톤과 자동 동기화.
 - **Dark Mode**: Dark Mode Badge & Tag Principle을 따라 BG는 원색에 투명도 15~20%, Text는 더 밝고 채도 높은 색으로 전환.
 - **금지**: 그림자, 그라데이션, 보더(`badge-ink` 제외).
 

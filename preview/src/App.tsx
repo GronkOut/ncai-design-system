@@ -713,15 +713,17 @@ export function App() {
               <PreviewSection title="Badge" description="Semantic Status Palette — 기능적 상태 표시.">
                 <div className="badge-demo">
                   <div className="badge-row">
-                    <span className="badge badge-success">활성</span>
+                    <span className="badge badge-success">완료</span>
+                    <span className="badge badge-info">진행중</span>
                     <span className="badge badge-warning">대기</span>
                     <span className="badge badge-error">중단</span>
+                    <span className="badge badge-neutral">백로그</span>
                     <span className="badge badge-ink">신규</span>
                   </div>
                   <div className="badge-row">
-                    <span className="badge badge-success">● 온라인</span>
-                    <span className="badge badge-warning">● 검토 중</span>
-                    <span className="badge badge-error">● 오류</span>
+                    <span className="badge badge-success"><span className="badge-dot" />실행 중</span>
+                    <span className="badge badge-warning"><span className="badge-dot" />일시정지</span>
+                    <span className="badge badge-neutral"><span className="badge-dot" />중지됨</span>
                   </div>
                 </div>
               </PreviewSection>

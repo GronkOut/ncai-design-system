@@ -38,12 +38,16 @@
      - Status Success (녹): 활성·정상 뱃지, 일반 성공 알림
      - Brand Success (Primary): 폼 유효 입력, 브랜드 일관성이 중요한 확정 액션 */
   --color-semantic-success: #059669;
-  --color-semantic-success-bg: #ecfdf5;
+  --color-semantic-success-bg: #eefbec;       /* 노란끼 도는 옅은 연두 — 부드러운 success 톤 */
   --color-semantic-success-brand: var(--color-primary); /* Primary Blue 별칭 — 라이트/다크 자동 적응 */
   --color-semantic-error: #f33942;
-  --color-semantic-error-bg: #fef2f2;
-  --color-semantic-warning: #ffa201;
-  --color-semantic-warning-bg: #fffbeb;
+  --color-semantic-error-bg: #fef6f1;          /* 피치 끼 도는 따뜻한 rose — 부드러운 error 톤 */
+  --color-semantic-warning: #f0900a;
+  --color-semantic-warning-bg: #fefae6;        /* 채도만 미세 down (100→85), L 96 유지 — vibrancy 보존 */
+  --color-semantic-info: var(--color-primary);  /* 진행 중·정보 — primary alias로 브랜드와 자동 동기화 */
+  --color-semantic-info-bg: #eff6ff;            /* 원본 sky-50 — vibrant 유지 */
+  --color-semantic-neutral: var(--color-body-muted);  /* 무상태(백로그·초안·대기열) */
+  --color-semantic-neutral-bg: #f3f4f6;        /* 기준점 — 변경 없음 */
   --color-on-ink-muted: rgba(255, 255, 255, 0.64);
 
   /* === AVATAR PALETTE (Subtle Tint) === */
@@ -1138,8 +1142,9 @@ html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled
 .badge {
   display: inline-flex;
   align-items: center;
-  height: 22px;
-  padding: 0 8px;
+  gap: var(--spacing-xxs);
+  height: 24px;
+  padding: 0 var(--spacing-xs);
   border-radius: var(--radius-pill);
   /* type-caption */
   font-size: var(--type-caption);
@@ -1165,10 +1170,29 @@ html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled
   color: var(--color-semantic-error);
 }
 
+.badge-info {
+  background: var(--color-semantic-info-bg);
+  color: var(--color-semantic-info);
+}
+
+.badge-neutral {
+  background: var(--color-semantic-neutral-bg);
+  color: var(--color-semantic-neutral);
+}
+
 /* Solid Ink — 가장 권위 있는 스타일 */
 .badge-ink {
   background: var(--color-ink);
   color: var(--color-on-primary);
+}
+
+/* Dot — 라이브 상태 신호등 (currentColor로 텍스트 톤 동기화) */
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: currentColor;
+  flex: none;
 }
 
 /* ============================================================
@@ -4285,6 +4309,9 @@ html[data-theme="dark"] {
 
   /* Semantic — vibrant 유지하되 흰 글자 대비 확보 위해 미세하게 톤 다운.
      base는 solid 배경(흰 글자 대비 AA)과 틴트 배경 위 텍스트 모두 통과하는 값 */
+  --color-semantic-neutral: #c7c9cb;  /* 다크 가독성 위해 body-muted보다 한 단계 밝게 */
+  --color-semantic-neutral-bg: rgba(149, 151, 153, 0.15);
+  --color-semantic-info-bg: rgba(0, 110, 255, 0.15);  /* info text는 primary alias로 자동 적응 */
   --color-semantic-success: #34d399;
   --color-semantic-success-bg: rgba(5, 150, 105, 0.15);
   --color-semantic-error: #f74b53;
