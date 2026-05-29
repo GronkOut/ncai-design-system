@@ -37,16 +37,16 @@ import { ToggleGroup } from '@base-ui/react/toggle-group';
 import { Toolbar } from '@base-ui/react/toolbar';
 import { Tooltip } from '@base-ui/react/tooltip';
 import { icons as iconMetadata } from '@ncai/design-system-icons';
-import checkIcon from '@ncai/design-system-icons/icons/check.svg';
 import chevronDownIcon from '@ncai/design-system-icons/icons/chevron-down.svg?raw';
+import infoIcon from '@ncai/design-system-icons/icons/info.svg?raw';
 import searchIcon from '@ncai/design-system-icons/icons/search.svg?raw';
 import starIcon from '@ncai/design-system-icons/icons/star.svg?raw';
-import heartIcon from '@ncai/design-system-icons/icons/heart.svg?raw';
 import homeIcon from '@ncai/design-system-icons/icons/house.svg?raw';
 import settingsIcon from '@ncai/design-system-icons/icons/settings.svg?raw';
 import bellIcon from '@ncai/design-system-icons/icons/bell.svg?raw';
 import downloadIcon from '@ncai/design-system-icons/icons/download.svg?raw';
 import plusIcon from '@ncai/design-system-icons/icons/plus.svg?raw';
+import minusIcon from '@ncai/design-system-icons/icons/minus.svg?raw';
 import xIcon from '@ncai/design-system-icons/icons/x.svg?raw';
 import arrowRightIcon from '@ncai/design-system-icons/icons/arrow-right.svg?raw';
 import shareIcon from '@ncai/design-system-icons/icons/share-2.svg?raw';
@@ -54,7 +54,6 @@ import eyeIcon from '@ncai/design-system-icons/icons/eye.svg?raw';
 import trashIcon from '@ncai/design-system-icons/icons/trash-2.svg?raw';
 import pencilIcon from '@ncai/design-system-icons/icons/pencil.svg?raw';
 import userIcon from '@ncai/design-system-icons/icons/user.svg?raw';
-import zapIcon from '@ncai/design-system-icons/icons/zap.svg?raw';
 import copyIcon from '@ncai/design-system-icons/icons/copy.svg?raw';
 import moonIcon from '@ncai/design-system-icons/icons/moon.svg?raw';
 import sunIcon from '@ncai/design-system-icons/icons/sun.svg?raw';
@@ -84,6 +83,24 @@ const FLOATING_OFFSET = 8;          // 기본
 const FLOATING_OFFSET_LOOSE = 10;   // Popover, PreviewCard
 const VIEWPORT_PADDING = 16;
 
+// Popover / Tooltip 화살표 SVG — base-ui Arrow wrapper의 children으로 전달.
+// viewBox를 SVG 픽셀 크기와 1:1 매핑(24×12)해 좌표 1단위 = 1px이 되도록 함 → stroke가
+// 카드 hairline border(1px)와 정확히 같은 두께 유지. fill triangle은 closed path로 면을 채우고,
+// stroke는 baseline을 제외한 양 변만 open path로 그려, baseline 영역에서 fill canvas가
+// popover-card 보더 hairline을 자연스럽게 마스킹.
+function PopupArrowGlyph() {
+  return (
+    <svg width="16" height="9" viewBox="0 0 16 9" fill="none" aria-hidden>
+      {/* fill: triangle + 1px 높이 baseline rectangle. baseline rect가 popover-card의
+          top hairline border(1px)를 정확히 mask해 꼬리와 몸통이 같은 fill 영역으로 연결됨. */}
+      <path d="M0 8 L8 0 L16 8 L16 9 L0 9 Z" className="arrow-fill" />
+      {/* stroke: 두 변만 (open path). baseline에는 stroke 안 그림 — popover top edge가
+          stroke 양 끝점과 정확히 만나는 지점에서 hairline border와 자연스럽게 연결. */}
+      <path d="M0 8 L8 0 L16 8" className="arrow-stroke" />
+    </svg>
+  );
+}
+
 const allIconModules = import.meta.glob('../../packages/icons/icons/*.svg', {
   eager: true,
   import: 'default',
@@ -100,6 +117,51 @@ const allPreviewIcons = iconMetadata.map((icon) => ({
 }));
 
 const products = ['AI 어시스턴트', '디자인 시스템', '아이콘 패키지', '컴포넌트 라이브러리', '디자인 토큰'];
+
+// Clear(x) 칩이 우측에 붙는 텍스트 입력 래퍼.
+// Autocomplete.Clear와 동일 스펙(48×48 hit area, 16×16 chip, 10px x icon, body-muted mix 55%→75%).
+function ClearableInput({
+  as: BaseInput = Input,
+  defaultValue,
+  className,
+  onChange,
+  ...rest
+}: React.InputHTMLAttributes<HTMLInputElement> & {
+  as?: React.ElementType;
+}) {
+  const [value, setValue] = React.useState(defaultValue != null ? String(defaultValue) : '');
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
+  return (
+    <div className="clearable-input-wrap">
+      <BaseInput
+        ref={inputRef}
+        {...rest}
+        value={value}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          setValue(event.target.value);
+          onChange?.(event);
+        }}
+        className={['text-input clearable-text-input', className].filter(Boolean).join(' ')}
+      />
+      {value.length > 0 && (
+        <button
+          type="button"
+          className="icon-button input-clear-button"
+          aria-label="입력 지우기"
+          onMouseDown={(event) => event.preventDefault()}
+          onClick={() => {
+            setValue('');
+            inputRef.current?.focus();
+          }}
+        >
+          <span className="clear-chip">
+            <Icon svg={xIcon} size={10} />
+          </span>
+        </button>
+      )}
+    </div>
+  );
+}
 const teams = ['서울 본사', '부산 지사', '대전 R&D', '광주 크리에이티브', '인천 물류'];
 const sections = [
   'Typography',
@@ -178,8 +240,7 @@ export function App() {
               <p className="eyebrow">Base UI + design-system.md</p>
               <h1>NCAI Design System Preview</h1>
               <p className="hero-copy">
-                Base UI 프리미티브에 NCAI 디자인 시스템의 시각 언어를 적용한 미리보기 페이지입니다. 디자인 시스템이
-                변경되면 이 페이지에서 모든 컴포넌트의 변화를 빠르게 확인할 수 있습니다.
+                Base UI 프리미티브에 NCAI 디자인 시스템의 시각 언어를 적용한 미리보기 페이지입니다. 변경된 디자인 시스템의 모든 컴포넌트의 변화를 빠르게 확인할 수 있습니다.
               </p>
               <div className="hero-actions">
                 <a className="button-primary button-display" href="#gallery">
@@ -214,7 +275,7 @@ export function App() {
                     { token: 'display-lg', size: '56 / 600', sample: '주요 페이지 섹션 제목' },
                     { token: 'display-md', size: '40 / 600', sample: '서브 섹션 제목' },
                     { token: 'headline',   size: '28 / 600', sample: '패널과 카드 그룹 제목' },
-                    { token: 'title-md',   size: '22 / 500', sample: '카드·아코디언 헤더' },
+                    { token: 'title-md',   size: '22 / 500', sample: '카드·모달·드로어·시트 컨테이너 타이틀' },
                     { token: 'title-sm',   size: '20 / 600', sample: '모달·드로어·시트 타이틀' },
                     { token: 'body-lg',    size: '18 / 400', sample: '도입부 문단과 강조 본문' },
                     { token: 'body-md',    size: '16 / 400', sample: '기본 본문 — 가독성 확보.' },
@@ -225,7 +286,7 @@ export function App() {
                     { token: 'label-md',   size: '15 / 500', sample: '중간 라벨 (40px 컨테이너)' },
                     { token: 'label-sm',   size: '14 / 500', sample: '보조 라벨 (칩·작은 버튼)' },
                     { token: 'eyebrow',    size: '13 / 500', sample: 'SECTION LABEL' },
-                    { token: 'mono',       size: '13 / 400', sample: 'v1.0.0 · build-20260101' },
+                    { token: 'mono',       size: '13 / 400', sample: 'v0.5.0 · build-20260101' },
                   ].map(({ token, size, sample }) => (
                     <div key={token} className="type-row">
                       <span className="type-token">{token}</span>
@@ -287,10 +348,10 @@ export function App() {
                 </Accordion.Root>
               </PreviewSection>
 
-              <PreviewSection title="Alert Dialog" description="중앙 정렬 텍스트와 풀-너비 액션 풋터로 구성된 확인 다이얼로그. Default(Primary) · Negative(Danger) · 단일 Action 세 가지 변형을 지원합니다.">
+              <PreviewSection title="Alert Dialog" description=" Default · Negative · 단일 Action 세 가지 변형을 지원합니다.">
                 <div className="inline-actions">
                   <AlertDialog.Root>
-                    <AlertDialog.Trigger className="button-primary">변경 저장 (기본)</AlertDialog.Trigger>
+                    <AlertDialog.Trigger className="button-primary">Default</AlertDialog.Trigger>
                     <AlertDialog.Portal>
                       <AlertDialog.Backdrop className="overlay-backdrop" />
                       <AlertDialog.Popup className="modal-card alert-dialog-card">
@@ -310,7 +371,7 @@ export function App() {
                     </AlertDialog.Portal>
                   </AlertDialog.Root>
                   <AlertDialog.Root>
-                    <AlertDialog.Trigger className="button-danger">계정 삭제 (부정)</AlertDialog.Trigger>
+                    <AlertDialog.Trigger className="button-danger">Negative</AlertDialog.Trigger>
                     <AlertDialog.Portal>
                       <AlertDialog.Backdrop className="overlay-backdrop" />
                       <AlertDialog.Popup className="modal-card alert-dialog-card">
@@ -330,7 +391,7 @@ export function App() {
                     </AlertDialog.Portal>
                   </AlertDialog.Root>
                   <AlertDialog.Root>
-                    <AlertDialog.Trigger className="button-primary">알림 확인 (단일)</AlertDialog.Trigger>
+                    <AlertDialog.Trigger className="button-primary">단일 Action</AlertDialog.Trigger>
                     <AlertDialog.Portal>
                       <AlertDialog.Backdrop className="overlay-backdrop" />
                       <AlertDialog.Popup className="modal-card alert-dialog-card">
@@ -351,35 +412,35 @@ export function App() {
                 </div>
               </PreviewSection>
 
-              <PreviewSection title="Modal" description="3가지 Variant — Form(우측 정착 풋터) / Picker(per-row 액션 리스트, 풋터 없음) / Browse(상단 보조 액션 + 스크롤 리스트). 폭 스케일은 md(480, 기본) / lg(640) / xl(880). sm(400)은 Alert Dialog 전용.">
+              <PreviewSection title="Modal" description={'3가지 Variant와 Size로 제공합니다. \n Default - Footer 버튼O / Picker - Footer 버튼 X / Browse - 상단 Action. \n 폭 스케일은 md (480) / lg (640) / xl (880)'}>
                 <div className="inline-actions">
                   <Dialog.Root>
-                    <Dialog.Trigger className="button-primary">Form · md (기본)</Dialog.Trigger>
+                    <Dialog.Trigger className="button-primary">Default md</Dialog.Trigger>
                     <Dialog.Portal>
                       <Dialog.Backdrop className="overlay-backdrop" />
                       <Dialog.Popup className="modal-card">
                         <div className="modal-body">
                           <div className="modal-header">
-                            <Dialog.Title className="modal-title">새 프로젝트 만들기</Dialog.Title>
+                            <Dialog.Title className="modal-title">새 프로젝트</Dialog.Title>
                             <Dialog.Description className="modal-copy">
-                              프로젝트 정보를 입력하세요. 멤버는 생성 후 초대할 수 있습니다.
+                              프로젝트 정보를 입력하세요.
                             </Dialog.Description>
                           </div>
                           <div className="modal-form">
                             <div className="modal-form-fields">
                               <Field.Root name="project-name" className="field-root">
                                 <Field.Label className="field-label">프로젝트 이름</Field.Label>
-                                <Field.Control className="text-input" placeholder="예: 디자인 시스템 v2" />
+                                <ClearableInput as={Field.Control} placeholder="ex. 디자인 시스템" />
                               </Field.Root>
                               <Field.Root name="project-team" className="field-root">
                                 <Field.Label className="field-label">소속 팀</Field.Label>
-                                <Field.Control className="text-input" placeholder="팀 선택" />
+                                <ClearableInput as={Field.Control} placeholder="ex. Field AX" />
                               </Field.Root>
                             </div>
                             <label className="check-row modal-form-supplementary">
                               <Checkbox.Root defaultChecked className="checkbox">
                                 <Checkbox.Indicator className="check-indicator">
-                                  <img src={checkIcon} alt="" className="check-icon" />
+                                  <CheckmarkSvg />
                                 </Checkbox.Indicator>
                               </Checkbox.Root>
                               생성 후 바로 멤버 초대 패널 열기
@@ -394,7 +455,7 @@ export function App() {
                     </Dialog.Portal>
                   </Dialog.Root>
                   <Dialog.Root>
-                    <Dialog.Trigger className="button-secondary">Form · lg</Dialog.Trigger>
+                    <Dialog.Trigger className="button-secondary">Default lg</Dialog.Trigger>
                     <Dialog.Portal>
                       <Dialog.Backdrop className="overlay-backdrop" />
                       <Dialog.Popup className="modal-card modal-lg">
@@ -409,23 +470,23 @@ export function App() {
                             <div className="modal-form-grid">
                               <Field.Root name="invitee-name" className="field-root">
                                 <Field.Label className="field-label">이름</Field.Label>
-                                <Field.Control className="text-input" placeholder="홍길동" />
+                                <ClearableInput as={Field.Control} placeholder="김엔씨" />
                               </Field.Root>
                               <Field.Root name="invitee-email" className="field-root">
                                 <Field.Label className="field-label">이메일</Field.Label>
-                                <Field.Control className="text-input" type="email" placeholder="name@ncai.io" />
+                                <ClearableInput as={Field.Control} type="email" placeholder="name@ncai.io" />
                               </Field.Root>
                               <Field.Root name="invitee-role" className="field-root">
                                 <Field.Label className="field-label">역할</Field.Label>
-                                <Field.Control className="text-input" placeholder="Editor" />
+                                <ClearableInput as={Field.Control} placeholder="Editor" />
                               </Field.Root>
                               <Field.Root name="invitee-team" className="field-root">
                                 <Field.Label className="field-label">소속 팀</Field.Label>
-                                <Field.Control className="text-input" placeholder="디자인" />
+                                <ClearableInput as={Field.Control} placeholder="디자인" />
                               </Field.Root>
                               <Field.Root name="invitee-message" className="field-root field-root-span-2">
                                 <Field.Label className="field-label">초대 메시지 (선택)</Field.Label>
-                                <Field.Control className="text-input" placeholder="환영합니다. 함께 작업하게 되어 기뻐요." />
+                                <ClearableInput as={Field.Control} placeholder="환영합니다. 함께 작업하게 되어 기뻐요." />
                               </Field.Root>
                             </div>
                           </div>
@@ -438,7 +499,7 @@ export function App() {
                     </Dialog.Portal>
                   </Dialog.Root>
                   <Dialog.Root>
-                    <Dialog.Trigger className="button-secondary">Form · xl</Dialog.Trigger>
+                    <Dialog.Trigger className="button-secondary">Default xl</Dialog.Trigger>
                     <Dialog.Portal>
                       <Dialog.Backdrop className="overlay-backdrop" />
                       <Dialog.Popup className="modal-card modal-xl">
@@ -446,7 +507,7 @@ export function App() {
                           <div className="modal-header">
                             <Dialog.Title className="modal-title">미디어 라이브러리</Dialog.Title>
                             <Dialog.Description className="modal-copy">
-                              업로드된 이미지를 둘러보고 선택하세요. 항목을 클릭하면 상세 미리보기가 열립니다.
+                              업로드된 이미지를 둘러보고 선택하세요.
                             </Dialog.Description>
                           </div>
                           <div className="modal-gallery-grid">
@@ -466,7 +527,7 @@ export function App() {
                     </Dialog.Portal>
                   </Dialog.Root>
                   <Dialog.Root>
-                    <Dialog.Trigger className="button-secondary">Picker (보이스 선택)</Dialog.Trigger>
+                    <Dialog.Trigger className="button-secondary">Picker</Dialog.Trigger>
                     <Dialog.Portal>
                       <Dialog.Backdrop className="overlay-backdrop" />
                       <Dialog.Popup className="modal-card modal-picker modal-lg">
@@ -474,16 +535,19 @@ export function App() {
                           <Dialog.Title className="modal-title">보이스 라운지</Dialog.Title>
                           <div className="modal-toolbar-actions">
                             <Dialog.Close className="icon-btn icon-btn--md icon-btn--ghost" aria-label="닫기">
-                              <Icon svg={xIcon} size={20} />
+                              <Icon svg={xIcon} size={16} />
                             </Dialog.Close>
                           </div>
                         </div>
                         <div className="modal-list">
                           {[
-                            { name: '상냥한 보이스', meta: '예의바른, 아나운서 언어', likes: '0.3K' },
-                            { name: '어쩌구저쩌구 보이스', meta: '상냥한, 예의바른', likes: '0.3K' },
-                            { name: '예쁜 목소리', meta: '상냥한, 아나운서 언어', likes: '0.3K' },
-                            { name: '김밥 먹고싶은 목소리', meta: '상냥한, 귀여운', likes: '0.3K' },
+                            { name: '상냥한 보이스', meta: '예의바른, 아나운서 언어' },
+                            { name: '다정한 화자', meta: '상냥한, 예의바른' },
+                            { name: '예쁜 목소리', meta: '상냥한, 아나운서 언어' },
+                            { name: '발랄한 소녀', meta: '상냥한, 귀여운' },
+                            { name: '차분한 내레이션', meta: '낮은 톤, 다큐멘터리' },
+                            { name: '활기찬 진행자', meta: '밝은, 라이브' },
+                            { name: '신뢰감 있는 보이스', meta: '중후한, 비즈니스' },
                           ].map((item) => (
                             <div key={item.name} className="modal-list-item">
                               <div className="modal-list-item-main">
@@ -491,9 +555,6 @@ export function App() {
                                 <span className="modal-list-item-meta">{item.meta}</span>
                               </div>
                               <div className="modal-list-item-actions">
-                                <span className="modal-list-item-stat">
-                                  <Icon svg={heartIcon} size={16} /> {item.likes}
-                                </span>
                                 <Button className="button-secondary button-md">
                                   <Icon svg={plusIcon} size={16} />
                                   캐스팅
@@ -506,7 +567,7 @@ export function App() {
                     </Dialog.Portal>
                   </Dialog.Root>
                   <Dialog.Root>
-                    <Dialog.Trigger className="button-secondary">Browse (스크롤 + 상단 액션)</Dialog.Trigger>
+                    <Dialog.Trigger className="button-secondary">Browse</Dialog.Trigger>
                     <Dialog.Portal>
                       <Dialog.Backdrop className="overlay-backdrop" />
                       <Dialog.Popup className="modal-card modal-browse modal-lg">
@@ -518,7 +579,7 @@ export function App() {
                               전체 다운로드
                             </Button>
                             <Dialog.Close className="icon-btn icon-btn--md icon-btn--ghost" aria-label="닫기">
-                              <Icon svg={xIcon} size={20} />
+                              <Icon svg={xIcon} size={16} />
                             </Dialog.Close>
                           </div>
                         </div>
@@ -542,7 +603,7 @@ export function App() {
                 </div>
               </PreviewSection>
 
-              <PreviewSection title="Bottom Sheet" description="반응형 시트 패턴 — 모바일(≤768px)은 하단 슬라이드업 + 드래그 핸들, 데스크톱은 중앙 Modal로 전환됩니다. 뷰포트를 줄여서 차이를 확인하세요.">
+              <PreviewSection title="Bottom Sheet" description={"반응형 시트 패턴 \n 모바일(≤768px)은 하단 슬라이드업 + 드래그 핸들. \n 데스크톱은 중앙 Modal로 전환됩니다. \n 뷰포트를 줄여서 차이를 확인하세요."}>
                 <Dialog.Root>
                   <Dialog.Trigger className="button-primary">시트 열기</Dialog.Trigger>
                   <Dialog.Portal>
@@ -556,25 +617,25 @@ export function App() {
                       <ul className="bottom-sheet-list">
                         <li>
                           <Dialog.Close className="bottom-sheet-option">
-                            <Icon svg={copyIcon} className="icon-inline icon-ink" size={20} />
+                            <Icon svg={copyIcon} className="icon-inline icon-ink" size={16} />
                             <span>링크 복사</span>
                           </Dialog.Close>
                         </li>
                         <li>
                           <Dialog.Close className="bottom-sheet-option">
-                            <Icon svg={mailIcon} className="icon-inline icon-ink" size={20} />
+                            <Icon svg={mailIcon} className="icon-inline icon-ink" size={16} />
                             <span>이메일로 보내기</span>
                           </Dialog.Close>
                         </li>
                         <li>
                           <Dialog.Close className="bottom-sheet-option">
-                            <Icon svg={userIcon} className="icon-inline icon-ink" size={20} />
+                            <Icon svg={userIcon} className="icon-inline icon-ink" size={16} />
                             <span>팀 멤버에게 공유</span>
                           </Dialog.Close>
                         </li>
                         <li>
                           <Dialog.Close className="bottom-sheet-option">
-                            <Icon svg={downloadIcon} className="icon-inline icon-ink" size={20} />
+                            <Icon svg={downloadIcon} className="icon-inline icon-ink" size={16} />
                             <span>PDF로 내보내기</span>
                           </Dialog.Close>
                         </li>
@@ -594,7 +655,7 @@ export function App() {
                     <Autocomplete.Input placeholder="기능 검색" className="text-input" />
                     <Autocomplete.Clear className="icon-button input-clear-button" aria-label="검색어 지우기">
                       <span className="clear-chip">
-                        <Icon svg={xIcon} size={12} />
+                        <Icon svg={xIcon} size={10} />
                       </span>
                     </Autocomplete.Clear>
                   </Autocomplete.InputGroup>
@@ -619,17 +680,17 @@ export function App() {
                 </Autocomplete.Root>
               </PreviewSection>
 
-              <PreviewSection title="Avatar" description="5가지 Subtle Tint 팔레트 — 장식적 용도.">
+              <PreviewSection title="Avatar" description="5가지 Avatar Tint. 기본 40 / lg 64" >
                 <div className="avatar-palette-row">
                   {[
                     { cls: 'avatar-indigo', initials: 'IN', label: 'Indigo' },
                     { cls: 'avatar-sage', initials: 'SG', label: 'Sage' },
                     { cls: 'avatar-sand', initials: 'SA', label: 'Sand' },
-                    { cls: 'avatar-mauve', initials: 'MV', label: 'Mauve' },
+                    { cls: 'avatar-plum', initials: 'PL', label: 'Plum' },
                     { cls: 'avatar-azure', initials: 'AZ', label: 'Azure' }
                   ].map(({ cls, initials, label }) => (
                     <div key={cls} className="avatar-palette-item">
-                      <Avatar.Root className={`avatar avatar-sm ${cls}`}>
+                      <Avatar.Root className={`avatar ${cls}`}>
                         <Avatar.Fallback>{initials}</Avatar.Fallback>
                       </Avatar.Root>
                       <span>{label}</span>
@@ -637,115 +698,187 @@ export function App() {
                   ))}
                 </div>
                 <div className="avatar-row">
-                  <Avatar.Root className="avatar avatar-indigo">
-                    <Avatar.Image src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&h=160&fit=crop" />
-                    <Avatar.Fallback>NC</Avatar.Fallback>
+                  <Avatar.Root className="avatar avatar-lg avatar-azure">
+                    <Avatar.Fallback>김</Avatar.Fallback>
                   </Avatar.Root>
                   <div>
-                    <strong>NCAI Preview</strong>
-                    <p>Design review specialist</p>
+                    <strong>김엔씨</strong>
+                    <p>Field AX Team</p>
                   </div>
                 </div>
               </PreviewSection>
 
-              <PreviewSection title="Badge" description="Semantic Status Palette — 기능적 상태 표시.">
+              <PreviewSection title="Badge" description="Semantic Status Palette를 적용한 상태 표시 Badge">
                 <div className="badge-demo">
                   <div className="badge-row">
-                    <span className="badge badge-success">활성</span>
+                    <span className="badge badge-success">완료</span>
+                    <span className="badge badge-info">진행중</span>
                     <span className="badge badge-warning">대기</span>
                     <span className="badge badge-error">중단</span>
+                    <span className="badge badge-neutral">백로그</span>
                     <span className="badge badge-ink">신규</span>
                   </div>
                   <div className="badge-row">
-                    <span className="badge badge-success">● 온라인</span>
-                    <span className="badge badge-warning">● 검토 중</span>
-                    <span className="badge badge-error">● 오류</span>
+                    <span className="badge badge-success"><span className="badge-dot" />실행 중</span>
+                    <span className="badge badge-warning"><span className="badge-dot" />일시정지</span>
+                    <span className="badge badge-neutral"><span className="badge-dot" />중지됨</span>
                   </div>
                 </div>
               </PreviewSection>
 
-              <PreviewSection title="Button" description="Primary · Secondary · Ghost — 3단계 위계 구조. 아이콘은 라벨 좌측(의미 보강) 또는 우측(흐름·이동)에 배치합니다.">
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <PreviewSection title="Button" description="Primary · Secondary · Ghost · Danger· Danger Ghost">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
                   <div className="inline-actions">
-                    <Button className="button-primary">시작하기</Button>
-                    <Button className="button-secondary">더 알아보기</Button>
-                    <Button className="button-ghost">취소</Button>
+                    <Button className="button-primary">Primary</Button>
+                    <Button className="button-secondary">Secondary</Button>
+                    <Button className="button-ghost">Ghost</Button>
+                    <Button className="button-danger">Danger</Button>
                   </div>
-                  <div className="inline-actions" style={{ alignItems: 'center' }}>
-                    <Button className="button-primary">
-                      <Icon svg={plusIcon} size={18} />
-                      새로 만들기
-                    </Button>
-                    <Button className="button-secondary">
-                      <Icon svg={downloadIcon} size={18} />
-                      다운로드
-                    </Button>
-                    <Button className="button-ghost">
-                      <Icon svg={trashIcon} size={18} />
-                      삭제
-                    </Button>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div className="inline-actions" style={{ alignItems: 'center' }}>
+                      <Button className="button-danger-ghost button-sm">
+                        <Icon svg={trashIcon} size={14} />
+                        제거
+                      </Button>
+                    </div>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Danger Ghost — 표·리스트 행의 약한 파괴 액션 (행마다 다수 허용)</span>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div className="inline-actions" style={{ alignItems: 'center' }}>
+                      <Button className="button-primary">
+                        <Icon svg={plusIcon} size={18} />
+                        새로 만들기
+                      </Button>
+                      <Button className="button-secondary">
+                        <Icon svg={downloadIcon} size={18} />
+                        다운로드
+                      </Button>
+                      <Button className="button-ghost">
+                        <Icon svg={trashIcon} size={18} />
+                        삭제
+                      </Button>
+                    </div>
                     <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Leading icon — 액션의 의미를 보강</span>
                   </div>
-                  <div className="inline-actions" style={{ alignItems: 'center' }}>
-                    <Button className="button-primary">
-                      계속하기
-                      <Icon svg={arrowRightIcon} size={18} />
-                    </Button>
-                    <Button className="button-secondary">
-                      자세히 보기
-                      <Icon svg={chevronRightIcon} size={18} />
-                    </Button>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div className="inline-actions" style={{ alignItems: 'center' }}>
+                      <Button className="button-primary">
+                        계속하기
+                        <Icon svg={arrowRightIcon} size={18} />
+                      </Button>
+                      <Button className="button-secondary">
+                        자세히 보기
+                        <Icon svg={chevronRightIcon} size={18} />
+                      </Button>
+                    </div>
                     <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Trailing icon — 다음 단계·이동 암시</span>
                   </div>
-                  <div className="inline-actions" style={{ alignItems: 'center' }}>
-                    <Button className="button-primary button-md">
-                      <Icon svg={plusIcon} size={16} />
-                      추가
-                    </Button>
-                    <Button className="button-secondary button-sm">
-                      <Icon svg={pencilIcon} size={14} />
-                      수정
-                    </Button>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div className="inline-actions" style={{ alignItems: 'center' }}>
+                      <Button className="button-primary button-md">
+                        <Icon svg={plusIcon} size={16} />
+                        추가
+                      </Button>
+                      <Button className="button-secondary button-sm">
+                        <Icon svg={pencilIcon} size={14} />
+                        수정
+                      </Button>
+                    </div>
                     <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Size별 아이콘 — md 16 / sm 14</span>
                   </div>
-                </div>
-              </PreviewSection>
-
-              <PreviewSection title="Icon Button" description="라벨 없는 정사각 액션 — sm 32 / md 40 / lg 48 (Button 높이와 동일). 변형은 Ghost(기본) · Secondary · Primary · Danger. 라벨이 가려져 있으므로 aria-label과 Tooltip이 필수입니다 — 아래 버튼에 hover/focus 시 라벨·단축키가 노출됩니다.">
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                  <div className="inline-actions" style={{ alignItems: 'center' }}>
-                    <IconTooltipButton label="공유" svg={shareIcon} size={16} className="icon-btn icon-btn--sm icon-btn--ghost" />
-                    <IconTooltipButton label="공유" svg={shareIcon} size={20} className="icon-btn icon-btn--md icon-btn--ghost" />
-                    <IconTooltipButton label="공유" svg={shareIcon} size={22} className="icon-btn icon-btn--lg icon-btn--ghost" />
-                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Ghost — 기본 (sm / md / lg)</span>
-                  </div>
-                  <div className="inline-actions" style={{ alignItems: 'center' }}>
-                    <IconTooltipButton label="수정" shortcut={['⌘', 'E']} svg={pencilIcon} size={20} className="icon-btn icon-btn--md icon-btn--secondary" />
-                    <IconTooltipButton label="추가" shortcut={['⌘', 'N']} svg={plusIcon} size={20} className="icon-btn icon-btn--md icon-btn--primary" />
-                    <IconTooltipButton label="삭제" shortcut={['⌘', '⌫']} svg={trashIcon} size={20} className="icon-btn icon-btn--md icon-btn--danger" />
-                    <IconTooltipButton label="알림" svg={bellIcon} size={20} className="icon-btn icon-btn--md icon-btn--ghost" disabled />
-                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Secondary · Primary · Danger · Disabled (단축키 hint 포함)</span>
-                  </div>
-                  <div className="inline-actions" style={{ alignItems: 'center' }}>
-                    <IconTooltipButton label="새로 만들기" svg={plusIcon} size={22} className="icon-btn icon-btn--lg icon-btn--primary icon-btn--circle" />
-                    <IconTooltipButton label="프로필" svg={userIcon} size={20} className="icon-btn icon-btn--md icon-btn--secondary icon-btn--circle" />
-                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Circle — 프로필 / 플로팅 액션</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div className="inline-actions" style={{ alignItems: 'center' }}>
+                      <Button className="button-primary" disabled>Disabled</Button>
+                      <Button className="button-secondary" disabled>Disabled</Button>
+                      <Button className="button-ghost" disabled>Disabled</Button>
+                    </div>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Disabled — Icon Button과 동일 룰. </span>
                   </div>
                 </div>
               </PreviewSection>
 
-              <PreviewSection title="Checkbox" description="단일 선택 컨트롤.">
+              <PreviewSection title="Icon Button" description={"Size lg 48 / md 40 / sm 32 \n 변형은 Primary · Secondary · Danger · Danger Ghost · Ghost. \n 라벨이 가려져 있으므로 Tooltip을 필수로 적용합니다."}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div className="inline-actions" style={{ alignItems: 'center' }}>
+                      <IconTooltipButton label="공유" svg={shareIcon} size={22} className="icon-btn icon-btn--lg icon-btn--secondary" />
+                      <IconTooltipButton label="공유" svg={shareIcon} size={20} className="icon-btn icon-btn--md icon-btn--secondary" />
+                      <IconTooltipButton label="공유" svg={shareIcon} size={16} className="icon-btn icon-btn--sm icon-btn--secondary" />
+                    </div>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}> Size ( lg / md / sm )</span>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div className="inline-actions" style={{ alignItems: 'center' }}>
+                      <IconTooltipButton label="추가" shortcut={['⌘', 'N']} svg={plusIcon} size={20} className="icon-btn icon-btn--md icon-btn--primary" />
+                      <IconTooltipButton label="수정" shortcut={['⌘', 'E']} svg={pencilIcon} size={20} className="icon-btn icon-btn--md icon-btn--secondary" />
+                      <IconTooltipButton label="삭제" shortcut={['⌘', '⌫']} svg={trashIcon} size={20} className="icon-btn icon-btn--md icon-btn--danger" />
+                      <IconTooltipButton label="행 삭제" svg={trashIcon} size={20} className="icon-btn icon-btn--md icon-btn--danger-ghost" />
+                      <IconTooltipButton label="공유" svg={shareIcon} size={20} className="icon-btn icon-btn--md icon-btn--ghost" />
+                    </div>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Primary · Secondary · Danger · Danger Ghost · Ghost</span>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div className="inline-actions" style={{ alignItems: 'center' }}>
+                      <IconTooltipButton label="추가" svg={plusIcon} size={20} className="icon-btn icon-btn--md icon-btn--primary" disabled />
+                      <IconTooltipButton label="수정" svg={pencilIcon} size={20} className="icon-btn icon-btn--md icon-btn--secondary" disabled />
+                      <IconTooltipButton label="공유" svg={shareIcon} size={20} className="icon-btn icon-btn--md icon-btn--ghost" disabled />
+                    </div>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Disabled</span>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div className="inline-actions" style={{ alignItems: 'center' }}>
+                      <IconTooltipButton label="새로 만들기" svg={plusIcon} size={22} className="icon-btn icon-btn--lg icon-btn--primary icon-btn--circle" />
+                    </div>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>플로팅 액션 (FAB) 전용 Circle 형태 </span>
+                  </div>
+                </div>
+              </PreviewSection>
+
+              <PreviewSection title="Checkbox" description="여러 선택지 중에서 원하는 항목들을 자유롭게 '중복 선택'하거나, 단일 항목을 선택할때 사용합니다.">
                 <label className="check-row">
                   <Checkbox.Root defaultChecked className="checkbox">
                     <Checkbox.Indicator className="check-indicator">
-                      <img src={checkIcon} alt="" className="check-icon" />
+                      <CheckmarkSvg />
                     </Checkbox.Indicator>
                   </Checkbox.Root>
-                  디자인 시스템 변경 사항 알림 받기
+                  변경 사항 알림 받기
+                </label>
+                <label className="check-row">
+                  <Checkbox.Root className="checkbox">
+                    <Checkbox.Indicator className="check-indicator">
+                      <CheckmarkSvg />
+                    </Checkbox.Indicator>
+                  </Checkbox.Root>
+                  릴리스 노트 구독
+                </label>
+                <label className="check-row">
+                  <Checkbox.Root indeterminate className="checkbox">
+                    <Checkbox.Indicator className="check-indicator">
+                      <CheckmarkSvg />
+                    </Checkbox.Indicator>
+                  </Checkbox.Root>
+                  하위 리스트 부분 선택일 경우
+                </label>
+                <label className="check-row">
+                  <Checkbox.Root disabled className="checkbox">
+                    <Checkbox.Indicator className="check-indicator">
+                      <CheckmarkSvg />
+                    </Checkbox.Indicator>
+                  </Checkbox.Root>
+                  비활성 (미체크)
+                </label>
+                <label className="check-row">
+                  <Checkbox.Root defaultChecked disabled className="checkbox">
+                    <Checkbox.Indicator className="check-indicator">
+                      <CheckmarkSvg />
+                    </Checkbox.Indicator>
+                  </Checkbox.Root>
+                  비활성 (체크됨)
                 </label>
               </PreviewSection>
 
-              <PreviewSection title="Checkbox Group" description="다중 선택 그룹 컨트롤.">
+              <PreviewSection title="Checkbox Group" description={'다중 선택 그룹 컨트롤.\n세로 그룹은 spacing-xs(8px), 가로 그룹은 spacing-xl(24px) 간격.'}>
+                <div className="choice-group-variants">
                 <CheckboxGroup className="choice-stack" defaultValue={['tokens']}>
                   {[
                     ['tokens', '디자인 토큰 감사'],
@@ -755,19 +888,43 @@ export function App() {
                     <label className="check-row" key={value}>
                       <Checkbox.Root value={value} className="checkbox">
                         <Checkbox.Indicator className="check-indicator">
-                          <img src={checkIcon} alt="" className="check-icon" />
+                          <CheckmarkSvg />
                         </Checkbox.Indicator>
                       </Checkbox.Root>
                       {label}
                     </label>
                   ))}
                 </CheckboxGroup>
+                <CheckboxGroup className="choice-row" defaultValue={['frontend', 'design']}>
+                  {[
+                    ['frontend', '프론트엔드 개발'],
+                    ['backend', '백엔드 개발'],
+                    ['design', '디자인 시스템'],
+                    ['research', '리서치'],
+                    ['qa', '품질 보증'],
+                    ['ops', '운영 / 인프라'],
+                    ['marketing', '마케팅']
+                  ].map(([value, label]) => (
+                    <label className="check-row" key={value}>
+                      <Checkbox.Root value={value} className="checkbox">
+                        <Checkbox.Indicator className="check-indicator">
+                          <CheckmarkSvg />
+                        </Checkbox.Indicator>
+                      </Checkbox.Root>
+                      {label}
+                    </label>
+                  ))}
+                </CheckboxGroup>
+                </div>
               </PreviewSection>
 
               <PreviewSection title="Collapsible" description="간결한 상세 내용을 위한 접기/펼치기 패널.">
                 <Collapsible.Root className="collapsible">
-                  <Collapsible.Trigger className="button-secondary">디자인 원칙 보기</Collapsible.Trigger>
-                  <Collapsible.Panel className="soft-panel">
+                  <Collapsible.Trigger className="collapsible-trigger">
+                    <Icon svg={chevronRightIcon} className="collapsible-chevron" size={16} />
+                    디자인 원칙 보기
+                  </Collapsible.Trigger>
+                  <Collapsible.Panel keepMounted className="collapsible-panel">
                     절제를 통한 위계의 완성 — 불필요한 장식을 걷어내고, 정교하게 계산된 여백과 타이포그래피로 가장
                     직관적인 사용자 경험을 전달합니다.
                   </Collapsible.Panel>
@@ -821,12 +978,17 @@ export function App() {
                         <ContextMenu.Item className="menu-item">
                           <Icon svg={eyeIcon} className="menu-item-icon icon-muted" size={16} />
                           <span className="menu-item-label">항목 열기</span>
-                          <span className="menu-item-shortcut">⏎</span>
+                          <span className="menu-item-shortcut">
+                            <kbd>⏎</kbd>
+                          </span>
                         </ContextMenu.Item>
                         <ContextMenu.Item className="menu-item">
                           <Icon svg={copyIcon} className="menu-item-icon icon-muted" size={16} />
                           <span className="menu-item-label">복제</span>
-                          <span className="menu-item-shortcut">⌘ D</span>
+                          <span className="menu-item-shortcut">
+                            <kbd>⌘</kbd>
+                            <kbd>D</kbd>
+                          </span>
                         </ContextMenu.Item>
                         <ContextMenu.Item className="menu-item">
                           <Icon svg={pencilIcon} className="menu-item-icon icon-muted" size={16} />
@@ -840,7 +1002,7 @@ export function App() {
                             <Icon
                               svg={chevronRightIcon}
                               className="menu-item-submenu-indicator icon-muted"
-                              size={14}
+                              size={16}
                             />
                           </ContextMenu.SubmenuTrigger>
                           <ContextMenu.Portal>
@@ -871,7 +1033,9 @@ export function App() {
                         <ContextMenu.Item className="menu-item menu-item-destructive">
                           <Icon svg={trashIcon} className="menu-item-icon" size={16} />
                           <span className="menu-item-label">삭제</span>
-                          <span className="menu-item-shortcut">⌫</span>
+                          <span className="menu-item-shortcut">
+                            <kbd>⌫</kbd>
+                          </span>
                         </ContextMenu.Item>
                       </ContextMenu.Popup>
                     </ContextMenu.Positioner>
@@ -910,7 +1074,7 @@ export function App() {
                           <label className="check-row">
                             <Checkbox.Root defaultChecked className="checkbox">
                               <Checkbox.Indicator className="check-indicator">
-                                <img src={checkIcon} alt="" className="check-icon" />
+                                <CheckmarkSvg />
                               </Checkbox.Indicator>
                             </Checkbox.Root>
                             이메일
@@ -918,7 +1082,7 @@ export function App() {
                           <label className="check-row">
                             <Checkbox.Root className="checkbox">
                               <Checkbox.Indicator className="check-indicator">
-                                <img src={checkIcon} alt="" className="check-icon" />
+                                <CheckmarkSvg />
                               </Checkbox.Indicator>
                             </Checkbox.Root>
                             푸시 알림
@@ -926,7 +1090,7 @@ export function App() {
                           <label className="check-row">
                             <Checkbox.Root defaultChecked className="checkbox">
                               <Checkbox.Indicator className="check-indicator">
-                                <img src={checkIcon} alt="" className="check-icon" />
+                                <CheckmarkSvg />
                               </Checkbox.Indicator>
                             </Checkbox.Root>
                             인앱 메시지
@@ -969,7 +1133,7 @@ export function App() {
               <PreviewSection title="Field" description="레이블, 입력, 유효성 힌트가 결합된 필드.">
                 <Field.Root name="email" className="field-root">
                   <Field.Label className="field-label">이메일</Field.Label>
-                  <Field.Control className="text-input" required type="email" placeholder="you@ncai.io" />
+                  <ClearableInput as={Field.Control} required type="email" placeholder="you@ncai.io" />
                   <Field.Description className="field-help">알림 수신에 사용됩니다.</Field.Description>
                   <Field.Error className="field-error">올바른 이메일 주소를 입력하세요.</Field.Error>
                 </Field.Root>
@@ -999,7 +1163,7 @@ export function App() {
                 <Form className="form-card" onSubmit={(event) => event.preventDefault()}>
                   <Field.Root name="name" className="field-root">
                     <Field.Label className="field-label">이름</Field.Label>
-                    <Field.Control className="text-input" required placeholder="홍길동" />
+                    <ClearableInput as={Field.Control} required placeholder="김엔씨" />
                   </Field.Root>
                   <Button type="submit" className="button-primary">
                     제출
@@ -1008,12 +1172,18 @@ export function App() {
               </PreviewSection>
 
               <PreviewSection title="Input" description="독립형 텍스트 입력 필드.">
-                <Input className="text-input search-input" placeholder="컴포넌트 검색" />
+                <ClearableInput className="search-input" placeholder="컴포넌트 검색" />
               </PreviewSection>
 
-              <PreviewSection title="Menu" description="키보드 탐색을 지원하는 드롭다운 메뉴.">
+              <PreviewSection
+                title="Menu"
+                description="버튼 트리거로 여는 드롭다운 메뉴. 카드/행의 더보기 액션 등 짧은 옵션 모음에 사용합니다."
+              >
                 <Menu.Root>
-                  <Menu.Trigger className="button-secondary">메뉴 열기</Menu.Trigger>
+                  <Menu.Trigger className="button-secondary">
+                    메뉴 열기
+                    <Icon svg={chevronDownIcon} className="trigger-icon" size={14} />
+                  </Menu.Trigger>
                   <Menu.Portal>
                     <Menu.Positioner
                       className="positioner"
@@ -1021,10 +1191,14 @@ export function App() {
                       collisionPadding={VIEWPORT_PADDING}
                     >
                       <Menu.Popup className="menu-popup">
-                        <Menu.Item className="menu-item">즐겨찾기 추가</Menu.Item>
-                        <Menu.Item className="menu-item">나중에 보기</Menu.Item>
-                        <Menu.Separator className="menu-separator" />
-                        <Menu.CheckboxItem className="menu-item">자동 저장</Menu.CheckboxItem>
+                        <Menu.Item className="menu-item">
+                          <Icon svg={starIcon} className="menu-item-icon icon-muted" size={16} />
+                          <span className="menu-item-label">즐겨찾기 추가</span>
+                        </Menu.Item>
+                        <Menu.Item className="menu-item">
+                          <Icon svg={bellIcon} className="menu-item-icon icon-muted" size={16} />
+                          <span className="menu-item-label">나중에 보기</span>
+                        </Menu.Item>
                       </Menu.Popup>
                     </Menu.Positioner>
                   </Menu.Portal>
@@ -1034,8 +1208,8 @@ export function App() {
               <PreviewSection title="Meter" description="경계가 있는 측정 인디케이터.">
                 <Meter.Root value={72} min={0} max={100} className="meter-root">
                   <div className="meter-meta">
-                    <Meter.Label>리소스 사용량</Meter.Label>
-                    <Meter.Value />
+                    <Meter.Label className="meter-label">리소스 사용량</Meter.Label>
+                    <Meter.Value className="meter-value" />
                   </div>
                   <Meter.Track className="meter-track">
                     <Meter.Indicator className="meter-indicator" />
@@ -1053,36 +1227,36 @@ export function App() {
                       </NavigationMenu.Trigger>
                       <NavigationMenu.Content className="nav-menu-content">
                         <NavigationMenu.Link className="nav-menu-feature" href="#gallery">
-                          <span>AI 어시스턴트</span>
-                          <small>자연어 기반 인터페이스의 시각 컴포넌트를 미리 확인하세요.</small>
+                          <span className="nav-menu-title">AI 어시스턴트</span>
+                          <span className="nav-menu-desc">자연어 기반 인터페이스의 시각 컴포넌트를 미리 확인하세요.</span>
                         </NavigationMenu.Link>
                         <NavigationMenu.Link className="nav-menu-link" href="#gallery">
-                          <span>디자인 시스템</span>
-                          <small>토큰 기반 컴포넌트 라이브러리와 CSS 아키텍처.</small>
+                          <span className="nav-menu-title">디자인 시스템</span>
+                          <span className="nav-menu-desc">토큰 기반 컴포넌트 라이브러리와 CSS 아키텍처.</span>
                         </NavigationMenu.Link>
                         <NavigationMenu.Link className="nav-menu-link" href="#gallery">
-                          <span>아이콘 패키지</span>
-                          <small>1,509개 SVG 아이콘, currentColor 정규화 완료.</small>
+                          <span className="nav-menu-title">아이콘 패키지</span>
+                          <span className="nav-menu-desc">1,509개 SVG 아이콘, currentColor 정규화 완료.</span>
                         </NavigationMenu.Link>
                       </NavigationMenu.Content>
                     </NavigationMenu.Item>
                     <NavigationMenu.Item value="design">
-                      <NavigationMenu.Trigger className="nav-menu-trigger">
+                      <NavigationMenu.Trigger className="nav-menu-trigger" data-active>
                         디자인
                         <Icon svg={chevronDownIcon} className="nav-menu-icon" size={14} />
                       </NavigationMenu.Trigger>
                       <NavigationMenu.Content className="nav-menu-content nav-menu-content-compact">
-                        <NavigationMenu.Link className="nav-menu-link" href="#tokens">
-                          <span>토큰</span>
-                          <small>색상, 반경, 간격, 그림자 변수.</small>
+                        <NavigationMenu.Link className="nav-menu-link" data-active href="#tokens">
+                          <span className="nav-menu-title">토큰</span>
+                          <span className="nav-menu-desc">색상, 반경, 간격, 그림자 변수.</span>
                         </NavigationMenu.Link>
                         <NavigationMenu.Link className="nav-menu-link" href="#gallery">
-                          <span>컴포넌트</span>
-                          <small>NCAI 스타일이 적용된 Base UI 프리미티브.</small>
+                          <span className="nav-menu-title">컴포넌트</span>
+                          <span className="nav-menu-desc">NCAI 스타일이 적용된 Base UI 프리미티브.</span>
                         </NavigationMenu.Link>
                         <NavigationMenu.Link className="nav-menu-link" href="#gallery">
-                          <span>패턴</span>
-                          <small>재사용 가능한 인터랙션 및 레이아웃 예제.</small>
+                          <span className="nav-menu-title">패턴</span>
+                          <span className="nav-menu-desc">재사용 가능한 인터랙션 및 레이아웃 예제.</span>
                         </NavigationMenu.Link>
                       </NavigationMenu.Content>
                     </NavigationMenu.Item>
@@ -1093,12 +1267,12 @@ export function App() {
                       </NavigationMenu.Trigger>
                       <NavigationMenu.Content className="nav-menu-content nav-menu-content-compact">
                         <NavigationMenu.Link className="nav-menu-link" href="#gallery">
-                          <span>미리보기 가이드</span>
-                          <small>이 페이지로 디자인 변경을 감사하세요.</small>
+                          <span className="nav-menu-title">미리보기 가이드</span>
+                          <span className="nav-menu-desc">이 페이지로 디자인 변경을 감사하세요.</span>
                         </NavigationMenu.Link>
                         <NavigationMenu.Link className="nav-menu-link" href="#gallery">
-                          <span>아이콘 패키지</span>
-                          <small>프로덕트용 설치 가능한 SVG 에셋.</small>
+                          <span className="nav-menu-title">아이콘 패키지</span>
+                          <span className="nav-menu-desc">프로덕트용 설치 가능한 SVG 에셋.</span>
                         </NavigationMenu.Link>
                       </NavigationMenu.Content>
                     </NavigationMenu.Item>
@@ -1121,9 +1295,13 @@ export function App() {
               <PreviewSection title="Number Field" description="증감 및 숫자 입력 필드.">
                 <NumberField.Root defaultValue={1} min={1} max={9} className="number-field">
                   <NumberField.Group className="number-group">
-                    <NumberField.Decrement className="stepper-button">−</NumberField.Decrement>
+                    <NumberField.Decrement className="icon-btn icon-btn--ghost icon-btn--md" aria-label="값 감소">
+                      <Icon svg={minusIcon} size={16} />
+                    </NumberField.Decrement>
                     <NumberField.Input className="number-input" />
-                    <NumberField.Increment className="stepper-button">+</NumberField.Increment>
+                    <NumberField.Increment className="icon-btn icon-btn--ghost icon-btn--md" aria-label="값 증가">
+                      <Icon svg={plusIcon} size={16} />
+                    </NumberField.Increment>
                   </NumberField.Group>
                 </NumberField.Root>
               </PreviewSection>
@@ -1145,20 +1323,27 @@ export function App() {
                 </div>
               </PreviewSection>
 
-              <PreviewSection title="Popover" description="앵커된 보조 정보 팝오버.">
+              <PreviewSection title="Popover" description="앵커된 보조 정보 팝오버. info 아이콘 옆에 부가 설명을 띄우는 가장 보편적인 패턴.">
                 <Popover.Root>
-                  <Popover.Trigger className="button-secondary">상세 정보</Popover.Trigger>
+                  <Popover.Trigger
+                    className="icon-btn icon-btn--ghost icon-btn--sm"
+                    aria-label="설치 안내"
+                  >
+                    <Icon svg={infoIcon} size={16} />
+                  </Popover.Trigger>
                   <Popover.Portal>
                     <Popover.Positioner
                       className="popover-positioner"
-                      align="start"
+                      align="center"
                       sideOffset={FLOATING_OFFSET_LOOSE}
                       collisionPadding={VIEWPORT_PADDING}
                     >
                       <Popover.Popup className="popover-card">
-                        <Popover.Arrow className="popup-arrow" />
+                        <Popover.Arrow className="popup-arrow">
+                          <PopupArrowGlyph />
+                        </Popover.Arrow>
                         <Popover.Title className="popover-title">바로 사용 가능</Popover.Title>
-                        <Popover.Description className="modal-copy">
+                        <Popover.Description className="popover-copy">
                           지금 바로 NCAI 디자인 시스템을 프로젝트에 설치하고 사용할 수 있습니다.
                         </Popover.Description>
                       </Popover.Popup>
@@ -1169,9 +1354,13 @@ export function App() {
 
               <PreviewSection title="Preview Card" description="링크에 풍부한 미리보기를 제공하는 호버 카드.">
                 <PreviewCard.Root>
-                  <PreviewCard.Trigger className="text-link" href="#gallery">
-                    컴포넌트 미리보기 카드 열기
-                  </PreviewCard.Trigger>
+                  <p className="preview-card-demo-prose">
+                    본 시스템의{' '}
+                    <PreviewCard.Trigger className="text-link" href="#tokens">
+                      Surface Soft 토큰
+                    </PreviewCard.Trigger>
+                    을 적용한 카드 — 링크를 호버하면 미리보기가 나타납니다.
+                  </p>
                   <PreviewCard.Portal>
                     <PreviewCard.Positioner
                       className="positioner"
@@ -1180,8 +1369,10 @@ export function App() {
                     >
                       <PreviewCard.Popup className="preview-card">
                         <div className="mini-product" />
-                        <strong>Surface Soft 프리뷰</strong>
-                        <p>콘텐츠는 물러나고 핵심 시각 요소가 인터랙션을 이끕니다.</p>
+                        <div className="preview-card-text">
+                          <p className="popover-title">Preview Card</p>
+                          <p className="popover-copy">위키 문서로 가는 인라인 링크, 사용자 프로필 호버, 토큰·컴포넌트 이름 참조 — 본문 흐름을 끊지 않고 링크 너머를 미리 들여다보게 하고 싶을 때 사용합니다.</p>
+                        </div>
                       </PreviewCard.Popup>
                     </PreviewCard.Positioner>
                   </PreviewCard.Portal>
@@ -1289,7 +1480,7 @@ export function App() {
                       className="hamburger-button"
                       aria-label="메뉴 열기"
                     >
-                      <Icon svg={menuIcon} className="icon-inline icon-ink" size={20} />
+                      <Icon svg={menuIcon} className="icon-inline icon-ink" size={16} />
                     </Drawer.Trigger>
                     <Drawer.Portal>
                       <Drawer.Backdrop className="overlay-backdrop" />
@@ -1460,18 +1651,8 @@ export function App() {
 
                   <Toolbar.Separator className="toolbar-separator" />
 
-                  {/* 단일 선택 — 셋 중 하나만 활성 (정렬) */}
-                  <ToggleGroup defaultValue={['left']} className="toolbar-group toolbar-segment">
-                    <Toggle value="left" className="toolbar-button toolbar-icon-button" aria-label="왼쪽 정렬">
-                      <Icon svg={alignLeftIcon} size={18} />
-                    </Toggle>
-                    <Toggle value="center" className="toolbar-button toolbar-icon-button" aria-label="가운데 정렬">
-                      <Icon svg={alignCenterIcon} size={18} />
-                    </Toggle>
-                    <Toggle value="right" className="toolbar-button toolbar-icon-button" aria-label="오른쪽 정렬">
-                      <Icon svg={alignRightIcon} size={18} />
-                    </Toggle>
-                  </ToggleGroup>
+                  {/* 단일 선택 — 셋 중 하나만 활성 (정렬). 활성 항목 재클릭으로 deselect되지 않음. */}
+                  <ToolbarAlignmentSegment />
 
                   <Toolbar.Separator className="toolbar-separator" />
 
@@ -1498,7 +1679,7 @@ export function App() {
               <PreviewSection title="Tooltip" description="호버 또는 포커스 시 표시되는 힌트. 단축키 hint를 함께 노출할 수 있습니다.">
                 <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                   <Tooltip.Root>
-                    <Tooltip.Trigger className="button-secondary">힌트 보기</Tooltip.Trigger>
+                    <Tooltip.Trigger className="button-secondary">툴팁 보기</Tooltip.Trigger>
                     <Tooltip.Portal>
                       <Tooltip.Positioner
                         className="positioner"
@@ -1514,7 +1695,7 @@ export function App() {
                   </Tooltip.Root>
 
                   <Tooltip.Root>
-                    <Tooltip.Trigger className="button-secondary">저장</Tooltip.Trigger>
+                    <Tooltip.Trigger className="button-secondary">툴팁 + 단축키 보기</Tooltip.Trigger>
                     <Tooltip.Portal>
                       <Tooltip.Positioner
                         className="positioner"
@@ -1570,6 +1751,22 @@ function AllIconsSection() {
   );
 }
 
+function CheckmarkSvg() {
+  // 박스 16×16 중심(y=8)에 stroke 픽셀이 정렬되도록 path를 0.5 위로 시프트.
+  // bend(꺾임)의 시각 무게가 아래쪽에 있어 약간 위로 올려야 광학적으로 정중앙으로 인지됨.
+  return (
+    <svg className="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path
+        d="M3.5 8 L6.5 11 L12.5 4.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function PreviewSection({
   title,
   description,
@@ -1586,10 +1783,34 @@ function PreviewSection({
       <div className="component-copy">
         <span className="component-index">{title}</span>
         <h3 id={`${slug(title)}-title`}>{title}</h3>
-        <p>{description}</p>
+        <p style={{ whiteSpace: 'pre-line' }}>{description}</p>
       </div>
       <div className="component-demo">{children}</div>
     </section>
+  );
+}
+
+function ToolbarAlignmentSegment() {
+  const [value, setValue] = React.useState<string[]>(['left']);
+  return (
+    <ToggleGroup
+      value={value}
+      onValueChange={(next) => {
+        if (next.length === 0) return;
+        setValue(next);
+      }}
+      className="toolbar-group toolbar-segment"
+    >
+      <Toggle value="left" className="toolbar-button toolbar-icon-button" aria-label="왼쪽 정렬">
+        <Icon svg={alignLeftIcon} size={18} />
+      </Toggle>
+      <Toggle value="center" className="toolbar-button toolbar-icon-button" aria-label="가운데 정렬">
+        <Icon svg={alignCenterIcon} size={18} />
+      </Toggle>
+      <Toggle value="right" className="toolbar-button toolbar-icon-button" aria-label="오른쪽 정렬">
+        <Icon svg={alignRightIcon} size={18} />
+      </Toggle>
+    </ToggleGroup>
   );
 }
 
@@ -1618,7 +1839,10 @@ function ToggleGroupDemo() {
       ref={groupRef}
       className="toggle-group"
       value={value}
-      onValueChange={setValue}
+      onValueChange={(next) => {
+        if (next.length === 0) return;
+        setValue(next);
+      }}
       aria-label="레이아웃 밀도"
     >
       <span
@@ -1808,7 +2032,9 @@ function DatePickerPopover({
         collisionPadding={VIEWPORT_PADDING}
       >
         <Popover.Popup className="date-picker-popover">
-          <Popover.Arrow className="popup-arrow" />
+          <Popover.Arrow className="popup-arrow">
+            <PopupArrowGlyph />
+          </Popover.Arrow>
           <Popover.Title className="date-picker-caption">
             <button
               type="button"
@@ -2100,9 +2326,21 @@ function IconTooltipButton({
   className: string;
   disabled?: boolean;
 }) {
+  // Disabled 시 native <button disabled>로 렌더 — 브라우저가 자동으로 click·hover·focus를 차단하고
+  // cursor: not-allowed가 자연스럽게 표시됩니다. Base UI Tooltip.Trigger는 disabled prop을
+  // data-trigger-disabled 속성으로만 변환해(disabled 상태에서도 tooltip을 띄우려는 의도) native
+  // 차단을 해주지 않으므로 이 우회가 필요합니다. Tooltip 자체도 disabled 안내가 필요한 경우엔
+  // 폼 helper text 등 별도 텍스트로 표시하는 게 사용성에 더 명확합니다.
+  if (disabled) {
+    return (
+      <button type="button" className={className} aria-label={label} disabled>
+        <Icon svg={svg} size={size} />
+      </button>
+    );
+  }
   return (
     <Tooltip.Root>
-      <Tooltip.Trigger className={className} aria-label={label} disabled={disabled}>
+      <Tooltip.Trigger className={className} aria-label={label}>
         <Icon svg={svg} size={size} />
       </Tooltip.Trigger>
       <Tooltip.Portal>

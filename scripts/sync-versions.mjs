@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const rootPackagePath = 'package.json';
+const previewPackagePath = 'preview/package.json';
 const packagePaths = [
   'packages/design-system/package.json',
   'packages/icons/package.json',
@@ -43,6 +44,10 @@ const [version] = versions;
 const rootPackage = readJson(rootPackagePath);
 rootPackage.version = version;
 writeJson(rootPackagePath, rootPackage);
+
+const previewPackage = readJson(previewPackagePath);
+previewPackage.version = version;
+writeJson(previewPackagePath, previewPackage);
 
 replaceOnce(
   'packages/design-system/src/index.ts',

@@ -18,15 +18,19 @@ description: Builds, reviews, and styles React UI using NC AI design-system.md a
 ## Component Selection
 
 - For dialogs (modal/alert), popovers, tooltips, menus (incl. context/navigation menu), selects/combobox/autocomplete, checkboxes, radios, switches, toggles & toggle groups, tabs, accordions, collapsibles, sliders, progress, meter, scroll areas, preview cards, toolbars, separators, avatars, toasts, number fields, OTP fields, and field/fieldset/form primitives, start from the matching Base UI component.
-- For static layout such as hero tiles, cards, navigation shells, sidebars, bottom sheets, drawers, and marketing sections, use semantic React/HTML and apply `design-system.md` layout, typography, spacing, radius, and color guidance. (BottomSheet, Drawer, and Sidebar are NC AI compositions — typically built on top of Base UI Dialog/Popover where applicable.)
+- For static layout such as hero tiles, cards, navigation shells, sidebars, bottom sheets, drawers, lists, and marketing sections, use semantic React/HTML and apply `design-system.md` layout, typography, spacing, radius, and color guidance. (BottomSheet, Drawer, and Sidebar are NC AI compositions — typically built on top of Base UI Dialog/Popover where applicable.)
+- For label-less square actions (e.g. card-header more/close, table-row delete), use the NC AI `icon-btn` family (`icon-btn--sm/md/lg` × `secondary/ghost`, plus `--danger` / `--danger-ghost` for destructive variants) from the `Icon Button` section of `design-system.md`. Always provide an `aria-label`. Use a regular `button-*` whenever a text label is present.
+- For text inputs with an inline clear (x) chip, follow the `Clearable Input` rule in `design-system.md` — apply only to `text-input` / `Field.Control`; do not add to Number Field, OTP Field, or Combobox.
 - If a complete component does not exist in Base UI, build it as a composition of the closest Base UI primitives instead of introducing an unrelated component library. Example: Date Picker should compose `Field`, `Popover`, `Button`, `Select`, NC AI calendar icon, and local calendar-grid logic while following the `Date Picker` section in `design-system.md`.
 - Do not create a custom primitive when a Base UI primitive exists unless the user explicitly asks or Base UI cannot express the behavior.
 
 ## Styling Rules
 
 - Treat `resources/design-system.md` as the source of truth. It may describe tokens as markdown references like `{colors.primary}` rather than shipped CSS variables.
+- Token axes you must respect: **colors** (`canvas`, `surface-soft`, `surface-inset`, `surface-elevated`, `surface-elevated-hover`, `hairline`, `control-track`, `ink`, `body-muted`, `on-primary`, `primary`, `primary-hover`, `semantic-success`, `semantic-success-brand`, `semantic-info`, `semantic-warning`, `semantic-error`, `semantic-neutral`, `semantic-{success|info|warning|error|neutral}-bg`, `avatar-{name}-{bg|text}`), **typography** (Pretendard + Geist Mono; size tokens `display-{xl|lg|md}`, `headline`, `title-{md|sm}`, `body-{lg|md|sm}`, `label-{xl|lg|md|sm}`, `caption`, `eyebrow`, `mono`; weights `--fw-{regular|label|heading}`; applied via `@include type-*` mixins or `.type-*` utilities), **spacing** (`xxs/xs/sm/md/lg/xl/xxl/xxxl/section/footer-anchor` — note xs is now 8px and sm is 12px after rename), **radius**, **elevation**, and **motion/easing** (`{motion.instant|fast|normal|expand|slow}` + `{ease.standard|out-quad|out-expo|in-out}`).
+- The Avatar palette (`avatar-*` tokens / `.avatar-*` utilities) is for the Avatar component only. Do not use it for buttons, cards, badges, tags, hover tints, category mapping, or chart series.
 - Convert markdown token guidance into the consumer project's existing styling system: CSS Modules, Tailwind, plain CSS, CSS-in-JS, or local component styles.
-- Keep generated style values traceable to the design-system section used. If a value is unclear, search the design-system document before inventing a new one.
+- Keep generated style values traceable to the design-system section used. If a value is unclear, search the design-system document before inventing a new one. Do not use magic numbers for duration/easing — pick from the motion/ease tokens above.
 - Avoid arbitrary decorative gradients, shadows, borders, or animations unless the design-system document explicitly calls for them.
 
 ## Icon Rules
