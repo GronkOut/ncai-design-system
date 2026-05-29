@@ -1,5 +1,30 @@
 # @ncai/design-system-cli
 
+## 0.6.0
+
+### Minor Changes
+
+- Refine component patterns post-0.5.0 and align MCP/Skill guidance with the new design-system surface.
+
+  - **Preview foundation**: Rewrite preview styles to plain CSS and retune dark mode palette (neutral surface stack `#111212` → `#18191B` → `#27282D`, `surface-elevated-hover` via `color-mix(in oklab)`, `control-track` token for Switch off state).
+  - **Avatar**: Replace the Mauve slot with Plum and namespace each palette pair as `{colors.avatar-{name}-{bg|text}}` / `.avatar-{name}` utility. Document that the Avatar palette is for the Avatar component only — explicit guardrail against using `avatar-*` tokens for buttons, cards, hover tints, category mapping, or chart series.
+  - **Inputs**: Introduce the `Clearable Input` variant — `text-input` / `Field.Control` may render an inline 48×48 clear (x) chip with the same spec as Autocomplete Clear. Not applied to Number Field, OTP Field, or Combobox.
+  - **Accordion**: Tighten trigger spacing/typography to the new label tokens.
+  - **Badge**: Add `info` and `neutral` variants alongside the existing semantic palette, introduce a dot element, and re-tune the palette to the new `semantic-{role}-bg` pairs.
+  - **Button**: Add the `button-danger-ghost` variant (text-only weak destructive action with `semantic-error-bg` hover, allowed in dense/row contexts as the explicit exception to the "one per screen" rule of `button-danger`). Tighten `sm` icon gap to 4px (`spacing.xxs`), retune fill-hover to swap `background`/`border-color` via `*-hover` tokens (no element-wide `filter: brightness`), and insert the 20px `spacing.lg` slot for `button-lg` left/right padding. Consolidate disabled rules across Text Button and Icon Button (fill → `surface-inset`, outline → base + `color: disabled`, ghost → transparent + `color: disabled`).
+  - **Checkbox**: Align internal spacing to the new spacing tokens and document disabled / indeterminate / focus states.
+  - **Combobox**: Nest item hover radius inside the listbox and sync the chevron spec to the preview.
+  - **Context Menu**: Tighten row height/padding, restructure the shortcut + chevron columns, and sync danger row background to `semantic-error-bg` so it shares the same destructive surface token as `button-danger-ghost` / `icon-btn--danger(-ghost)` hover.
+  - **MCP (`@ncai/design-system-mcp`)**: Clean up redundant self-referential aliases (`dialog: "dialog"`, `form: "form"`) and expand the `field` alias to cover `text input`, `clearable input`, `search input`, `입력`, `입력 필드` so the new Clearable Input pattern maps onto the Base UI `field` primitive.
+  - **Skill (`@ncai/design-system-skills`)**: Add `icon-btn` family selection guidance (`--sm/md/lg` × `secondary/ghost` + `--danger` / `--danger-ghost`, `aria-label` required) and the Clearable Input applicability rule to Component Selection. Add `lists` to the static-layout list. In Styling Rules, enumerate the current token axes (colors with `surface-{soft|inset|elevated|elevated-hover}` + `control-track` + `semantic-{role}-bg` pairs + `avatar-*-{bg|text}`; typography with `display-{xl|lg|md}`, `headline`, `title-{md|sm}`, `body-{lg|md|sm}`, `label-{xl|lg|md|sm}`, `caption`, `eyebrow`, `mono` applied via `@include type-*` mixins; spacing with renamed `xxs/xs/sm/...` ladder + `xxxl` and `footer-anchor`; motion `{instant|fast|normal|expand|slow}` and ease `{standard|out-quad|out-expo|in-out}`). Forbid magic-number durations/easings.
+
+### Patch Changes
+
+- Updated dependencies
+  - @ncai/design-system@0.6.0
+  - @ncai/design-system-icons@0.6.0
+  - @ncai/design-system-skills@0.6.0
+
 ## 0.5.0
 
 ### Minor Changes
