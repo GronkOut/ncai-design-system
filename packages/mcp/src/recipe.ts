@@ -5,6 +5,7 @@ const baseUiComponents = [
   'accordion',
   'alert-dialog',
   'avatar',
+  'button',
   'checkbox',
   'checkbox-group',
   'collapsible',
@@ -39,6 +40,7 @@ const baseUiComponents = [
 const aliases: Record<string, string[]> = {
   'alert-dialog': ['alert', 'confirm', 'confirmation', 'destructive', '확인', '삭제'],
   avatar: ['profile image', '아바타', '프로필'],
+  button: ['cta', 'action button', '버튼', '액션'],
   checkbox: ['check', '체크', '선택'],
   'checkbox-group': ['checkbox list', '체크박스 그룹'],
   collapsible: ['disclosure', '접기', '펼치기'],
@@ -84,7 +86,7 @@ const compositionRecipes: CompositionRecipe[] = [
   {
     id: 'date-picker',
     matches: ['date picker', 'datepicker', 'date range', 'calendar picker', 'calendar', '날짜', '달력', '기간', '구간'],
-    components: ['field', 'popover', 'select'],
+    components: ['button', 'field', 'popover', 'select'],
     icons: ['calendar.svg'],
     summary:
       'Base UI에는 완성형 Date Picker primitive가 없으므로 Field + Popover + Button + Select를 조합하고 calendar grid/date math만 로컬 로직으로 구현합니다.',

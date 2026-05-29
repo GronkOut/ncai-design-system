@@ -45,10 +45,12 @@ NCAI Design System의 컬러 토큰은 **Surface / Text / Semantic / Avatar**의
 
 | 역할 | Light (text / bg) | Dark (text / bg) | 용도 |
 |---|---|---|---|
-| **Success — Status** (`{colors.semantic-success}`) | `#059669` / `#ECFDF5` | `#34D399` / `rgba(5,150,105,0.15)` | "활성·정상" 뱃지, 일반 성공 알림 — 전통 색상 매핑 |
+| **Success — Status** (`{colors.semantic-success}` / `{colors.semantic-success-bg}`) | `#059669` / `#EEFBEC` | `#34D399` / `rgba(5,150,105,0.15)` | "활성·정상" 뱃지, 일반 성공 알림 — 전통 색상 매핑 |
 | **Success — Brand** (`{colors.semantic-success-brand}`) | `#006EFF` (= Primary) | `#1C82FF` (= dark Primary) | 폼 유효 입력 표시, 브랜드 일관성이 중요한 확정 액션 — Primary 별칭 |
-| **Warning** (`{colors.semantic-warning}`) | `#FFA201` / `#FFFBEB` | `#FE9F19` / `rgba(254,159,25,0.15)` | 대기·주의·보안 경고 |
-| **Error** (`{colors.semantic-error}`) | `#F33942` / `#FEF2F2` | `#F74B53` / `rgba(247,75,83,0.15)` | 실패·중단 뱃지, 잘못된 입력, Negative(파괴적) 버튼 |
+| **Info** (`{colors.semantic-info}` / `{colors.semantic-info-bg}`) | `#006EFF` (= Primary) / `#EFF6FF` | `#1C82FF` (= dark Primary) / `rgba(0,110,255,0.15)` | 진행 중·정보 뱃지 — Primary alias로 브랜드와 자동 동기화 |
+| **Warning** (`{colors.semantic-warning}` / `{colors.semantic-warning-bg}`) | `#F0900A` / `#FEFAE6` | `#FE9F19` / `rgba(254,159,25,0.15)` | 대기·주의·보안 경고 |
+| **Error** (`{colors.semantic-error}` / `{colors.semantic-error-bg}`) | `#F33942` / `#FEF1F1` | `#F74B53` / `rgba(247,75,83,0.15)` | 실패·중단 뱃지, 잘못된 입력, Negative(파괴적) 버튼 |
+| **Neutral** (`{colors.semantic-neutral}` / `{colors.semantic-neutral-bg}`) | `#6B7280` (= Body Muted) / `#F3F4F6` | `#C7C9CB` / `rgba(149,151,153,0.15)` | 백로그·초안·대기열처럼 상태 신호가 약한 passive 정보 |
 
 > [!NOTE]
 > **Success 선택 가이드**: Status(녹)는 "이미 일어난/유지되는 상태"(뱃지·로그·알림 등), Brand(파랑)는 "검증을 통과시켜 다음으로 넘어가는 액션"(폼 valid 표시, "동의했음" 같은 확정)에 사용합니다. 한 화면에 둘이 동시에 등장하지 않도록 컨텍스트별로 일관되게 사용하세요.
@@ -1130,11 +1132,11 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 - **Size**: 높이 24px, 좌우 패딩 `{spacing.xs}` (8px), gap `{spacing.xxs}` (4px).
 - **Typography**: `{typography.caption}` (12px) weight 500.
 - **Variants** (BG는 L ~96 유지 + 채도만 가볍게 down으로 시각 무게 균일화):
-  - `badge-success` (완료/정상): BG `#EEFBEC` / Text `#059669`
-  - `badge-info` (진행 중/정보): BG `#EFF6FF` / Text `{colors.primary}` — Primary alias로 브랜드 자동 동기화.
-  - `badge-warning` (대기): BG `#FEFAE6` / Text `#F0900A`
-  - `badge-error` (중단/실패): BG `#FEF6F1` / Text `#F33942`
-  - `badge-neutral` (백로그/초안/대기열): BG `#F3F4F6` / Text `{colors.body-muted}` — 무상태(passive) 표시.
+  - `badge-success` (완료/정상): BG `{colors.semantic-success-bg}` (`#EEFBEC`) / Text `{colors.semantic-success}` (`#059669`)
+  - `badge-info` (진행 중/정보): BG `{colors.semantic-info-bg}` (`#EFF6FF`) / Text `{colors.semantic-info}` (`{colors.primary}`) — Primary alias로 브랜드 자동 동기화.
+  - `badge-warning` (대기): BG `{colors.semantic-warning-bg}` (`#FEFAE6`) / Text `{colors.semantic-warning}` (`#F0900A`)
+  - `badge-error` (중단/실패): BG `{colors.semantic-error-bg}` (`#FEF1F1`) / Text `{colors.semantic-error}` (`#F33942`)
+  - `badge-neutral` (백로그/초안/대기열): BG `{colors.semantic-neutral-bg}` (`#F3F4F6`) / Text `{colors.semantic-neutral}` (`{colors.body-muted}`) — 무상태(passive) 표시.
   - `badge-ink` (신규/강조): BG `{colors.ink}` / Text `{colors.on-primary}` — Solid Ink Style.
 - **Dot Variant**: 텍스트 앞에 6px 원형 점(`.badge-dot`)을 두어 라이브 상태(실행 중·일시정지·중지됨 등 프로세스 신호)를 강조할 수 있습니다. dot은 `currentColor`로 텍스트 톤과 자동 동기화.
 - **Dark Mode**: Dark Mode Badge & Tag Principle을 따라 BG는 원색에 투명도 15~20%, Text는 더 밝고 채도 높은 색으로 전환.

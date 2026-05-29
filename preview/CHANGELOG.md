@@ -1,6 +1,10 @@
 # @ncai/design-system-preview
 
-## 0.0.4
+## 0.6.0
+
+### Minor Changes
+
+- Align the private preview package version with the workspace 0.6.0 release and keep it synchronized through `pnpm sync-versions`.
 
 ### Patch Changes
 
