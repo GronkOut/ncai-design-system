@@ -1181,7 +1181,7 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 
 - **Trigger 좌/우 어포던스 — 변형별 차이**
   - **Autocomplete**: 좌측 16px `search` 아이콘(`{colors.body-muted}`, decorative)으로 검색임을 명시. **우측 chevron 없음.** 값이 있을 때만 우측에 clear(x) 버튼 노출. Popup은 포커스/타이핑 시 자동 오픈. *근거: GitHub/Linear/Notion/Algolia 등 검색형 입력 컨트롤의 공통 패턴. chevron은 "닫힌 목록을 펼친다"는 신호라 자유 입력이 1차 행동인 Autocomplete와 맞지 않음.*
-  - **Combobox / Select**: 우측 끝에 24×24 `chevron-down` 아이콘 버튼(`{colors.body-muted}` 닫힘 → `{colors.ink}` 열림, Disclosure Indicator 규칙과 일치). 클릭 시 popup 토글. 좌측 아이콘 없음.
+  - **Combobox / Select**: 우측 끝에 48×48 hit area 안의 16px `chevron-down` 아이콘 버튼(`{colors.body-muted}` 닫힘 → `{colors.ink}` 열림 + 회전, Disclosure Indicator 규칙과 일치). 클릭 시 popup 토글. 좌측 아이콘 없음. *근거: 48px 입력 그룹 안에서 24px chevron은 입력 텍스트와 시각 무게가 경쟁함. 16px가 보조 어포던스 위계에 맞고, hit area는 그룹 높이(48px) 정사각으로 충분히 확보.*
 - **Autocomplete Clear 버튼 (Pill 스타일)**
   - **버튼 hit area**: 48×48(입력 그룹 높이와 동일), 우측 padding 8px로 칩이 가장자리에 붙지 않게 여백 확보.
   - **Chip**: 16×16 원형(`border-radius: 999px`). 내부에 10px `x` 아이콘 중앙 배치. *48×48 hit area 안에서 칩은 시각 보조 신호이므로 한 단계 가볍게 — 너무 크면 입력값 옆에서 무게가 경쟁함.*

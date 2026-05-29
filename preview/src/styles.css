@@ -1669,7 +1669,9 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   display: flex;
   min-height: 40px;
   align-items: center;
-  border-radius: var(--radius-md);
+  /* 박스(popup)와 동심원 정렬: popup radius-md(10) − list padding spacing-xs(8) ≈ 2px.
+     토큰 안에서 가장 가까운 radius-sm(6)으로 맞춰 item hover가 박스 모서리와 겉돌지 않게. */
+  border-radius: var(--radius-sm);
   padding: var(--spacing-xs) var(--spacing-sm);
   color: var(--color-ink);
   /* type-body-sm */
