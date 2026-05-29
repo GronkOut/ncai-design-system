@@ -412,7 +412,7 @@ export function App() {
                 </div>
               </PreviewSection>
 
-              <PreviewSection title="Modal" description={'3가지 Variant와 Size로 제공합니다. \n Default - Footer 버튼O / Picker - Footer 버튼 X / Browse - 상단 Action. \n 폭 스케일은 md(480) / lg(640) / xl(880)'}>
+              <PreviewSection title="Modal" description={'3가지 Variant와 Size로 제공합니다. \n Default - Footer 버튼O / Picker - Footer 버튼 X / Browse - 상단 Action. \n 폭 스케일은 md (480) / lg (640) / xl (880)'}>
                 <div className="inline-actions">
                   <Dialog.Root>
                     <Dialog.Trigger className="button-primary">Default md</Dialog.Trigger>
@@ -470,7 +470,7 @@ export function App() {
                             <div className="modal-form-grid">
                               <Field.Root name="invitee-name" className="field-root">
                                 <Field.Label className="field-label">이름</Field.Label>
-                                <ClearableInput as={Field.Control} placeholder="홍길동" />
+                                <ClearableInput as={Field.Control} placeholder="김엔씨" />
                               </Field.Root>
                               <Field.Root name="invitee-email" className="field-root">
                                 <Field.Label className="field-label">이메일</Field.Label>
@@ -805,7 +805,7 @@ export function App() {
                       <IconTooltipButton label="공유" svg={shareIcon} size={20} className="icon-btn icon-btn--md icon-btn--secondary" />
                       <IconTooltipButton label="공유" svg={shareIcon} size={16} className="icon-btn icon-btn--sm icon-btn--secondary" />
                     </div>
-                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}> Size (lg / md / sm)</span>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}> Size ( lg / md / sm )</span>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                     <div className="inline-actions" style={{ alignItems: 'center' }}>
@@ -829,7 +829,7 @@ export function App() {
                     <div className="inline-actions" style={{ alignItems: 'center' }}>
                       <IconTooltipButton label="새로 만들기" svg={plusIcon} size={22} className="icon-btn icon-btn--lg icon-btn--primary icon-btn--circle" />
                     </div>
-                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Circle — 플로팅 액션(FAB) 전용. </span>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>플로팅 액션 (FAB) 전용 Circle 형태 </span>
                   </div>
                 </div>
               </PreviewSection>
@@ -978,12 +978,17 @@ export function App() {
                         <ContextMenu.Item className="menu-item">
                           <Icon svg={eyeIcon} className="menu-item-icon icon-muted" size={16} />
                           <span className="menu-item-label">항목 열기</span>
-                          <span className="menu-item-shortcut">⏎</span>
+                          <span className="menu-item-shortcut">
+                            <kbd>⏎</kbd>
+                          </span>
                         </ContextMenu.Item>
                         <ContextMenu.Item className="menu-item">
                           <Icon svg={copyIcon} className="menu-item-icon icon-muted" size={16} />
                           <span className="menu-item-label">복제</span>
-                          <span className="menu-item-shortcut">⌘ D</span>
+                          <span className="menu-item-shortcut">
+                            <kbd>⌘</kbd>
+                            <kbd>D</kbd>
+                          </span>
                         </ContextMenu.Item>
                         <ContextMenu.Item className="menu-item">
                           <Icon svg={pencilIcon} className="menu-item-icon icon-muted" size={16} />
@@ -997,7 +1002,7 @@ export function App() {
                             <Icon
                               svg={chevronRightIcon}
                               className="menu-item-submenu-indicator icon-muted"
-                              size={14}
+                              size={16}
                             />
                           </ContextMenu.SubmenuTrigger>
                           <ContextMenu.Portal>
@@ -1028,7 +1033,9 @@ export function App() {
                         <ContextMenu.Item className="menu-item menu-item-destructive">
                           <Icon svg={trashIcon} className="menu-item-icon" size={16} />
                           <span className="menu-item-label">삭제</span>
-                          <span className="menu-item-shortcut">⌫</span>
+                          <span className="menu-item-shortcut">
+                            <kbd>⌫</kbd>
+                          </span>
                         </ContextMenu.Item>
                       </ContextMenu.Popup>
                     </ContextMenu.Positioner>
@@ -1156,7 +1163,7 @@ export function App() {
                 <Form className="form-card" onSubmit={(event) => event.preventDefault()}>
                   <Field.Root name="name" className="field-root">
                     <Field.Label className="field-label">이름</Field.Label>
-                    <ClearableInput as={Field.Control} required placeholder="홍길동" />
+                    <ClearableInput as={Field.Control} required placeholder="김엔씨" />
                   </Field.Root>
                   <Button type="submit" className="button-primary">
                     제출

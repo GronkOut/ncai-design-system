@@ -437,7 +437,7 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
 - **`button-secondary`**: 배경은 투명 또는 흰색 `{colors.canvas}`, 텍스트는 `{colors.ink}`. 테두리 1px `{colors.hairline}`. 화면 내 대부분의 일반적인 조작(예: "더 알아보기", "필터", "새 사용자 추가" 등 서브 액션)에 사용되는 **실질적인 기본 버튼**입니다.
 - **`button-ghost`**: 배경과 테두리가 모두 없는 텍스트 전용 버튼. 취소나 단순 링크 이동 등 가장 덜 중요한 액션에 사용합니다. 호버 시 옅은 회색이 깔립니다.
 - **`button-danger`**: 배경색 `{colors.semantic-error}` (Light `#F33942` / Dark `#F74B53`), 텍스트색 `{colors.on-primary}` (흰색), **border `1px solid transparent`** (`button-primary`와 동일 — fill 정체성 명시). 모서리는 `{radius.md}`(10px). **되돌릴 수 없는 파괴적 액션**(예: "삭제", "영구 차단", "계정 폐쇄")에만 사용합니다. Alert Dialog의 부정(Negative) 변형 액션 버튼이 대표 적용처입니다. 한 화면 1개 원칙은 `button-primary`와 동일하게 적용되며, **`button-primary`와 동시에 사용하지 않습니다**(같은 화면에서 둘 다 등장하면 위계가 충돌합니다).
-- **`button-danger-ghost`**: 배경·테두리 없음, 텍스트만 `{colors.semantic-error}`. 데이터 테이블 행의 "제거", 리스트 행의 "보관" 등 **dense 영역의 약한 파괴 액션** 전용. ghost 위계라 시각 잉크가 가벼워 행마다 다수 배치 가능(`button-danger`의 "한 화면 1개" 예외 — 행 단위 반복 허용). Hover 배경은 `{colors.semantic-error-bg}` — **`badge-error` 배경과 동일 토큰**을 재사용해 semantic 빨간 톤(라이트 `#fef3f1` 피치 / 다크 `rgba(247, 75, 83, 0.15)`)의 일관성을 유지합니다. solid `button-danger`(채움)와 강도 차이가 명확해 위계 충돌 없이 파괴 신호를 한 번 더 환기하고, 일반 `button-ghost`의 중립 회색 hover와도 시각적으로 구별됩니다. **금지**: 단독 confirm/CTA 자리(거기는 채움형 `button-danger`), Form 옆 "초기화"·"되돌리기"(파괴 메시지 아님 — 일반 `button-ghost` 사용).
+- **`button-danger-ghost`**: 배경·테두리 없음, 텍스트만 `{colors.semantic-error}`. 데이터 테이블 행의 "제거", 리스트 행의 "보관" 등 **dense 영역의 약한 파괴 액션** 전용. ghost 위계라 시각 잉크가 가벼워 행마다 다수 배치 가능(`button-danger`의 "한 화면 1개" 예외 — 행 단위 반복 허용). Hover 배경은 `{colors.semantic-error-bg}` — **`badge-error` 배경과 동일 토큰**을 재사용해 semantic 빨간 톤(라이트 `#fef1f1` 피치 / 다크 `rgba(247, 75, 83, 0.15)`)의 일관성을 유지합니다. solid `button-danger`(채움)와 강도 차이가 명확해 위계 충돌 없이 파괴 신호를 한 번 더 환기하고, 일반 `button-ghost`의 중립 회색 hover와도 시각적으로 구별됩니다. **금지**: 단독 confirm/CTA 자리(거기는 채움형 `button-danger`), Form 옆 "초기화"·"되돌리기"(파괴 메시지 아님 — 일반 `button-ghost` 사용).
 
 **Button Sizing & Gaps (버튼 크기 및 간격 규칙):**
 - **Height (높이):** 8px 배수 시스템을 기준으로 용도에 따라 나눕니다.
@@ -1276,22 +1276,27 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 
 - **Popup**: Autocomplete Popup과 동일 토큰 (`{colors.canvas}` / 1px `{colors.hairline}` / `{radius.lg}` (16px) / `{shadow.level-2}`). 패딩 `{spacing.xs}` (8px), min-width 200px.
 - **Menu Item — 기본**
-  - 높이 40px(min-height), 좌우 패딩 12px, gap 10px, `{typography.body-sm}` (14px) / `{colors.ink}`.
+  - 높이 **36px**(min-height), 좌우 패딩 `{spacing.sm}` (12px), gap `{spacing.sm}` (12px). 라벨은 **`{typography.label-md}` (15px) / weight regular (400) / `{colors.ink}`**, line-height·letter-spacing은 `{typography.body-sm}` 패밀리 유지. *근거: dense context menu는 Apple/Linear 톤(28~32px) 근처로 응축해야 액션 리스트로 읽힙니다. 40px은 Navigation Menu·Toolbar처럼 한 화면에 1차 진입점을 강조하는 컴포넌트의 톤이고, 4~9개 액션을 응집해서 보여주는 Menu에는 1단 낮춘 36px이 dense 그리드(4px·8px) 안에서 균형을 잡습니다. 폰트 사이즈는 **label-md(15px)** — body-sm(14)은 36px 행 안에서 시각 무게가 살짝 미달, label-lg(16)는 nav menu 톤으로 넘어가버려 dense 액션 리스트 위계를 깨뜨립니다. weight는 regular 유지 — 메뉴는 다수 항목을 dense하게 보여주는 컨텍스트라 label군 기본 weight(500)를 그대로 쓰면 라인업 전체가 굵어져 가독성 부담. lh·ls는 body-sm 패밀리를 그대로 둬 한국어 본문 흐름과 시각적 베이스라인을 공유합니다.*
   - **Hover/Highlighted**: 배경 `{colors.surface-soft}`, `{radius.md}` (10px). 키보드 포커스도 동일 토큰을 공유합니다.
   - **Disabled**: 텍스트/아이콘 opacity 0.4, cursor not-allowed. 단축키 hint도 동일하게 dim 처리.
 - **Menu Item — 아이콘 포함 타입**
   - 좌측 16px 아이콘(`{colors.body-muted}`) → 라벨(`flex: 1`) → 우측 단축키 hint 순. 아이콘 영역은 `flex: 0 0 auto`로 정렬 흔들림 방지.
-  - 단축키 hint는 우측 정렬, `{typography.caption}` (12px) / `{colors.body-muted}`, 좌측 margin `{spacing.md}` (16px) 이상 확보.
+  - 단축키 hint는 우측 정렬, 좌측 margin `{spacing.md}` (16px) 이상 확보. **Tooltip kbd와 동일하게 박스 없는 글리프(타이포 전용)로 표현**합니다 — 각 키를 개별 `<kbd>`로 분리하고 gap `1px`로 묶어 한 단축키 조합으로 읽히게 합니다.
+    - 타이포: **13px** (의도적 하드값, caption 12px ↔ body-sm 14px 사이의 보조 단축키 슬롯) / weight regular (400) / `{font.text}` (Pretendard). 컬러 `{colors.body-muted}`. *Tooltip의 caption(12px)을 그대로 가져오지 않고 13px로 한 칸 올린 이유: 메뉴 라벨이 body-sm(14px)이라 12px은 너무 위축되어 단축키 가독성이 떨어지지만, 14px까지 올리면 라벨과 사이즈가 동일해져 위계가 평탄해집니다. 13px이 "라벨 한 단 아래"로 읽히되 dim한 보조 정보로 인지되는 균형점입니다. 라벨과의 위계는 사이즈(14↔13) + 컬러(ink ↔ body-muted) 두 축으로 만듭니다.*
+    - 박스 금지: 보더·배경 fill·radius·그림자 모두 사용하지 않습니다. **kbd는 chevron(submenu indicator) 아이콘과 시각 언어를 분리하기 위해 텍스트 전용 토큰을 유지**합니다 — chevron은 SVG 아이콘(16px), shortcut은 kbd 글리프(13px text)로 구별되어야 사용자가 "이건 키 입력 hint, 저건 서브메뉴 진입 인디케이터"라는 의미를 즉시 분리해 읽을 수 있습니다. 박스를 두면 chevron과 같은 "추가 아이콘 슬롯"으로 오인됩니다.
+    - UA 기본 `kbd { font-family: monospace }`는 명시적으로 `{font.text}`로 override합니다 — tooltip kbd와 동일 정책.
   - 아이콘만 있고 단축키가 없는 라인과 섞일 때도 라벨 시작점이 어긋나지 않도록 동일 컬럼에 16px 아이콘 슬롯을 유지합니다(아이콘이 없으면 빈 슬롯 또는 16px placeholder).
 - **Menu Item — Destructive**
-  - 텍스트·아이콘 모두 `{colors.semantic-error}`. Highlighted 배경은 `{colors.semantic-error}` 8% 알파(`color-mix`)로 채움 — `{colors.surface-soft}`를 사용하면 위험 신호가 약해집니다.
+  - 텍스트·아이콘 모두 `{colors.semantic-error}`. **Highlighted 배경은 `{colors.semantic-error-bg}` (피치 톤)**으로 채웁니다 — `button-danger-ghost` · `icon-btn--danger-ghost` hover와 동일 토큰을 공유해 시스템 내 약한 danger surface 언어를 일관되게 유지합니다. *근거: `surface-soft`를 쓰면 위험 신호가 약해지고, 별도 `color-mix` 알파값을 두면 다른 danger 컴포넌트와 톤이 어긋나 같은 화면에 공존할 때 위계가 흩어집니다. `semantic-error-bg`는 라이트(`#fef1f1` 피치)·다크(`rgba(247,75,83,0.15)`) 모두 토큰화되어 모드 전환에도 일관됨.*
   - Destructive 항목은 메뉴 하단(또는 별도 그룹) 1개로 제한하고, 위에 separator를 1줄 둡니다.
 - **Separator**: 1px `{colors.hairline}`, 상하 margin 4px. 의미 그룹의 경계에서만 사용 — 시각적 호흡 목적이라면 spacing을 키우는 쪽을 선호합니다.
 
 #### 2-depth Submenu
 하위 액션이 3~6개 정도의 짧은 묶음일 때 사용합니다. 더 깊은 계층(3-depth 이상)은 메뉴 대신 모달/패널로 분기.
 
-- **Submenu Trigger**: 일반 Menu Item과 동일한 layout. 우측에 14px `chevron-right` indicator (`{colors.body-muted}`)를 두고, 단축키 hint와 동시 노출하지 않습니다(우측 영역 충돌).
+- **Submenu Trigger**: 일반 Menu Item과 동일한 layout. 우측에 **16px** `chevron-right` indicator를 두고, 단축키 hint와 동시 노출하지 않습니다(우측 영역 충돌).
+  - **컬러 상태 정책 (Apple/Linear 패턴)**: 기본 **`{colors.body-muted}`** → hover/`data-highlighted`·submenu open(`data-popup-open`)에서 **`{colors.ink}`**로 전환. *근거: 정적 상태에서 chevron을 ink로 두면 라벨과 동급 잉크 무게가 되어 dense 액션 리스트가 busy해집니다. muted로 fade-in시켜 두면 행을 스캔할 때 라벨이 먼저 읽히고, 사용자의 포인터·키보드가 항목 위에 올라온 순간 chevron이 ink로 올라오며 "여기 들어가면 자식 메뉴가 있다"는 affordance가 결정적으로 보입니다 — Apple Menu·Linear command palette·Notion sub-menu 모두 동일한 muted→ink 전환을 사용합니다. 전환은 `{motion.instant}` `{ease.standard}`로 background hover 전환과 같은 타이밍에 묶어 한 덩어리로 반응하게 합니다.*
+  - **사이즈 16px** 근거: 좌측 라벨 아이콘 슬롯(16px)과 동일 사이즈로 맞춰 우측 indicator의 시각 무게가 좌측 아이콘과 균형을 잡습니다. 14px(작음)은 단축키 hint(13px kbd)와 사이즈 차가 좁아 두 글리프가 같은 종류로 오인됩니다 — 16/13의 차이가 "아이콘 affordance ↔ 텍스트 hint" 위계 분리에 필요합니다.
 - **열림 트리거**: hover(포인터) 또는 `→` / `Enter` (키보드). 닫힘은 `←` / `Esc` / outside-pointer.
 - **Open 상태**: Submenu가 열려 있는 동안 트리거는 `data-popup-open`으로 highlighted와 동일 배경(`{colors.surface-soft}`)을 유지해 부모-자식 관계를 명시.
 - **Sub Popup**: 부모 Popup과 동일 토큰. 위치는 부모 기준 우측(side='right'), `--floating-offset` (8px) gap, 정렬은 `alignOffset: -4` (부모 패딩 보정으로 항목 첫 줄이 부모 항목과 baseline 정렬).

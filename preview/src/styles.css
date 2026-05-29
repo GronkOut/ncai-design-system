@@ -48,7 +48,7 @@
   --color-semantic-success-brand: var(--color-primary); /* Primary Blue 별칭 — 라이트/다크 자동 적응 */
   --color-semantic-error: #f33942;
   --color-semantic-error-hover: #e0343d;       /* button-danger hover — primary→primary-hover와 동일한 톤 다운 패턴 */
-  --color-semantic-error-bg: #fef3f1;          /* 피치 끼 도는 따뜻한 rose — 부드러운 error 톤 */
+  --color-semantic-error-bg: #fef1f1;          /* 피치 끼 도는 따뜻한 rose — 부드러운 error 톤 */
   --color-semantic-warning: #f0900a;
   --color-semantic-warning-bg: #fefae6;        /* 채도만 미세 down (100→85), L 96 유지 — vibrancy 보존 */
   --color-semantic-info: var(--color-primary);  /* 진행 중·정보 — primary alias로 브랜드와 자동 동기화 */
@@ -598,16 +598,16 @@ h3 {
   background: var(--color-semantic-error-bg);
 }
 
-.button-primary:active,
-.button-secondary:active,
-.button-ghost:active,
-.button-danger:active,
-.button-danger-ghost:active,
-.nav-action:active,
-.button-utility:active,
-.option-chip:active,
-.toggle-button:active,
-.toggle-item:active {
+.button-primary:active:not(:disabled):not([data-disabled]):not([data-trigger-disabled]),
+.button-secondary:active:not(:disabled):not([data-disabled]):not([data-trigger-disabled]),
+.button-ghost:active:not(:disabled):not([data-disabled]):not([data-trigger-disabled]),
+.button-danger:active:not(:disabled):not([data-disabled]):not([data-trigger-disabled]),
+.button-danger-ghost:active:not(:disabled):not([data-disabled]):not([data-trigger-disabled]),
+.nav-action:active:not(:disabled):not([data-disabled]):not([data-trigger-disabled]),
+.button-utility:active:not(:disabled):not([data-disabled]):not([data-trigger-disabled]),
+.option-chip:active:not(:disabled):not([data-disabled]):not([data-trigger-disabled]),
+.toggle-button:active:not(:disabled):not([data-disabled]):not([data-trigger-disabled]),
+.toggle-item:active:not(:disabled):not([data-disabled]):not([data-trigger-disabled]) {
   transform: scale(0.97);
 }
 
@@ -1713,14 +1713,13 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
 .list-item,
 .menu-item {
   display: flex;
-  min-height: 40px;
+  min-height: 36px;
   align-items: center;
-  gap: 10px;
+  gap: var(--spacing-sm);
   border-radius: var(--radius-md);
   padding: var(--spacing-xs) var(--spacing-sm);
   color: var(--color-ink);
-  /* type-body-sm */
-  font-size: var(--type-body-sm);
+  font-size: var(--type-label-md);  /* 15px: 36px dense 메뉴 행에 맞춘 인터랙티브 라벨 슬롯 — body-sm(14) 과소·label-lg(16) 과중 사이 */
   font-weight: var(--fw-regular);
   line-height: var(--lh-body-sm);
   letter-spacing: var(--ls-body-sm);
@@ -1754,18 +1753,39 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
 
 .menu-item-shortcut {
   flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;            /* 1px: 단일 단축키 조합으로 묶어 읽히게 — tooltip kbd-group과 동일 의도 */
   margin-left: var(--spacing-md);
   color: var(--color-body-muted);
-  /* type-caption */
-  font-size: var(--type-caption);
+}
+
+.menu-item-shortcut kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 18px;        /* 18px: 36px 메뉴 행 안에 들어가는 글리프 박스 — tooltip kbd와 동일 하드값 */
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-text);    /* UA 기본 monospace override — tooltip kbd와 동일 정책 */
+  font-size: 13px;     /* 13px: caption(12) ↔ body-sm(14) 사이 보조 단축키 슬롯 — 의도적 하드값 */
   font-weight: var(--fw-regular);
-  line-height: var(--lh-caption);
-  letter-spacing: var(--ls-caption);
+  letter-spacing: var(--ls-body-sm);
+  line-height: 1;      /* 1: 단일 글리프 박스 — 행간 의미 없음 */
+  color: inherit;
 }
 
 .menu-item-submenu-indicator {
   flex: 0 0 auto;
   margin-left: var(--spacing-xs);
+  transition: color var(--motion-instant) var(--ease-standard);
+}
+
+/* Apple/Linear 패턴: chevron 기본은 muted, hover·submenu-open에서만 ink로 올려 affordance를 강조 */
+.menu-item[data-highlighted] .menu-item-submenu-indicator,
+.menu-item[data-popup-open] .menu-item-submenu-indicator {
+  color: var(--color-ink);
 }
 
 .menu-item-destructive,
@@ -1774,7 +1794,7 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
 }
 
 .menu-item-destructive[data-highlighted] {
-  background: color-mix(in srgb, var(--color-semantic-error) 8%, transparent);
+  background: var(--color-semantic-error-bg);
 }
 
 .empty-state {
@@ -1811,12 +1831,19 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   text-align: center;
 }
 
-.menu-separator,
 .separator,
 .toolbar-separator {
   display: block;
   height: 1px;
   margin: var(--spacing-xs) 0;
+  background: var(--color-hairline);
+}
+
+/* Menu/ContextMenu separator는 dense 톤 — 그룹 응집을 위해 일반 separator(8)보다 짧은 4px로 분리 */
+.menu-separator {
+  display: block;
+  height: 1px;
+  margin: var(--spacing-xxs) 0;
   background: var(--color-hairline);
 }
 
