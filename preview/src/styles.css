@@ -29,6 +29,12 @@
   --color-body-muted: #6b7280;
   --color-on-primary: #ffffff;
 
+  /* Disabled 톤 — Primary fill bg와 outlined/ghost icon에 동일하게 적용되는 단일 회색 토큰.
+     본 시스템의 grey scale 패밀리(살짝 cool·푸른끼)를 따르면서 body-muted(cool gray-500)와
+     hairline(cool gray-200) 사이의 mid 톤. 같은 hue 계열을 유지해 disabled가 시스템에서
+     이질적으로 떠 보이지 않게 합니다. */
+  --color-disabled: #c4c9cb;
+
   /* === PRIMARY === */
   --color-primary: #006eff;
   --color-primary-hover: #005bed;
@@ -42,7 +48,7 @@
   --color-semantic-success-brand: var(--color-primary); /* Primary Blue 별칭 — 라이트/다크 자동 적응 */
   --color-semantic-error: #f33942;
   --color-semantic-error-hover: #e0343d;       /* button-danger hover — primary→primary-hover와 동일한 톤 다운 패턴 */
-  --color-semantic-error-bg: #fef6f1;          /* 피치 끼 도는 따뜻한 rose — 부드러운 error 톤 */
+  --color-semantic-error-bg: #fef3f1;          /* 피치 끼 도는 따뜻한 rose — 부드러운 error 톤 */
   --color-semantic-warning: #f0900a;
   --color-semantic-warning-bg: #fefae6;        /* 채도만 미세 down (100→85), L 96 유지 — vibrancy 보존 */
   --color-semantic-info: var(--color-primary);  /* 진행 중·정보 — primary alias로 브랜드와 자동 동기화 */
@@ -526,16 +532,16 @@ h3 {
   letter-spacing: var(--ls-label);
 }
 
-/* Primary — 단 하나의 핵심 CTA */
+/* Primary — 단 하나의 핵심 CTA. border 없음(transparent) — bg와 같은 색 border는 redundant이고
+   fill 정체성을 시각·시멘틱 모두에서 명시. */
 .button-primary {
-  border: 1px solid var(--color-primary);
+  border: 1px solid transparent;
   background: var(--color-primary);
   color: var(--color-on-primary);
 }
 
-.button-primary:hover {
+.button-primary:hover:not(:disabled):not([data-disabled]):not([data-trigger-disabled]) {
   background: var(--color-primary-hover);
-  border-color: var(--color-primary-hover);
 }
 
 /* Secondary — hairline 테두리, ink 텍스트 */
@@ -545,7 +551,7 @@ h3 {
   color: var(--color-ink);
 }
 
-.button-secondary:hover {
+.button-secondary:hover:not(:disabled):not([data-disabled]):not([data-trigger-disabled]) {
   background: var(--color-surface-soft);
 }
 
@@ -556,7 +562,7 @@ h3 {
   color: var(--color-ink);
 }
 
-.button-ghost:hover {
+.button-ghost:hover:not(:disabled):not([data-disabled]):not([data-trigger-disabled]) {
   background: var(--color-surface-soft);
 }
 
@@ -567,7 +573,7 @@ h3 {
   color: var(--color-on-primary);
 }
 
-.button-danger:hover {
+.button-danger:hover:not(:disabled):not([data-disabled]):not([data-trigger-disabled]) {
   /* Primary와 동일 패턴 — 토큰으로 배경/보더만 교체, 텍스트(흰색)는 보존. filter brightness는 텍스트까지 어두워져 가독성 ↓ */
   background: var(--color-semantic-error-hover);
   border-color: var(--color-semantic-error-hover);
@@ -580,7 +586,7 @@ h3 {
   color: var(--color-semantic-error);
 }
 
-.button-danger-ghost:hover {
+.button-danger-ghost:hover:not(:disabled):not([data-disabled]):not([data-trigger-disabled]) {
   /* badge-error 배경과 동일 토큰 — semantic 빨간 톤 일관성 유지 */
   background: var(--color-semantic-error-bg);
 }
@@ -631,10 +637,52 @@ h3 {
   transform: scale(0.94);
 }
 
+/* Disabled — 각 variant의 시각 모드(fill / outlined / ghost)를 유지하면서 색만 회색 톤으로 매핑.
+   "기본 enabled 상태를 그대로 회색 버전으로 변환"하는 원칙.
+   - Fill (primary): 진한 회색 fill + 흰 아이콘 — Primary의 강조 fill 정체성 보존
+   - Outlined (secondary, danger): 연한 회색 bg + hairline + 회색 아이콘 — outlined 정체성 보존
+   - Ghost (ghost, danger-ghost): 투명 + 회색 아이콘 — ghost 정체성 보존
+   - Danger 변형은 자기 base(secondary/ghost)와 동일하게 흡수돼 빨간 색 신호만 제거
+   - Base UI Tooltip.Trigger의 data-trigger-disabled 속성도 동일 처리(disabled 상태에서도 tooltip 노출) */
+
+/* 공통 — cursor: not-allowed. 클릭 인터랙션 차단은 native `<button disabled>`에 의존
+   (브라우저가 자동으로 click·focus·hover 이벤트 차단). Base UI Tooltip.Trigger가 disabled를
+   data-trigger-disabled로만 변환하는 경우 컴포넌트 측에서 native disabled를 함께 부여해야 합니다. */
 .icon-btn:disabled,
-.icon-btn[data-disabled] {
-  opacity: 0.4;
+.icon-btn[data-disabled],
+.icon-btn[data-trigger-disabled],
+.button-primary:disabled, .button-primary[data-disabled], .button-primary[data-trigger-disabled],
+.button-secondary:disabled, .button-secondary[data-disabled], .button-secondary[data-trigger-disabled],
+.button-ghost:disabled, .button-ghost[data-disabled], .button-ghost[data-trigger-disabled],
+.button-danger:disabled, .button-danger[data-disabled], .button-danger[data-trigger-disabled],
+.button-danger-ghost:disabled, .button-danger-ghost[data-disabled], .button-danger-ghost[data-trigger-disabled] {
   cursor: not-allowed;
+}
+
+/* Fill disabled — surface-inset bg("함몰·비활성 면" 의미) + disabled 회색 텍스트/아이콘.
+   border-color는 enabled와 동일하게 transparent — fill 정체성을 그대로 유지.
+   포함: icon-btn--primary (fill), button-primary (fill), button-danger (fill — Primary와 동일 정렬).
+   icon-btn--danger는 secondary 정렬(outlined)이므로 아래 Outlined 그룹에 별도 포함. */
+.icon-btn--primary:disabled, .icon-btn--primary[data-disabled], .icon-btn--primary[data-trigger-disabled],
+.button-primary:disabled, .button-primary[data-disabled], .button-primary[data-trigger-disabled],
+.button-danger:disabled, .button-danger[data-disabled], .button-danger[data-trigger-disabled] {
+  background: var(--color-surface-inset);
+  border-color: transparent;
+  color: var(--color-disabled);
+}
+
+/* Outlined / Ghost disabled — bg·border는 base의 enabled 시각을 그대로 유지하고 color만 mute.
+   outlined의 정체성("흰 면 + 가는 선")과 ghost의 정체성("투명")이 disabled에서도 보존되어,
+   variant가 disabled에서 모두 같은 회색 박스로 수렴하는 위계 손실을 막습니다.
+   icon-btn--danger(secondary 정렬), icon-btn--danger-ghost(ghost 정렬)는 base 색만 disabled로 덮입니다. */
+.icon-btn--secondary:disabled, .icon-btn--secondary[data-disabled], .icon-btn--secondary[data-trigger-disabled],
+.icon-btn--danger:disabled, .icon-btn--danger[data-disabled], .icon-btn--danger[data-trigger-disabled],
+.icon-btn--ghost:disabled, .icon-btn--ghost[data-disabled], .icon-btn--ghost[data-trigger-disabled],
+.icon-btn--danger-ghost:disabled, .icon-btn--danger-ghost[data-disabled], .icon-btn--danger-ghost[data-trigger-disabled],
+.button-secondary:disabled, .button-secondary[data-disabled], .button-secondary[data-trigger-disabled],
+.button-ghost:disabled, .button-ghost[data-disabled], .button-ghost[data-trigger-disabled],
+.button-danger-ghost:disabled, .button-danger-ghost[data-disabled], .button-danger-ghost[data-trigger-disabled] {
+  color: var(--color-disabled);
 }
 
 /* Sizes — Button과 동일한 32/40/48 토큰 */
@@ -651,7 +699,7 @@ h3 {
   border-color: transparent;
   color: var(--color-body);
 }
-.icon-btn--ghost:hover:not(:disabled):not([data-disabled]) {
+.icon-btn--ghost:hover:not(:disabled):not([data-disabled]):not([data-trigger-disabled]) {
   background: var(--color-surface-soft);
   color: var(--color-ink);
 }
@@ -661,28 +709,43 @@ h3 {
   border-color: var(--color-hairline);
   color: var(--color-ink);
 }
-.icon-btn--secondary:hover:not(:disabled):not([data-disabled]) {
+.icon-btn--secondary:hover:not(:disabled):not([data-disabled]):not([data-trigger-disabled]) {
   background: var(--color-surface-soft);
 }
 
+/* Primary fill — border 없음(transparent). bg와 같은 색의 border는 redundant이고
+   fill 정체성을 시각·시멘틱 모두에서 명시하기 위해 border-color는 항상 transparent. */
 .icon-btn--primary {
   background: var(--color-primary);
-  border-color: var(--color-primary);
+  border-color: transparent;
   color: var(--color-on-primary);
 }
-.icon-btn--primary:hover:not(:disabled):not([data-disabled]) {
+.icon-btn--primary:hover:not(:disabled):not([data-disabled]):not([data-trigger-disabled]) {
   background: var(--color-primary-hover);
-  border-color: var(--color-primary-hover);
 }
 
+/* Danger (secondary 정렬) — hairline + canvas 위에 빨간 아이콘.
+   카드 헤더의 단독 삭제 트리거, 폼 옆 영구 삭제 등 "단독 destructive" 전용.
+   hover에서 border를 빨강으로 강조하지 않습니다 — bg(peach)와 border(red) 두 신호가
+   동시에 강해지면 부담스럽고, button-danger-ghost(border 없이 bg만 peach)와도 일관됨. */
 .icon-btn--danger {
-  background: var(--color-semantic-error);
-  border-color: var(--color-semantic-error);
-  color: var(--color-on-primary);
+  background: var(--color-canvas);
+  border-color: var(--color-hairline);
+  color: var(--color-semantic-error);
 }
-.icon-btn--danger:hover:not(:disabled):not([data-disabled]) {
-  background: var(--color-semantic-error-hover);
-  border-color: var(--color-semantic-error-hover);
+.icon-btn--danger:hover:not(:disabled):not([data-disabled]):not([data-trigger-disabled]) {
+  background: var(--color-semantic-error-bg);
+}
+
+/* Danger Ghost — 표 행·툴바 등 반복 가능한 약한 destructive.
+   button-danger-ghost와 동일 정렬(bg/border 없음, 빨간 색, hover에 peach bg). */
+.icon-btn--danger-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--color-semantic-error);
+}
+.icon-btn--danger-ghost:hover:not(:disabled):not([data-disabled]):not([data-trigger-disabled]) {
+  background: var(--color-semantic-error-bg);
 }
 
 /* Toggle 상태 — Toggle render와 함께 사용 시 */
@@ -691,16 +754,31 @@ h3 {
   color: var(--color-ink);
 }
 
-/* 다크 모드 — Button과 동일한 역전 처리 (Canvas가 카드보다 어두워지는 문제) */
+/* 다크 모드 — Button과 동일한 역전 처리 (Canvas가 카드보다 어두워지는 문제).
+   disabled 상태에서도 outlined의 base 시각을 그대로 유지(color만 mute)하므로 :not 체인 없음. */
 html[data-theme="dark"] .icon-btn--secondary {
   background: var(--color-surface-elevated);
   border-color: transparent;
 }
-html[data-theme="dark"] .icon-btn--secondary:hover:not(:disabled):not([data-disabled]) {
+html[data-theme="dark"] .icon-btn--secondary:hover:not(:disabled):not([data-disabled]):not([data-trigger-disabled]) {
   background: var(--color-surface-elevated-hover);
 }
-html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled]) {
+html[data-theme="dark"] .icon-btn--ghost:hover:not(:disabled):not([data-disabled]):not([data-trigger-disabled]) {
   background: var(--color-surface-elevated);
+}
+/* Danger (secondary 정렬) — 다크 역전: Canvas → Surface Elevated, border 투명.
+   hover는 라이트와 동일 토큰(error-bg) — peach 톤은 라이트/다크 공통. border 강조 없음.
+   disabled에서도 base 시각 유지(color만 mute)하므로 :not 체인 없음. */
+html[data-theme="dark"] .icon-btn--danger {
+  background: var(--color-surface-elevated);
+  border-color: transparent;
+}
+html[data-theme="dark"] .icon-btn--danger:hover:not(:disabled):not([data-disabled]):not([data-trigger-disabled]) {
+  background: var(--color-semantic-error-bg);
+}
+/* Danger Ghost 다크 — ghost와 동일 정렬, hover만 peach */
+html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-disabled]):not([data-trigger-disabled]) {
+  background: var(--color-semantic-error-bg);
 }
 
 /* ============================================================
@@ -4317,13 +4395,17 @@ html[data-theme="dark"] {
   --color-surface-soft: #18191b;
   --color-surface-elevated: #27282d;
   --color-surface-elevated-hover: color-mix(in oklab, var(--color-surface-elevated) 93%, var(--color-body-muted) 7%); /* 다크 hover: oklab 공간에서 mix하여 perceptually uniform lightness lift. sRGB mix는 lift에 비해 hue가 흔들려 warm/cool 사이를 오가지만, oklab은 hue를 보존하며 brightness만 끌어올림 */
-  --color-surface-inset: #232326;
+  --color-surface-inset: #2b2c30;
   --color-hairline: #25272b;
   --color-control-track: #3e3e41; /* 다크 surface 스케일 한 단계 연장 (#2A → #3E). 카드/Elevated 위에서도 시인성 확보 */
 
   /* Text */
   --color-ink: #f2f2f2;
   --color-body-muted: #959799;
+
+  /* Disabled 톤 (다크) — 라이트 neutral 대응. 다크 surface 곡선의 cool 톤과 어울리는
+     mid-dark grey로 표현. */
+  --color-disabled: #424347;
 
   /* Primary — 밝기만 미세 조정 */
   --color-primary: #1c82ff;
@@ -4385,7 +4467,8 @@ html[data-theme="dark"] .sub-nav {
    Buttons — 다크모드 배경 역전 방지
    ----------------------------------------------------------- */
 
-/* Secondary/Nav-action: Canvas(#111111)보다 밝은 #2C2C2E 레이어 */
+/* Secondary/Nav-action: Canvas(#111111)보다 밝은 #2C2C2E 레이어.
+   disabled에서도 base 시각 유지(color만 mute)하므로 button-secondary도 :not 체인 없이 그룹화. */
 html[data-theme="dark"] .button-secondary,
 html[data-theme="dark"] .nav-action,
 html[data-theme="dark"] .button-utility {
@@ -4393,13 +4476,20 @@ html[data-theme="dark"] .button-utility {
   border-color: transparent;
 }
 
-html[data-theme="dark"] .button-secondary:hover,
+/* button-secondary는 disabled 룰 대상이라 :not 체인으로 hover 차단.
+   nav-action / button-utility는 disabled 룰 대상이 아니므로 그대로 둠. */
+html[data-theme="dark"] .button-secondary:hover:not(:disabled):not([data-disabled]):not([data-trigger-disabled]) {
+  background: var(--color-surface-elevated-hover);
+}
 html[data-theme="dark"] .nav-action:hover,
 html[data-theme="dark"] .button-utility:hover {
   background: var(--color-surface-elevated-hover);
 }
 
-html[data-theme="dark"] .button-ghost:hover,
+/* button-ghost도 동일 — disabled 차단, bottom-sheet-option은 별개 */
+html[data-theme="dark"] .button-ghost:hover:not(:disabled):not([data-disabled]):not([data-trigger-disabled]) {
+  background: var(--color-surface-elevated);
+}
 html[data-theme="dark"] .bottom-sheet-option:hover {
   background: var(--color-surface-elevated);
 }

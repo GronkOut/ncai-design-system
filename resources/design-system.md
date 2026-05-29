@@ -433,11 +433,11 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
 > 파란색(`Primary`) 버튼이 화면에 너무 많으면 사용자의 시선이 분산되어 오히려 핵심 CTA(Call To Action)의 전환율이 떨어집니다. 한 화면에 Primary 버튼은 **단 1개(최대 2개)**로 제한하고, 나머지 액션은 모두 `Secondary`나 `Ghost` 버튼으로 강등(Downgrade)하여 시각적 위계를 확실히 잡아야 합니다.
 
 모든 클릭 가능한 인터랙티브 요소는 위계가 있어야 합니다.
-- **`button-primary`**: 배경색 `{colors.primary}`, 텍스트색 `{colors.on-primary}`. 모서리는 `{radius.md}`(10px)로 둥글기를 살짝 조절하여 입력 폼과 통일감을 줍니다. 화면의 최종 목표이자 가장 중요한 단 하나의 액션(예: "가입하기", "결제하기")에만 제한적으로 사용합니다.
+- **`button-primary`**: 배경색 `{colors.primary}`, 텍스트색 `{colors.on-primary}`, **border `1px solid transparent`** (bg와 같은 색의 border는 redundant이고 fill 정체성을 시각·시멘틱 모두에서 명시). 모서리는 `{radius.md}`(10px)로 둥글기를 살짝 조절하여 입력 폼과 통일감을 줍니다. 화면의 최종 목표이자 가장 중요한 단 하나의 액션(예: "가입하기", "결제하기")에만 제한적으로 사용합니다.
 - **`button-secondary`**: 배경은 투명 또는 흰색 `{colors.canvas}`, 텍스트는 `{colors.ink}`. 테두리 1px `{colors.hairline}`. 화면 내 대부분의 일반적인 조작(예: "더 알아보기", "필터", "새 사용자 추가" 등 서브 액션)에 사용되는 **실질적인 기본 버튼**입니다.
 - **`button-ghost`**: 배경과 테두리가 모두 없는 텍스트 전용 버튼. 취소나 단순 링크 이동 등 가장 덜 중요한 액션에 사용합니다. 호버 시 옅은 회색이 깔립니다.
-- **`button-danger`**: 배경색 `{colors.semantic-error}` (Light `#F33942` / Dark `#F74B53`), 텍스트색 `{colors.on-primary}` (흰색). 모서리는 `{radius.md}`(10px). **되돌릴 수 없는 파괴적 액션**(예: "삭제", "영구 차단", "계정 폐쇄")에만 사용합니다. Alert Dialog의 부정(Negative) 변형 액션 버튼이 대표 적용처입니다. 한 화면 1개 원칙은 `button-primary`와 동일하게 적용되며, **`button-primary`와 동시에 사용하지 않습니다**(같은 화면에서 둘 다 등장하면 위계가 충돌합니다).
-- **`button-danger-ghost`**: 배경·테두리 없음, 텍스트만 `{colors.semantic-error}`. 데이터 테이블 행의 "제거", 리스트 행의 "보관" 등 **dense 영역의 약한 파괴 액션** 전용. ghost 위계라 시각 잉크가 가벼워 행마다 다수 배치 가능(`button-danger`의 "한 화면 1개" 예외 — 행 단위 반복 허용). Hover 배경은 `{colors.semantic-error-bg}` — **`badge-error` 배경과 동일 토큰**을 재사용해 semantic 빨간 톤(라이트 `#fef6f1` 피치 / 다크 `rgba(247, 75, 83, 0.15)`)의 일관성을 유지합니다. solid `button-danger`(채움)와 강도 차이가 명확해 위계 충돌 없이 파괴 신호를 한 번 더 환기하고, 일반 `button-ghost`의 중립 회색 hover와도 시각적으로 구별됩니다. **금지**: 단독 confirm/CTA 자리(거기는 채움형 `button-danger`), Form 옆 "초기화"·"되돌리기"(파괴 메시지 아님 — 일반 `button-ghost` 사용).
+- **`button-danger`**: 배경색 `{colors.semantic-error}` (Light `#F33942` / Dark `#F74B53`), 텍스트색 `{colors.on-primary}` (흰색), **border `1px solid transparent`** (`button-primary`와 동일 — fill 정체성 명시). 모서리는 `{radius.md}`(10px). **되돌릴 수 없는 파괴적 액션**(예: "삭제", "영구 차단", "계정 폐쇄")에만 사용합니다. Alert Dialog의 부정(Negative) 변형 액션 버튼이 대표 적용처입니다. 한 화면 1개 원칙은 `button-primary`와 동일하게 적용되며, **`button-primary`와 동시에 사용하지 않습니다**(같은 화면에서 둘 다 등장하면 위계가 충돌합니다).
+- **`button-danger-ghost`**: 배경·테두리 없음, 텍스트만 `{colors.semantic-error}`. 데이터 테이블 행의 "제거", 리스트 행의 "보관" 등 **dense 영역의 약한 파괴 액션** 전용. ghost 위계라 시각 잉크가 가벼워 행마다 다수 배치 가능(`button-danger`의 "한 화면 1개" 예외 — 행 단위 반복 허용). Hover 배경은 `{colors.semantic-error-bg}` — **`badge-error` 배경과 동일 토큰**을 재사용해 semantic 빨간 톤(라이트 `#fef3f1` 피치 / 다크 `rgba(247, 75, 83, 0.15)`)의 일관성을 유지합니다. solid `button-danger`(채움)와 강도 차이가 명확해 위계 충돌 없이 파괴 신호를 한 번 더 환기하고, 일반 `button-ghost`의 중립 회색 hover와도 시각적으로 구별됩니다. **금지**: 단독 confirm/CTA 자리(거기는 채움형 `button-danger`), Form 옆 "초기화"·"되돌리기"(파괴 메시지 아님 — 일반 `button-ghost` 사용).
 
 **Button Sizing & Gaps (버튼 크기 및 간격 규칙):**
 - **Height (높이):** 8px 배수 시스템을 기준으로 용도에 따라 나눕니다.
@@ -484,6 +484,13 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
 | `button-secondary:hover` | `Surface Soft(#F9FAFB)` | `{colors.surface-elevated-hover}` (≈ `#2E2F34`) |
 | `button-ghost:hover` | `Surface Soft(#F9FAFB)` | `{colors.surface-elevated}` |
 
+**Disabled (Text Button — Icon Button과 공통 룰):**
+Text Button(`button-*` 5변형)과 Icon Button은 동일한 disabled 시각 룰을 공유합니다 — 정의는 아래 [Icon Button 섹션](#icon-button)의 "Disabled (Icon Button · Text Button 공통)" 항목에 통합 명시되어 있습니다. 요약:
+- **Fill (`button-primary`, `button-danger`):** `background: {colors.surface-inset}` + `border-color: transparent` + `color: {colors.disabled}` — fill 형태 유지 + 색만 mute(Danger의 빨강도 제거).
+- **Outlined (`button-secondary`):** base 시각(canvas/surface-elevated + hairline) 그대로 + `color: {colors.disabled}` mute.
+- **Ghost (`button-ghost`, `button-danger-ghost`):** base 시각(투명) 그대로 + `color: {colors.disabled}` mute.
+- **공통:** `cursor: not-allowed` + native `<button disabled>` 속성(브라우저가 자동으로 click·hover·focus 차단).
+
 **Icon Button (`icon-btn`) — 라벨 없는 정사각 액션:**
 라벨이 가려진 단독 아이콘 버튼은 일반 Button과 별도 토큰(`icon-btn`)으로 분리합니다. 문자 폭이 일정하지 않은 라벨을 그대로 쓰면 폭 불균형이 생기므로 **정사각 고정**입니다. 텍스트가 동반되는 경우에는 일반 `button-*`를 쓰세요.
 
@@ -493,15 +500,27 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
   - **`icon-btn--lg` (48×48):** 마케팅 페이지나 입력 그룹과 짝을 이루는 단독 액션. 아이콘 22px.
   - *Toolbar 내부 아이콘 버튼은 별도의 `toolbar-icon-button` (36×36 / 아이콘 18px)을 사용합니다 — Toolbar 안에서는 폭이 다른 텍스트 버튼과 시각 무게를 맞추기 위해 36이 기준입니다.*
 - **변형 (Button의 위계와 동일):**
-  - **`icon-btn--ghost` (기본):** 배경·테두리 없음. 카드 헤더의 보조 액션(공유, 더보기, 닫기) 등 화면 대부분의 아이콘 버튼이 이 변형입니다.
-  - **`icon-btn--secondary`:** hairline 테두리. 인풋 그룹 옆 단독 액션처럼 시각적으로 분리가 필요할 때.
+  - **`icon-btn--secondary` (기본):** hairline 테두리 + `{colors.canvas}` 배경. 단독 액션, 인풋 그룹 옆, 폼 옆 보조 액션 등 일반 케이스 — 화면 대부분의 아이콘 버튼이 이 변형입니다. *기본 변형 선정 근거: 라벨 없는 정사각 버튼이 화면에 단독으로 떠 있을 때 가장 안전한 시각 — 테두리가 클릭 affordance를 명시적으로 전달하고, 흰 면 위 ink 아이콘이 가독성과 시인성 모두 가장 안정적입니다. ghost는 더 가벼운 위계 전용 변형으로 분리합니다.*
+  - **`icon-btn--ghost`:** 배경·테두리 없음. 시각 무게를 가장 가볍게 두어야 할 때(카드 헤더의 더보기/닫기, 툴바 안 아이콘, 표 행 안 보조 액션 등 dense 영역) 사용.
   - **`icon-btn--primary`:** Primary 채움. 화면 1개 원칙은 일반 Button과 동일하게 적용 — 페이지 핵심 CTA(예: 새 글 작성 FAB)에만 제한적으로 사용.
-  - **`icon-btn--danger`:** 되돌릴 수 없는 파괴적 액션 전용(예: 행 삭제 버튼). Primary와 동일한 1개 원칙.
+  - **`icon-btn--danger`:** `secondary` 정렬(hairline 테두리 + `{colors.canvas}` 배경) 위에 `{colors.semantic-error}` 아이콘. hover 시 `{colors.semantic-error-bg}`(피치 톤) 채움(테두리는 hairline 그대로). **단독 destructive 액션 전용**(예: 카드 헤더의 삭제 트리거, 폼 옆 영구 삭제). 한 화면 1개 원칙. *근거: 라벨이 없는 정사각 버튼을 `semantic-error`로 풀 채움하면 액션 아닌 "현재 위험 상태"로 오인되고, 옆에 놓인 `primary` 채움과 시각 무게가 동일해져 위계가 무너집니다. hover에서도 bg(peach)와 border(red) 두 신호를 동시에 강하게 바꾸지 않습니다 — bg 변화만으로 충분히 destructive 신호가 전달되고, `button-danger-ghost`(border 없이 bg만 peach)와 transition 곡선이 동일해 시스템 내부 일관성을 유지합니다.*
+  - **`icon-btn--danger-ghost`:** `ghost` 정렬(bg·border 없음) 위에 `{colors.semantic-error}` 아이콘. hover 시 `{colors.semantic-error-bg}`(피치 톤) 채움. **표 행·툴바 등 반복 가능한 약한 파괴 액션**(예: 데이터 테이블 행마다 등장하는 삭제 아이콘). 라벨 있는 `button-danger-ghost`와 동일한 정렬·hover 토큰을 공유합니다. *근거: secondary 정렬(`icon-btn--danger`)은 hairline이 행마다 반복되면 시각 노이즈가 되므로, 반복 컨텍스트에서는 ghost 정렬이 정답입니다.*
 - **모양 변형:**
   - 기본은 `{radius.md}` (10px) — 텍스트 버튼·인풋과 곡률 통일.
-  - `icon-btn--circle` — 프로필 아바타 트리거, 플로팅 액션 버튼(FAB) 등 원형이 의미를 갖는 경우에만 적용 (`{radius.full}`).
+  - `icon-btn--circle` — 플로팅 액션 버튼(FAB) 등 원형이 의미를 갖는 경우에만 적용 (`{radius.full}`). 프로필 트리거는 `icon-btn--circle`이 아니라 **Avatar 컴포넌트**를 사용하세요 — 이미지 폴백·이니셜·상태 dot 등 프로필 전용 책임이 Avatar에 있어 역할이 겹칩니다.
+- **Disabled (Icon Button · Text Button 공통):** 각 variant의 **시각 모드(fill / outlined / ghost)를 유지**한 채 색만 회색 톤으로 매핑합니다. opacity dim 방식은 폐기.
+  - **Fill (`primary`):** `background: {colors.surface-inset}` (라이트 `#EEF1F5` / 다크 `#2B2C30`) + 동일 border + `color: {colors.disabled}` (라이트 `#C4C9CB` / 다크 `#424347`) — Primary의 fill 형태(채워진 박스)는 유지하되 색을 mute. 흰 아이콘 대신 회색 아이콘으로 contrast를 낮춰 "약한 fill" 인상을 강화합니다. *토큰 선택: `surface-inset`은 Segmented-control 트랙 등 "함몰·비활성 컨테이너 면" 의미로 이미 쓰여 disabled fill의 의미와 부합합니다. `hairline`(outlined border 전용 토큰)을 bg로 차용하지 않습니다 — 같은 값이라도 토큰 시멘틱이 깨지면 다른 컴포넌트에서 hairline 값을 조정할 때 disabled fill이 의도 없이 따라가는 변경 전파 위험이 있습니다.*
+  - **Outlined (`secondary`, `danger`):** base의 enabled 시각(bg `{colors.canvas}` 라이트 / `{colors.surface-elevated}` 다크 + border `{colors.hairline}`)을 그대로 유지하고 `color: {colors.disabled}`만 mute. Danger는 자기 base(secondary)의 시각을 따르고 빨간 신호만 제거.
+  - **Ghost (`ghost`, `danger-ghost`):** base의 enabled 시각(`background: transparent` + `border: transparent`) 유지 + `color: {colors.disabled}` mute. Danger Ghost도 자기 base(ghost)로 흡수.
+  - *Primary fill만 bg를 회색(`surface-inset`)으로 덮는 이유: Primary의 정체성은 "강조 fill"이라 disabled에서 색 신호를 죽이지 않으면 모순. Secondary·Ghost는 색 정체성이 약해(neutral surface 위 ink) bg를 mute할 필요가 없고, 오히려 base 시각을 유지해야 outlined/ghost의 형태 정체성이 disabled에서도 유지됩니다.*
+  - **공통:** `cursor: not-allowed`. **클릭·hover·focus 인터랙션 차단은 native `<button disabled>` 속성에 의존합니다** — 브라우저가 자동으로 모든 마우스/키보드 이벤트를 차단하고 cursor도 자연스럽게 표시됩니다. *`pointer-events: none`은 cursor 표시까지 막아 "비활성"의 시각 신호가 사라지므로 사용하지 않습니다.*
+  - **Disabled 시 Tooltip 처리 (필수 가이드):** Base UI `Tooltip.Trigger`처럼 `disabled` prop을 `data-trigger-disabled` 속성으로만 변환하는 컴포넌트는 native `disabled`를 부여하지 않아 클릭이 살아남습니다. 이 경우 **컴포넌트 래퍼에서 `disabled` 상태일 때 Tooltip 구조를 우회하고 native `<button disabled>`만 렌더하는 패턴**을 권장합니다 — 예: `if (disabled) return <button disabled>...</button>;` 후 enabled 케이스에서만 `Tooltip.Root + Trigger` 트리. *근거: ① disabled trigger에 tooltip을 띄울 수 있게 하는 Base UI의 의도("왜 비활성인지" 안내)는 매력적이지만, hover 시 tooltip이 떴다 사라지는 동안 사용자가 "버튼이 작동한다고" 오해할 여지가 있습니다. ② disabled 안내가 정말 필요한 케이스(예: 권한 부족, 입력 미충족)는 폼 helper text·인라인 에러·sidebar callout 등 **항상 보이는 텍스트**로 표시하는 게 명시적이고 접근성에도 유리합니다. ③ 컴포넌트 래퍼에서 Tooltip 우회 시 native disabled가 자동 적용되어 클릭·hover·focus가 일관되게 차단됩니다.*
+
+  *토큰 근거: 단일 `{colors.disabled}` 토큰 하나로 fill bg와 outlined/ghost icon에 동일 적용합니다. `body-muted`(본문 보조 텍스트 톤)는 disabled용으로 그대로 쓰면 본문 보조와 시각 위계가 헷갈리고, `hairline`(outlined 테두리 톤)은 너무 흐려 fill 정체성을 깨뜨립니다. 둘 사이 mid grey 한 단계만 disabled 전용으로 추가 — 다른 상태에 차용하지 마세요.*
+
+  *근거: ① 모든 variant를 같은 회색 박스로 통일하면 fill 정체성을 가진 Primary 버튼이 disabled시 갑자기 outlined로 바뀌는 위계 충돌이 생깁니다. "기본 enabled 상태를 회색으로 그대로 변환"하면 disabled 상태에서도 시각 모드의 강조 정도가 보존되어, disabled CTA가 여전히 강조 액션임을 인식할 수 있습니다. ② opacity 0.4 방식은 `primary` 파란 박스·`danger` 빨간 아이콘이 흐려진 채 남아 "비활성"과 "위험·강조" 신호가 모순적으로 겹칩니다. 명시적 회색 토큰으로 색 신호만 제거합니다. ③ Danger 두 변형은 자기 base(secondary/ghost)의 disabled 시각과 같아져 별도 disabled 표현을 그리지 않아도 됩니다 — 색 신호가 제거되면 secondary disabled와 danger disabled의 차이는 없어집니다. ④ Icon Button과 Text Button이 동일 룰을 공유해 디자인 시스템 전체에서 disabled 시각이 하나의 패턴으로 인식됩니다.* Base UI 컴포넌트(`Tooltip.Trigger` 등)가 `disabled` prop을 `data-trigger-disabled` 속성으로 변환하는 경우에도 같은 셀렉터로 적용됩니다.
 - **접근성:** 라벨이 가려져 있으므로 `aria-label` **필수**. 의미를 명확히 전달해야 하는 경우 **Tooltip을 함께 노출**해 단축키/액션명을 안내합니다(Tooltip 규칙 참조).
-- **금지:** 아이콘 뒤 컬러 박스 별도 부여(아이콘 자체로 신호), 라벨 텍스트를 같이 넣어 정사각형을 깨뜨리는 사용, 한 화면에 `icon-btn--primary` 다수 배치(위계 충돌).
+- **금지:** 아이콘 뒤 컬러 박스 별도 부여(아이콘 자체로 신호 — `icon-btn--danger`도 `semantic-error` 풀 채움이 아니라 hairline + 빨간 아이콘으로 두는 이유), 라벨 텍스트를 같이 넣어 정사각형을 깨뜨리는 사용, 한 화면에 `icon-btn--primary`·`icon-btn--danger` 다수 배치(위계 충돌 — 반복 destructive는 `icon-btn--danger-ghost`로).
 
 
 
@@ -1229,12 +1248,12 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 
 > **그룹 컨테이너 공통 정책**: `.combo-input-group`(Autocomplete/Combobox)과 `.number-group`은 같은 chassis 룰을 공유하며 `height: 48px`로 고정됩니다. 단독 `.text-input`(48px outer)과 동일 라인에 정렬되도록 한 것. 내부 자식이 48px이면 border-box 1+46+1 안에서 위아래 1px씩 `overflow: hidden`으로 클립되는데, 자식이 transparent 배경 + borderless 입력이라 시각적으로 무손실. 자식을 굳이 46/40px로 줄이지 마세요(`.number-group`처럼 padding 어포던스가 필요할 때만 자식 사이즈를 축소).
 - **Stepper Button — `icon-btn--ghost` + `icon-btn--md` 재사용**
-  - **별도 `stepper-button` 토큰을 만들지 마세요.** 라벨 없는 정사각 보조 액션이라는 정의가 Icon Button과 동일하므로, 같은 클래스 조합(`icon-btn icon-btn--ghost icon-btn--md`)을 그대로 적용합니다. hover(`{colors.surface-soft}` 채움) · `[data-disabled]` (opacity 0.4 + cursor not-allowed) · focus 동작이 Icon Button 토큰에서 자동 상속됩니다.
+  - **별도 `stepper-button` 토큰을 만들지 마세요.** 라벨 없는 정사각 보조 액션이라는 정의가 Icon Button과 동일하므로, 같은 클래스 조합(`icon-btn icon-btn--ghost icon-btn--md`)을 그대로 적용합니다. hover(`{colors.surface-soft}` 채움) · `[data-disabled]` (Icon Button ghost variant 의 disabled 시각 — 투명 + `{colors.body-muted}` 회색 아이콘 + `not-allowed`) · focus 동작이 Icon Button 토큰에서 자동 상속됩니다.
   - **크기**: 40×40 (`icon-btn--md`).
   - **아이콘**: `Minus` / `Plus`, **16px** (Icon Button 표준 20px에서 한 단계 작은 예외). *근거: Plus/Minus는 직선 1~2개로 구성된 단순 도형이라 같은 nominal 사이즈에서 Search/Settings 같은 디테일 있는 아이콘보다 시각 무게가 무겁게 인지됨. 입력값 옆 보조 컨트롤이라는 위계에 맞추기 위해 한 단계 줄임.* 텍스트 문자(`−` / `+`)를 직접 넣지 마세요 — 폰트 weight/정렬에 의존하면 시각 무게가 들쭉날쭉하고, `currentColor`를 받아 색 토큰 시스템을 따르지 못합니다.
   - **컬러**: ghost 기본 동작(`{colors.body}` → hover `{colors.ink}`). **`{colors.primary}` 채움 금지** — 스테퍼는 입력값을 보조하는 컨트롤이지 강조 액션이 아닙니다. 파란 채움/텍스트는 입력값과 시각적으로 경쟁합니다.
 - **Input**: 중앙 정렬(`text-align: center`), 보더 없음(그룹이 보더 담당), `min-height: 40px` — 스테퍼 버튼 높이와 같은 라인에 정렬되도록 텍스트 입력 기본값(48px)을 줄입니다. 좌우 패딩은 0(스테퍼와 4px gap이 시각적 여백을 담당).
-- **Disabled (min/max 도달)**: Base UI `NumberField`가 한계값에서 자동으로 `data-disabled` + `disabled`를 부여하므로 별도 처리 불필요 — `.icon-btn[data-disabled]` 규칙에서 opacity 0.4와 not-allowed 커서가 적용됩니다.
+- **Disabled (min/max 도달)**: Base UI `NumberField`가 한계값에서 자동으로 `data-disabled` + `disabled`를 부여하므로 별도 처리 불필요 — `.icon-btn[data-disabled]` 규칙에서 ghost variant disabled 시각(투명 + `{colors.body-muted}` 회색 아이콘 + `not-allowed`)이 적용됩니다.
 - **접근성**: 두 스테퍼 모두 `aria-label` 필수 (`"값 감소"` / `"값 증가"`). 키보드 ↑/↓는 Base UI `NumberField.Input`이 처리합니다.
 - **금지**
   - 별도 `.stepper-button` 클래스나 토큰 신설(Icon Button 재사용으로 충분 — 두 곳에 분기된 hover/disabled/focus 규칙을 유지하지 않습니다).

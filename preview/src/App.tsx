@@ -241,8 +241,7 @@ export function App() {
               <p className="eyebrow">Base UI + design-system.md</p>
               <h1>NCAI Design System Preview</h1>
               <p className="hero-copy">
-                Base UI 프리미티브에 NCAI 디자인 시스템의 시각 언어를 적용한 미리보기 페이지입니다. 디자인 시스템이
-                변경되면 이 페이지에서 모든 컴포넌트의 변화를 빠르게 확인할 수 있습니다.
+                Base UI 프리미티브에 NCAI 디자인 시스템의 시각 언어를 적용한 미리보기 페이지입니다. 변경된 디자인 시스템의 모든 컴포넌트의 변화를 빠르게 확인할 수 있습니다.
               </p>
               <div className="hero-actions">
                 <a className="button-primary button-display" href="#gallery">
@@ -288,7 +287,7 @@ export function App() {
                     { token: 'label-md',   size: '15 / 500', sample: '중간 라벨 (40px 컨테이너)' },
                     { token: 'label-sm',   size: '14 / 500', sample: '보조 라벨 (칩·작은 버튼)' },
                     { token: 'eyebrow',    size: '13 / 500', sample: 'SECTION LABEL' },
-                    { token: 'mono',       size: '13 / 400', sample: 'v1.0.0 · build-20260101' },
+                    { token: 'mono',       size: '13 / 400', sample: 'v0.5.0 · build-20260101' },
                   ].map(({ token, size, sample }) => (
                     <div key={token} className="type-row">
                       <span className="type-token">{token}</span>
@@ -350,10 +349,10 @@ export function App() {
                 </Accordion.Root>
               </PreviewSection>
 
-              <PreviewSection title="Alert Dialog" description="중앙 정렬 텍스트와 풀-너비 액션 풋터로 구성된 확인 다이얼로그. Default(Primary) · Negative(Danger) · 단일 Action 세 가지 변형을 지원합니다.">
+              <PreviewSection title="Alert Dialog" description=" Default · Negative · 단일 Action 세 가지 변형을 지원합니다.">
                 <div className="inline-actions">
                   <AlertDialog.Root>
-                    <AlertDialog.Trigger className="button-primary">변경 저장 (기본)</AlertDialog.Trigger>
+                    <AlertDialog.Trigger className="button-primary">Default</AlertDialog.Trigger>
                     <AlertDialog.Portal>
                       <AlertDialog.Backdrop className="overlay-backdrop" />
                       <AlertDialog.Popup className="modal-card alert-dialog-card">
@@ -373,7 +372,7 @@ export function App() {
                     </AlertDialog.Portal>
                   </AlertDialog.Root>
                   <AlertDialog.Root>
-                    <AlertDialog.Trigger className="button-danger">계정 삭제 (부정)</AlertDialog.Trigger>
+                    <AlertDialog.Trigger className="button-danger">Negative</AlertDialog.Trigger>
                     <AlertDialog.Portal>
                       <AlertDialog.Backdrop className="overlay-backdrop" />
                       <AlertDialog.Popup className="modal-card alert-dialog-card">
@@ -393,7 +392,7 @@ export function App() {
                     </AlertDialog.Portal>
                   </AlertDialog.Root>
                   <AlertDialog.Root>
-                    <AlertDialog.Trigger className="button-primary">알림 확인 (단일)</AlertDialog.Trigger>
+                    <AlertDialog.Trigger className="button-primary">단일 Action</AlertDialog.Trigger>
                     <AlertDialog.Portal>
                       <AlertDialog.Backdrop className="overlay-backdrop" />
                       <AlertDialog.Popup className="modal-card alert-dialog-card">
@@ -414,10 +413,10 @@ export function App() {
                 </div>
               </PreviewSection>
 
-              <PreviewSection title="Modal" description="3가지 Variant — Form(우측 정착 풋터) / Picker(per-row 액션 리스트, 풋터 없음) / Browse(상단 보조 액션 + 스크롤 리스트). 폭 스케일은 md(480, 기본) / lg(640) / xl(880). sm(400)은 Alert Dialog 전용.">
+              <PreviewSection title="Modal" description={'3가지 Variant와 Size로 제공합니다. \n Default - Footer 버튼O / Picker - Footer 버튼 X / Browse - 상단 Action. \n 폭 스케일은 md(480) / lg(640) / xl(880)'}>
                 <div className="inline-actions">
                   <Dialog.Root>
-                    <Dialog.Trigger className="button-primary">Form · md (기본)</Dialog.Trigger>
+                    <Dialog.Trigger className="button-primary">Default md</Dialog.Trigger>
                     <Dialog.Portal>
                       <Dialog.Backdrop className="overlay-backdrop" />
                       <Dialog.Popup className="modal-card">
@@ -457,7 +456,7 @@ export function App() {
                     </Dialog.Portal>
                   </Dialog.Root>
                   <Dialog.Root>
-                    <Dialog.Trigger className="button-secondary">Form · lg</Dialog.Trigger>
+                    <Dialog.Trigger className="button-secondary">Default lg</Dialog.Trigger>
                     <Dialog.Portal>
                       <Dialog.Backdrop className="overlay-backdrop" />
                       <Dialog.Popup className="modal-card modal-lg">
@@ -501,7 +500,7 @@ export function App() {
                     </Dialog.Portal>
                   </Dialog.Root>
                   <Dialog.Root>
-                    <Dialog.Trigger className="button-secondary">Form · xl</Dialog.Trigger>
+                    <Dialog.Trigger className="button-secondary">Default xl</Dialog.Trigger>
                     <Dialog.Portal>
                       <Dialog.Backdrop className="overlay-backdrop" />
                       <Dialog.Popup className="modal-card modal-xl">
@@ -529,7 +528,7 @@ export function App() {
                     </Dialog.Portal>
                   </Dialog.Root>
                   <Dialog.Root>
-                    <Dialog.Trigger className="button-secondary">Picker (보이스 선택)</Dialog.Trigger>
+                    <Dialog.Trigger className="button-secondary">Picker</Dialog.Trigger>
                     <Dialog.Portal>
                       <Dialog.Backdrop className="overlay-backdrop" />
                       <Dialog.Popup className="modal-card modal-picker modal-lg">
@@ -569,7 +568,7 @@ export function App() {
                     </Dialog.Portal>
                   </Dialog.Root>
                   <Dialog.Root>
-                    <Dialog.Trigger className="button-secondary">Browse (스크롤 + 상단 액션)</Dialog.Trigger>
+                    <Dialog.Trigger className="button-secondary">Browse</Dialog.Trigger>
                     <Dialog.Portal>
                       <Dialog.Backdrop className="overlay-backdrop" />
                       <Dialog.Popup className="modal-card modal-browse modal-lg">
@@ -605,7 +604,7 @@ export function App() {
                 </div>
               </PreviewSection>
 
-              <PreviewSection title="Bottom Sheet" description="반응형 시트 패턴 — 모바일(≤768px)은 하단 슬라이드업 + 드래그 핸들, 데스크톱은 중앙 Modal로 전환됩니다. 뷰포트를 줄여서 차이를 확인하세요.">
+              <PreviewSection title="Bottom Sheet" description={"반응형 시트 패턴 \n 모바일(≤768px)은 하단 슬라이드업 + 드래그 핸들. \n 데스크톱은 중앙 Modal로 전환됩니다. \n 뷰포트를 줄여서 차이를 확인하세요."}>
                 <Dialog.Root>
                   <Dialog.Trigger className="button-primary">시트 열기</Dialog.Trigger>
                   <Dialog.Portal>
@@ -682,7 +681,7 @@ export function App() {
                 </Autocomplete.Root>
               </PreviewSection>
 
-              <PreviewSection title="Avatar" description="5가지 Subtle Tint 팔레트 — 장식적 용도. 사이즈는 기본 40 / lg 64 두 단계.">
+              <PreviewSection title="Avatar" description="5가지 Avatar Tint. 기본 40 / lg 64" >
                 <div className="avatar-palette-row">
                   {[
                     { cls: 'avatar-indigo', initials: 'IN', label: 'Indigo' },
@@ -701,16 +700,16 @@ export function App() {
                 </div>
                 <div className="avatar-row">
                   <Avatar.Root className="avatar avatar-lg avatar-azure">
-                    <Avatar.Fallback>강</Avatar.Fallback>
+                    <Avatar.Fallback>김</Avatar.Fallback>
                   </Avatar.Root>
                   <div>
-                    <strong>강엔씨</strong>
+                    <strong>김엔씨</strong>
                     <p>Field AX Team</p>
                   </div>
                 </div>
               </PreviewSection>
 
-              <PreviewSection title="Badge" description="Semantic Status Palette — 기능적 상태 표시.">
+              <PreviewSection title="Badge" description="Semantic Status Palette를 적용한 상태 표시 Badge">
                 <div className="badge-demo">
                   <div className="badge-row">
                     <span className="badge badge-success">완료</span>
@@ -728,80 +727,110 @@ export function App() {
                 </div>
               </PreviewSection>
 
-              <PreviewSection title="Button" description="Primary · Secondary · Ghost · Danger — 4단계 위계 구조. 아이콘은 라벨 좌측(의미 보강) 또는 우측(흐름·이동)에 배치합니다.">
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <PreviewSection title="Button" description="Primary · Secondary · Ghost · Danger· Danger Ghost">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
                   <div className="inline-actions">
-                    <Button className="button-primary">시작하기</Button>
-                    <Button className="button-secondary">더 알아보기</Button>
-                    <Button className="button-ghost">취소</Button>
-                    <Button className="button-danger">삭제하기</Button>
+                    <Button className="button-primary">Primary</Button>
+                    <Button className="button-secondary">Secondary</Button>
+                    <Button className="button-ghost">Ghost</Button>
+                    <Button className="button-danger">Danger</Button>
                   </div>
-                  <div className="inline-actions" style={{ alignItems: 'center' }}>
-                    <Button className="button-danger-ghost button-sm">
-                      <Icon svg={trashIcon} size={14} />
-                      제거
-                    </Button>
-                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Danger Ghost — 표·리스트 행의 약한 파괴 액션(행마다 다수 허용)</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div className="inline-actions" style={{ alignItems: 'center' }}>
+                      <Button className="button-danger-ghost button-sm">
+                        <Icon svg={trashIcon} size={14} />
+                        제거
+                      </Button>
+                    </div>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Danger Ghost — 표·리스트 행의 약한 파괴 액션 (행마다 다수 허용)</span>
                   </div>
-                  <div className="inline-actions" style={{ alignItems: 'center' }}>
-                    <Button className="button-primary">
-                      <Icon svg={plusIcon} size={18} />
-                      새로 만들기
-                    </Button>
-                    <Button className="button-secondary">
-                      <Icon svg={downloadIcon} size={18} />
-                      다운로드
-                    </Button>
-                    <Button className="button-ghost">
-                      <Icon svg={trashIcon} size={18} />
-                      삭제
-                    </Button>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div className="inline-actions" style={{ alignItems: 'center' }}>
+                      <Button className="button-primary">
+                        <Icon svg={plusIcon} size={18} />
+                        새로 만들기
+                      </Button>
+                      <Button className="button-secondary">
+                        <Icon svg={downloadIcon} size={18} />
+                        다운로드
+                      </Button>
+                      <Button className="button-ghost">
+                        <Icon svg={trashIcon} size={18} />
+                        삭제
+                      </Button>
+                    </div>
                     <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Leading icon — 액션의 의미를 보강</span>
                   </div>
-                  <div className="inline-actions" style={{ alignItems: 'center' }}>
-                    <Button className="button-primary">
-                      계속하기
-                      <Icon svg={arrowRightIcon} size={18} />
-                    </Button>
-                    <Button className="button-secondary">
-                      자세히 보기
-                      <Icon svg={chevronRightIcon} size={18} />
-                    </Button>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div className="inline-actions" style={{ alignItems: 'center' }}>
+                      <Button className="button-primary">
+                        계속하기
+                        <Icon svg={arrowRightIcon} size={18} />
+                      </Button>
+                      <Button className="button-secondary">
+                        자세히 보기
+                        <Icon svg={chevronRightIcon} size={18} />
+                      </Button>
+                    </div>
                     <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Trailing icon — 다음 단계·이동 암시</span>
                   </div>
-                  <div className="inline-actions" style={{ alignItems: 'center' }}>
-                    <Button className="button-primary button-md">
-                      <Icon svg={plusIcon} size={16} />
-                      추가
-                    </Button>
-                    <Button className="button-secondary button-sm">
-                      <Icon svg={pencilIcon} size={14} />
-                      수정
-                    </Button>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div className="inline-actions" style={{ alignItems: 'center' }}>
+                      <Button className="button-primary button-md">
+                        <Icon svg={plusIcon} size={16} />
+                        추가
+                      </Button>
+                      <Button className="button-secondary button-sm">
+                        <Icon svg={pencilIcon} size={14} />
+                        수정
+                      </Button>
+                    </div>
                     <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Size별 아이콘 — md 16 / sm 14</span>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div className="inline-actions" style={{ alignItems: 'center' }}>
+                      <Button className="button-primary" disabled>Disabled</Button>
+                      <Button className="button-secondary" disabled>Disabled</Button>
+                      <Button className="button-ghost" disabled>Disabled</Button>
+                    </div>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Disabled — Icon Button과 동일 룰. </span>
                   </div>
                 </div>
               </PreviewSection>
 
-              <PreviewSection title="Icon Button" description="라벨 없는 정사각 액션 — sm 32 / md 40 / lg 48 (Button 높이와 동일). 변형은 Ghost(기본) · Secondary · Primary · Danger. 라벨이 가려져 있으므로 aria-label과 Tooltip이 필수입니다 — 아래 버튼에 hover/focus 시 라벨·단축키가 노출됩니다.">
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                  <div className="inline-actions" style={{ alignItems: 'center' }}>
-                    <IconTooltipButton label="공유" svg={shareIcon} size={16} className="icon-btn icon-btn--sm icon-btn--ghost" />
-                    <IconTooltipButton label="공유" svg={shareIcon} size={16} className="icon-btn icon-btn--md icon-btn--ghost" />
-                    <IconTooltipButton label="공유" svg={shareIcon} size={22} className="icon-btn icon-btn--lg icon-btn--ghost" />
-                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Ghost — 기본 (sm / md / lg)</span>
+              <PreviewSection title="Icon Button" description={"Size lg 48 / md 40 / sm 32 \n 변형은 Primary · Secondary · Danger · Danger Ghost · Ghost. \n 라벨이 가려져 있으므로 Tooltip을 필수로 적용합니다."}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div className="inline-actions" style={{ alignItems: 'center' }}>
+                      <IconTooltipButton label="공유" svg={shareIcon} size={22} className="icon-btn icon-btn--lg icon-btn--secondary" />
+                      <IconTooltipButton label="공유" svg={shareIcon} size={20} className="icon-btn icon-btn--md icon-btn--secondary" />
+                      <IconTooltipButton label="공유" svg={shareIcon} size={16} className="icon-btn icon-btn--sm icon-btn--secondary" />
+                    </div>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}> Size (lg / md / sm)</span>
                   </div>
-                  <div className="inline-actions" style={{ alignItems: 'center' }}>
-                    <IconTooltipButton label="수정" shortcut={['⌘', 'E']} svg={pencilIcon} size={16} className="icon-btn icon-btn--md icon-btn--secondary" />
-                    <IconTooltipButton label="추가" shortcut={['⌘', 'N']} svg={plusIcon} size={16} className="icon-btn icon-btn--md icon-btn--primary" />
-                    <IconTooltipButton label="삭제" shortcut={['⌘', '⌫']} svg={trashIcon} size={16} className="icon-btn icon-btn--md icon-btn--danger" />
-                    <IconTooltipButton label="알림" svg={bellIcon} size={16} className="icon-btn icon-btn--md icon-btn--ghost" disabled />
-                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Secondary · Primary · Danger · Disabled (단축키 hint 포함)</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div className="inline-actions" style={{ alignItems: 'center' }}>
+                      <IconTooltipButton label="추가" shortcut={['⌘', 'N']} svg={plusIcon} size={20} className="icon-btn icon-btn--md icon-btn--primary" />
+                      <IconTooltipButton label="수정" shortcut={['⌘', 'E']} svg={pencilIcon} size={20} className="icon-btn icon-btn--md icon-btn--secondary" />
+                      <IconTooltipButton label="삭제" shortcut={['⌘', '⌫']} svg={trashIcon} size={20} className="icon-btn icon-btn--md icon-btn--danger" />
+                      <IconTooltipButton label="행 삭제" svg={trashIcon} size={20} className="icon-btn icon-btn--md icon-btn--danger-ghost" />
+                      <IconTooltipButton label="공유" svg={shareIcon} size={20} className="icon-btn icon-btn--md icon-btn--ghost" />
+                    </div>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Primary · Secondary · Danger · Danger Ghost · Ghost</span>
                   </div>
-                  <div className="inline-actions" style={{ alignItems: 'center' }}>
-                    <IconTooltipButton label="새로 만들기" svg={plusIcon} size={22} className="icon-btn icon-btn--lg icon-btn--primary icon-btn--circle" />
-                    <IconTooltipButton label="프로필" svg={userIcon} size={16} className="icon-btn icon-btn--md icon-btn--secondary icon-btn--circle" />
-                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Circle — 프로필 / 플로팅 액션</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div className="inline-actions" style={{ alignItems: 'center' }}>
+                      <IconTooltipButton label="추가" svg={plusIcon} size={20} className="icon-btn icon-btn--md icon-btn--primary" disabled />
+                      <IconTooltipButton label="수정" svg={pencilIcon} size={20} className="icon-btn icon-btn--md icon-btn--secondary" disabled />
+                      <IconTooltipButton label="공유" svg={shareIcon} size={20} className="icon-btn icon-btn--md icon-btn--ghost" disabled />
+                    </div>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Disabled</span>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div className="inline-actions" style={{ alignItems: 'center' }}>
+                      <IconTooltipButton label="새로 만들기" svg={plusIcon} size={22} className="icon-btn icon-btn--lg icon-btn--primary icon-btn--circle" />
+                    </div>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Circle — 플로팅 액션(FAB) 전용. </span>
                   </div>
                 </div>
               </PreviewSection>
@@ -1678,7 +1707,7 @@ function PreviewSection({
       <div className="component-copy">
         <span className="component-index">{title}</span>
         <h3 id={`${slug(title)}-title`}>{title}</h3>
-        <p>{description}</p>
+        <p style={{ whiteSpace: 'pre-line' }}>{description}</p>
       </div>
       <div className="component-demo">{children}</div>
     </section>
@@ -2221,9 +2250,21 @@ function IconTooltipButton({
   className: string;
   disabled?: boolean;
 }) {
+  // Disabled 시 native <button disabled>로 렌더 — 브라우저가 자동으로 click·hover·focus를 차단하고
+  // cursor: not-allowed가 자연스럽게 표시됩니다. Base UI Tooltip.Trigger는 disabled prop을
+  // data-trigger-disabled 속성으로만 변환해(disabled 상태에서도 tooltip을 띄우려는 의도) native
+  // 차단을 해주지 않으므로 이 우회가 필요합니다. Tooltip 자체도 disabled 안내가 필요한 경우엔
+  // 폼 helper text 등 별도 텍스트로 표시하는 게 사용성에 더 명확합니다.
+  if (disabled) {
+    return (
+      <button type="button" className={className} aria-label={label} disabled>
+        <Icon svg={svg} size={size} />
+      </button>
+    );
+  }
   return (
     <Tooltip.Root>
-      <Tooltip.Trigger className={className} aria-label={label} disabled={disabled}>
+      <Tooltip.Trigger className={className} aria-label={label}>
         <Icon svg={svg} size={size} />
       </Tooltip.Trigger>
       <Tooltip.Portal>
