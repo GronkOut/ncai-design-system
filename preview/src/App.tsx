@@ -37,7 +37,6 @@ import { ToggleGroup } from '@base-ui/react/toggle-group';
 import { Toolbar } from '@base-ui/react/toolbar';
 import { Tooltip } from '@base-ui/react/tooltip';
 import { icons as iconMetadata } from '@ncai/design-system-icons';
-import checkIcon from '@ncai/design-system-icons/icons/check.svg';
 import chevronDownIcon from '@ncai/design-system-icons/icons/chevron-down.svg?raw';
 import infoIcon from '@ncai/design-system-icons/icons/info.svg?raw';
 import searchIcon from '@ncai/design-system-icons/icons/search.svg?raw';
@@ -422,26 +421,26 @@ export function App() {
                       <Dialog.Popup className="modal-card">
                         <div className="modal-body">
                           <div className="modal-header">
-                            <Dialog.Title className="modal-title">새 프로젝트 만들기</Dialog.Title>
+                            <Dialog.Title className="modal-title">새 프로젝트</Dialog.Title>
                             <Dialog.Description className="modal-copy">
-                              프로젝트 정보를 입력하세요. 멤버는 생성 후 초대할 수 있습니다.
+                              프로젝트 정보를 입력하세요.
                             </Dialog.Description>
                           </div>
                           <div className="modal-form">
                             <div className="modal-form-fields">
                               <Field.Root name="project-name" className="field-root">
                                 <Field.Label className="field-label">프로젝트 이름</Field.Label>
-                                <ClearableInput as={Field.Control} placeholder="예: 디자인 시스템 v2" />
+                                <ClearableInput as={Field.Control} placeholder="ex. 디자인 시스템" />
                               </Field.Root>
                               <Field.Root name="project-team" className="field-root">
                                 <Field.Label className="field-label">소속 팀</Field.Label>
-                                <ClearableInput as={Field.Control} placeholder="팀 선택" />
+                                <ClearableInput as={Field.Control} placeholder="ex. Field AX" />
                               </Field.Root>
                             </div>
                             <label className="check-row modal-form-supplementary">
                               <Checkbox.Root defaultChecked className="checkbox">
                                 <Checkbox.Indicator className="check-indicator">
-                                  <img src={checkIcon} alt="" className="check-icon" />
+                                  <CheckmarkSvg />
                                 </Checkbox.Indicator>
                               </Checkbox.Root>
                               생성 후 바로 멤버 초대 패널 열기
@@ -508,7 +507,7 @@ export function App() {
                           <div className="modal-header">
                             <Dialog.Title className="modal-title">미디어 라이브러리</Dialog.Title>
                             <Dialog.Description className="modal-copy">
-                              업로드된 이미지를 둘러보고 선택하세요. 항목을 클릭하면 상세 미리보기가 열립니다.
+                              업로드된 이미지를 둘러보고 선택하세요.
                             </Dialog.Description>
                           </div>
                           <div className="modal-gallery-grid">
@@ -835,18 +834,51 @@ export function App() {
                 </div>
               </PreviewSection>
 
-              <PreviewSection title="Checkbox" description="단일 선택 컨트롤.">
+              <PreviewSection title="Checkbox" description="여러 선택지 중에서 원하는 항목들을 자유롭게 '중복 선택'하거나, 단일 항목을 선택할때 사용합니다.">
                 <label className="check-row">
                   <Checkbox.Root defaultChecked className="checkbox">
                     <Checkbox.Indicator className="check-indicator">
-                      <img src={checkIcon} alt="" className="check-icon" />
+                      <CheckmarkSvg />
                     </Checkbox.Indicator>
                   </Checkbox.Root>
-                  디자인 시스템 변경 사항 알림 받기
+                  변경 사항 알림 받기
+                </label>
+                <label className="check-row">
+                  <Checkbox.Root className="checkbox">
+                    <Checkbox.Indicator className="check-indicator">
+                      <CheckmarkSvg />
+                    </Checkbox.Indicator>
+                  </Checkbox.Root>
+                  릴리스 노트 구독
+                </label>
+                <label className="check-row">
+                  <Checkbox.Root indeterminate className="checkbox">
+                    <Checkbox.Indicator className="check-indicator">
+                      <CheckmarkSvg />
+                    </Checkbox.Indicator>
+                  </Checkbox.Root>
+                  하위 리스트 부분 선택일 경우
+                </label>
+                <label className="check-row">
+                  <Checkbox.Root disabled className="checkbox">
+                    <Checkbox.Indicator className="check-indicator">
+                      <CheckmarkSvg />
+                    </Checkbox.Indicator>
+                  </Checkbox.Root>
+                  비활성 (미체크)
+                </label>
+                <label className="check-row">
+                  <Checkbox.Root defaultChecked disabled className="checkbox">
+                    <Checkbox.Indicator className="check-indicator">
+                      <CheckmarkSvg />
+                    </Checkbox.Indicator>
+                  </Checkbox.Root>
+                  비활성 (체크됨)
                 </label>
               </PreviewSection>
 
-              <PreviewSection title="Checkbox Group" description="다중 선택 그룹 컨트롤.">
+              <PreviewSection title="Checkbox Group" description={'다중 선택 그룹 컨트롤.\n세로 그룹은 spacing-xs(8px), 가로 그룹은 spacing-xl(24px) 간격.'}>
+                <div className="choice-group-variants">
                 <CheckboxGroup className="choice-stack" defaultValue={['tokens']}>
                   {[
                     ['tokens', '디자인 토큰 감사'],
@@ -856,13 +888,34 @@ export function App() {
                     <label className="check-row" key={value}>
                       <Checkbox.Root value={value} className="checkbox">
                         <Checkbox.Indicator className="check-indicator">
-                          <img src={checkIcon} alt="" className="check-icon" />
+                          <CheckmarkSvg />
                         </Checkbox.Indicator>
                       </Checkbox.Root>
                       {label}
                     </label>
                   ))}
                 </CheckboxGroup>
+                <CheckboxGroup className="choice-row" defaultValue={['frontend', 'design']}>
+                  {[
+                    ['frontend', '프론트엔드 개발'],
+                    ['backend', '백엔드 개발'],
+                    ['design', '디자인 시스템'],
+                    ['research', '리서치'],
+                    ['qa', '품질 보증'],
+                    ['ops', '운영 / 인프라'],
+                    ['marketing', '마케팅']
+                  ].map(([value, label]) => (
+                    <label className="check-row" key={value}>
+                      <Checkbox.Root value={value} className="checkbox">
+                        <Checkbox.Indicator className="check-indicator">
+                          <CheckmarkSvg />
+                        </Checkbox.Indicator>
+                      </Checkbox.Root>
+                      {label}
+                    </label>
+                  ))}
+                </CheckboxGroup>
+                </div>
               </PreviewSection>
 
               <PreviewSection title="Collapsible" description="간결한 상세 내용을 위한 접기/펼치기 패널.">
@@ -1014,7 +1067,7 @@ export function App() {
                           <label className="check-row">
                             <Checkbox.Root defaultChecked className="checkbox">
                               <Checkbox.Indicator className="check-indicator">
-                                <img src={checkIcon} alt="" className="check-icon" />
+                                <CheckmarkSvg />
                               </Checkbox.Indicator>
                             </Checkbox.Root>
                             이메일
@@ -1022,7 +1075,7 @@ export function App() {
                           <label className="check-row">
                             <Checkbox.Root className="checkbox">
                               <Checkbox.Indicator className="check-indicator">
-                                <img src={checkIcon} alt="" className="check-icon" />
+                                <CheckmarkSvg />
                               </Checkbox.Indicator>
                             </Checkbox.Root>
                             푸시 알림
@@ -1030,7 +1083,7 @@ export function App() {
                           <label className="check-row">
                             <Checkbox.Root defaultChecked className="checkbox">
                               <Checkbox.Indicator className="check-indicator">
-                                <img src={checkIcon} alt="" className="check-icon" />
+                                <CheckmarkSvg />
                               </Checkbox.Indicator>
                             </Checkbox.Root>
                             인앱 메시지
@@ -1688,6 +1741,22 @@ function AllIconsSection() {
         ))}
       </div>
     </section>
+  );
+}
+
+function CheckmarkSvg() {
+  // 박스 16×16 중심(y=8)에 stroke 픽셀이 정렬되도록 path를 0.5 위로 시프트.
+  // bend(꺾임)의 시각 무게가 아래쪽에 있어 약간 위로 올려야 광학적으로 정중앙으로 인지됨.
+  return (
+    <svg className="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path
+        d="M3.5 8 L6.5 11 L12.5 4.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 

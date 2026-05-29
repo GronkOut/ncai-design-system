@@ -348,6 +348,13 @@ h3 {
   outline-offset: 3px;
 }
 
+/* 체크박스/라디오는 spec L1150·L62 (Minimalist Focus 정책: 외부 광채 금지, 보더 컬러로만 신호) 적용.
+   글로벌 outline ring 제거 후 자체 보더 컬러 변화로 focus 표현. */
+.checkbox:focus-visible,
+.radio:focus-visible {
+  outline: none;
+}
+
 /* ============================================================
    App Shell
    ============================================================ */
@@ -927,11 +934,35 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
    ============================================================ */
 
 .accordion,
-.choice-stack,
 .form-card,
 .tabs-root {
   display: grid;
   gap: var(--spacing-sm);
+  width: 100%;
+}
+
+/* Checkbox 세로 그룹 — 행 간격 spacing-xs(8px) (design-system.md Checkbox/Radio Group Spacing) */
+.choice-stack {
+  display: grid;
+  gap: var(--spacing-xs);
+  width: 100%;
+}
+
+/* Checkbox 가로 그룹 — 항목 간격 spacing-xl(24px) (design-system.md Checkbox/Radio Group Spacing).
+   wrap 허용 — 너비 초과 시 다음 줄로 떨어지되 가로 24px·세로 8px(=세로 그룹 간격)로 운영. */
+.choice-row {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--spacing-xl);
+  row-gap: var(--spacing-xs);
+  width: 100%;
+}
+
+/* Checkbox Group 섹션 안에서 세로/가로 변형을 나란히 보일 때 그룹 사이 간격.
+   그룹 내부 최대 간격(가로 24px)보다 같거나 커야 별개 그룹으로 인지됨 → spacing-xl(24px). */
+.choice-group-variants {
+  display: grid;
+  gap: var(--spacing-xl);
   width: 100%;
 }
 
@@ -1122,12 +1153,18 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
    ============================================================ */
 
 .avatar-row,
-.check-row,
 .switch-row,
 .separator-demo {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
+}
+
+/* Checkbox 라벨 gap — 체크박스↔라벨 spacing-xs(8px) (design-system.md Checkbox/Radio Label) */
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
 }
 
 .meter-meta {
@@ -1324,6 +1361,19 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   color: var(--color-on-primary);
 }
 
+/* Focus (키보드) — spec L1150·L62 글로벌 정책: 보더 컬러만 변화, 외부 광채 금지.
+   - Unchecked: hairline → primary (선명한 신호)
+   - Checked / Indeterminate: 이미 primary border 적용된 상태 → 1.5px → 2px로 굵게 (subtle but visible)
+   Base UI Checkbox.Root는 [data-focused]를 부여하지 않으므로 :focus-visible 가상 클래스를 직접 사용. */
+.checkbox:focus-visible {
+  border-color: var(--color-primary);
+}
+
+.checkbox[data-checked]:focus-visible,
+.checkbox[data-indeterminate]:focus-visible {
+  border-width: 2px;
+}
+
 .check-indicator[data-unchecked],
 .radio-indicator[data-unchecked] {
   display: none;
@@ -1338,7 +1388,50 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   width: 16px;
   height: 16px;
   display: block;
-  filter: brightness(0) invert(1);
+  color: currentColor;
+}
+
+/* Indeterminate — 체크 아이콘 자리에 흰색 가로 막대 (design-system.md L1149).
+   "부분 선택" 상태의 시각 신호. ::after pseudo-element로 그려 추가 마크업 불필요. */
+.check-indicator[data-indeterminate] .check-icon {
+  display: none;
+}
+
+.check-indicator[data-indeterminate]::after {
+  content: '';
+  display: block;
+  width: 10px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--color-on-primary);
+}
+
+/* Disabled + Indeterminate — checked disabled의 회색 체크와 동일 시각 위계로 막대도 회색 mute. */
+.checkbox[data-disabled] .check-indicator[data-indeterminate]::after,
+.checkbox:disabled .check-indicator[data-indeterminate]::after {
+  background: var(--color-disabled);
+}
+
+/* Disabled — Icon Button / Text Button의 Minimalist 룰을 변형 적용 (design-system.md L488-521).
+   글로벌 outlined 패턴(base 그대로 + 내부 콘텐츠 mute)은 박스 안에 텍스트/아이콘이 있는 컨트롤에 맞춰 설계됨.
+   체크박스 unchecked는 박스가 비어 있어 mute 대상이 없으므로 chassis 자체를 함몰 면으로 통일:
+   - 공통: cursor: not-allowed + bg surface-inset + transparent border
+     (두 disabled 상태가 같은 chassis로 짝지어 "비활성 면"으로 인식)
+   - Checked / Indeterminate: 위 chassis 위에 회색 체크 아이콘 (fill mute)
+   - Unchecked: 빈 함몰 면 (콘텐츠 없음)
+   - Label(.check-row): 행 전체가 비활성으로 인지되도록 텍스트 색·커서 동기화 */
+.checkbox:disabled,
+.checkbox[data-disabled] {
+  cursor: not-allowed;
+  background: var(--color-surface-inset);
+  border-color: transparent;
+  color: var(--color-disabled);
+}
+
+.check-row:has(.checkbox:disabled),
+.check-row:has(.checkbox[data-disabled]) {
+  color: var(--color-disabled);
+  cursor: not-allowed;
 }
 
 .radio {
