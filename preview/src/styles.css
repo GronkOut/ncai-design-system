@@ -53,7 +53,7 @@
   --color-semantic-error-text: #f33942;        /* 컬러 글씨 전용 — 최초 시멘틱 에러색(base와 동일) 원복 */
   --color-semantic-warning: #ffae00;          /* 선명한 옐로/오렌지 — Meter/Progress 바 등 fill 전용 */
   --color-semantic-warning-bg: #fff9e3;        /* 옅은 크림 틴트 — warning 뱃지/알림 배경 */
-  --color-semantic-warning-text: #fd982a;      /* 컬러 글씨 전용 — vivid 오렌지 */
+  --color-semantic-warning-text: #eb8e02;      /* 컬러 글씨 전용 — 오렌지 */
   --color-semantic-info: var(--color-primary);  /* 진행 중·정보 — primary alias로 브랜드와 자동 동기화 */
   --color-semantic-info-bg: #eff6ff;            /* 원본 sky-50 — vibrant 유지 */
   --color-semantic-neutral: var(--color-body-muted);  /* 무상태(백로그·초안·대기열) */

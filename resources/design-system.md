@@ -53,7 +53,7 @@ NCAI Design System의 컬러 토큰은 **Surface / Text / Semantic / Avatar**의
 | **Neutral** (`{colors.semantic-neutral}` / `{colors.semantic-neutral-bg}`) | `#6B7280` (= Body Muted) / `#F3F4F6` | `#C7C9CB` / `rgba(149,151,153,0.15)` | 백로그·초안·대기열처럼 상태 신호가 약한 passive 정보 |
 
 > [!NOTE]
-> **채움(fill) vs 글씨(`-text`) 토큰 분리**: 위 표의 Light 값은 **솔리드/채움**(Meter·Progress 바, solid 뱃지 배경, `button-danger`)에 쓰는 선명한 색입니다 — 흰 배경 텍스트로는 대비가 매우 낮아(≈2:1 이하) 글씨에 쓰지 않습니다. 흰·틴트 배경 위 **컬러 글씨**(틴트 뱃지 텍스트 등)는 전용 토큰을 사용합니다 — `{colors.semantic-success-text}` `#00AE1A`, `{colors.semantic-warning-text}` `#FD982A`, `{colors.semantic-error-text}` `#F33942`. Success/Warning은 브랜드 색감(vivid)을 우선해 디자이너가 직접 지정한 값이고, **Error는 표준 브랜드 레드(`#F33942`, base와 동일)로 원복**했습니다. 틴트 배경 대비는 Success 2.8:1 / Warning 2.0:1 / Error 3.5:1로 모두 **WCAG AA(4.5:1)에 미달**합니다 — 색감을 우선한 의도된 트레이드오프이며, 가독성이 중요한 맥락에서는 더 어두운 톤이 필요할 수 있습니다. 다크 모드는 base(밝은 색)가 어두운 틴트 위에서 이미 또렷하므로 `-text`를 base로 별칭합니다.
+> **채움(fill) vs 글씨(`-text`) 토큰 분리**: 위 표의 Light 값은 **솔리드/채움**(Meter·Progress 바, solid 뱃지 배경, `button-danger`)에 쓰는 선명한 색입니다 — 흰 배경 텍스트로는 대비가 매우 낮아(≈2:1 이하) 글씨에 쓰지 않습니다. 흰·틴트 배경 위 **컬러 글씨**(틴트 뱃지 텍스트 등)는 전용 토큰을 사용합니다 — `{colors.semantic-success-text}` `#00AE1A`, `{colors.semantic-warning-text}` `#EB8E02`, `{colors.semantic-error-text}` `#F33942`. Success/Warning은 브랜드 색감(vivid)을 우선해 디자이너가 직접 지정한 값이고, **Error는 표준 브랜드 레드(`#F33942`, base와 동일)로 원복**했습니다. 틴트 배경 대비는 Success 2.8:1 / Warning 2.4:1 / Error 3.5:1로 모두 **WCAG AA(4.5:1)에 미달**합니다 — 색감을 우선한 의도된 트레이드오프이며, 가독성이 중요한 맥락에서는 더 어두운 톤이 필요할 수 있습니다. 다크 모드는 base(밝은 색)가 어두운 틴트 위에서 이미 또렷하므로 `-text`를 base로 별칭합니다.
 
 > [!NOTE]
 > **Success 선택 가이드**: Status(녹)는 "이미 일어난/유지되는 상태"(뱃지·로그·알림 등), Brand(파랑)는 "검증을 통과시켜 다음으로 넘어가는 액션"(폼 valid 표시, "동의했음" 같은 확정)에 사용합니다. 한 화면에 둘이 동시에 등장하지 않도록 컨텍스트별로 일관되게 사용하세요.
@@ -1138,7 +1138,7 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 - **Variants** (BG는 L ~96 유지 + 채도만 가볍게 down으로 시각 무게 균일화):
   - `badge-success` (완료/정상): BG `{colors.semantic-success-bg}` (`#ECFEEA`) / Text `{colors.semantic-success-text}` (`#00AE1A`)
   - `badge-info` (진행 중/정보): BG `{colors.semantic-info-bg}` (`#EFF6FF`) / Text `{colors.semantic-info}` (`{colors.primary}`) — Primary alias로 브랜드 자동 동기화.
-  - `badge-warning` (대기): BG `{colors.semantic-warning-bg}` (`#FFF9E3`) / Text `{colors.semantic-warning-text}` (`#FD982A`)
+  - `badge-warning` (대기): BG `{colors.semantic-warning-bg}` (`#FFF9E3`) / Text `{colors.semantic-warning-text}` (`#EB8E02`)
   - `badge-error` (중단/실패): BG `{colors.semantic-error-bg}` (`#FFF5F7`) / Text `{colors.semantic-error-text}` (`#F33942`)
   - `badge-neutral` (백로그/초안/대기열): BG `{colors.semantic-neutral-bg}` (`#F3F4F6`) / Text `{colors.semantic-neutral}` (`{colors.body-muted}`) — 무상태(passive) 표시.
   - `badge-ink` (신규/강조): BG `{colors.ink}` / Text `{colors.on-primary}` — Solid Ink Style.
