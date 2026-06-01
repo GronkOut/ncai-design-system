@@ -1272,15 +1272,15 @@ export function App() {
                         <Icon svg={chevronDownIcon} className="nav-menu-icon" size={14} />
                       </NavigationMenu.Trigger>
                       <NavigationMenu.Content className="nav-menu-content">
-                        <NavigationMenu.Link className="nav-menu-feature" href="#gallery">
+                        <NavigationMenu.Link className="nav-menu-feature">
                           <span className="nav-menu-title">AI 어시스턴트</span>
                           <span className="nav-menu-desc">자연어 기반 인터페이스의 시각 컴포넌트를 미리 확인하세요.</span>
                         </NavigationMenu.Link>
-                        <NavigationMenu.Link className="nav-menu-link" href="#gallery">
+                        <NavigationMenu.Link className="nav-menu-link">
                           <span className="nav-menu-title">디자인 시스템</span>
                           <span className="nav-menu-desc">토큰 기반 컴포넌트 라이브러리와 CSS 아키텍처.</span>
                         </NavigationMenu.Link>
-                        <NavigationMenu.Link className="nav-menu-link" href="#gallery">
+                        <NavigationMenu.Link className="nav-menu-link">
                           <span className="nav-menu-title">아이콘 패키지</span>
                           <span className="nav-menu-desc">1,509개 SVG 아이콘, currentColor 정규화 완료.</span>
                         </NavigationMenu.Link>
@@ -1292,15 +1292,15 @@ export function App() {
                         <Icon svg={chevronDownIcon} className="nav-menu-icon" size={14} />
                       </NavigationMenu.Trigger>
                       <NavigationMenu.Content className="nav-menu-content nav-menu-content-compact">
-                        <NavigationMenu.Link className="nav-menu-link" data-active href="#tokens">
+                        <NavigationMenu.Link className="nav-menu-link" data-active>
                           <span className="nav-menu-title">토큰</span>
                           <span className="nav-menu-desc">색상, 반경, 간격, 그림자 변수.</span>
                         </NavigationMenu.Link>
-                        <NavigationMenu.Link className="nav-menu-link" href="#gallery">
+                        <NavigationMenu.Link className="nav-menu-link">
                           <span className="nav-menu-title">컴포넌트</span>
                           <span className="nav-menu-desc">NCAI 스타일이 적용된 Base UI 프리미티브.</span>
                         </NavigationMenu.Link>
-                        <NavigationMenu.Link className="nav-menu-link" href="#gallery">
+                        <NavigationMenu.Link className="nav-menu-link">
                           <span className="nav-menu-title">패턴</span>
                           <span className="nav-menu-desc">재사용 가능한 인터랙션 및 레이아웃 예제.</span>
                         </NavigationMenu.Link>
@@ -1312,15 +1312,20 @@ export function App() {
                         <Icon svg={chevronDownIcon} className="nav-menu-icon" size={14} />
                       </NavigationMenu.Trigger>
                       <NavigationMenu.Content className="nav-menu-content nav-menu-content-compact">
-                        <NavigationMenu.Link className="nav-menu-link" href="#gallery">
+                        <NavigationMenu.Link className="nav-menu-link">
                           <span className="nav-menu-title">미리보기 가이드</span>
                           <span className="nav-menu-desc">이 페이지로 디자인 변경을 감사하세요.</span>
                         </NavigationMenu.Link>
-                        <NavigationMenu.Link className="nav-menu-link" href="#gallery">
+                        <NavigationMenu.Link className="nav-menu-link">
                           <span className="nav-menu-title">아이콘 패키지</span>
                           <span className="nav-menu-desc">프로덕트용 설치 가능한 SVG 에셋.</span>
                         </NavigationMenu.Link>
                       </NavigationMenu.Content>
+                    </NavigationMenu.Item>
+                    <NavigationMenu.Item>
+                      <NavigationMenu.Link className="nav-menu-trigger">
+                        문서
+                      </NavigationMenu.Link>
                     </NavigationMenu.Item>
                   </NavigationMenu.List>
                   <NavigationMenu.Portal>

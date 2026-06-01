@@ -3280,6 +3280,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   border-radius: var(--radius-md);
   background: transparent;
   color: var(--color-ink);
+  text-decoration: none;   /* Link(<a>) 변형 — 드롭다운 없는 단일 1차 항목과 공유하는 클래스 */
   /* type-label-lg */
   font-size: var(--type-label-lg);
   font-weight: var(--fw-label);
@@ -3289,8 +3290,10 @@ html[data-theme="dark"] .bottom-sheet-handle {
   transition: background var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
 }
 
+/* hover·open·active 모두 동일한 중립 surface — active는 영구 배경으로 현재 섹션 표시 (Linear/Vercel 패턴) */
 .nav-menu-trigger:hover,
-.nav-menu-trigger[data-popup-open] {
+.nav-menu-trigger[data-popup-open],
+.nav-menu-trigger[data-active] {
   background: var(--color-surface-soft);
   color: var(--color-ink);
 }
@@ -3390,7 +3393,8 @@ html[data-theme="dark"] .bottom-sheet-handle {
   padding: var(--spacing-sm);
 }
 
-.nav-menu-link:hover {
+.nav-menu-link:hover,
+.nav-menu-link[data-active] {
   background: var(--color-surface-soft);
 }
 
@@ -4736,7 +4740,9 @@ html[data-theme="dark"] .list-item[data-highlighted],
 html[data-theme="dark"] .menu-item[data-highlighted],
 html[data-theme="dark"] .nav-menu-trigger:hover,
 html[data-theme="dark"] .nav-menu-trigger[data-popup-open],
+html[data-theme="dark"] .nav-menu-trigger[data-active],
 html[data-theme="dark"] .nav-menu-link:hover,
+html[data-theme="dark"] .nav-menu-link[data-active],
 html[data-theme="dark"] .toolbar-button:not(.primary):hover,
 html[data-theme="dark"] .toggle-button:hover:not([data-pressed]) {
   background: var(--color-surface-elevated);
