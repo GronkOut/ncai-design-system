@@ -45,12 +45,15 @@ NCAI Design System의 컬러 토큰은 **Surface / Text / Semantic / Avatar**의
 
 | 역할 | Light (text / bg) | Dark (text / bg) | 용도 |
 |---|---|---|---|
-| **Success — Status** (`{colors.semantic-success}` / `{colors.semantic-success-bg}`) | `#059669` / `#EEFBEC` | `#34D399` / `rgba(5,150,105,0.15)` | "활성·정상" 뱃지, 일반 성공 알림 — 전통 색상 매핑 |
+| **Success — Status** (`{colors.semantic-success}` / `{colors.semantic-success-bg}`) | `#00D954` / `#ECFEEA` | `#34D399` / `rgba(5,150,105,0.15)` | "활성·정상" 뱃지, 일반 성공 알림 — 전통 색상 매핑 |
 | **Success — Brand** (`{colors.semantic-success-brand}`) | `#006EFF` (= Primary) | `#1C82FF` (= dark Primary) | 폼 유효 입력 표시, 브랜드 일관성이 중요한 확정 액션 — Primary 별칭 |
 | **Info** (`{colors.semantic-info}` / `{colors.semantic-info-bg}`) | `#006EFF` (= Primary) / `#EFF6FF` | `#1C82FF` (= dark Primary) / `rgba(0,110,255,0.15)` | 진행 중·정보 뱃지 — Primary alias로 브랜드와 자동 동기화 |
-| **Warning** (`{colors.semantic-warning}` / `{colors.semantic-warning-bg}`) | `#F0900A` / `#FEFAE6` | `#FE9F19` / `rgba(254,159,25,0.15)` | 대기·주의·보안 경고 |
-| **Error** (`{colors.semantic-error}` / `{colors.semantic-error-bg}`) | `#F33942` / `#FEF1F1` | `#F74B53` / `rgba(247,75,83,0.15)` | 실패·중단 뱃지, 잘못된 입력, Negative(파괴적) 버튼 |
+| **Warning** (`{colors.semantic-warning}` / `{colors.semantic-warning-bg}`) | `#FFAE00` / `#FFF9E3` | `#FE9F19` / `rgba(254,159,25,0.15)` | 대기·주의·보안 경고 |
+| **Error** (`{colors.semantic-error}` / `{colors.semantic-error-bg}`) | `#F33942` / `#FFF5F7` | `#F74B53` / `rgba(247,75,83,0.15)` | 실패·중단 뱃지, 잘못된 입력, Negative(파괴적) 버튼 |
 | **Neutral** (`{colors.semantic-neutral}` / `{colors.semantic-neutral-bg}`) | `#6B7280` (= Body Muted) / `#F3F4F6` | `#C7C9CB` / `rgba(149,151,153,0.15)` | 백로그·초안·대기열처럼 상태 신호가 약한 passive 정보 |
+
+> [!NOTE]
+> **채움(fill) vs 글씨(`-text`) 토큰 분리**: 위 표의 Light 값은 **솔리드/채움**(Meter·Progress 바, solid 뱃지 배경, `button-danger`)에 쓰는 선명한 색입니다 — 흰 배경 텍스트로는 대비가 매우 낮아(≈2:1 이하) 글씨에 쓰지 않습니다. 흰·틴트 배경 위 **컬러 글씨**(틴트 뱃지 텍스트 등)는 전용 토큰을 사용합니다 — `{colors.semantic-success-text}` `#00AE1A`, `{colors.semantic-warning-text}` `#FD982A`, `{colors.semantic-error-text}` `#F33942`. Success/Warning은 브랜드 색감(vivid)을 우선해 디자이너가 직접 지정한 값이고, **Error는 표준 브랜드 레드(`#F33942`, base와 동일)로 원복**했습니다. 틴트 배경 대비는 Success 2.8:1 / Warning 2.0:1 / Error 3.5:1로 모두 **WCAG AA(4.5:1)에 미달**합니다 — 색감을 우선한 의도된 트레이드오프이며, 가독성이 중요한 맥락에서는 더 어두운 톤이 필요할 수 있습니다. 다크 모드는 base(밝은 색)가 어두운 틴트 위에서 이미 또렷하므로 `-text`를 base로 별칭합니다.
 
 > [!NOTE]
 > **Success 선택 가이드**: Status(녹)는 "이미 일어난/유지되는 상태"(뱃지·로그·알림 등), Brand(파랑)는 "검증을 통과시켜 다음으로 넘어가는 액션"(폼 valid 표시, "동의했음" 같은 확정)에 사용합니다. 한 화면에 둘이 동시에 등장하지 않도록 컨텍스트별로 일관되게 사용하세요.
@@ -1133,10 +1136,10 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 - **Size**: 높이 24px, 좌우 패딩 `{spacing.xs}` (8px), gap `{spacing.xxs}` (4px).
 - **Typography**: `{typography.caption}` (12px) weight 500.
 - **Variants** (BG는 L ~96 유지 + 채도만 가볍게 down으로 시각 무게 균일화):
-  - `badge-success` (완료/정상): BG `{colors.semantic-success-bg}` (`#EEFBEC`) / Text `{colors.semantic-success}` (`#059669`)
+  - `badge-success` (완료/정상): BG `{colors.semantic-success-bg}` (`#ECFEEA`) / Text `{colors.semantic-success-text}` (`#00AE1A`)
   - `badge-info` (진행 중/정보): BG `{colors.semantic-info-bg}` (`#EFF6FF`) / Text `{colors.semantic-info}` (`{colors.primary}`) — Primary alias로 브랜드 자동 동기화.
-  - `badge-warning` (대기): BG `{colors.semantic-warning-bg}` (`#FEFAE6`) / Text `{colors.semantic-warning}` (`#F0900A`)
-  - `badge-error` (중단/실패): BG `{colors.semantic-error-bg}` (`#FEF1F1`) / Text `{colors.semantic-error}` (`#F33942`)
+  - `badge-warning` (대기): BG `{colors.semantic-warning-bg}` (`#FFF9E3`) / Text `{colors.semantic-warning-text}` (`#FD982A`)
+  - `badge-error` (중단/실패): BG `{colors.semantic-error-bg}` (`#FFF5F7`) / Text `{colors.semantic-error-text}` (`#F33942`)
   - `badge-neutral` (백로그/초안/대기열): BG `{colors.semantic-neutral-bg}` (`#F3F4F6`) / Text `{colors.semantic-neutral}` (`{colors.body-muted}`) — 무상태(passive) 표시.
   - `badge-ink` (신규/강조): BG `{colors.ink}` / Text `{colors.on-primary}` — Solid Ink Style.
 - **Dot Variant**: 텍스트 앞에 6px 원형 점(`.badge-dot`)을 두어 라이브 상태(실행 중·일시정지·중지됨 등 프로세스 신호)를 강조할 수 있습니다. dot은 `currentColor`로 텍스트 톤과 자동 동기화.
@@ -1427,18 +1430,18 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 ### Slider
 범위 입력 컨트롤.
 
-- **Track**: 4px 높이, `{colors.hairline}` 배경, `{radius.pill}`.
+- **Track**: 6px 높이, `{colors.hairline}` 배경, `{radius.pill}` (Meter·Progress와 동일 높이로 통일).
 - **Indicator (Filled)**: `{colors.primary}` 배경. 시작점부터 thumb까지.
-- **Thumb**: 20×20 원형, `{colors.on-primary}` 배경(흰색 고정), 1.5px `{colors.primary}` 보더, `{shadow.level-1}`. **다크 모드에서도 흰색 유지** (Primary 위 컨트롤 부품 원칙).
-- **Hover**: thumb scale 1.1.
-- **Focus**: thumb 보더를 2px로 두껍게 (전역 정책 — 보더 변화로만 신호).
+- **Thumb**: 20×20 원형, `{colors.on-primary}` 배경(흰색 고정) — 파란 보더 thumb이 아닌 Apple Music/Linear 풍 미니멀 thumb. 라이트 모드는 1px `{colors.hairline}` 보더 + 옅은 그림자 `0 1px 2px rgba(0,0,0,0.12)`, 다크 모드는 보더 제거(transparent) + `0 1px 3px rgba(0,0,0,0.4)`. **다크 모드에서도 흰 본체 유지** (Primary 위 컨트롤 부품 원칙).
+- **Press (active)**: 드래그 중 thumb scale 1.15 — 직접 조작 피드백.
+- **Focus**: thumb 보더를 `{colors.primary}` 1.5px로 (전역 focus 정책 — 보더 변화로만 신호).
 - **Touch Target**: thumb 자체는 20px이지만 hit area 44×44 확보.
 - **Range Slider (양쪽 thumb)**: 두 thumb 사이 구간만 Indicator로 채움.
 
 ### Progress
 작업 진행률 시각화 (determinate).
 
-- **Track**: 8px 높이, `{colors.hairline}` 배경, `{radius.pill}`.
+- **Track**: 6px 높이, `{colors.hairline}` 배경, `{radius.pill}` (Slider·Meter와 동일 높이로 통일).
 - **Indicator**: `{colors.primary}` 배경, `{radius.pill}`. width는 value 비율.
 - **Variant — Slim**: 4px 높이 (페이지 상단 로딩 바 등).
 - **Indeterminate**: Indicator를 30% 폭으로 두고 좌→우 1.2s 무한 슬라이드(`{ease.in-out}`).
@@ -1448,8 +1451,8 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 ### Meter
 경계가 있는 측정값 인디케이터 (예: 디스크 사용량, 비밀번호 강도). Progress와 달리 **고정된 min/max 범위 내의 현재 값**을 표시.
 
-- **Track / Indicator**: Progress와 동일 토큰(8px 높이, `{radius.pill}`).
-- **Color by Range (선택)**: 값이 임계치를 넘으면 `{colors.semantic-warning}` / `{colors.semantic-error}`로 자동 전환 가능(예: 80% 이상 warning, 95% 이상 error). 기본은 `{colors.primary}`.
+- **Track / Indicator**: Progress와 동일 토큰(6px 높이, `{radius.pill}`).
+- **Color by Range (헬스 게이지)**: 사용량·강도처럼 **'낮을수록 양호'**한 측정값은 구간별로 색이 자동 전환된다 — 양호 `{colors.semantic-success}`(초록) → 80%↑ `{colors.semantic-warning}`(주황) → 95%↑ `{colors.semantic-error}`(빨강). 점수·평점처럼 '낮을수록 좋다'가 성립하지 않는 Meter는 `{colors.primary}` 단색을 유지한다(헬스 게이지 의미 오용 금지). 초록은 시맨틱 success 상태색이지 두 번째 브랜드 액센트가 아니다 — 단일 액센트(Primary) 정체성과 충돌하지 않음.
 - **Label**: 상단에 `{typography.body-sm}` weight 500 (좌측 라벨) + 현재값/최대값 (우측, `{colors.body-muted}` `{typography.caption}`).
 - **금지**: Progress와 시각적으로 구분이 안 되는 경우 라벨로 의미를 명확히 표기.
 

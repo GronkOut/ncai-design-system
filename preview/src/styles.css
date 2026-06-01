@@ -43,14 +43,17 @@
      단일 팔레트로 운영. Success만 두 변형(전통 녹색 / Primary 블루 brand)을 제공합니다.
      - Status Success (녹): 활성·정상 뱃지, 일반 성공 알림
      - Brand Success (Primary): 폼 유효 입력, 브랜드 일관성이 중요한 확정 액션 */
-  --color-semantic-success: #059669;
-  --color-semantic-success-bg: #eefbec;       /* 노란끼 도는 옅은 연두 — 부드러운 success 톤 */
+  --color-semantic-success: #00d954;          /* 선명한 그린 — Meter/Progress 바 등 fill 전용 */
+  --color-semantic-success-bg: #ecfeea;       /* 옅은 연두 틴트 — success 뱃지/알림 배경 */
+  --color-semantic-success-text: #00ae1a;     /* 컬러 글씨 전용 — vivid 그린 */
   --color-semantic-success-brand: var(--color-primary); /* Primary Blue 별칭 — 라이트/다크 자동 적응 */
   --color-semantic-error: #f33942;
   --color-semantic-error-hover: #e0343d;       /* button-danger hover — primary→primary-hover와 동일한 톤 다운 패턴 */
-  --color-semantic-error-bg: #fef1f1;          /* 피치 끼 도는 따뜻한 rose — 부드러운 error 톤 */
-  --color-semantic-warning: #f0900a;
-  --color-semantic-warning-bg: #fefae6;        /* 채도만 미세 down (100→85), L 96 유지 — vibrancy 보존 */
+  --color-semantic-error-bg: #fff5f7;          /* 옅은 rose 틴트 — error 뱃지/알림 배경 */
+  --color-semantic-error-text: #f33942;        /* 컬러 글씨 전용 — 최초 시멘틱 에러색(base와 동일) 원복 */
+  --color-semantic-warning: #ffae00;          /* 선명한 옐로/오렌지 — Meter/Progress 바 등 fill 전용 */
+  --color-semantic-warning-bg: #fff9e3;        /* 옅은 크림 틴트 — warning 뱃지/알림 배경 */
+  --color-semantic-warning-text: #fd982a;      /* 컬러 글씨 전용 — vivid 오렌지 */
   --color-semantic-info: var(--color-primary);  /* 진행 중·정보 — primary alias로 브랜드와 자동 동기화 */
   --color-semantic-info-bg: #eff6ff;            /* 원본 sky-50 — vibrant 유지 */
   --color-semantic-neutral: var(--color-body-muted);  /* 무상태(백로그·초안·대기열) */
@@ -1166,6 +1169,7 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
+  margin: 0;
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--radius-md);
   background: var(--color-semantic-error-bg);
@@ -1322,17 +1326,17 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
 /* Functional: 상태 표시 */
 .badge-success {
   background: var(--color-semantic-success-bg);
-  color: var(--color-semantic-success);
+  color: var(--color-semantic-success-text);
 }
 
 .badge-warning {
   background: var(--color-semantic-warning-bg);
-  color: var(--color-semantic-warning);
+  color: var(--color-semantic-warning-text);
 }
 
 .badge-error {
   background: var(--color-semantic-error-bg);
-  color: var(--color-semantic-error);
+  color: var(--color-semantic-error-text);
 }
 
 .badge-info {
@@ -3438,12 +3442,9 @@ html[data-theme="dark"] .bottom-sheet-handle {
 }
 
 .meter-track,
-.progress-track {
-  height: 8px;
-}
-
+.progress-track,
 .slider-track {
-  height: 4px;
+  height: 6px;
 }
 
 .meter-indicator,
@@ -3453,6 +3454,20 @@ html[data-theme="dark"] .bottom-sheet-handle {
   height: 100%;
   border-radius: inherit;
   background: var(--color-primary);
+}
+
+/* Meter Color by Range (헬스 게이지) — 양호(초록)→경고(주황, 80%↑)→위험(빨강, 95%↑).
+   단색 primary(.meter-indicator)는 '낮을수록 좋다'가 성립 안 하는 점수/측정형 Meter용. */
+.meter-indicator--success {
+  background: var(--color-semantic-success);
+}
+
+.meter-indicator--warning {
+  background: var(--color-semantic-warning);
+}
+
+.meter-indicator--error {
+  background: var(--color-semantic-error);
 }
 
 /* ============================================================
@@ -3828,7 +3843,8 @@ html[data-theme="dark"] .bottom-sheet-handle {
 
 .slider-control {
   width: 100%;
-  padding: 16px 0;
+  /* track 6px + 19px×2 = 44px hit area (WCAG 2.5.5 최소 터치 타깃) */
+  padding: 19px 0;
 }
 
 .slider-track {
@@ -3841,8 +3857,8 @@ html[data-theme="dark"] .bottom-sheet-handle {
 .slider-thumb {
   position: absolute;
   top: 50%;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   border: 1px solid var(--color-hairline);
   border-radius: var(--radius-full);
   background: var(--color-on-primary);
@@ -3861,6 +3877,17 @@ html[data-theme="dark"] .bottom-sheet-handle {
 html[data-theme="dark"] .slider-thumb {
   border-color: transparent;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* 키보드 포커스: 전역 focus 정책(외부 링 금지 — 보더 변화로만 신호)에 맞춤.
+   내부 range input은 clip으로 숨겨져 전역 outline 링이 thumb 밖 viewport 구석에 그려지므로 제거하고,
+   thumb 보더를 primary 1.5px로 바꿔 신호한다. border-box라 1→1.5px 변화는 리플로우 0. */
+.slider-thumb input:focus-visible {
+  outline: none;
+}
+
+.slider-thumb:has(input:focus-visible) {
+  border: 1.5px solid var(--color-primary);
 }
 
 /* ============================================================
@@ -4655,11 +4682,14 @@ html[data-theme="dark"] {
   --color-semantic-info-bg: rgba(0, 110, 255, 0.15);  /* info text는 primary alias로 자동 적응 */
   --color-semantic-success: #34d399;
   --color-semantic-success-bg: rgba(5, 150, 105, 0.15);
+  --color-semantic-success-text: var(--color-semantic-success); /* 다크는 base(밝은 색)가 어두운 틴트 위에서 이미 또렷 — 별도 톤다운 불필요 */
   --color-semantic-error: #f74b53;
   --color-semantic-error-hover: #e3454c;
   --color-semantic-error-bg: rgba(247, 75, 83, 0.15);
+  --color-semantic-error-text: var(--color-semantic-error);
   --color-semantic-warning: #fe9f19;
   --color-semantic-warning-bg: rgba(254, 159, 25, 0.15);
+  --color-semantic-warning-text: var(--color-semantic-warning);
 
   /* Shadows — 순수 블랙 기반으로 불투명도 높임 */
   --shadow-level-1: 0 4px 12px rgba(0, 0, 0, 0.30);

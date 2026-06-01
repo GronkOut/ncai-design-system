@@ -1251,16 +1251,10 @@ export function App() {
                 </Menu.Root>
               </PreviewSection>
 
-              <PreviewSection title="Meter" description="경계가 있는 측정 인디케이터.">
-                <Meter.Root value={72} min={0} max={100} className="meter-root">
-                  <div className="meter-meta">
-                    <Meter.Label className="meter-label">리소스 사용량</Meter.Label>
-                    <Meter.Value className="meter-value" />
-                  </div>
-                  <Meter.Track className="meter-track">
-                    <Meter.Indicator className="meter-indicator" />
-                  </Meter.Track>
-                </Meter.Root>
+              <PreviewSection title="Meter" description="경계가 있는 측정 인디케이터. 값이 임계치를 넘으면 색이 자동 전환됩니다 — 80%↑ 경고(주황), 95%↑ 위험(빨강).">
+                <MeterDemo label="리소스 사용량" value={72} />
+                <MeterDemo label="디스크 사용량" value={88} />
+                <MeterDemo label="메모리 사용량" value={97} />
               </PreviewSection>
 
               <PreviewSection title="Navigation Menu" description="미리보기 콘텐츠가 포함된 사이트 내비게이션.">
@@ -1838,6 +1832,21 @@ function PreviewSection({
       </div>
       <div className="component-demo">{children}</div>
     </section>
+  );
+}
+
+function MeterDemo({ label, value }: { label: string; value: number }) {
+  const range = value >= 95 ? 'error' : value >= 80 ? 'warning' : 'success';
+  return (
+    <Meter.Root value={value} min={0} max={100} className="meter-root">
+      <div className="meter-meta">
+        <Meter.Label className="meter-label">{label}</Meter.Label>
+        <Meter.Value className="meter-value" />
+      </div>
+      <Meter.Track className="meter-track">
+        <Meter.Indicator className={`meter-indicator meter-indicator--${range}`} />
+      </Meter.Track>
+    </Meter.Root>
   );
 }
 
