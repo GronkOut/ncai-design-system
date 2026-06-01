@@ -534,7 +534,7 @@ Text Button(`button-*` 5변형)과 Icon Button은 동일한 disabled 시각 룰�
 
 **Typography (타이틀 토큰 — 필수 매핑):**
 - **Card Title (Standard)**: `{typography.title-md}` (22px / 500). `card-standard`, `card-featured`의 기본 제목. Modal/Drawer/BottomSheet의 좁은 변형과 공유하는 컨테이너 타이틀 토큰입니다.
-- **Card Title (Compact / 좁은 카드)**: `{typography.title-sm}` (18px / 500). 카드 폭이 360px 이하인 경우 적용 — title-md(22)보다 한 단계 작은 컴팩트 컨테이너 타이틀.
+- **Card Title (Compact / 좁은 카드)**: `{typography.title-sm}` (20px / 600). 카드 폭이 360px 이하인 경우 적용 — title-md(22)보다 한 단계 작은 컴팩트 컨테이너 타이틀.
 - **Card Title (Micro / 인포 박스)**: `{typography.body-md}` weight 600 (16px). 알림 카드, 상태 카드 등 한 줄 정보 전달용.
 - **Description**: `{typography.body-md}` (16px) 또는 좁은 카드에서는 `{typography.body-sm}` (14px).
 - **금지**: 카드 내부에 `display-*`(40px↑) 또는 `headline`(28px) 토큰을 사용하지 마세요. 카드 타이틀이 모달 타이틀보다 커 보이면 위계가 무너집니다.
@@ -615,7 +615,7 @@ Text Button(`button-*` 5변형)과 Icon Button은 동일한 disabled 시각 룰�
 | Variant | 클래스 | Header | Body | Footer | 사용 케이스 |
 |---|---|---|---|---|---|
 | **Form** (기본) | `.modal-card` | Title + Description | 입력 필드, 폼 | **우측 정착 액션 풋터** (취소 + 주요 액션) | 프로젝트 생성, 멤버 초대, 설정 저장 — 사용자가 상태를 입력·축적하고 마지막에 **하나의 결정(submit)**으로 닫음 |
-| **Picker** | `.modal-card.modal-picker` | **Toolbar 72px** — Title(`title-sm` 18/500) + 닫기(X) | **per-row 액션이 있는 리스트** (선택/캐스팅/삭제 등) | 없음 | 보이스 선택, 멤버 선택 — 행을 클릭하는 순간이 곧 commit. 모달 자체는 "닫기"로만 종료 |
+| **Picker** | `.modal-card.modal-picker` | **Toolbar 72px** — Title(`title-sm` 20/600, `.modal-title`) + 닫기(X) | **per-row 액션이 있는 리스트** (선택/캐스팅/삭제 등) | 없음 | 보이스 선택, 멤버 선택 — 행을 클릭하는 순간이 곧 commit. 모달 자체는 "닫기"로만 종료 |
 | **Browse** | `.modal-card.modal-browse` | **Toolbar 72px** — Title(`title-sm`) + **상단 보조 액션**(button-md) + 닫기(X) | **스크롤 가능한 긴 리스트** | 없음 | 사용량 데이터 조회, 파일 목록 — Picker와 동일 구조에 "전체 다운로드" 같은 **글로벌 보조 유틸리티**가 필요한 경우 |
 
 **왜 Browse는 상단에 보조 액션을 두는가**:
@@ -635,9 +635,9 @@ Text Button(`button-*` 5변형)과 Icon Button은 동일한 disabled 시각 룰�
 
 #### 공통 규칙
 
-- **Title**: `{typography.headline}` (28px)를 사용합니다. 너무 크지 않은 타이틀로 세련된 위계를 유지합니다. **모달 폭이 480px 이하인 경우** `{typography.title-md}` (24px)로 한 단계 낮춰 컨테이너 비율을 유지합니다.
+- **Title**: `{typography.title-sm}` (20px / 600, `.modal-title` 표준). Modal·Drawer·BottomSheet가 공유하는 컨테이너 타이틀 토큰으로, 폭(md/lg/xl)과 무관하게 동일 위계를 유지합니다. `headline`(28px) 이상은 사용하지 않습니다 — 모달은 페이지 히어로가 아닙니다.
 - **Description / Body Text**: `{typography.body-md}` (16px). 좁은 모달에서도 동일하게 유지합니다. 모달 본문에 `body-sm`(14px) 같은 보조 텍스트 토큰을 사용해 가독성을 떨어뜨리지 마세요.
-- **Close Button**: 닫기 버튼은 명확한 인지를 위해 아이콘 크기 **24px**, 전체 터치 영역 **40x40px**를 확보합니다.
+- **Close Button**: Picker/Browse toolbar 우측의 닫기(X)는 `icon-btn icon-btn--md icon-btn--ghost` (40×40 터치 영역, `x` 아이콘 **16px**) — Drawer 닫기와 동일한 `icon-btn` 시스템을 공유합니다. Form 변형은 별도 X 없이 풋터 취소 버튼 + 스크림/Esc로 닫습니다.
 - **Width Scale**: Modal과 Alert Dialog가 공유하는 4단 스케일. 공통 공식은 `min(<size>, calc(100vw - 32px))`로, 모바일에서 좌우 16px 여백이 자동 확보됩니다.
 
   | 토큰 | Width | 8px 배수 | 소유 컴포넌트 | 사용처 |
@@ -685,7 +685,7 @@ Text Button(`button-*` 5변형)과 Icon Button은 동일한 disabled 시각 룰�
 - **Text Alignment**: 타이틀과 본문 모두 **center** 정렬. 정보가 짧고 단일 결정에 초점이 맞춰지는 컨펌 UI 특성을 반영합니다.
 - **Title**: `{typography.body-md}` (16px) **weight 500** (medium). 컴팩트 컨펌 UI는 본문보다 한 단계만 위에 두어 위계를 절제합니다 — semibold(600)는 본문 대비 시각적 무게가 과해 medium으로 한 단계 가볍게 둡니다.
 - **Description**: `{typography.body-sm}` (14px) regular. Modal 본문(16px)에서 한 단계 다운.
-- **Width**: **400px**(`min(400px, calc(100vw - 32px))`). Modal 440px보다 한 단계 좁힌 컴팩트 폭.
+- **Width**: **400px**(`min(400px, calc(100vw - 32px))`). Modal 기본(md 480px)보다 한 단계 좁힌 컴팩트 폭.
 - **Padding**: 상 **40px** / 좌우 **24px**(`{spacing.xl}`) / 하 **24px**. 상단을 두텁게 잡아 타이틀을 시각적 중앙으로 띄웁니다.
 - **Vertical Rhythm**: Title ↔ Description **12px**, Description ↔ Actions **40px**. 본문과 액션 사이를 넉넉히 띄워 컨펌 결정에 호흡을 줍니다.
 - **Footer (Actions)**: 카드 **하단 풀-너비 행**으로 배치하고, 버튼은 `flex: 1`로 **균등 분할**합니다. Modal의 우측 정착(footer-right-anchor)을 **적용하지 않습니다**.
@@ -699,7 +699,7 @@ Text Button(`button-*` 5변형)과 Icon Button은 동일한 disabled 시각 룰�
 
 ### BottomSheet
 모바일/태블릿에서 하단에서 올라오는 임시 컨테이너. 모달의 가로형 변형으로 취급하며 타이틀 위계는 동일하게 적용합니다.
-- **Title**: `{typography.headline}` (28px). 시트 폭이 480px 이하이거나 콘텐츠가 1~2개 액션 정도로 단순한 경우 `{typography.title-md}` (24px)로 다운그레이드합니다.
+- **Title**: `{typography.title-sm}` (20px / 600, `.modal-title` 표준). Modal·Drawer와 동일한 컨테이너 타이틀 토큰을 공유합니다 — `headline`(28px) 이상은 사용하지 않습니다.
 - **Description**: `{typography.body-md}` (16px). 한 줄 안내가 길면 두 줄까지 허용하며, 그 이상은 Body 콘텐츠로 분리합니다.
 - **Padding**: 단일 카드 컴팩트 구성은 상하좌우 **32px**(`{spacing.xxl}`) 균일 패딩(기본 권장). 섹션이 분리된 큰 시트는 Header 상 **20px** / 하 **12px**, 좌우 **24px**. Body 상하좌우 **24px**.
 - **Shape**: `{radius.xl}` (20px). 모달과 동일하게 카드보다 한 단계 부드러운 가장자리로 떠 있는 느낌을 강조합니다.
@@ -768,7 +768,7 @@ BottomSheet 본문에 세로로 쌓이는 풀-너비 액션 행. iOS Action Shee
 - **Position**: 화면 가장자리에 풀-하이트로 정착(`top: 0; bottom: 0`).
 - **Width**:
   - `right`: 데스크톱 **440px** 기본 / `560px` 와이드 / `min(440px, 92vw)` 모바일.
-  - `left`: **`min(320px, 85vw)`** 모바일 네비게이션 폭.
+  - `left`: **`min(280px, calc(100vw - 56px))`** 모바일 네비게이션 폭 (Sidebar 264px와 유사한 폭을 유지하되 최소 56px 스크림 보장. 단순 비율 `85vw`는 좁은 화면에서 Modal과 구분이 사라져 사용하지 않음 — [Mobile Navigation](#)의 Left Variant 규칙과 동일).
 - **Background**: `{colors.canvas}`. BottomSheet처럼 `Surface Soft`를 쓰지 않습니다 — Drawer는 본문과 동등한 작업 표면을 제공.
 - **Border**: **없음**. 가장자리에 붙으므로 보더 대신 `{shadow.level-3}` + Scrim으로 분리.
 - **Border Radius**: **0**. 화면 edge에 정렬되는 변은 라운딩하지 않습니다. Modal/BottomSheet의 `radius.xl`과 달리 Drawer는 직선으로 마감하여 "정착한 패널"의 인상을 줍니다.
@@ -778,15 +778,15 @@ BottomSheet 본문에 세로로 쌓이는 풀-너비 액션 행. iOS Action Shee
 **Structure (Header / Body / Footer)**
 Drawer는 BottomSheet의 단일 컨테이너와 달리 **3구역 위계**를 명시합니다.
 
-- **Header**: 상하 `{spacing.xl}` (24px) / 좌우 `{spacing.xxl}` (32px). 하단 `1px solid {colors.hairline}`로 Body와 분리. 우측에 32×32 닫기 버튼(`drawer-close`) 정렬.
-  - **Title**: `{typography.title-md}` (24px). Modal과 동일 위계 — `headline`(28px) 이상은 금지.
+- **Header**: 상하 `{spacing.xl}` (24px) / 좌우 `{spacing.xxl}` (32px). 하단 `1px solid {colors.hairline}`로 Body와 분리. 우측에 `icon-btn icon-btn--md icon-btn--ghost` (40×40) 닫기 버튼 정렬.
+  - **Title**: `{typography.title-sm}` (20px / 600, `.modal-title` 표준). Modal·Sheet와 동일한 컨테이너 타이틀 위계 — `headline`(28px) 이상은 금지.
   - **Description** (선택): `{typography.body-md}` (16px), `{colors.body-muted}`. 1~2줄로 제한.
 - **Body**: 상하 `{spacing.xl}` / 좌우 `{spacing.xxl}`. `overflow-y: auto`로 긴 컨텐츠 스크롤 허용. 섹션 간 `gap: {spacing.xl}` (24px).
   - 섹션 라벨은 `{typography.body-sm}` weight 500 / `{colors.body-muted}` (Sidebar section label과 동일 톤).
-- **Footer**: 상 `{spacing.md}` (16px) / 하 `{spacing.md}` / 좌우 `{spacing.xxl}`. 상단 `1px solid {colors.hairline}`. 액션은 **우측 정착**(Modal과 동일), `gap: {spacing.xs}` (8px). 풀-너비 균등 분할은 적용하지 않습니다 — 그건 Alert Dialog/BottomSheet 컴팩트의 역할.
+- **Footer**: 상 `{spacing.md}` (16px) / 하 `{spacing.md}` / 좌우 `{spacing.xxl}`. 상단 `1px solid {colors.hairline}`. 액션은 **우측 정착**(Modal과 동일), `gap: {spacing.sm}` (12px — Modal 액션 풋터와 동일한 버튼 그룹 표준 간격). 풀-너비 균등 분할은 적용하지 않습니다 — 그건 Alert Dialog/BottomSheet 컴팩트의 역할.
 
 **Close Affordance**
-- 헤더 우측 상단에 32×32 ghost 버튼 (`x` 아이콘 18px, `{colors.body-muted}`). hover 시 `{colors.surface-soft}` 배경.
+- 헤더 우측 상단에 `icon-btn icon-btn--md icon-btn--ghost` (40×40, `x` 아이콘 16px). ghost 변형이므로 평상시 `{colors.body}`, hover 시 `{colors.surface-soft}` 배경 + `{colors.ink}`. Modal/Dialog 닫기와 동일한 `icon-btn` 시스템을 공유합니다.
 - Scrim 클릭 / `Esc` 키로도 닫힘 (Base UI Drawer 기본 동작).
 - BottomSheet의 drag handle은 사용하지 않습니다 — Drawer는 모바일 제스처 시트가 아닌 명시적 패널.
 
@@ -1013,10 +1013,10 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 - **Width**: **`min(280px, calc(100vw - 56px))`**. 데스크톱 Sidebar(264px)와 유사한 폭을 유지하되, 모바일에서는 **최소 56px의 스크림**을 항상 노출하여 "Drawer는 본문 위에 떠 있는 보조 패널"이라는 정체성을 시각적으로 유지합니다. `85vw` 같은 단순 비율은 좁은 화면에서 화면을 거의 덮어 Modal과 구분이 사라지므로 사용하지 않습니다.
 - **Border / Radius**: 화면 edge에 붙으므로 **0**. 데스크톱 Sidebar의 카드형 hairline 보더와 `{radius.md}`는 **모두 해제**합니다.
 - **Background**: `{colors.canvas}`. Sidebar 내부 컨테이너는 `transparent`로 두고 Drawer 배경이 표면을 담당.
-- **Padding**: Drawer 내부에서 sidebar 컨테이너 패딩을 `{spacing.md} {spacing.xs}`로 다운그레이드. 데스크톱의 `12px 10px`보다 살짝 여유를 두어 모바일 터치 리듬에 맞춤.
+- **Padding**: Drawer 내부에서 sidebar 컨테이너 패딩을 `{spacing.md}` (16px 전방향)로 다운그레이드. 데스크톱의 `12px 10px`보다 살짝 여유를 두어 모바일 터치 리듬에 맞춤.
 
 **Header (모바일 한정)**
-- 브랜드 마크(또는 페이지 타이틀) + 우측 32×32 닫기(`x`) 버튼. Drawer 표준 헤더와 동일.
+- 브랜드 마크(또는 페이지 타이틀) + 우측 `icon-btn icon-btn--md icon-btn--ghost` (40×40) 닫기(`x`) 버튼. Drawer 표준 헤더와 동일.
 - `top-nav`가 Drawer 위에 그대로 노출되지 않으므로, Drawer 내부 헤더가 브랜드 정체성을 잠시 대신합니다.
 
 **Item / Sub-item 스펙**

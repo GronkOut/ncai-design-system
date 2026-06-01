@@ -617,25 +617,25 @@ export function App() {
                       <ul className="bottom-sheet-list">
                         <li>
                           <Dialog.Close className="bottom-sheet-option">
-                            <Icon svg={copyIcon} className="icon-inline icon-ink" size={16} />
+                            <Icon svg={copyIcon} className="icon-inline icon-ink" size={20} />
                             <span>링크 복사</span>
                           </Dialog.Close>
                         </li>
                         <li>
                           <Dialog.Close className="bottom-sheet-option">
-                            <Icon svg={mailIcon} className="icon-inline icon-ink" size={16} />
+                            <Icon svg={mailIcon} className="icon-inline icon-ink" size={20} />
                             <span>이메일로 보내기</span>
                           </Dialog.Close>
                         </li>
                         <li>
                           <Dialog.Close className="bottom-sheet-option">
-                            <Icon svg={userIcon} className="icon-inline icon-ink" size={16} />
+                            <Icon svg={userIcon} className="icon-inline icon-ink" size={20} />
                             <span>팀 멤버에게 공유</span>
                           </Dialog.Close>
                         </li>
                         <li>
                           <Dialog.Close className="bottom-sheet-option">
-                            <Icon svg={downloadIcon} className="icon-inline icon-ink" size={16} />
+                            <Icon svg={downloadIcon} className="icon-inline icon-ink" size={20} />
                             <span>PDF로 내보내기</span>
                           </Dialog.Close>
                         </li>
@@ -1064,37 +1064,39 @@ export function App() {
                             수신 방식과 빈도를 선택합니다.
                           </Drawer.Description>
                         </div>
-                        <Drawer.Close className="drawer-close" aria-label="닫기">
-                          <Icon svg={xIcon} className="icon-inline icon-muted" size={18} />
+                        <Drawer.Close className="icon-btn icon-btn--md icon-btn--ghost" aria-label="닫기">
+                          <Icon svg={xIcon} size={16} />
                         </Drawer.Close>
                       </header>
                       <div className="drawer-body">
                         <div className="drawer-field-group">
                           <span className="drawer-field-group-label">수신 채널</span>
-                          <label className="check-row">
-                            <Checkbox.Root defaultChecked className="checkbox">
-                              <Checkbox.Indicator className="check-indicator">
-                                <CheckmarkSvg />
-                              </Checkbox.Indicator>
-                            </Checkbox.Root>
-                            이메일
-                          </label>
-                          <label className="check-row">
-                            <Checkbox.Root className="checkbox">
-                              <Checkbox.Indicator className="check-indicator">
-                                <CheckmarkSvg />
-                              </Checkbox.Indicator>
-                            </Checkbox.Root>
-                            푸시 알림
-                          </label>
-                          <label className="check-row">
-                            <Checkbox.Root defaultChecked className="checkbox">
-                              <Checkbox.Indicator className="check-indicator">
-                                <CheckmarkSvg />
-                              </Checkbox.Indicator>
-                            </Checkbox.Root>
-                            인앱 메시지
-                          </label>
+                          <CheckboxGroup className="choice-stack" defaultValue={['email', 'inapp']}>
+                            <label className="check-row">
+                              <Checkbox.Root value="email" className="checkbox">
+                                <Checkbox.Indicator className="check-indicator">
+                                  <CheckmarkSvg />
+                                </Checkbox.Indicator>
+                              </Checkbox.Root>
+                              이메일
+                            </label>
+                            <label className="check-row">
+                              <Checkbox.Root value="push" className="checkbox">
+                                <Checkbox.Indicator className="check-indicator">
+                                  <CheckmarkSvg />
+                                </Checkbox.Indicator>
+                              </Checkbox.Root>
+                              푸시 알림
+                            </label>
+                            <label className="check-row">
+                              <Checkbox.Root value="inapp" className="checkbox">
+                                <Checkbox.Indicator className="check-indicator">
+                                  <CheckmarkSvg />
+                                </Checkbox.Indicator>
+                              </Checkbox.Root>
+                              인앱 메시지
+                            </label>
+                          </CheckboxGroup>
                         </div>
                         <div className="drawer-field-group">
                           <span className="drawer-field-group-label">빈도</span>
@@ -1490,8 +1492,8 @@ export function App() {
                           <div className="drawer-header-text">
                             <Drawer.Title className="modal-title">NCAI Design</Drawer.Title>
                           </div>
-                          <Drawer.Close className="drawer-close" aria-label="닫기">
-                            <Icon svg={xIcon} className="icon-inline icon-muted" size={18} />
+                          <Drawer.Close className="icon-btn icon-btn--md icon-btn--ghost" aria-label="닫기">
+                            <Icon svg={xIcon} size={16} />
                           </Drawer.Close>
                         </header>
                         <div className="drawer-body" style={{ padding: 0 }}>

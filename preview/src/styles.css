@@ -1968,29 +1968,6 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   border-top: 0;
 }
 
-/* 모달 헤더 아이콘 버튼 (닫기 X) — 40x40 터치 영역, 아이콘 24px (design-system.md 규칙) */
-.modal-close {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-md);
-  background: transparent;
-  color: var(--color-ink);
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard);
-}
-.modal-close:hover {
-  background: var(--color-surface-soft);
-}
-.modal-close > svg {
-  width: 24px;
-  height: 24px;
-}
-
 /* Picker/Browse 리스트 행 — toolbar 타이틀(title-sm 20/600)을 기준으로 위계 구성:
    - Row title: body-md (16/400) — toolbar보다 작고 가벼움.
    - Row meta:  body-sm (14/400) muted — 보조 정보. 색상 톤다운으로 한 단계 더 약화.
@@ -2375,25 +2352,13 @@ html[data-theme="dark"] .bottom-sheet-handle {
   min-width: 0;
 }
 
-.drawer-close {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  margin: -4px -8px -4px 0;       /* optical alignment — 헤더 텍스트 baseline */
-  border: 0;
-  border-radius: var(--radius-sm);
-  background: transparent;
-  color: var(--color-body-muted);
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
-}
-
-.drawer-close:hover {
-  background: var(--color-surface-soft);
-  color: var(--color-ink);
+/* Close 버튼(icon-btn--md, 40px)을 title-sm 첫 줄(line-box 26px) 광학 중앙에 맞춤.
+   헤더가 align-items:flex-start라 보정 없이는 버튼이 타이틀보다 (40-26)/2=7px 내려가 보임.
+   margin-right: ghost 버튼은 hover 영역이 평소 안 보여 글리프가 안쪽에 떠 보이므로
+   우측으로 당겨 글리프를 콘텐츠 우측 라인에 가깝게 정렬. */
+.drawer-header > .icon-btn {
+  margin-top: calc((var(--lh-title-sm) * var(--type-title-sm) - 40px) / 2);
+  margin-right: calc(-1 * var(--spacing-sm));
 }
 
 .drawer-body {
@@ -2408,7 +2373,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
 .drawer-footer {
   display: flex;
   justify-content: flex-end;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-sm);              /* 버튼 그룹 표준 간격 */
   padding: var(--spacing-md) var(--spacing-xxl);
   border-top: 1px solid var(--color-hairline);
   background: var(--color-canvas);
@@ -2423,7 +2388,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
 .drawer-field-group {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-sm);          /* 라벨 ↔ 리스트: 행 간격(xs)보다 넓혀 그룹 구분감 강화 */
 }
 
 .drawer-field-group-label {
