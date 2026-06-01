@@ -1841,11 +1841,11 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   background: var(--color-hairline);
 }
 
-/* Menu/ContextMenu separator는 dense 톤 — 그룹 응집을 위해 일반 separator(8)보다 짧은 4px로 분리 */
+/* Menu/ContextMenu separator — 그룹 경계에 8px 상하 여백으로 시각적 호흡 확보 */
 .menu-separator {
   display: block;
   height: 1px;
-  margin: var(--spacing-xxs) 0;
+  margin: var(--spacing-xs) 0;
   background: var(--color-hairline);
 }
 

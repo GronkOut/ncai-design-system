@@ -1295,7 +1295,7 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 - **Menu Item — Destructive**
   - 텍스트·아이콘 모두 `{colors.semantic-error}`. **Highlighted 배경은 `{colors.semantic-error-bg}` (피치 톤)**으로 채웁니다 — `button-danger-ghost` · `icon-btn--danger-ghost` hover와 동일 토큰을 공유해 시스템 내 약한 danger surface 언어를 일관되게 유지합니다. *근거: `surface-soft`를 쓰면 위험 신호가 약해지고, 별도 `color-mix` 알파값을 두면 다른 danger 컴포넌트와 톤이 어긋나 같은 화면에 공존할 때 위계가 흩어집니다. `semantic-error-bg`는 라이트(`#fef1f1` 피치)·다크(`rgba(247,75,83,0.15)`) 모두 토큰화되어 모드 전환에도 일관됨.*
   - Destructive 항목은 메뉴 하단(또는 별도 그룹) 1개로 제한하고, 위에 separator를 1줄 둡니다.
-- **Separator**: 1px `{colors.hairline}`, 상하 margin 4px. 의미 그룹의 경계에서만 사용 — 시각적 호흡 목적이라면 spacing을 키우는 쪽을 선호합니다.
+- **Separator**: 1px `{colors.hairline}`, 상하 margin `{spacing.xs}` (8px). 의미 그룹의 경계에서만 사용 — 시각적 호흡 목적이라면 spacing을 키우는 쪽을 선호합니다.
 
 #### 2-depth Submenu
 하위 액션이 3~6개 정도의 짧은 묶음일 때 사용합니다. 더 깊은 계층(3-depth 이상)은 메뉴 대신 모달/패널로 분기.
