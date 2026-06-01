@@ -934,7 +934,6 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
    ============================================================ */
 
 .accordion,
-.form-card,
 .tabs-root {
   display: grid;
   gap: var(--spacing-sm);
@@ -973,17 +972,21 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   width: 100%;
 }
 
+/* Fieldset — 시각적 그룹화는 spacing + legend 위계로만(보더/배경 없음).
+   네이티브 <fieldset> UA 보더/패딩/마진을 명시적으로 리셋한다.
+   필드 간 gap 24px(spacing.xl), legend는 아래 16px만 띄우도록 음수 마진으로 8px 보정. */
 .fieldset {
   display: grid;
   gap: var(--spacing-xl);
   width: 100%;
-  padding: var(--spacing-xl);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
 }
 
 /* card-standard 스타일 공유 — radius-lg(16px) 정보 카드 톤 */
 .accordion-item,
-.form-card,
-.fieldset,
 .preview-card,
 .modal-card {
   border: 1px solid var(--color-hairline);
@@ -1140,12 +1143,37 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   margin-top: 0;
 }
 
+/* Form — 보더/배경 없는 순수 레이아웃 영역. 필드 간 24px(spacing.xl) 세로 스택.
+   바운딩은 상위 섹션 카드가 담당하므로 자체 카드 크롬을 두지 않는다(이중 박스 방지). */
 .form-card {
-  padding: var(--spacing-xl);  /* body padding: 24px */
+  display: grid;
+  gap: var(--spacing-xl);
+  width: 100%;
 }
 
+/* 제출 — 우측 정렬(design-system.md Form > Submit: 우측 정렬 또는 풀-너비) */
 .form-card .button-primary {
-  justify-self: start;
+  justify-self: end;
+}
+
+/* 섹션(Fieldset) 간 32px(spacing.xxl). grid gap(24px)은 additive이므로 +8px만 더한다 */
+.form-card > .fieldset:not(:first-child) {
+  margin-top: calc(var(--spacing-xxl) - var(--spacing-xl));
+}
+
+/* Submission Error Summary — 폼 상단 한 줄 메시지(badge-error 톤) */
+.form-error-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  background: var(--color-semantic-error-bg);
+  color: var(--color-semantic-error);
+  font-size: var(--type-body-sm);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-body-sm);
+  letter-spacing: var(--ls-body-sm);
 }
 
 /* ============================================================
@@ -1480,13 +1508,13 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
 
 /* 스텝퍼는 icon-btn--md(40)로 재사용 — 내부에 4px 호버 여백 */
 .number-group {
-  padding: 0 4px;
-  gap: 4px;
+  padding: 0 var(--spacing-xxs);
+  gap: var(--spacing-xxs);
 }
 
 .combo-input-group:focus-within,
 .number-group:focus-within {
-  border-color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
 }
 
 /* text-input: 48px 높이, 16px 좌우 패딩, radius-md */
@@ -1507,8 +1535,9 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   transition: border-color var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) var(--ease-standard);
 }
 
+/* focus 시 primary 1.5px 보더(전역 포커스 정책 / Inputs 스펙). OTP와 동일 패턴. */
 .text-input:focus {
-  border-color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
   outline: none;
 }
 
@@ -1518,12 +1547,15 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   border-radius: 0;
 }
 
+/* 그룹 안 입력은 자체 보더 없음 — 포커스 링은 그룹 컨테이너(:focus-within)가 담당.
+   1.5px 보더가 그룹 내부로 새지 않도록 width 포함 border 자체를 0으로 리셋. */
+.combo-input-group .text-input:focus,
 .combo-input-group .text-input:focus-visible,
 .number-group .number-input:focus,
 .number-group .number-input:focus-visible {
   outline: 0;
   box-shadow: none;
-  border-color: transparent;
+  border: 0;
 }
 
 .number-group .number-input {
@@ -1570,7 +1602,7 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   height: 48px;
   flex: none;
   place-items: center;
-  padding-left: 4px;
+  padding-left: var(--spacing-xxs);
   pointer-events: none;
 }
 
@@ -1586,7 +1618,7 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
 
 .input-clear-button {
   width: 48px;
-  padding-right: 8px;
+  padding-right: var(--spacing-xs);
 }
 
 /* 일반 text-input + 우측 clear chip. Autocomplete와 동일 hit area/chip 스펙을 공유. */
@@ -1615,7 +1647,7 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   place-items: center;
   width: 16px;
   height: 16px;
-  border-radius: 999px;
+  border-radius: var(--radius-full);
   background: color-mix(in srgb, var(--color-body-muted) 55%, var(--color-canvas));
   color: var(--color-on-primary);
   transition: background var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
@@ -2106,7 +2138,7 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   width: 36px;
   height: 4px;
   margin-bottom: var(--spacing-sm);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: rgba(0, 0, 0, 0.16);
 }
 
@@ -2558,17 +2590,30 @@ html[data-theme="dark"] .bottom-sheet-handle {
   line-height: var(--lh-body);
   letter-spacing: var(--ls-body);
   color: var(--color-ink);
+  /* fieldset gap(24px)에서 8px 당겨 legend 아래 간격을 16px(spacing.md)로 보정 */
+  margin-bottom: calc(var(--spacing-md) - var(--spacing-xl));
 }
 
-/* 에러 텍스트 — caption (12px) / semantic-error. Description과 동일 위계. */
+/* 에러 텍스트 — caption (12px) / semantic-error. Description과 동일 위계.
+   Base UI Field.Error는 invalid일 때만 mount되므로 별도 toggle 없이 그대로 노출합니다. */
 .field-error {
-  display: none;
   color: var(--color-semantic-error);
   /* type-caption */
   font-size: var(--type-caption);
   font-weight: var(--fw-regular);
   line-height: var(--lh-caption);
   letter-spacing: var(--ls-caption);
+}
+
+/* 전역 정책 — invalid 시 Control 보더를 semantic-error로. 포커스 색보다 우선. */
+.text-input[data-invalid],
+.text-input[data-invalid]:focus {
+  border-color: var(--color-semantic-error);
+}
+
+/* Error가 Description을 대체 — invalid 시 help 텍스트를 숨겨 같은 위치에 Error만 노출. */
+.field-root[data-invalid] .field-help {
+  display: none;
 }
 
 /* ============================================================
@@ -2703,7 +2748,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
 .date-picker-select-trigger:focus-visible,
 .date-picker-select-trigger[data-popup-open] {
   outline: 0;
-  border-color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
 }
 
 .date-picker-select-trigger .select-icon {
@@ -3710,7 +3755,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
 
 .select-trigger:focus-visible,
 .select-trigger[data-popup-open] {
-  border-color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
   outline: 0;
 }
 

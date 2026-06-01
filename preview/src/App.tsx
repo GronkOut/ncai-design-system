@@ -76,6 +76,7 @@ import listIcon from '@ncai/design-system-icons/icons/list.svg?raw';
 import listOrderedIcon from '@ncai/design-system-icons/icons/list-ordered.svg?raw';
 import undoIcon from '@ncai/design-system-icons/icons/undo-2.svg?raw';
 import redoIcon from '@ncai/design-system-icons/icons/redo-2.svg?raw';
+import circleAlertIcon from '@ncai/design-system-icons/icons/circle-alert.svg?raw';
 
 // === Floating element spacing tokens (styles.css의 --floating-* 와 동일 값) ===
 // Tooltip / Popover / Menu / Dropdown 등 anchored UI의 trigger 간격 / viewport 여백 강제.
@@ -1173,8 +1174,51 @@ export function App() {
                 </Form>
               </PreviewSection>
 
+              <PreviewSection
+                title="Form — 섹션 + 제출 에러 요약"
+                description="Fieldset 섹션 간 32px 간격과 폼 상단 제출 에러 요약(badge-error 톤)."
+              >
+                <Form className="form-card" onSubmit={(event) => event.preventDefault()}>
+                  <p className="form-error-summary" role="alert">
+                    <Icon svg={circleAlertIcon} size={16} />
+                    제출하지 못했습니다 — 아래 항목을 확인해 주세요.
+                  </p>
+                  <Fieldset.Root className="fieldset">
+                    <Fieldset.Legend className="fieldset-legend">계정 정보</Fieldset.Legend>
+                    <Field.Root name="email-account" className="field-root">
+                      <Field.Label className="field-label">이메일</Field.Label>
+                      <ClearableInput as={Field.Control} type="email" placeholder="nc@ncsoft.com" />
+                    </Field.Root>
+                    <Field.Root name="phone" className="field-root">
+                      <Field.Label className="field-label">연락처</Field.Label>
+                      <ClearableInput as={Field.Control} placeholder="010-0000-0000" />
+                    </Field.Root>
+                  </Fieldset.Root>
+                  <Fieldset.Root className="fieldset">
+                    <Fieldset.Legend className="fieldset-legend">알림 설정</Fieldset.Legend>
+                    <RadioGroup name="notification-pref" defaultValue="email" className="choice-stack">
+                      <label className="check-row">
+                        <Radio.Root value="email" className="radio">
+                          <Radio.Indicator className="radio-indicator" />
+                        </Radio.Root>
+                        이메일 알림
+                      </label>
+                      <label className="check-row">
+                        <Radio.Root value="push" className="radio">
+                          <Radio.Indicator className="radio-indicator" />
+                        </Radio.Root>
+                        푸시 알림
+                      </label>
+                    </RadioGroup>
+                  </Fieldset.Root>
+                  <Button type="submit" className="button-primary">
+                    제출
+                  </Button>
+                </Form>
+              </PreviewSection>
+
               <PreviewSection title="Input" description="독립형 텍스트 입력 필드.">
-                <ClearableInput className="search-input" placeholder="컴포넌트 검색" />
+                <ClearableInput placeholder="컴포넌트 검색" />
               </PreviewSection>
 
               <PreviewSection
