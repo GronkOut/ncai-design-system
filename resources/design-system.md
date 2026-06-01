@@ -223,7 +223,7 @@ NCAI는 **Pretendard(디스플레이·본문 공용) + Geist Mono(코드)** 2종
 | `body-sm` | Pretendard Variable | 14px | 400 | 1.50 | 0 | 보조 텍스트, 메타 정보 |
 | `caption` | Pretendard Variable | 12px | 400 | 1.40 | 0 | 캡션, 작은 보조 정보 |
 | `label-xl` | Pretendard Variable | 18px | 500 | 1.2 | -0.16px | Display 사이즈 라벨 (60px 히어로 CTA) |
-| `label-lg` | Pretendard Variable | 16px | 500 | 1.2 | -0.16px | 기본 라벨 — 버튼·탭·메뉴·트리거 (48px) |
+| `label-lg` | Pretendard Variable | 16px | 500 | 1.2 | -0.16px | 기본 라벨 — 버튼·탭·메뉴·트리거·값 표시 필드(input·select·date, 48px) |
 | `label-md` | Pretendard Variable | 15px | 500 | 1.2 | -0.16px | 중간 라벨 — 40px 컨테이너 비례용 중간값 |
 | `label-sm` | Pretendard Variable | 14px | 500 | 1.2 | -0.16px | 보조 라벨 — 칩·작은 버튼 (32px) |
 | `eyebrow` | Pretendard Variable | 13px | 500 | 1.30 | 0.4px | 섹션 라벨, 카테고리 |
@@ -231,7 +231,8 @@ NCAI는 **Pretendard(디스플레이·본문 공용) + Geist Mono(코드)** 2종
 
 > [!NOTE]
 > **타이포 적용 방식 — `@include type-*` mixin**: 각 타이포 역할(title-md, label-lg, body-md 등)은 font-size·font-weight·line-height·letter-spacing 네 속성을 한 묶음으로 캡슐화한 SCSS `@mixin`으로 노출됩니다. 컴포넌트는 네 변수를 하나씩 참조하는 대신 `@include type-title-md;` 한 줄로 적용합니다. 원본 값은 `:root`의 `--type-*` / `--fw-*` / `--lh-*` / `--ls-*` 토큰이 단일 소스로 유지하며, mixin은 그 토큰들을 역할별로 묶어 노출하는 어휘 계층입니다. (HTML 직접 작성 시엔 `.type-*` 유틸리티 클래스로 대체 가능)
-> **Label 토큰**: 인터랙티브 라벨(버튼·탭·메뉴·칩·트리거) 전용 타이포 군. weight 500 + lh 1.2 + tracking -0.16px이 한 군으로 정의되며, 컴포넌트는 `@include type-label-lg;`처럼 사이즈 단위 mixin 한 줄로 적용합니다.
+> **Label 토큰**: 인터랙티브 라벨(버튼·탭·메뉴·칩·트리거·입력 필드) 전용 타이포 군. weight 500 + lh 1.2 + tracking -0.16px이 한 군으로 정의되며, 컴포넌트는 `@include type-label-lg;`처럼 사이즈 단위 mixin 한 줄로 적용합니다.
+> **트리거·필드 타이포**: 인터랙티브 컨트롤의 트리거/입력 텍스트는 label **사이즈 스케일**을 컨테이너 높이에 비례해 씁니다 — 48px → `label-lg`, 40px → `label-md`, 32px → `label-sm`. 단 **값/입력 텍스트(text-input·select·combobox·autocomplete·date field)는 weight만 `--fw-regular`(400)로 한 단계 내립니다** — 선택값/placeholder는 읽는 콘텐츠라 라벨 굵기로 강조하지 않습니다(`menu-item`의 label-size + regular-weight 하이브리드와 동일 의도). 동작 라벨(button·tab·menu)은 `--fw-label`(500) 그대로. 필드 위/옆에 붙는 Field Label은 이와 별개의 슬롯이며, 드롭다운 *목록 행*은 `list-item`/`menu-item` 규칙을 따릅니다.
 > **Font-weight 정책**: `--fw-regular(400)` / `--fw-label(500)` / `--fw-heading(600)` 세 토큰으로 통합. 컴포넌트는 `font-weight: 500` 같은 매직 넘버를 직접 쓰지 않으며, 역할 기본값에서 벗어날 때만 mixin 다음 줄에 `font-weight: var(--fw-...)` 한 줄로 override합니다.
 
 
@@ -878,7 +879,7 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 - **컬러 (모드별)**:
   - **라이트**: 배경 `{colors.canvas}` + border `1px solid {colors.hairline}`.
   - **다크**: 배경 `{colors.surface-soft}` + border `rgba(255,255,255,0.10)` (translucent white overlay). Tooltip의 라이트/다크 **반전 패턴**과 달리 Popover는 surface 위계 톤을 유지합니다 — 인터랙티브 카드라 본문 가독성이 우선.
-- **Enter / Exit animation**: **fade-only** (`opacity 0→1`, `{motion.fast}` `ease-out`). **`scale(0.98)` 진입 transform 금지** — popup-arrow가 popup-card의 자식이라 scale에 따라 transform-origin 기준으로 1px 시각적으로 움직이는 부작용이 발생합니다. Popover 시스템 전체(`.popover-card`, `.date-picker-popover`)가 이 규칙을 공유. *근거: Tooltip은 자식 콘텐츠가 단일 텍스트뿐이라 scale이 자연스러운 인지 신호지만, Popover는 Arrow + 멀티라인 콘텐츠를 담은 카드라 scale이 alignment 정밀도를 깹니다.*
+- **Enter / Exit animation**: **fade-only** (`opacity 0→1`, `{motion.fast}` `ease-out`). **`scale(0.98)` 진입 transform 금지** — popup-arrow가 popup-card의 자식이라 scale에 따라 transform-origin 기준으로 1px 시각적으로 움직이는 부작용이 발생합니다. arrow를 가진 Popover 계열(`.popover-card` 등)이 이 규칙을 공유합니다. *근거: Tooltip은 자식 콘텐츠가 단일 텍스트뿐이라 scale이 자연스러운 인지 신호지만, Popover는 Arrow + 멀티라인 콘텐츠를 담은 카드라 scale이 alignment 정밀도를 깹니다.* `.date-picker-popover`는 arrow가 없어 이 제약에서 빠지고 방향 인식 세로 슬라이드를 씁니다 — 단, 트리거의 `:active` press scale을 꺼야 팝업이 끌려 좌우로 밀려 보이지 않습니다(Date Picker 섹션 참조).
 
 ##### Popover 금지 사항
 - 큰 솔리드 버튼 트리거(`button-primary`/`button-secondary` height 48) — modal/drawer 의도와 충돌.
@@ -1200,7 +1201,7 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 - **List Item**
   - **Height**: `min-height: 40px`, 좌우 패딩 12px(`{spacing.sm}`) · 상하 패딩 8px(`{spacing.xs}`), `{typography.body-sm}` (14px) / `{colors.ink}`. *Menu Item과 동일한 40px baseline을 공유해 같은 화면에 두 컴포넌트가 섞여도 행 높이가 어긋나지 않음.*
   - **Hover**: `{colors.surface-soft}`.
-  - **Selected (Select.ItemIndicator)**: 좌측에 16px check 아이콘(`{colors.primary}`) 노출. weight는 default 유지.
+  - **Selected (Select.ItemIndicator)**: **우측 끝**에 18px check 아이콘(`{colors.primary}`) — `order: 1` + `margin-left: auto`로 행 오른쪽에 배치하고 라벨은 항상 flush-left. 선택 텍스트는 `{colors.primary}` + `{fw.label}`(500)로 보조 강조. *근거: Base UI는 선택 항목에만 ItemIndicator를 렌더하므로(미선택 항목엔 요소 자체가 없음) 체크를 좌측에 두면 선택 항목만 라벨이 ~27px 밀려 ragged left edge가 생긴다 — 특히 달력의 짧은 "N월" 라벨에서 두드러짐. 좌측 체크를 쓰려면 모든 행에 체크 칸을 확보해야 하는데, 컴팩트한 목록(달력)에선 빈 들여쓰기가 휑해 보여 우측 배치로 통일. 색은 접근성상 단독 신호로 쓰지 않고 체크가 1차 신호, primary 텍스트는 보조 강조.*
   - **Highlighted (키보드 탐색)**: `{colors.surface-soft}` (hover와 동일).
 - **Empty State**
   - `{typography.body-sm}` (14px) / `{colors.body-muted}`. "검색 결과가 없습니다." 같은 한 줄 안내.
@@ -1218,25 +1219,28 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 날짜 선택은 독립 패키지 컴포넌트가 아니라 **Base UI primitive 조합 패턴**입니다. Base UI에 완성형 Calendar/DatePicker primitive가 없으면 `Field` + `Popover` + `Button` + `Select`를 조합하고, 달력 grid와 날짜 계산만 소비자 프로젝트 로직으로 구현합니다.
 
 - **Single Date**
-  - Trigger: `button-secondary` 형태. 좌측 18px calendar icon(`{colors.body-muted}`), 우측 선택 날짜 또는 placeholder.
-  - Placeholder: `"날짜 선택"`. 날짜를 선택하기 전에는 선택 상태를 표시하지 않습니다.
+  - Trigger: `button-secondary` 형태(보더·48px 높이·hover). 단, 좌우 padding은 `{spacing.md}`(16px) — `button-secondary` 기본 `{spacing.lg}`(20px) 대신 `text-input`·`select-trigger` 등 입력 트리거 계열과 동일하게 맞춥니다. 표시 텍스트(선택값/placeholder)는 트리거·필드 타이포 규칙에 따라 `label-lg` 사이즈에 weight만 `--fw-regular`(400)로 적용합니다 — `text-input`·`select-trigger`와 동일. 좌측 18px calendar icon(`{colors.body-muted}`), 우측 선택 날짜 또는 placeholder.
+  - Placeholder: `"날짜 선택"`. 날짜를 선택하기 전에는 선택 상태를 표시하지 않으며, **placeholder 텍스트는 `{colors.body-muted}`**(선택값은 `{colors.ink}`) — text-input·select 등 입력 트리거 placeholder 컨벤션과 동일. 구현은 미선택일 때 라벨 span에 `data-placeholder`를 부여해 muted 처리(Range는 시작일도 안 고른 상태에서만 placeholder).
   - Selected value: 한국어 서비스에서는 `YYYY년 M월 D일` 형식을 권장합니다.
 - **Date Range**
   - Trigger label: `"날짜 구간 선택"`.
   - 첫 클릭은 시작일, 두 번째 클릭은 종료일입니다. 종료일이 시작일보다 앞이면 내부 로직에서 자동 정렬합니다.
-  - 시작/종료일은 `{colors.primary}` 배경 + `{colors.on-primary}` 텍스트. 사이 구간은 Primary를 옅게 tint한 배경으로만 연결하고, 과한 pill/gradient를 만들지 않습니다.
+  - 시작/종료일은 `{colors.primary}` 원형(circle) + `{colors.on-primary}` 텍스트. 사이 구간은 Primary를 옅게 tint한 **연속 배경 바**로 이어집니다 — 셀 사이 흰 여백 없이 붙도록 grid `column-gap: 0`을 쓰고, 시작/종료 셀은 원형 쪽으로 바를 절반만 깔아 자연스럽게 연결합니다. 주(week) 경계에서 줄바꿈으로 끊기는 바 끝(첫 칸 좌측·마지막 칸 우측)은 원형 인디케이터와 같은 18px 곡률로 라운딩해 단면이 각지게 잘려 보이지 않게 합니다. 단 ⑴ 행 내부에서 이웃 셀로 이어지는 쪽, ⑵ 시작/종료일 반쪽 바가 **원형과 닿는 안쪽(center) 끝**은 각지게 둡니다 — 후자를 라운딩하면 원형과 바 사이에 틈이 생기기 때문(시작일은 좌측, 종료일은 우측을 row-edge 라운딩 대상에서 제외). 과한 pill/gradient는 만들지 않습니다.
 - **Popover**
   - Date Picker popup은 Popover 계열 표면을 사용합니다: Light `Canvas + hairline + shadow.level-3`, Dark `Surface Soft + rgba(255,255,255,.10) border + shadow.level-3`.
   - `sideOffset`은 Popover와 동일하게 8~10px, viewport collision padding은 16px를 사용합니다.
+  - **Arrow(tail) 없음**: Popover와 달리 Date Picker popup은 arrow를 두지 않습니다 — 달력은 넓은 카드라 anchor를 가리키는 tail이 시각적 노이즈일 뿐 정렬 정보를 더하지 않습니다.
+  - **트리거 press scale 끄기 (선행 조건)**: Trigger는 `button-secondary`라 기본적으로 `:active`에서 `scale(0.97)` press 모션을 갖는데, 팝업이 이 트리거에 앵커돼 있어 트리거가 줄었다 펴지면 **팝업이 따라 움직여 옆으로 미끄러지는 잔상**이 생깁니다. 그래서 `.date-picker-trigger:active`는 `transform: none`으로 press scale을 끕니다(팝업이 열리는 것 자체가 피드백). 이게 안 꺼져 있으면 팝업에 어떤 진입 모션을 줘도 좌우로 밀려 보입니다.
+  - **진입 애니메이션**: 위 press scale을 끈 뒤, 팝업은 `data-side` 기준 **방향 인식 세로 슬라이드 + fade**로 등장합니다 — 아래로 열리면 `translateY(-8px)`→0(위→아래), collision으로 위로 뒤집히면(`data-side=top`) `translateY(8px)`→0(아래→위). transform `{motion.normal}`(200ms·`ease-out-quad`), opacity `{motion.fast}`. arrow가 없어 fade-only 제약(arrow 흔들림)에서 자유롭습니다.
 - **Calendar Header**
-  - 좌우 44×44 이전/다음 버튼을 두고, 중앙에는 Base UI `Select`로 **연도 → 월** 순서의 드롭다운을 배치합니다.
-  - Select trigger는 `{radius.md}`(10px), `{typography.body-md}`, 1px `{colors.hairline}` 보더를 따릅니다. Focus/Open 상태는 보더만 `{colors.primary}`로 변경합니다.
+  - 좌우 40×40 이전/다음 버튼을 두고(시스템 `icon-btn--md`와 동일 사이즈), 중앙에는 Base UI `Select`로 **연도 → 월** 순서의 드롭다운을 배치합니다.
+  - Select trigger는 `{radius.md}`(10px), 1px `{colors.hairline}` 보더를 따릅니다. 40px 높이이므로 트리거 텍스트는 `label-md` 사이즈 + weight `--fw-regular`(400). 값 텍스트는 좌측, chevron은 우측 끝(`justify-content: space-between` — 시스템 `.select-trigger`와 동일). Focus/Open 상태는 보더만 `{colors.primary}`로 변경합니다.
   - 월 표시는 `5월`, 연도 표시는 `2026년`처럼 단위를 포함합니다. 내부 index 값(예: 4)을 직접 노출하지 않습니다.
 - **Calendar Grid**
   - 요일 헤더는 `{typography.caption}` / `{colors.body-muted}`.
-  - 날짜 셀은 최소 44×44 터치 영역, `{radius.md}`(10px), `{typography.body-sm}`.
+  - 날짜 셀은 최소 44×44 터치 영역, `{typography.body-sm}`. 단, 선택/hover/today/focus 표시는 셀 전체를 채우지 않고 **중앙 36px 원형**으로만 그립니다 — 셀 전체를 칠하면 시각 무게가 과해 부담스럽기 때문(터치 영역 44는 유지, 시각 인디케이터만 축소).
   - 현재 달이 아닌 날짜는 `{colors.body-muted}` + 낮은 opacity로 표시합니다.
-  - 오늘 날짜는 1px `{colors.primary}` inset border로만 표시하고, 선택 상태와 구분합니다.
+  - 오늘 날짜는 1px `{colors.primary}` inset border 원형으로만 표시하고, 선택 상태와 구분합니다.
   - 해당 달에 필요한 주(row)만 렌더링합니다. 모든 달을 고정 6주로 채워 불필요한 다음 달 전체 행을 노출하지 않습니다.
 - **금지**
   - Base UI `Select` 대신 네이티브 `<select>`를 사용해 스타일/접근성 패턴을 분리하는 것.

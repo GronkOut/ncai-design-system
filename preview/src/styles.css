@@ -348,7 +348,7 @@ h3 {
   outline-offset: 3px;
 }
 
-/* 체크박스/라디오는 spec L1150·L62 (Minimalist Focus 정책: 외부 광채 금지, 보더 컬러로만 신호) 적용.
+/* 체크박스/라디오는 design-system.md > Minimalist Validation & Focus Policy(전역: 외부 광채 금지, 보더 컬러로만 신호) 적용.
    글로벌 outline ring 제거 후 자체 보더 컬러 변화로 focus 표현. */
 .checkbox:focus-visible,
 .radio:focus-visible {
@@ -1361,7 +1361,7 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   color: var(--color-on-primary);
 }
 
-/* Focus (키보드) — spec L1150·L62 글로벌 정책: 보더 컬러만 변화, 외부 광채 금지.
+/* Focus (키보드) — design-system.md > Minimalist Validation & Focus Policy(전역): 보더 컬러만 변화, 외부 광채 금지.
    - Unchecked: hairline → primary (선명한 신호)
    - Checked / Indeterminate: 이미 primary border 적용된 상태 → 1.5px → 2px로 굵게 (subtle but visible)
    Base UI Checkbox.Root는 [data-focused]를 부여하지 않으므로 :focus-visible 가상 클래스를 직접 사용. */
@@ -1391,7 +1391,7 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   color: currentColor;
 }
 
-/* Indeterminate — 체크 아이콘 자리에 흰색 가로 막대 (design-system.md L1149).
+/* Indeterminate — 체크 아이콘 자리에 흰색 가로 막대 (design-system.md > Checkbox / Radio).
    "부분 선택" 상태의 시각 신호. ::after pseudo-element로 그려 추가 마크업 불필요. */
 .check-indicator[data-indeterminate] .check-icon {
   display: none;
@@ -1412,7 +1412,7 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   background: var(--color-disabled);
 }
 
-/* Disabled — Icon Button / Text Button의 Minimalist 룰을 변형 적용 (design-system.md L488-521).
+/* Disabled — Icon Button / Text Button의 Minimalist 룰을 변형 적용 (design-system.md > Buttons).
    글로벌 outlined 패턴(base 그대로 + 내부 콘텐츠 mute)은 박스 안에 텍스트/아이콘이 있는 컨트롤에 맞춰 설계됨.
    체크박스 unchecked는 박스가 비어 있어 mute 대상이 없으므로 chassis 자체를 함몰 면으로 통일:
    - 공통: cursor: not-allowed + bg surface-inset + transparent border
@@ -1499,11 +1499,11 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   background: var(--color-canvas);
   color: var(--color-ink);
   padding: 0 var(--spacing-md);
-  /* type-body */
-  font-size: var(--type-body);
+  /* 값/입력 텍스트 — label 사이즈(48px → label-lg)에 weight만 regular (menu-item 하이브리드 패턴) */
+  font-size: var(--type-label-lg);
   font-weight: var(--fw-regular);
-  line-height: var(--lh-body);
-  letter-spacing: var(--ls-body);
+  line-height: var(--lh-label);
+  letter-spacing: var(--ls-label);
   transition: border-color var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) var(--ease-standard);
 }
 
@@ -1529,6 +1529,8 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
 .number-group .number-input {
   text-align: center;
   min-height: 40px;
+  /* 40px 컨테이너 → label-md */
+  font-size: var(--type-label-md);
 }
 
 /* 아이콘 버튼 (콤보박스 트리거) */
@@ -1674,8 +1676,8 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   border-radius: var(--radius-sm);
   padding: var(--spacing-xs) var(--spacing-sm);
   color: var(--color-ink);
-  /* type-body-sm */
-  font-size: var(--type-body-sm);
+  /* 드롭다운 목록 행 — list-item·menu-item과 동일 (label-md 사이즈 + regular weight) */
+  font-size: var(--type-label-md);
   font-weight: var(--fw-regular);
   line-height: var(--lh-body-sm);
   letter-spacing: var(--ls-body-sm);
@@ -2616,17 +2618,31 @@ html[data-theme="dark"] .bottom-sheet-handle {
 
 .date-picker-field {
   display: grid;
-  gap: 10px;
+  gap: var(--spacing-xs);
   width: 100%;
 }
 
 .date-picker-trigger {
   justify-content: flex-start;
   width: 100%;
-  gap: 10px;
+  gap: var(--spacing-xs);
+  /* 좌우 padding은 button-secondary의 spacing-lg(20px) 대신 spacing-md(16px) — text-input·select-trigger 등 입력 트리거 계열과 동일 정렬 */
+  padding-inline: var(--spacing-md);
+  /* 값/placeholder 트리거 — button-secondary의 label-lg 사이즈는 상속하되 weight만 regular (text-input·select-trigger와 동일) */
+  font-weight: var(--fw-regular);
+}
+
+/* 클릭(:active) 시 button-secondary의 scale(0.97) press 모션을 끔 — 트리거가 줄었다 펴지면 거기 앵커된 팝업이 따라 움직여 옆으로 미끄러지는 것처럼 보임. 팝업이 열리는 것 자체가 피드백이라 press scale은 불필요 */
+.date-picker-trigger:active:not(:disabled):not([data-disabled]):not([data-trigger-disabled]) {
+  transform: none;
 }
 
 .date-picker-trigger .icon-inline {
+  color: var(--color-body-muted);
+}
+
+/* 선택 전 placeholder는 body-muted (선택값은 ink) — text-input·select 등 입력 트리거 placeholder 컨벤션과 동일 */
+.date-picker-trigger [data-placeholder] {
   color: var(--color-body-muted);
 }
 
@@ -2634,26 +2650,33 @@ html[data-theme="dark"] .bottom-sheet-handle {
   display: grid;
   gap: var(--spacing-sm);
   width: min(348px, var(--available-width));
-  padding: 14px;
+  padding: var(--spacing-md);
   border: 1px solid var(--color-hairline);
   border-radius: var(--radius-lg);
   background: var(--color-canvas);
   box-shadow: var(--shadow-level-3);
-  transform-origin: var(--transform-origin);
-  transition: transform var(--motion-fast) var(--ease-standard), opacity var(--motion-fast) var(--ease-standard);
+  /* 세로 슬라이드 + fade. 트리거 press scale을 꺼서(.date-picker-trigger:active) 앵커 끌림이 없으므로 순수 세로 모션만 보임 */
+  transition: transform var(--motion-normal) var(--ease-out-quad), opacity var(--motion-fast) var(--ease-standard);
 }
 
-/* popover-card와 동일하게 fade-only — popup-arrow scale 부작용 방지 + popover 시스템 일관성 */
+/* 진입/이탈: 방향 인식 세로 슬라이드. 기본(아래로 열릴 때)은 위→아래로 내려오며 등장 */
 .date-picker-popover[data-starting-style],
 .date-picker-popover[data-ending-style] {
   opacity: 0;
+  transform: translateY(-8px);
+}
+
+/* collision으로 위로 뒤집혀 열릴 때(data-side=top)는 아래→위로 올라오며 등장 */
+.date-picker-popover[data-side="top"][data-starting-style],
+.date-picker-popover[data-side="top"][data-ending-style] {
+  transform: translateY(8px);
 }
 
 .date-picker-caption {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6px;
+  gap: var(--spacing-xs);
   margin: 0;
 }
 
@@ -2661,8 +2684,8 @@ html[data-theme="dark"] .bottom-sheet-handle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border: 0;
   border-radius: var(--radius-md);
   background: transparent;
@@ -2688,38 +2711,38 @@ html[data-theme="dark"] .bottom-sheet-handle {
 .date-picker-selects {
   flex: 1 1 auto;
   display: flex;
-  justify-content: center;
   gap: var(--spacing-xs);
 }
 
 .date-picker-select-trigger {
+  flex: 1 1 0;
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--spacing-xxs);
   height: 40px;
-  min-width: 96px;
   border: 1px solid var(--color-hairline);
   border-radius: var(--radius-md);
   background: var(--color-canvas);
   color: var(--color-ink);
-  padding: 0 10px 0 var(--spacing-sm);
-  /* type-body */
-  font-size: var(--type-body);
-  font-weight: var(--fw-heading);
-  line-height: var(--lh-body);
-  letter-spacing: var(--ls-body);
+  padding: 0 var(--spacing-sm);
+  /* hairline 보더 — design-system.md Date Picker > Calendar Header / 시스템 .select-trigger 패턴. label 사이즈(40px → label-md)에 weight만 regular */
+  font-size: var(--type-label-md);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-label);
+  letter-spacing: var(--ls-label);
   cursor: pointer;
-  transition: border-color var(--motion-fast) var(--ease-standard), background var(--motion-fast) var(--ease-standard);
+  transition: border-color var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) var(--ease-standard);
 }
 
 .date-picker-select-trigger:focus-visible,
 .date-picker-select-trigger[data-popup-open] {
+  outline: 0;
   border-color: var(--color-primary);
-  outline: none;
 }
 
 .date-picker-select-trigger .select-icon {
-  margin-left: 6px;
+  color: var(--color-body-muted);
 }
 
 .date-picker-select-popup {
@@ -2730,7 +2753,8 @@ html[data-theme="dark"] .bottom-sheet-handle {
 .date-picker-grid {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 2px;
+  /* column-gap 0 — 구간(range) 배경이 셀 사이 흰 여백 없이 연속으로 이어지도록. row-gap만 유지해 주 단위로 끊음 */
+  gap: 2px 0;
 }
 
 .date-picker-weekday {
@@ -2741,36 +2765,67 @@ html[data-theme="dark"] .bottom-sheet-handle {
   color: var(--color-body-muted);
   /* type-caption */
   font-size: var(--type-caption);
-  font-weight: var(--fw-heading);
+  font-weight: var(--fw-regular);
   line-height: var(--lh-caption);
   letter-spacing: var(--ls-caption);
 }
 
 .date-picker-day {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   min-height: 44px;
   border: 0;
-  border-radius: var(--radius-md);
   background: transparent;
   color: var(--color-ink);
   /* type-body-sm */
   font-size: var(--type-body-sm);
-  font-weight: var(--fw-label);
+  font-weight: var(--fw-regular);
   line-height: var(--lh-body-sm);
   letter-spacing: var(--ls-body-sm);
   cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) var(--ease-standard);
 }
 
-.date-picker-day:hover {
+/* 선택/hover/today/focus 표시 — 셀 전체 네모가 아니라 중앙 36px 원형으로 그려 시각 부담을 줄임 */
+.date-picker-day::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 36px;
+  height: 36px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: 1;
+  transition: background var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) var(--ease-standard);
+}
+
+/* 구간(range) 연속 배경 바 — 원형 뒤(z-index 0)에 깔리고 셀 폭을 가득 채워 이웃 셀과 이어짐 */
+.date-picker-day::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  height: 36px;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.date-picker-day-label {
+  position: relative;
+  z-index: 2;
+}
+
+.date-picker-day:hover::before {
   background: var(--color-surface-soft);
 }
 
 .date-picker-day:focus-visible {
   outline: 0;
+}
+
+.date-picker-day:focus-visible::before {
   box-shadow: inset 0 0 0 1.5px var(--color-primary);
 }
 
@@ -2779,23 +2834,60 @@ html[data-theme="dark"] .bottom-sheet-handle {
   opacity: 0.48;
 }
 
-.date-picker-day[data-today] {
+.date-picker-day[data-today]::before {
   box-shadow: inset 0 0 0 1px var(--color-primary);
 }
 
-.date-picker-day[data-today]:focus-visible {
+.date-picker-day[data-today]:focus-visible::before {
   box-shadow: inset 0 0 0 2px var(--color-primary);
 }
 
-.date-picker-day[data-in-range] {
-  background: rgba(0, 110, 255, 0.10);
+/* 구간 중간/시작/끝의 바 위치 — column-gap 0 + 시작은 우측 절반, 끝은 좌측 절반만 깔아 양끝 원형과 자연스럽게 연결 */
+.date-picker-day[data-in-range],
+.date-picker-day[data-range-start],
+.date-picker-day[data-range-end] {
   color: var(--color-primary);
 }
 
+.date-picker-day[data-in-range]::after,
+.date-picker-day[data-range-start]::after,
+.date-picker-day[data-range-end]::after {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+
+.date-picker-day[data-in-range]::after {
+  left: 0;
+  right: 0;
+}
+
+.date-picker-day[data-range-start]::after {
+  left: 50%;
+  right: 0;
+}
+
+.date-picker-day[data-range-end]::after {
+  left: 0;
+  right: 50%;
+}
+
+/* 주(week) 경계에서 끊기는 바 끝은 원형 캡으로 마감 — 첫 칸(일)은 좌측, 마지막 칸(토)은 우측을 18px(원형 인디케이터와 동일 곡률)로 라운딩. 요일 헤더 7개 뒤로 날짜가 시작하고 첫 날짜 셀이 곧 일요일이라 7n+1=일·7n=토.
+   단, 시작/종료일은 반쪽 바의 안쪽(center) 끝이 원형과 닿는 면이라 라운딩하면 원형과 바 사이에 틈이 생김 → 시작일은 좌측, 종료일은 우측 라운딩에서 제외(바깥 줄바꿈 면만 둥글게) */
+.date-picker-day:nth-child(7n + 1):not([data-range-start])::after {
+  border-top-left-radius: 18px;
+  border-bottom-left-radius: 18px;
+}
+
+.date-picker-day:nth-child(7n):not([data-range-end])::after {
+  border-top-right-radius: 18px;
+  border-bottom-right-radius: 18px;
+}
+
 .date-picker-day[data-selected] {
-  background: var(--color-primary);
   color: var(--color-on-primary);
-  box-shadow: none;
+}
+
+.date-picker-day[data-selected]::before {
+  background: var(--color-primary);
 }
 
 /* ============================================================
@@ -2901,7 +2993,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   flex: 1 1 auto;
 }
 
-/* Toolbar 버튼 — design-system.md L1208: 높이 36px, radius-md, body-sm 14px */
+/* Toolbar 버튼 — design-system.md > Toolbar: 높이 36px, radius-md, body-sm 14px */
 .toolbar-button {
   display: inline-flex;
   align-items: center;
@@ -3166,7 +3258,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
    Navigation Menu
    ============================================================ */
 
-/* Navigation Menu Trigger — design-system.md L1195
+/* Navigation Menu Trigger — design-system.md > Navigation Menu
    spec: 40px height / label-lg 16px / weight 500 / radius-md / 좌우 padding 12 (spacing-sm) / gap 6 */
 .nav-menu-trigger {
   display: inline-flex;
@@ -3642,11 +3734,11 @@ html[data-theme="dark"] .bottom-sheet-handle {
   background: var(--color-canvas);
   color: var(--color-ink);
   padding: 0 var(--spacing-md);
-  /* type-body */
-  font-size: var(--type-body);
+  /* 선택값/placeholder를 표시하는 트리거 — label 사이즈(48px → label-lg)에 weight만 regular */
+  font-size: var(--type-label-lg);
   font-weight: var(--fw-regular);
-  line-height: var(--lh-body);
-  letter-spacing: var(--ls-body);
+  line-height: var(--lh-label);
+  letter-spacing: var(--ls-label);
   cursor: pointer;
   transition: border-color var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) var(--ease-standard);
 }
@@ -3675,6 +3767,12 @@ html[data-theme="dark"] .bottom-sheet-handle {
   gap: 10px;
 }
 
+/* 선택된 항목: 텍스트를 primary 색 + label(500) weight로 강조 (체크와 별개의 보조 신호 — 색만으로 의존하지 않음) */
+.select-item[data-selected] {
+  color: var(--color-primary);
+  font-weight: var(--fw-label);
+}
+
 .select-item-indicator {
   display: grid;
   width: 18px;
@@ -3682,6 +3780,9 @@ html[data-theme="dark"] .bottom-sheet-handle {
   flex: none;
   place-items: center;
   color: var(--color-primary);
+  /* 체크를 행 오른쪽 끝으로 — 라벨은 항상 flush-left라 선택해도 글씨가 밀리지 않음 */
+  order: 1;
+  margin-left: auto;
 }
 
 .select-item-indicator[data-unchecked] {
@@ -4776,29 +4877,32 @@ html[data-theme="dark"] .date-picker-popover {
   border-color: rgba(255, 255, 255, 0.10);
 }
 
-/* Arrow 다크 톤 매칭 — popover/date-picker용 (tooltip은 자체 다크 오버라이드 사용) */
-html[data-theme="dark"] .popover-card .popup-arrow .arrow-fill,
-html[data-theme="dark"] .date-picker-popover .popup-arrow .arrow-fill {
+/* Arrow 다크 톤 매칭 — popover용 (tooltip은 자체 다크 오버라이드 사용) */
+html[data-theme="dark"] .popover-card .popup-arrow .arrow-fill {
   fill: var(--color-surface-soft);
 }
-html[data-theme="dark"] .popover-card .popup-arrow .arrow-stroke,
-html[data-theme="dark"] .date-picker-popover .popup-arrow .arrow-stroke {
+html[data-theme="dark"] .popover-card .popup-arrow .arrow-stroke {
   stroke: rgba(255, 255, 255, 0.10);
 }
 
-html[data-theme="dark"] .date-picker-nav-button:hover,
-html[data-theme="dark"] .date-picker-day:hover {
+html[data-theme="dark"] .date-picker-nav-button:hover {
   background: var(--color-surface-elevated);
 }
 
-html[data-theme="dark"] .date-picker-select-trigger {
+html[data-theme="dark"] .date-picker-day:hover::before {
   background: var(--color-surface-elevated);
-  border-color: transparent;
 }
 
-html[data-theme="dark"] .date-picker-day[data-in-range] {
-  background: rgba(0, 110, 255, 0.18);
-  color: #7ab0ff;
+html[data-theme="dark"] .date-picker-day[data-in-range],
+html[data-theme="dark"] .date-picker-day[data-range-start],
+html[data-theme="dark"] .date-picker-day[data-range-end] {
+  color: var(--color-primary-hover);
+}
+
+html[data-theme="dark"] .date-picker-day[data-in-range]::after,
+html[data-theme="dark"] .date-picker-day[data-range-start]::after,
+html[data-theme="dark"] .date-picker-day[data-range-end]::after {
+  background: color-mix(in srgb, var(--color-primary) 18%, transparent);
 }
 
 /* Modal은 backdrop(rgba(0,0,0,0.70))이 톤 대비를 만들어 주므로 보더 없이 Surface Soft + Level 3 그림자만 사용 */

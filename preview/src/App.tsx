@@ -268,7 +268,7 @@ export function App() {
             </section>
 
             <div className="component-grid">
-              <PreviewSection title="Typography" description="Linear Display/Text/Mono — 16개 타이포그래피 토큰." wide>
+              <PreviewSection title="Typography" description="Pretendard Variable / Geist Mono" wide>
                 <div className="type-scale">
                   {[
                     { token: 'display-xl', size: '80 / 600', sample: '최상위 히어로 제목' },
@@ -1045,7 +1045,7 @@ export function App() {
 
               <PreviewSection
                 title="Date Picker"
-                description="Calendar와 Popover를 조합한 날짜 선택 패턴. 선택값은 버튼에 요약되고 팝오버 안에서 월 단위로 탐색합니다."
+                description={"Calendar와 Popover를 조합한 날짜 선택 패턴. \n 선택값은 버튼에 요약되고 팝오버 안에서 월 단위로 탐색합니다."}
               >
                 <DatePickerDemo />
               </PreviewSection>
@@ -1968,7 +1968,7 @@ function DatePickerDemo() {
             aria-label={selectedDate ? `선택된 날짜: ${selectedLabel}` : '날짜 선택'}
           >
             <Icon svg={calendarIcon} size={18} />
-            <span>{selectedLabel}</span>
+            <span data-placeholder={!selectedDate || undefined}>{selectedLabel}</span>
           </Popover.Trigger>
           <DatePickerPopover visibleMonth={visibleMonth} onVisibleMonthChange={setVisibleMonth}>
             <CalendarGrid
@@ -1992,7 +1992,7 @@ function DatePickerDemo() {
             aria-label={`선택된 날짜 구간: ${rangeLabel}`}
           >
             <Icon svg={calendarIcon} size={18} />
-            <span>{rangeLabel}</span>
+            <span data-placeholder={!selectedRange.from || undefined}>{rangeLabel}</span>
           </Popover.Trigger>
           <DatePickerPopover visibleMonth={rangeVisibleMonth} onVisibleMonthChange={setRangeVisibleMonth}>
             <CalendarGrid
@@ -2005,6 +2005,22 @@ function DatePickerDemo() {
                 )
               }
               isInRange={(day) => Boolean(selectedRange.from && selectedRange.to && isDateBetween(day, selectedRange.from, selectedRange.to))}
+              isRangeStart={(day) =>
+                Boolean(
+                  selectedRange.from &&
+                    selectedRange.to &&
+                    !isSameDay(selectedRange.from, selectedRange.to) &&
+                    isSameDay(day, selectedRange.from)
+                )
+              }
+              isRangeEnd={(day) =>
+                Boolean(
+                  selectedRange.from &&
+                    selectedRange.to &&
+                    !isSameDay(selectedRange.from, selectedRange.to) &&
+                    isSameDay(day, selectedRange.to)
+                )
+              }
               onSelect={handleRangeSelect}
             />
           </DatePickerPopover>
@@ -2032,9 +2048,6 @@ function DatePickerPopover({
         collisionPadding={VIEWPORT_PADDING}
       >
         <Popover.Popup className="date-picker-popover">
-          <Popover.Arrow className="popup-arrow">
-            <PopupArrowGlyph />
-          </Popover.Arrow>
           <Popover.Title className="date-picker-caption">
             <button
               type="button"
@@ -2140,12 +2153,16 @@ function CalendarGrid({
   visibleMonth,
   isSelected,
   isInRange,
+  isRangeStart,
+  isRangeEnd,
   onSelect
 }: {
   days: Date[];
   visibleMonth: Date;
   isSelected: (day: Date) => boolean;
   isInRange?: (day: Date) => boolean;
+  isRangeStart?: (day: Date) => boolean;
+  isRangeEnd?: (day: Date) => boolean;
   onSelect: (day: Date) => void;
 }) {
   return (
@@ -2169,12 +2186,14 @@ function CalendarGrid({
             data-outside-month={!isCurrentMonth || undefined}
             data-selected={selected || undefined}
             data-in-range={inRange || undefined}
+            data-range-start={isRangeStart?.(day) || undefined}
+            data-range-end={isRangeEnd?.(day) || undefined}
             data-today={isToday || undefined}
             aria-label={dateFormatter.format(day)}
             aria-pressed={selected}
             onClick={() => onSelect(day)}
           >
-            {day.getDate()}
+            <span className="date-picker-day-label">{day.getDate()}</span>
           </button>
         );
       })}
