@@ -1154,13 +1154,18 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
   - **Box**: 20×20, `{radius.sm}` (6px), 1.5px `{colors.hairline}` 보더, 배경 `{colors.canvas}`.
   - **Checked**: 배경 `{colors.primary}`, 체크 아이콘 16px `{colors.on-primary}` (Primary 위 흰색 고정).
   - **Indeterminate**: 배경 `{colors.primary}` + 흰색 가로 막대(`{colors.on-primary}`).
-  - **Focus**: 보더 컬러 `{colors.primary}`로 변경 (전역 정책).
+  - **Focus**: 보더 컬러 `{colors.primary}`로 변경 (전역 정책). Checked / Indeterminate는 이미 primary 보더라 1.5px → **2px**로 굵게 해 focus 변화를 만듭니다.
 - **Radio**
   - **Outer**: 20×20, `{radius.full}`, 1.5px `{colors.hairline}` 보더, 배경 `{colors.canvas}`.
   - **Checked**: 보더 `{colors.primary}` **5px**로 두껍게 채우고 배경 `{colors.on-primary}`(흰색 고정). 두꺼워진 primary 보더가 외곽 링을, on-primary 배경이 중앙 점을 동시에 만드는 단일-도형 구조 — `background-clip`/내부 점 엘리먼트 분리 없이 1개 box로 표현. (다크 모드에서도 배경은 `{colors.on-primary}` 고정.)
+  - **Focus**: 보더 컬러 `{colors.primary}`로 변경 (전역 정책, Checkbox와 동일). Base UI `Radio.Root`는 `<button>`이라 전역 focus outline에 잡히므로 `:focus-visible`에서 outline을 제거하고 보더 컬러로만 신호합니다. Checked는 이미 5px primary 링이라 focus 시 추가 변화 없음.
+- **Disabled (Checkbox · Radio 공통)**: enabled 형태를 유지한 채 색만 회색으로 mute하는 전역 disabled 정책을 따릅니다(opacity dim 금지). 공통: `cursor: not-allowed`, 라벨 행(`.check-row`) 텍스트도 `{colors.disabled}`로 동기화.
+  - **Unchecked (Checkbox · Radio 동일)**: 빈 함몰 면 — 배경 `{colors.surface-inset}` + 보더 `transparent`. 콘텐츠 없는 비활성 chassis.
+  - **Checkbox Checked / Indeterminate**: 위 함몰 면 위에 회색(`{colors.disabled}`) 체크 아이콘 / 가로 막대.
+  - **Radio Checked**: 5px 링 형태는 유지하되 링 색을 `{colors.primary}` → `{colors.disabled}`(회색)로 mute하고, 중앙은 `{colors.surface-inset}`(비활성 함몰 면과 동일 톤)으로 채웁니다 — 회색 링이 "선택됐지만 비활성"을 전달하고, 중앙은 enabled처럼 도드라지지 않습니다. *enabled의 `{colors.on-primary}`(고정 흰색)를 disabled에 그대로 쓰면 다크 모드(canvas `#111`)에서 중앙 흰 점만 과하게 밝아 "비활성"과 모순되므로, disabled에서는 흰 점 대신 함몰 톤으로 낮춥니다. Checkbox가 회색 체크를 남기는 것과 같은 위계.*
 - **Label**: 우측에 `{spacing.xs}` (8px) 간격, `{typography.body-md}` (16px) / `{colors.ink}`. 라벨 전체가 클릭 영역.
 - **Group Spacing**: 세로 그룹은 `{spacing.xs}` (8px) 행 간격, 가로 그룹은 `{spacing.xl}` (24px) 간격.
-- **금지**: 라운드 모서리를 풀(`pill`)로 만들기, 체크 아이콘에 Primary 외 컬러 사용, 라디오 내부 점에 `canvas`/그 외 컬러 사용.
+- **금지**: 라운드 모서리를 풀(`pill`)로 만들기, 체크 아이콘에 Primary 외 컬러 사용, **enabled** 라디오 내부 점에 `{colors.on-primary}` 외 컬러 사용(`canvas` 등). *disabled 라디오 중앙은 위 Disabled 규정대로 `{colors.surface-inset}`을 쓰며, 이 금지의 예외입니다.*
 
 ### Field / Fieldset / Form
 폼 구조 요소. 의미 있는 그루핑과 라벨링을 통해 접근성과 시각 위계를 동시에 만듭니다.

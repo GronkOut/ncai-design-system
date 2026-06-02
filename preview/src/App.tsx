@@ -1447,6 +1447,20 @@ export function App() {
                     </label>
                   ))}
                 </RadioGroup>
+                <RadioGroup className="choice-stack" name="radio-disabled" defaultValue="on" aria-label="비활성 상태">
+                  <label className="check-row">
+                    <Radio.Root value="on" disabled className="radio">
+                      <Radio.Indicator className="radio-indicator" />
+                    </Radio.Root>
+                    선택 + 비활성
+                  </label>
+                  <label className="check-row">
+                    <Radio.Root value="off" disabled className="radio">
+                      <Radio.Indicator className="radio-indicator" />
+                    </Radio.Root>
+                    미선택 + 비활성
+                  </label>
+                </RadioGroup>
               </PreviewSection>
 
               <PreviewSection title="Scroll Area" description="밀도 높은 콘텐츠를 위한 커스텀 스크롤 영역.">

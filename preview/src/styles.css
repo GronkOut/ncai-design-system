@@ -1479,6 +1479,36 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   background: var(--color-on-primary);
 }
 
+/* Focus (키보드) — Checkbox와 동일하게 hairline → primary 보더로 신호 (design-system.md > Checkbox / Radio > Focus).
+   전역 outline은 위 .radio:focus-visible(L357)에서 제거됨. Checked는 이미 5px primary 링이라 추가 변화 없음. */
+.radio:focus-visible {
+  border-color: var(--color-primary);
+}
+
+/* Disabled — Checkbox와 동일한 토큰/철학 (design-system.md > Checkbox / Radio > Disabled 공통).
+   Unchecked: 빈 함몰 면(surface-inset + transparent border).
+   Checked: 5px 링 색만 회색(disabled)으로 mute, 중앙도 surface-inset(함몰 면 동일 톤)으로 낮춤.
+   enabled의 on-primary(고정 흰색)를 쓰면 다크에서 점만 과하게 밝아 비활성과 모순되므로 흰 점 미사용. */
+.radio:disabled,
+.radio[data-disabled] {
+  cursor: not-allowed;
+  background: var(--color-surface-inset);
+  border-color: transparent;
+}
+
+.radio[data-checked]:disabled,
+.radio[data-checked][data-disabled] {
+  border-width: 5px;
+  border-color: var(--color-disabled);
+  background: var(--color-surface-inset);
+}
+
+.check-row:has(.radio:disabled),
+.check-row:has(.radio[data-disabled]) {
+  color: var(--color-disabled);
+  cursor: not-allowed;
+}
+
 .radio-indicator {
   display: none;
 }
