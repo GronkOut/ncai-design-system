@@ -2461,6 +2461,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   font-weight: var(--fw-heading);
   line-height: var(--lh-title-sm);
   letter-spacing: var(--ls-body);
+  color: var(--color-ink);
 }
 
 /* Toast title: body-md-strong 16px (보조 정보 위계) */
@@ -3547,16 +3548,15 @@ html[data-theme="dark"] .bottom-sheet-handle {
    shadow는 level-2 패널급(modal급 level-3 아님). border + 약한 그림자 조합으로 floating 표현. */
 .popover-card {
   display: grid;
-  gap: 8px;
+  gap: var(--spacing-xs);
   width: 260px;
   max-width: min(280px, var(--available-width));
-  padding: 16px 18px;
+  padding: var(--spacing-md);
   background: var(--color-canvas);
   border: 1px solid var(--color-hairline);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-level-2);
-  transform-origin: var(--transform-origin);
-  transition: transform var(--motion-fast) var(--ease-standard), opacity var(--motion-fast) var(--ease-standard);
+  transition: opacity var(--motion-fast) var(--ease-standard);
 }
 
 /* fade-only enter/exit — scale(0.98) → scale(1) transition은 자식인 popup-arrow의 위치가
@@ -3581,8 +3581,8 @@ html[data-theme="dark"] .bottom-sheet-handle {
    data-side는 "popup이 trigger의 어느 쪽에 위치하는지"(Floating UI 컨벤션) — 화살표는
    popup 반대편 edge에서 trigger 방향으로 뾰족해야 함. SVG 기본형이 ▲(위쪽 뾰족)이므로
    bottom 배치에서는 회전 없음, top 배치에서 180도 회전.
-   offset 값은 SVG 16×8 기준 + base-ui Arrow wrapper의 자체 ~1px padding 보정 + stroke-width/2
-   보정으로, stroke 양 끝점이 popover-card border 위에 정확히 align되도록 -9 / -13 사용. */
+   offset 값은 SVG 16×9 기준 + base-ui Arrow wrapper의 자체 ~1px padding 보정 + stroke-width/2
+   보정으로, stroke 양 끝점이 popover-card border 위에 정확히 align되도록 -8 / -12 사용. */
 .popup-arrow[data-side='top']    { bottom: -8px; rotate: 180deg; }
 .popup-arrow[data-side='bottom'] { top: -8px; }
 .popup-arrow[data-side='left']   { right: -12px; rotate: 90deg; }

@@ -85,7 +85,7 @@ const FLOATING_OFFSET_LOOSE = 10;   // Popover, PreviewCard
 const VIEWPORT_PADDING = 16;
 
 // Popover / Tooltip 화살표 SVG — base-ui Arrow wrapper의 children으로 전달.
-// viewBox를 SVG 픽셀 크기와 1:1 매핑(24×12)해 좌표 1단위 = 1px이 되도록 함 → stroke가
+// viewBox를 SVG 픽셀 크기와 1:1 매핑(16×9)해 좌표 1단위 = 1px이 되도록 함 → stroke가
 // 카드 hairline border(1px)와 정확히 같은 두께 유지. fill triangle은 closed path로 면을 채우고,
 // stroke는 baseline을 제외한 양 변만 open path로 그려, baseline 영역에서 fill canvas가
 // popover-card 보더 hairline을 자연스럽게 마스킹.

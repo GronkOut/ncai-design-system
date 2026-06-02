@@ -420,7 +420,7 @@ NCAI 시스템은 플랫(Flat)한 디자인을 기본으로 하되, 그림자를
 | `{ease.out-expo}` | `cubic-bezier(0.22, 1, 0.36, 1)` | Sheet · Drawer · 큰 슬라이드 — 극적 감속 |
 | `{ease.in-out}` | `cubic-bezier(0.4, 0, 0.2, 1)` | Slider/Switch thumb — 대칭 컨트롤 |
 
-`ease-out` 같은 CSS 표준 키워드는 토큰화하지 않습니다 — 일회성·짧은 사용(예: Popover 진입 페이드)은 키워드를 직접 사용합니다.
+`ease-out` 같은 CSS 표준 키워드는 토큰화하지 않습니다 — 일회성·짧은 사용(예: Tooltip 진입 페이드)은 키워드를 직접 사용합니다.
 
 
 
@@ -874,15 +874,16 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 - **트리거 위계**: 시각 비중이 가벼운 트리거가 원칙. **`icon-btn icon-btn--ghost icon-btn--sm`** (32×32 ghost icon button + `info` / `circle-help` 등 아이콘)이 가장 보편적인 패턴 — GitHub/Linear/Vercel 표준. *근거: Popover는 보조 정보 제공이지 main 액션이 아님. 트리거가 콘텐츠를 압도하면 modal 의도와 충돌합니다.*
 - **사이즈·타이포** (`.popover-card`):
   - `width: 260px`, `max-width: min(280px, var(--available-width))`.
-  - `padding: 16px 18px` — Tooltip(`8px 12px`)과 명확히 차별화되는 카드 톤 여유.
+  - `padding: {spacing.md}` (16px) — Tooltip(`8px 12px`)과 명확히 차별화되는 카드 톤 여유. 상하·좌우 동일 16px(spacing 스케일 토큰)로 통일해 비표준 18px 하드값을 제거.
   - `gap: 8px` — 제목과 본문 사이 spacing.
   - `border-radius: {radius.md}` (10px) — 정보 카드(`{radius.lg}` 16px)보다 한 단계 컴팩트한 떠 있는 패널 톤. *card-standard 그룹(`.accordion-item`, `.form-card`, `.fieldset`, `.preview-card`, `.modal-card`)에서 `.popover-card`를 분리해 독립 정의.*
+- **제목 텍스트** (`.popover-title`): `{typography.body-md}` weight 600 (16px) + color `{colors.ink}`. 단, line-height만 body-md 번들 기본(1.5)이 아니라 **1.30**(`title-sm` 행간)으로 좁힙니다. *근거: 제목은 단일 라인이 원칙이라(위 Title 규칙) 본문 행간 1.5를 그대로 쓰면 단일 라인 제목 박스가 불필요하게 커집니다. color는 본문(`.popover-copy` `body-muted`)보다 진한 `ink`로 제목↔본문 명암 위계를 형성 — body-muted 한 톤만으로는 제목·본문이 평평해집니다.*
 - **본문 텍스트** (`.popover-copy`): font-size **14px** (body-sm) + line-height 1.5 + color `{colors.body-muted}`. *근거: `modal-copy`(16px body-md)를 그대로 쓰면 좁은 보조 패널 위계를 침범합니다. popover-title(16px body-md weight 600)과의 강도 위계도 명확해집니다.*
 - **그림자**: **`{shadow.level-2}`** (`0 8px 24px rgba(15,23,42,0.12)`). *근거: Modal급 `{shadow.level-3}`은 main surface 위계로, 보조 패널인 Popover가 쓰면 무게가 어울리지 않습니다. border + level-2의 이중 광학 대비로 floating 표현은 충분.*
 - **컬러 (모드별)**:
   - **라이트**: 배경 `{colors.canvas}` + border `1px solid {colors.hairline}`.
   - **다크**: 배경 `{colors.surface-soft}` + border `rgba(255,255,255,0.10)` (translucent white overlay). Tooltip의 라이트/다크 **반전 패턴**과 달리 Popover는 surface 위계 톤을 유지합니다 — 인터랙티브 카드라 본문 가독성이 우선.
-- **Enter / Exit animation**: **fade-only** (`opacity 0→1`, `{motion.fast}` `ease-out`). **`scale(0.98)` 진입 transform 금지** — popup-arrow가 popup-card의 자식이라 scale에 따라 transform-origin 기준으로 1px 시각적으로 움직이는 부작용이 발생합니다. arrow를 가진 Popover 계열(`.popover-card` 등)이 이 규칙을 공유합니다. *근거: Tooltip은 자식 콘텐츠가 단일 텍스트뿐이라 scale이 자연스러운 인지 신호지만, Popover는 Arrow + 멀티라인 콘텐츠를 담은 카드라 scale이 alignment 정밀도를 깹니다.* `.date-picker-popover`는 arrow가 없어 이 제약에서 빠지고 방향 인식 세로 슬라이드를 씁니다 — 단, 트리거의 `:active` press scale을 꺼야 팝업이 끌려 좌우로 밀려 보이지 않습니다(Date Picker 섹션 참조).
+- **Enter / Exit animation**: **fade-only** (`opacity 0→1`, `{motion.fast}` `{ease.standard}`). **`scale(0.98)` 진입 transform 금지** — popup-arrow가 popup-card의 자식이라 scale에 따라 transform-origin 기준으로 1px 시각적으로 움직이는 부작용이 발생합니다. arrow를 가진 Popover 계열(`.popover-card` 등)이 이 규칙을 공유합니다. *근거: Tooltip은 자식 콘텐츠가 단일 텍스트뿐이라 scale이 자연스러운 인지 신호지만, Popover는 Arrow + 멀티라인 콘텐츠를 담은 카드라 scale이 alignment 정밀도를 깹니다.* `.date-picker-popover`는 arrow가 없어 이 제약에서 빠지고 방향 인식 세로 슬라이드를 씁니다 — 단, 트리거의 `:active` press scale을 꺼야 팝업이 끌려 좌우로 밀려 보이지 않습니다(Date Picker 섹션 참조).
 
 ##### Popover 금지 사항
 - 큰 솔리드 버튼 트리거(`button-primary`/`button-secondary` height 48) — modal/drawer 의도와 충돌.
