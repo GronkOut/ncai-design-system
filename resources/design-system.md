@@ -161,7 +161,7 @@ NCAI Design System의 컬러 토큰은 **Surface / Text / Semantic / Avatar**의
 | `card-standard` | `Canvas(#FFF)` 배경 + `hairline` 테두리 | `Surface Soft(#18191B)` 배경, **테두리 없음** |
 | `card-featured` | `Canvas(#FFF)` 배경 + `Level 2` 그림자 | `Surface Soft(#18191B)` 배경 + `Level 3` 그림자 |
 | `modal-card` (backdrop 있음) | `Canvas(#FFF)` 배경 + `Level 3` 그림자, **테두리 없음** | `Surface Soft(#18191B)` 배경 + `Level 3` 그림자, **테두리 없음** |
-| `popover-card` / `preview-card` (backdrop 없음) | `Canvas(#FFF)` 배경 + `hairline` 테두리 + `Level 3` 그림자 | `Surface Soft(#18191B)` 배경 + **`rgba(255,255,255,.10)` 테두리** + `Level 3` 그림자 |
+| `popover-card` / `preview-card` (backdrop 없음) | `Canvas(#FFF)` 배경 + `hairline` 테두리 + `Level 2` 그림자 | `Surface Soft(#18191B)` 배경 + **`rgba(255,255,255,.10)` 테두리** + `Level 2` 그림자 |
 | 섹션 배경 (`Surface Soft` 섹션) | `Surface Soft(#F9FAFB)` | **`Canvas(#111212)`** 로 반전하여 카드와 계층 확보 |
 
 

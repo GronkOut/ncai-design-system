@@ -3624,7 +3624,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
     var(--color-surface-soft);
 }
 
-/* Title ↔ body는 spacing-xs(8px)로 묶고, 미디어 ↔ 텍스트 묶음은 root grid gap(spacing-sm 12px)이 담당.
+/* Title ↔ body는 spacing-xs(8px)로 묶고, 미디어 ↔ 텍스트 묶음은 root grid gap(spacing-md 16px)이 담당.
    --stack-card-title-gap 규칙(card title → body)과 동일 위계. */
 .preview-card-text {
   display: grid;
