@@ -1243,7 +1243,7 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
   - 요일 헤더는 `{typography.caption}` / `{colors.body-muted}`.
   - 날짜 셀은 최소 44×44 터치 영역, `{typography.body-sm}`. 단, 선택/hover/today/focus 표시는 셀 전체를 채우지 않고 **중앙 36px 원형**으로만 그립니다 — 셀 전체를 칠하면 시각 무게가 과해 부담스럽기 때문(터치 영역 44는 유지, 시각 인디케이터만 축소).
   - 현재 달이 아닌 날짜는 `{colors.body-muted}` + 낮은 opacity로 표시합니다.
-  - 오늘 날짜는 1px `{colors.primary}` inset border 원형으로만 표시하고, 선택 상태와 구분합니다.
+  - 오늘 날짜는 1.5px `{colors.primary}` inset border 원형으로만 표시하고, 선택 상태와 구분합니다.
   - 해당 달에 필요한 주(row)만 렌더링합니다. 모든 달을 고정 6주로 채워 불필요한 다음 달 전체 행을 노출하지 않습니다.
 - **금지**
   - Base UI `Select` 대신 네이티브 `<select>`를 사용해 스타일/접근성 패턴을 분리하는 것.
@@ -1261,7 +1261,7 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
   - **크기**: 40×40 (`icon-btn--md`).
   - **아이콘**: `Minus` / `Plus`, **16px** (Icon Button 표준 20px에서 한 단계 작은 예외). *근거: Plus/Minus는 직선 1~2개로 구성된 단순 도형이라 같은 nominal 사이즈에서 Search/Settings 같은 디테일 있는 아이콘보다 시각 무게가 무겁게 인지됨. 입력값 옆 보조 컨트롤이라는 위계에 맞추기 위해 한 단계 줄임.* 텍스트 문자(`−` / `+`)를 직접 넣지 마세요 — 폰트 weight/정렬에 의존하면 시각 무게가 들쭉날쭉하고, `currentColor`를 받아 색 토큰 시스템을 따르지 못합니다.
   - **컬러**: ghost 기본 동작(`{colors.body}` → hover `{colors.ink}`). **`{colors.primary}` 채움 금지** — 스테퍼는 입력값을 보조하는 컨트롤이지 강조 액션이 아닙니다. 파란 채움/텍스트는 입력값과 시각적으로 경쟁합니다.
-- **Input**: 중앙 정렬(`text-align: center`), 보더 없음(그룹이 보더 담당), `min-height: 40px` — 스테퍼 버튼 높이와 같은 라인에 정렬되도록 텍스트 입력 기본값(48px)을 줄입니다. 좌우 패딩은 0(스테퍼와 4px gap이 시각적 여백을 담당).
+- **Input**: 중앙 정렬(`text-align: center`), 보더 없음(그룹이 보더 담당), `min-height: 40px` — 스테퍼 버튼 높이와 같은 라인에 정렬되도록 텍스트 입력 기본값(48px)을 줄입니다. 좌우 패딩은 `text-input` 상속값(`0 16px`)을 그대로 둡니다 — `text-align: center`라 좌우 16px이 대칭이므로 중앙 정렬된 숫자엔 영향이 없고, 시각적 여백은 스테퍼와의 4px gap이 담당합니다.
 - **Disabled (min/max 도달)**: Base UI `NumberField`가 한계값에서 자동으로 `data-disabled` + `disabled`를 부여하므로 별도 처리 불필요 — `.icon-btn[data-disabled]` 규칙에서 ghost variant disabled 시각(투명 + `{colors.body-muted}` 회색 아이콘 + `not-allowed`)이 적용됩니다.
 - **접근성**: 두 스테퍼 모두 `aria-label` 필수 (`"값 감소"` / `"값 증가"`). 키보드 ↑/↓는 Base UI `NumberField.Input`이 처리합니다.
 - **금지**
