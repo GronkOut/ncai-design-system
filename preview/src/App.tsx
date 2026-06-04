@@ -76,6 +76,7 @@ import listIcon from '@ncai/design-system-icons/icons/list.svg?raw';
 import listOrderedIcon from '@ncai/design-system-icons/icons/list-ordered.svg?raw';
 import undoIcon from '@ncai/design-system-icons/icons/undo-2.svg?raw';
 import redoIcon from '@ncai/design-system-icons/icons/redo-2.svg?raw';
+import circleAlertIcon from '@ncai/design-system-icons/icons/circle-alert.svg?raw';
 
 // === Floating element spacing tokens (styles.css의 --floating-* 와 동일 값) ===
 // Tooltip / Popover / Menu / Dropdown 등 anchored UI의 trigger 간격 / viewport 여백 강제.
@@ -84,7 +85,7 @@ const FLOATING_OFFSET_LOOSE = 10;   // Popover, PreviewCard
 const VIEWPORT_PADDING = 16;
 
 // Popover / Tooltip 화살표 SVG — base-ui Arrow wrapper의 children으로 전달.
-// viewBox를 SVG 픽셀 크기와 1:1 매핑(24×12)해 좌표 1단위 = 1px이 되도록 함 → stroke가
+// viewBox를 SVG 픽셀 크기와 1:1 매핑(16×9)해 좌표 1단위 = 1px이 되도록 함 → stroke가
 // 카드 hairline border(1px)와 정확히 같은 두께 유지. fill triangle은 closed path로 면을 채우고,
 // stroke는 baseline을 제외한 양 변만 open path로 그려, baseline 영역에서 fill canvas가
 // popover-card 보더 hairline을 자연스럽게 마스킹.
@@ -268,7 +269,7 @@ export function App() {
             </section>
 
             <div className="component-grid">
-              <PreviewSection title="Typography" description="Linear Display/Text/Mono — 16개 타이포그래피 토큰." wide>
+              <PreviewSection title="Typography" description="Pretendard Variable / Geist Mono" wide>
                 <div className="type-scale">
                   {[
                     { token: 'display-xl', size: '80 / 600', sample: '최상위 히어로 제목' },
@@ -583,7 +584,9 @@ export function App() {
                             </Dialog.Close>
                           </div>
                         </div>
-                        <div className="modal-list">
+                        <ScrollArea.Root className="modal-browse-scroll">
+                          <ScrollArea.Viewport className="scroll-area-viewport">
+                            <div className="modal-list">
                           {Array.from({ length: 14 }).map((_, i) => (
                             <div key={i} className="modal-list-item">
                               <div className="modal-list-item-main">
@@ -596,7 +599,12 @@ export function App() {
                               </div>
                             </div>
                           ))}
-                        </div>
+                            </div>
+                          </ScrollArea.Viewport>
+                          <ScrollArea.Scrollbar className="scrollbar" orientation="vertical">
+                            <ScrollArea.Thumb className="scroll-thumb" />
+                          </ScrollArea.Scrollbar>
+                        </ScrollArea.Root>
                       </Dialog.Popup>
                     </Dialog.Portal>
                   </Dialog.Root>
@@ -617,25 +625,25 @@ export function App() {
                       <ul className="bottom-sheet-list">
                         <li>
                           <Dialog.Close className="bottom-sheet-option">
-                            <Icon svg={copyIcon} className="icon-inline icon-ink" size={16} />
+                            <Icon svg={copyIcon} className="icon-inline icon-ink" size={20} />
                             <span>링크 복사</span>
                           </Dialog.Close>
                         </li>
                         <li>
                           <Dialog.Close className="bottom-sheet-option">
-                            <Icon svg={mailIcon} className="icon-inline icon-ink" size={16} />
+                            <Icon svg={mailIcon} className="icon-inline icon-ink" size={20} />
                             <span>이메일로 보내기</span>
                           </Dialog.Close>
                         </li>
                         <li>
                           <Dialog.Close className="bottom-sheet-option">
-                            <Icon svg={userIcon} className="icon-inline icon-ink" size={16} />
+                            <Icon svg={userIcon} className="icon-inline icon-ink" size={20} />
                             <span>팀 멤버에게 공유</span>
                           </Dialog.Close>
                         </li>
                         <li>
                           <Dialog.Close className="bottom-sheet-option">
-                            <Icon svg={downloadIcon} className="icon-inline icon-ink" size={16} />
+                            <Icon svg={downloadIcon} className="icon-inline icon-ink" size={20} />
                             <span>PDF로 내보내기</span>
                           </Dialog.Close>
                         </li>
@@ -699,7 +707,7 @@ export function App() {
                 </div>
                 <div className="avatar-row">
                   <Avatar.Root className="avatar avatar-lg avatar-azure">
-                    <Avatar.Fallback>김</Avatar.Fallback>
+                    <Avatar.Fallback>엔씨</Avatar.Fallback>
                   </Avatar.Root>
                   <div>
                     <strong>김엔씨</strong>
@@ -710,18 +718,35 @@ export function App() {
 
               <PreviewSection title="Badge" description="Semantic Status Palette를 적용한 상태 표시 Badge">
                 <div className="badge-demo">
-                  <div className="badge-row">
-                    <span className="badge badge-success">완료</span>
-                    <span className="badge badge-info">진행중</span>
-                    <span className="badge badge-warning">대기</span>
-                    <span className="badge badge-error">중단</span>
-                    <span className="badge badge-neutral">백로그</span>
-                    <span className="badge badge-ink">신규</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Tint Type</span>
+                    <div className="badge-row">
+                      <span className="badge badge-success">완료</span>
+                      <span className="badge badge-info">진행중</span>
+                      <span className="badge badge-info">실행중</span>
+                      <span className="badge badge-warning">대기중</span>
+                      <span className="badge badge-warning">일시정지</span>
+                      <span className="badge badge-error">실패</span>
+                      <span className="badge badge-error">오류</span>
+                      <span className="badge badge-neutral">중단</span>
+                      <span className="badge badge-neutral">보류</span>
+                      <span className="badge badge-neutral">제안중</span>
+                    </div>
                   </div>
-                  <div className="badge-row">
-                    <span className="badge badge-success"><span className="badge-dot" />실행 중</span>
-                    <span className="badge badge-warning"><span className="badge-dot" />일시정지</span>
-                    <span className="badge badge-neutral"><span className="badge-dot" />중지됨</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Dot Type</span>
+                    <div className="badge-row">
+                      <span className="badge badge-success"><span className="badge-dot" />완료</span>
+                      <span className="badge badge-info"><span className="badge-dot" />진행중</span>
+                      <span className="badge badge-info"><span className="badge-dot" />실행중</span>
+                      <span className="badge badge-warning"><span className="badge-dot" />대기중</span>
+                      <span className="badge badge-warning"><span className="badge-dot" />일시정지</span>
+                      <span className="badge badge-error"><span className="badge-dot" />실패</span>
+                      <span className="badge badge-error"><span className="badge-dot" />오류</span>
+                      <span className="badge badge-neutral"><span className="badge-dot" />중단</span>
+                      <span className="badge badge-neutral"><span className="badge-dot" />보류</span>
+                      <span className="badge badge-neutral"><span className="badge-dot" />제안중</span>
+                    </div>
                   </div>
                 </div>
               </PreviewSection>
@@ -1045,7 +1070,7 @@ export function App() {
 
               <PreviewSection
                 title="Date Picker"
-                description="Calendar와 Popover를 조합한 날짜 선택 패턴. 선택값은 버튼에 요약되고 팝오버 안에서 월 단위로 탐색합니다."
+                description={"Calendar와 Popover를 조합한 날짜 선택 패턴. \n 선택값은 버튼에 요약되고 팝오버 안에서 월 단위로 탐색합니다."}
               >
                 <DatePickerDemo />
               </PreviewSection>
@@ -1064,37 +1089,41 @@ export function App() {
                             수신 방식과 빈도를 선택합니다.
                           </Drawer.Description>
                         </div>
-                        <Drawer.Close className="drawer-close" aria-label="닫기">
-                          <Icon svg={xIcon} className="icon-inline icon-muted" size={18} />
+                        <Drawer.Close className="icon-btn icon-btn--md icon-btn--ghost" aria-label="닫기">
+                          <Icon svg={xIcon} size={16} />
                         </Drawer.Close>
                       </header>
-                      <div className="drawer-body">
+                      <ScrollArea.Root className="drawer-body">
+                        <ScrollArea.Viewport className="scroll-area-viewport">
+                          <div className="drawer-body-content">
                         <div className="drawer-field-group">
                           <span className="drawer-field-group-label">수신 채널</span>
-                          <label className="check-row">
-                            <Checkbox.Root defaultChecked className="checkbox">
-                              <Checkbox.Indicator className="check-indicator">
-                                <CheckmarkSvg />
-                              </Checkbox.Indicator>
-                            </Checkbox.Root>
-                            이메일
-                          </label>
-                          <label className="check-row">
-                            <Checkbox.Root className="checkbox">
-                              <Checkbox.Indicator className="check-indicator">
-                                <CheckmarkSvg />
-                              </Checkbox.Indicator>
-                            </Checkbox.Root>
-                            푸시 알림
-                          </label>
-                          <label className="check-row">
-                            <Checkbox.Root defaultChecked className="checkbox">
-                              <Checkbox.Indicator className="check-indicator">
-                                <CheckmarkSvg />
-                              </Checkbox.Indicator>
-                            </Checkbox.Root>
-                            인앱 메시지
-                          </label>
+                          <CheckboxGroup className="choice-stack" defaultValue={['email', 'inapp']}>
+                            <label className="check-row">
+                              <Checkbox.Root value="email" className="checkbox">
+                                <Checkbox.Indicator className="check-indicator">
+                                  <CheckmarkSvg />
+                                </Checkbox.Indicator>
+                              </Checkbox.Root>
+                              이메일
+                            </label>
+                            <label className="check-row">
+                              <Checkbox.Root value="push" className="checkbox">
+                                <Checkbox.Indicator className="check-indicator">
+                                  <CheckmarkSvg />
+                                </Checkbox.Indicator>
+                              </Checkbox.Root>
+                              푸시 알림
+                            </label>
+                            <label className="check-row">
+                              <Checkbox.Root value="inapp" className="checkbox">
+                                <Checkbox.Indicator className="check-indicator">
+                                  <CheckmarkSvg />
+                                </Checkbox.Indicator>
+                              </Checkbox.Root>
+                              인앱 메시지
+                            </label>
+                          </CheckboxGroup>
                         </div>
                         <div className="drawer-field-group">
                           <span className="drawer-field-group-label">빈도</span>
@@ -1119,7 +1148,12 @@ export function App() {
                             </label>
                           </RadioGroup>
                         </div>
-                      </div>
+                          </div>
+                        </ScrollArea.Viewport>
+                        <ScrollArea.Scrollbar className="scrollbar" orientation="vertical">
+                          <ScrollArea.Thumb className="scroll-thumb" />
+                        </ScrollArea.Scrollbar>
+                      </ScrollArea.Root>
                       <footer className="drawer-footer">
                         <Drawer.Close className="button-secondary">취소</Drawer.Close>
                         <Drawer.Close className="button-primary">저장</Drawer.Close>
@@ -1171,8 +1205,51 @@ export function App() {
                 </Form>
               </PreviewSection>
 
+              <PreviewSection
+                title="Form — 섹션 + 제출 에러 요약"
+                description="Fieldset 섹션 간 32px 간격과 폼 상단 제출 에러 요약(badge-error 톤)."
+              >
+                <Form className="form-card" onSubmit={(event) => event.preventDefault()}>
+                  <p className="form-error-summary" role="alert">
+                    <Icon svg={circleAlertIcon} size={16} />
+                    제출하지 못했습니다 — 아래 항목을 확인해 주세요.
+                  </p>
+                  <Fieldset.Root className="fieldset">
+                    <Fieldset.Legend className="fieldset-legend">계정 정보</Fieldset.Legend>
+                    <Field.Root name="email-account" className="field-root">
+                      <Field.Label className="field-label">이메일</Field.Label>
+                      <ClearableInput as={Field.Control} type="email" placeholder="nc@ncsoft.com" />
+                    </Field.Root>
+                    <Field.Root name="phone" className="field-root">
+                      <Field.Label className="field-label">연락처</Field.Label>
+                      <ClearableInput as={Field.Control} placeholder="010-0000-0000" />
+                    </Field.Root>
+                  </Fieldset.Root>
+                  <Fieldset.Root className="fieldset">
+                    <Fieldset.Legend className="fieldset-legend">알림 설정</Fieldset.Legend>
+                    <RadioGroup name="notification-pref" defaultValue="email" className="choice-stack">
+                      <label className="check-row">
+                        <Radio.Root value="email" className="radio">
+                          <Radio.Indicator className="radio-indicator" />
+                        </Radio.Root>
+                        이메일 알림
+                      </label>
+                      <label className="check-row">
+                        <Radio.Root value="push" className="radio">
+                          <Radio.Indicator className="radio-indicator" />
+                        </Radio.Root>
+                        푸시 알림
+                      </label>
+                    </RadioGroup>
+                  </Fieldset.Root>
+                  <Button type="submit" className="button-primary">
+                    제출
+                  </Button>
+                </Form>
+              </PreviewSection>
+
               <PreviewSection title="Input" description="독립형 텍스트 입력 필드.">
-                <ClearableInput className="search-input" placeholder="컴포넌트 검색" />
+                <ClearableInput placeholder="컴포넌트 검색" />
               </PreviewSection>
 
               <PreviewSection
@@ -1205,16 +1282,10 @@ export function App() {
                 </Menu.Root>
               </PreviewSection>
 
-              <PreviewSection title="Meter" description="경계가 있는 측정 인디케이터.">
-                <Meter.Root value={72} min={0} max={100} className="meter-root">
-                  <div className="meter-meta">
-                    <Meter.Label className="meter-label">리소스 사용량</Meter.Label>
-                    <Meter.Value className="meter-value" />
-                  </div>
-                  <Meter.Track className="meter-track">
-                    <Meter.Indicator className="meter-indicator" />
-                  </Meter.Track>
-                </Meter.Root>
+              <PreviewSection title="Meter" description="경계가 있는 측정 인디케이터. 값이 임계치를 넘으면 색이 자동 전환됩니다 — 80%↑ 경고(주황), 95%↑ 위험(빨강).">
+                <MeterDemo label="리소스 사용량" value={72} />
+                <MeterDemo label="디스크 사용량" value={88} />
+                <MeterDemo label="메모리 사용량" value={97} />
               </PreviewSection>
 
               <PreviewSection title="Navigation Menu" description="미리보기 콘텐츠가 포함된 사이트 내비게이션.">
@@ -1226,15 +1297,15 @@ export function App() {
                         <Icon svg={chevronDownIcon} className="nav-menu-icon" size={14} />
                       </NavigationMenu.Trigger>
                       <NavigationMenu.Content className="nav-menu-content">
-                        <NavigationMenu.Link className="nav-menu-feature" href="#gallery">
+                        <NavigationMenu.Link className="nav-menu-feature">
                           <span className="nav-menu-title">AI 어시스턴트</span>
                           <span className="nav-menu-desc">자연어 기반 인터페이스의 시각 컴포넌트를 미리 확인하세요.</span>
                         </NavigationMenu.Link>
-                        <NavigationMenu.Link className="nav-menu-link" href="#gallery">
+                        <NavigationMenu.Link className="nav-menu-link">
                           <span className="nav-menu-title">디자인 시스템</span>
                           <span className="nav-menu-desc">토큰 기반 컴포넌트 라이브러리와 CSS 아키텍처.</span>
                         </NavigationMenu.Link>
-                        <NavigationMenu.Link className="nav-menu-link" href="#gallery">
+                        <NavigationMenu.Link className="nav-menu-link">
                           <span className="nav-menu-title">아이콘 패키지</span>
                           <span className="nav-menu-desc">1,509개 SVG 아이콘, currentColor 정규화 완료.</span>
                         </NavigationMenu.Link>
@@ -1246,15 +1317,15 @@ export function App() {
                         <Icon svg={chevronDownIcon} className="nav-menu-icon" size={14} />
                       </NavigationMenu.Trigger>
                       <NavigationMenu.Content className="nav-menu-content nav-menu-content-compact">
-                        <NavigationMenu.Link className="nav-menu-link" data-active href="#tokens">
+                        <NavigationMenu.Link className="nav-menu-link" data-active>
                           <span className="nav-menu-title">토큰</span>
                           <span className="nav-menu-desc">색상, 반경, 간격, 그림자 변수.</span>
                         </NavigationMenu.Link>
-                        <NavigationMenu.Link className="nav-menu-link" href="#gallery">
+                        <NavigationMenu.Link className="nav-menu-link">
                           <span className="nav-menu-title">컴포넌트</span>
                           <span className="nav-menu-desc">NCAI 스타일이 적용된 Base UI 프리미티브.</span>
                         </NavigationMenu.Link>
-                        <NavigationMenu.Link className="nav-menu-link" href="#gallery">
+                        <NavigationMenu.Link className="nav-menu-link">
                           <span className="nav-menu-title">패턴</span>
                           <span className="nav-menu-desc">재사용 가능한 인터랙션 및 레이아웃 예제.</span>
                         </NavigationMenu.Link>
@@ -1266,15 +1337,20 @@ export function App() {
                         <Icon svg={chevronDownIcon} className="nav-menu-icon" size={14} />
                       </NavigationMenu.Trigger>
                       <NavigationMenu.Content className="nav-menu-content nav-menu-content-compact">
-                        <NavigationMenu.Link className="nav-menu-link" href="#gallery">
+                        <NavigationMenu.Link className="nav-menu-link">
                           <span className="nav-menu-title">미리보기 가이드</span>
                           <span className="nav-menu-desc">이 페이지로 디자인 변경을 감사하세요.</span>
                         </NavigationMenu.Link>
-                        <NavigationMenu.Link className="nav-menu-link" href="#gallery">
+                        <NavigationMenu.Link className="nav-menu-link">
                           <span className="nav-menu-title">아이콘 패키지</span>
                           <span className="nav-menu-desc">프로덕트용 설치 가능한 SVG 에셋.</span>
                         </NavigationMenu.Link>
                       </NavigationMenu.Content>
+                    </NavigationMenu.Item>
+                    <NavigationMenu.Item>
+                      <NavigationMenu.Link className="nav-menu-trigger">
+                        문서
+                      </NavigationMenu.Link>
                     </NavigationMenu.Item>
                   </NavigationMenu.List>
                   <NavigationMenu.Portal>
@@ -1402,6 +1478,20 @@ export function App() {
                     </label>
                   ))}
                 </RadioGroup>
+                <RadioGroup className="choice-stack" name="radio-disabled" defaultValue="on" aria-label="비활성 상태">
+                  <label className="check-row">
+                    <Radio.Root value="on" disabled className="radio">
+                      <Radio.Indicator className="radio-indicator" />
+                    </Radio.Root>
+                    선택 + 비활성
+                  </label>
+                  <label className="check-row">
+                    <Radio.Root value="off" disabled className="radio">
+                      <Radio.Indicator className="radio-indicator" />
+                    </Radio.Root>
+                    미선택 + 비활성
+                  </label>
+                </RadioGroup>
               </PreviewSection>
 
               <PreviewSection title="Scroll Area" description="밀도 높은 콘텐츠를 위한 커스텀 스크롤 영역.">
@@ -1490,13 +1580,18 @@ export function App() {
                           <div className="drawer-header-text">
                             <Drawer.Title className="modal-title">NCAI Design</Drawer.Title>
                           </div>
-                          <Drawer.Close className="drawer-close" aria-label="닫기">
-                            <Icon svg={xIcon} className="icon-inline icon-muted" size={18} />
+                          <Drawer.Close className="icon-btn icon-btn--md icon-btn--ghost" aria-label="닫기">
+                            <Icon svg={xIcon} size={16} />
                           </Drawer.Close>
                         </header>
-                        <div className="drawer-body" style={{ padding: 0 }}>
-                          <SidebarDemo />
-                        </div>
+                        <ScrollArea.Root className="drawer-body">
+                          <ScrollArea.Viewport className="scroll-area-viewport">
+                            <SidebarDemo />
+                          </ScrollArea.Viewport>
+                          <ScrollArea.Scrollbar className="scrollbar" orientation="vertical">
+                            <ScrollArea.Thumb className="scroll-thumb" />
+                          </ScrollArea.Scrollbar>
+                        </ScrollArea.Root>
                       </Drawer.Popup>
                       </Drawer.Viewport>
                     </Drawer.Portal>
@@ -1560,7 +1655,7 @@ export function App() {
                       <tr>
                         <td>박소연</td>
                         <td>PM</td>
-                        <td><span className="badge badge-error">중단</span></td>
+                        <td><span className="badge badge-error">정지</span></td>
                       </tr>
                     </tbody>
                   </table>
@@ -1790,6 +1885,21 @@ function PreviewSection({
   );
 }
 
+function MeterDemo({ label, value }: { label: string; value: number }) {
+  const range = value >= 95 ? 'error' : value >= 80 ? 'warning' : 'success';
+  return (
+    <Meter.Root value={value} min={0} max={100} className="meter-root">
+      <div className="meter-meta">
+        <Meter.Label className="meter-label">{label}</Meter.Label>
+        <Meter.Value className="meter-value" />
+      </div>
+      <Meter.Track className="meter-track">
+        <Meter.Indicator className={`meter-indicator meter-indicator--${range}`} />
+      </Meter.Track>
+    </Meter.Root>
+  );
+}
+
 function ToolbarAlignmentSegment() {
   const [value, setValue] = React.useState<string[]>(['left']);
   return (
@@ -1968,7 +2078,7 @@ function DatePickerDemo() {
             aria-label={selectedDate ? `선택된 날짜: ${selectedLabel}` : '날짜 선택'}
           >
             <Icon svg={calendarIcon} size={18} />
-            <span>{selectedLabel}</span>
+            <span data-placeholder={!selectedDate || undefined}>{selectedLabel}</span>
           </Popover.Trigger>
           <DatePickerPopover visibleMonth={visibleMonth} onVisibleMonthChange={setVisibleMonth}>
             <CalendarGrid
@@ -1992,7 +2102,7 @@ function DatePickerDemo() {
             aria-label={`선택된 날짜 구간: ${rangeLabel}`}
           >
             <Icon svg={calendarIcon} size={18} />
-            <span>{rangeLabel}</span>
+            <span data-placeholder={!selectedRange.from || undefined}>{rangeLabel}</span>
           </Popover.Trigger>
           <DatePickerPopover visibleMonth={rangeVisibleMonth} onVisibleMonthChange={setRangeVisibleMonth}>
             <CalendarGrid
@@ -2005,6 +2115,22 @@ function DatePickerDemo() {
                 )
               }
               isInRange={(day) => Boolean(selectedRange.from && selectedRange.to && isDateBetween(day, selectedRange.from, selectedRange.to))}
+              isRangeStart={(day) =>
+                Boolean(
+                  selectedRange.from &&
+                    selectedRange.to &&
+                    !isSameDay(selectedRange.from, selectedRange.to) &&
+                    isSameDay(day, selectedRange.from)
+                )
+              }
+              isRangeEnd={(day) =>
+                Boolean(
+                  selectedRange.from &&
+                    selectedRange.to &&
+                    !isSameDay(selectedRange.from, selectedRange.to) &&
+                    isSameDay(day, selectedRange.to)
+                )
+              }
               onSelect={handleRangeSelect}
             />
           </DatePickerPopover>
@@ -2032,9 +2158,6 @@ function DatePickerPopover({
         collisionPadding={VIEWPORT_PADDING}
       >
         <Popover.Popup className="date-picker-popover">
-          <Popover.Arrow className="popup-arrow">
-            <PopupArrowGlyph />
-          </Popover.Arrow>
           <Popover.Title className="date-picker-caption">
             <button
               type="button"
@@ -2140,12 +2263,16 @@ function CalendarGrid({
   visibleMonth,
   isSelected,
   isInRange,
+  isRangeStart,
+  isRangeEnd,
   onSelect
 }: {
   days: Date[];
   visibleMonth: Date;
   isSelected: (day: Date) => boolean;
   isInRange?: (day: Date) => boolean;
+  isRangeStart?: (day: Date) => boolean;
+  isRangeEnd?: (day: Date) => boolean;
   onSelect: (day: Date) => void;
 }) {
   return (
@@ -2169,12 +2296,14 @@ function CalendarGrid({
             data-outside-month={!isCurrentMonth || undefined}
             data-selected={selected || undefined}
             data-in-range={inRange || undefined}
+            data-range-start={isRangeStart?.(day) || undefined}
+            data-range-end={isRangeEnd?.(day) || undefined}
             data-today={isToday || undefined}
             aria-label={dateFormatter.format(day)}
             aria-pressed={selected}
             onClick={() => onSelect(day)}
           >
-            {day.getDate()}
+            <span className="date-picker-day-label">{day.getDate()}</span>
           </button>
         );
       })}

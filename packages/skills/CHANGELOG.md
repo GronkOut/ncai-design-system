@@ -1,5 +1,17 @@
 # @ncai/design-system-skills
 
+## 0.7.0
+
+### Minor Changes
+
+- Refine design-system.md spec, live preview, and skill guidance:
+
+  - Add a self-contained Build Reference (§0–§4) as the single entry point for code/AI generation — token→CSS variable mapping plus copy-paste component recipes.
+  - Split semantic colors into solid fill vs `-text` tokens (success/warning/error) and add `semantic-error-hover`; warning text `#fd982a` → `#eb8e02`.
+  - Redefine Badge taxonomy: Tint/Dot types, 중단(neutral) ↔ 정지(error) valence split, 백로그 → 제안중.
+  - Align Date Picker, Select, Drawer, Field/Form, Navigation Menu, Popover, Radio, Avatar, and others to the live preview; unify focus borders to 1.5px primary and tidy disabled tokens.
+  - Sync SKILL.md token list with the new semantic/disabled tokens.
+
 ## 0.6.0
 
 ### Minor Changes
