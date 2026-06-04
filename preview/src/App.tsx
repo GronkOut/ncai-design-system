@@ -584,7 +584,9 @@ export function App() {
                             </Dialog.Close>
                           </div>
                         </div>
-                        <div className="modal-list">
+                        <ScrollArea.Root className="modal-browse-scroll">
+                          <ScrollArea.Viewport className="scroll-area-viewport">
+                            <div className="modal-list">
                           {Array.from({ length: 14 }).map((_, i) => (
                             <div key={i} className="modal-list-item">
                               <div className="modal-list-item-main">
@@ -597,7 +599,12 @@ export function App() {
                               </div>
                             </div>
                           ))}
-                        </div>
+                            </div>
+                          </ScrollArea.Viewport>
+                          <ScrollArea.Scrollbar className="scrollbar" orientation="vertical">
+                            <ScrollArea.Thumb className="scroll-thumb" />
+                          </ScrollArea.Scrollbar>
+                        </ScrollArea.Root>
                       </Dialog.Popup>
                     </Dialog.Portal>
                   </Dialog.Root>
@@ -715,12 +722,12 @@ export function App() {
                     <span className="badge badge-success">완료</span>
                     <span className="badge badge-info">진행중</span>
                     <span className="badge badge-warning">대기</span>
-                    <span className="badge badge-error">중단</span>
+                    <span className="badge badge-error">실패</span>
                     <span className="badge badge-neutral">백로그</span>
                     <span className="badge badge-ink">신규</span>
                   </div>
                   <div className="badge-row">
-                    <span className="badge badge-success"><span className="badge-dot" />실행 중</span>
+                    <span className="badge badge-info"><span className="badge-dot" />실행 중</span>
                     <span className="badge badge-warning"><span className="badge-dot" />일시정지</span>
                     <span className="badge badge-neutral"><span className="badge-dot" />중지됨</span>
                   </div>
@@ -1069,7 +1076,9 @@ export function App() {
                           <Icon svg={xIcon} size={16} />
                         </Drawer.Close>
                       </header>
-                      <div className="drawer-body">
+                      <ScrollArea.Root className="drawer-body">
+                        <ScrollArea.Viewport className="scroll-area-viewport">
+                          <div className="drawer-body-content">
                         <div className="drawer-field-group">
                           <span className="drawer-field-group-label">수신 채널</span>
                           <CheckboxGroup className="choice-stack" defaultValue={['email', 'inapp']}>
@@ -1122,7 +1131,12 @@ export function App() {
                             </label>
                           </RadioGroup>
                         </div>
-                      </div>
+                          </div>
+                        </ScrollArea.Viewport>
+                        <ScrollArea.Scrollbar className="scrollbar" orientation="vertical">
+                          <ScrollArea.Thumb className="scroll-thumb" />
+                        </ScrollArea.Scrollbar>
+                      </ScrollArea.Root>
                       <footer className="drawer-footer">
                         <Drawer.Close className="button-secondary">취소</Drawer.Close>
                         <Drawer.Close className="button-primary">저장</Drawer.Close>
@@ -1553,9 +1567,14 @@ export function App() {
                             <Icon svg={xIcon} size={16} />
                           </Drawer.Close>
                         </header>
-                        <div className="drawer-body" style={{ padding: 0 }}>
-                          <SidebarDemo />
-                        </div>
+                        <ScrollArea.Root className="drawer-body">
+                          <ScrollArea.Viewport className="scroll-area-viewport">
+                            <SidebarDemo />
+                          </ScrollArea.Viewport>
+                          <ScrollArea.Scrollbar className="scrollbar" orientation="vertical">
+                            <ScrollArea.Thumb className="scroll-thumb" />
+                          </ScrollArea.Scrollbar>
+                        </ScrollArea.Root>
                       </Drawer.Popup>
                       </Drawer.Viewport>
                     </Drawer.Portal>

@@ -40,13 +40,10 @@
   --color-primary-hover: #005bed;
 
   /* === SEMANTIC ===
-     단일 팔레트로 운영. Success만 두 변형(전통 녹색 / Primary 블루 brand)을 제공합니다.
-     - Status Success (녹): 활성·정상 뱃지, 일반 성공 알림
-     - Brand Success (Primary): 폼 유효 입력, 브랜드 일관성이 중요한 확정 액션 */
+     단일 팔레트로 운영. Success(녹)는 활성·정상 뱃지, 일반 성공 알림에 사용합니다. */
   --color-semantic-success: #00d954;          /* 선명한 그린 — Meter/Progress 바 등 fill 전용 */
   --color-semantic-success-bg: #ecfeea;       /* 옅은 연두 틴트 — success 뱃지/알림 배경 */
   --color-semantic-success-text: #00ae1a;     /* 컬러 글씨 전용 — vivid 그린 */
-  --color-semantic-success-brand: var(--color-primary); /* Primary Blue 별칭 — 라이트/다크 자동 적응 */
   --color-semantic-error: #f33942;
   --color-semantic-error-hover: #e0343d;       /* button-danger hover — primary→primary-hover와 동일한 톤 다운 패턴 */
   --color-semantic-error-bg: #fff5f7;          /* 옅은 rose 틴트 — error 뱃지/알림 배경 */
@@ -2085,13 +2082,19 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   flex-shrink: 0;
 }
 /* Browse variant — 긴 리스트의 스크롤 영역.
-   카드 자체 max-height을 두고, 리스트 영역만 overflow.
-   카드 패딩이 0이므로 hairline은 자연스럽게 카드 가장자리까지 그어집니다. */
+   ScrollArea 뷰포트가 부모를 absolute로 채우므로(스크롤 컨테이너가 되려면 높이가 확정돼야 함)
+   카드에 확정 height를 부여합니다. 긴 리스트는 항상 이 높이를 넘겨 내부만 스크롤됩니다.
+   카드 패딩이 0이므로 hairline은 자연스럽게 카드 가장자리까지 그어지며,
+   overflow:hidden으로 카드 radius가 스크롤 영역 모서리를 클리핑합니다. */
 .modal-card.modal-browse {
-  max-height: min(720px, calc(100vh - 64px));
+  height: min(720px, calc(100vh - 64px));
+  overflow: hidden;
 }
-.modal-card.modal-browse .modal-list {
-  overflow-y: auto;
+.modal-browse-scroll {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 /* Responsive Sheet — Modal ↔ BottomSheet 반응형 페어.
@@ -2355,7 +2358,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   background: transparent;
   padding: var(--spacing-md);
   width: 100%;
-  height: 100%;
+  min-height: 100%;
 }
 
 /* Drawer-left header — 사이드바 아이템 라벨 시작점에 정렬
@@ -2427,13 +2430,19 @@ html[data-theme="dark"] .bottom-sheet-handle {
   margin-right: calc(-1 * var(--spacing-sm));
 }
 
+/* Drawer body — ScrollArea.Root 역할. 실제 패딩/레이아웃은 .drawer-body-content가 담당 */
 .drawer-body {
+  position: relative;
   flex: 1;
-  overflow-y: auto;
-  padding: var(--spacing-xl) var(--spacing-xxl);
+  min-height: 0;
+  overflow: hidden;
+}
+
+.drawer-body-content {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xl);
+  padding: var(--spacing-xl) var(--spacing-xxl);
 }
 
 .drawer-footer {
@@ -3748,6 +3757,7 @@ html[data-theme="dark"] .bottom-sheet-handle {
   width: 100%;
   height: 100%;
   padding: 20px;
+  overscroll-behavior: contain;
 }
 
 .scroll-viewport p {
@@ -3760,22 +3770,63 @@ html[data-theme="dark"] .bottom-sheet-handle {
   color: var(--color-ink);
 }
 
+/* 공용 ScrollArea viewport — Drawer/Modal 등에 ScrollArea를 얹을 때 재사용.
+   부모 높이가 flex로 정해지는 컨테이너에서도 확실히 채우도록 absolute inset:0 사용
+   (height:100%는 flex 부모에서 백분율 해소가 보장되지 않아 콘텐츠 높이로 늘어남). */
+.scroll-area-viewport {
+  position: absolute;
+  inset: 0;
+  overscroll-behavior: contain;
+}
+
+/* Scrollbar(track) — 평소 투명·숨김. hover/scroll 시 노출. 폭은 6px 고정(확대 없음).
+   thumb은 영역 이탈 후 600ms 뒤 fade-out(auto-hide). */
 .scrollbar {
-  width: 8px;
-  padding: 2px;
-  margin: var(--spacing-sm) var(--spacing-xxs);
-  background: transparent;
+  display: flex;
+  margin: var(--spacing-xs) var(--spacing-xxs);
+  border-radius: var(--radius-pill);
+  opacity: 0;
+  touch-action: none;
+  transition: opacity var(--motion-fast) var(--ease-standard) 600ms;
+}
+
+.scrollbar[data-orientation='vertical'] {
+  width: 6px;
+}
+
+.scrollbar[data-orientation='horizontal'] {
+  flex-direction: column;
+  height: 6px;
+}
+
+/* 노출 — hover(영역 위) 또는 scroll(휠/키보드) 중. 즉시 보이고 delay 0 */
+.scrollbar[data-hovering],
+.scrollbar[data-scrolling] {
+  opacity: 1;
+  transition-delay: 0ms;
 }
 
 .scroll-thumb {
   border-radius: var(--radius-pill);
   background: var(--color-body-muted);
-  opacity: 0.35;
+  opacity: 0.4;
   transition: opacity var(--motion-fast) var(--ease-standard);
 }
 
+.scrollbar[data-orientation='vertical'] .scroll-thumb {
+  width: 100%;
+}
+
+.scrollbar[data-orientation='horizontal'] .scroll-thumb {
+  height: 100%;
+}
+
 .scroll-thumb:hover {
-  opacity: 0.65;
+  opacity: 0.6;
+}
+
+.scroll-thumb:active {
+  opacity: 0.8;
 }
 
 /* ============================================================
