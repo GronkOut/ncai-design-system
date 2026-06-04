@@ -700,7 +700,7 @@ export function App() {
                 </div>
                 <div className="avatar-row">
                   <Avatar.Root className="avatar avatar-lg avatar-azure">
-                    <Avatar.Fallback>김</Avatar.Fallback>
+                    <Avatar.Fallback>엔씨</Avatar.Fallback>
                   </Avatar.Root>
                   <div>
                     <strong>김엔씨</strong>

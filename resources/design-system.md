@@ -1127,6 +1127,7 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
 - **Shape**: `{radius.full}` (50%). 정사각 컨테이너에 이미지/이니셜 중앙 정렬.
 - **Sizes**: `.avatar` 40px(기본) / `.avatar-lg` 64px. 두 단계 체제 — 일반 식별 마크는 기본 40, 프로필 헤더·강조 영역은 64.
 - **Typography**: 이니셜은 컨테이너 폭의 **40%** 크기 / weight 600 / Avatar 팔레트의 Text 컬러. (40 → 16px, 64 → 26px)
+- **Initials (이니셜 추출)**: 한글 이름은 **성(첫 글자)을 빼고 이름만** 표시합니다 — 기본 가정은 *성 1자 + 이름 2자*이므로 `김엔씨` → `엔씨`. 성씨(김·이·박 등 동성 다수)보다 이름이 변별력 있는 식별 신호이기 때문입니다. (복성·비한글 이름 등 예외는 현재 단순화하여 다루지 않습니다.)
 - **Image Fallback**: 이미지가 없거나 로드 실패 시 이니셜로 자동 폴백 (Base UI `Avatar.Fallback`). 이미지는 기본 40 사이즈에서 주로 사용하고, `.avatar-lg`(64)는 현재 이니셜 전용으로 운영합니다.
 - **금지**: Semantic 팔레트(Success/Warning/Error) 컬러를 아바타에 사용 금지 — 상태 정보로 오인됨. 그림자, 외곽 링도 사용하지 않습니다. 또한 `avatar-*` 토큰/클래스를 Avatar 외부에 사용하는 것도 금지 — 위 Colors > Avatar 섹션의 IMPORTANT 블록 참조.
 
