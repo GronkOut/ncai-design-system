@@ -53,7 +53,7 @@
   --color-semantic-warning-text: #eb8e02;      /* 컬러 글씨 전용 — 오렌지 */
   --color-semantic-info: var(--color-primary);  /* 진행 중·정보 — primary alias로 브랜드와 자동 동기화 */
   --color-semantic-info-bg: #eff6ff;            /* 원본 sky-50 — vibrant 유지 */
-  --color-semantic-neutral: var(--color-body-muted);  /* 무상태(백로그·초안·대기열) */
+  --color-semantic-neutral: var(--color-body-muted);  /* 무상태(제안중·초안·대기열) */
   --color-semantic-neutral-bg: #f3f4f6;        /* 기준점 — 변경 없음 */
   --color-on-ink-muted: rgba(255, 255, 255, 0.64);
 
@@ -1294,7 +1294,7 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
 
 .badge-demo {
   display: grid;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-xl);
   width: 100%;
 }
 

@@ -501,8 +501,8 @@ NCAI Design System의 컬러 토큰은 **Surface / Text / Semantic / Avatar**의
 | **Success** (`{colors.semantic-success}` / `{colors.semantic-success-bg}`) | `#00D954` / `#ECFEEA` | `#34D399` / `rgba(5,150,105,0.15)` | "활성·정상" 뱃지, 일반 성공 알림 |
 | **Info** (`{colors.semantic-info}` / `{colors.semantic-info-bg}`) | `#006EFF` (= Primary) / `#EFF6FF` | `#1C82FF` (= dark Primary) / `rgba(0,110,255,0.15)` | 진행 중·정보 뱃지 — Primary alias로 브랜드와 자동 동기화 |
 | **Warning** (`{colors.semantic-warning}` / `{colors.semantic-warning-bg}`) | `#FFAE00` / `#FFF9E3` | `#FE9F19` / `rgba(254,159,25,0.15)` | 대기·주의·보안 경고 |
-| **Error** (`{colors.semantic-error}` / `{colors.semantic-error-bg}`) | `#F33942` / `#FFF5F7` | `#F74B53` / `rgba(247,75,83,0.15)` | 실패·중단 뱃지, 잘못된 입력, Negative(파괴적) 버튼 |
-| **Neutral** (`{colors.semantic-neutral}` / `{colors.semantic-neutral-bg}`) | `#6B7280` (= Body Muted) / `#F3F4F6` | `#C7C9CB` / `rgba(149,151,153,0.15)` | 백로그·초안·대기열처럼 상태 신호가 약한 passive 정보 |
+| **Error** (`{colors.semantic-error}` / `{colors.semantic-error-bg}`) | `#F33942` / `#FFF5F7` | `#F74B53` / `rgba(247,75,83,0.15)` | 실패·정지 뱃지, 잘못된 입력, Negative(파괴적) 버튼 |
+| **Neutral** (`{colors.semantic-neutral}` / `{colors.semantic-neutral-bg}`) | `#6B7280` (= Body Muted) / `#F3F4F6` | `#C7C9CB` / `rgba(149,151,153,0.15)` | 제안중·초안·대기열처럼 상태 신호가 약한 passive 정보 |
 
 > [!NOTE]
 > **채움(fill) vs 글씨(`-text`) 토큰 분리**: 위 표의 Light 값은 **솔리드/채움**(Meter·Progress 바, solid 뱃지 배경, `button-danger`)에 쓰는 선명한 색입니다 — 흰 배경 텍스트로는 대비가 매우 낮아(≈2:1 이하) 글씨에 쓰지 않습니다. 흰·틴트 배경 위 **컬러 글씨**(틴트 뱃지 텍스트 등)는 전용 토큰을 사용합니다 — `{colors.semantic-success-text}` `#00AE1A`, `{colors.semantic-warning-text}` `#EB8E02`, `{colors.semantic-error-text}` `#F33942`. Success/Warning은 브랜드 색감(vivid)을 우선해 디자이너가 직접 지정한 값이고, **Error는 표준 브랜드 레드(`#F33942`, base와 동일)로 원복**했습니다. 틴트 배경 대비는 Success 2.8:1 / Warning 2.4:1 / Error 3.5:1로 모두 **WCAG AA(4.5:1)에 미달**합니다 — 색감을 우선한 의도된 트레이드오프이며, 가독성이 중요한 맥락에서는 더 어두운 톤이 필요할 수 있습니다. 다크 모드는 base(밝은 색)가 어두운 틴트 위에서 이미 또렷하므로 `-text`를 base로 별칭합니다.
@@ -1590,10 +1590,10 @@ Popover와 Tooltip이 공통으로 쓰는 base-ui `<Popover.Arrow>` / `<Tooltip.
   - `badge-success` (완료/정상): BG `{colors.semantic-success-bg}` (`#ECFEEA`) / Text `{colors.semantic-success-text}` (`#00AE1A`)
   - `badge-info` (진행 중/정보): BG `{colors.semantic-info-bg}` (`#EFF6FF`) / Text `{colors.semantic-info}` (`{colors.primary}`) — Primary alias로 브랜드 자동 동기화.
   - `badge-warning` (대기): BG `{colors.semantic-warning-bg}` (`#FFF9E3`) / Text `{colors.semantic-warning-text}` (`#EB8E02`)
-  - `badge-error` (중단/실패): BG `{colors.semantic-error-bg}` (`#FFF5F7`) / Text `{colors.semantic-error-text}` (`#F33942`)
-  - `badge-neutral` (백로그/초안/대기열): BG `{colors.semantic-neutral-bg}` (`#F3F4F6`) / Text `{colors.semantic-neutral}` (`{colors.body-muted}`) — 무상태(passive) 표시.
+  - `badge-error` (실패/오류/정지): BG `{colors.semantic-error-bg}` (`#FFF5F7`) / Text `{colors.semantic-error-text}` (`#F33942`)
+  - `badge-neutral` (제안중/초안/대기열/보류/중단): BG `{colors.semantic-neutral-bg}` (`#F3F4F6`) / Text `{colors.semantic-neutral}` (`{colors.body-muted}`) — 무상태(passive) 표시. `중단`(중지·discontinued)처럼 valence 없는 종료는 neutral, `정지`(차단·suspended)처럼 부정적 종료는 `badge-error`로 구분.
   - `badge-ink` (신규/강조): BG `{colors.ink}` / Text `{colors.on-primary}` — Solid Ink Style.
-- **Dot Variant**: 텍스트 앞에 6px 원형 점(`.badge-dot`)을 두어 라이브 프로세스 상태를 강조할 수 있습니다. dot은 `currentColor`라 색은 뱃지 variant가 결정합니다 — **실행 중 → `badge-info`(진행=파랑), 일시정지 → `badge-warning`(주의=주황), 중지됨 → `badge-neutral`(정상 정지=비활성·회색)**. "중지됨"은 valence가 없어 neutral이며, 실패로 끊긴 종료는 neutral이 아니라 `badge-error`(빨강)로 구분합니다.
+- **Tint Type / Dot Type**: 뱃지는 두 가지 시각 타입으로 제공됩니다. **Tint Type**은 면(BG+Text)만 쓰는 기본형, **Dot Type**은 텍스트 앞에 6px 원형 점(`.badge-dot`)을 더한 형태입니다. 두 타입은 위의 모든 semantic variant에 동일하게 적용되며 라벨·색 의미도 같습니다 — dot은 `currentColor`라 색은 뱃지 variant가 결정합니다(`badge-info`=파랑 점, `badge-warning`=주황 점, `badge-error`=빨강 점, `badge-neutral`=회색 점). Dot Type은 상태 신호를 한 번 더 시각적으로 강조하고 싶을 때 선택합니다.
 - **Dark Mode**: Dark Mode Badge & Tag Principle을 따라 BG는 원색에 투명도 15~20%, Text는 더 밝고 채도 높은 색으로 전환.
 - **금지**: 그림자, 그라데이션, 보더(`badge-ink` 제외).
 

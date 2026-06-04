@@ -718,18 +718,35 @@ export function App() {
 
               <PreviewSection title="Badge" description="Semantic Status Palette를 적용한 상태 표시 Badge">
                 <div className="badge-demo">
-                  <div className="badge-row">
-                    <span className="badge badge-success">완료</span>
-                    <span className="badge badge-info">진행중</span>
-                    <span className="badge badge-warning">대기</span>
-                    <span className="badge badge-error">실패</span>
-                    <span className="badge badge-neutral">백로그</span>
-                    <span className="badge badge-ink">신규</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Tint Type</span>
+                    <div className="badge-row">
+                      <span className="badge badge-success">완료</span>
+                      <span className="badge badge-info">진행중</span>
+                      <span className="badge badge-info">실행중</span>
+                      <span className="badge badge-warning">대기중</span>
+                      <span className="badge badge-warning">일시정지</span>
+                      <span className="badge badge-error">실패</span>
+                      <span className="badge badge-error">오류</span>
+                      <span className="badge badge-neutral">중단</span>
+                      <span className="badge badge-neutral">보류</span>
+                      <span className="badge badge-neutral">제안중</span>
+                    </div>
                   </div>
-                  <div className="badge-row">
-                    <span className="badge badge-info"><span className="badge-dot" />실행 중</span>
-                    <span className="badge badge-warning"><span className="badge-dot" />일시정지</span>
-                    <span className="badge badge-neutral"><span className="badge-dot" />중지됨</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <span style={{ color: 'var(--color-body-muted)', fontSize: 13 }}>Dot Type</span>
+                    <div className="badge-row">
+                      <span className="badge badge-success"><span className="badge-dot" />완료</span>
+                      <span className="badge badge-info"><span className="badge-dot" />진행중</span>
+                      <span className="badge badge-info"><span className="badge-dot" />실행중</span>
+                      <span className="badge badge-warning"><span className="badge-dot" />대기중</span>
+                      <span className="badge badge-warning"><span className="badge-dot" />일시정지</span>
+                      <span className="badge badge-error"><span className="badge-dot" />실패</span>
+                      <span className="badge badge-error"><span className="badge-dot" />오류</span>
+                      <span className="badge badge-neutral"><span className="badge-dot" />중단</span>
+                      <span className="badge badge-neutral"><span className="badge-dot" />보류</span>
+                      <span className="badge badge-neutral"><span className="badge-dot" />제안중</span>
+                    </div>
                   </div>
                 </div>
               </PreviewSection>
@@ -1638,7 +1655,7 @@ export function App() {
                       <tr>
                         <td>박소연</td>
                         <td>PM</td>
-                        <td><span className="badge badge-error">중단</span></td>
+                        <td><span className="badge badge-error">정지</span></td>
                       </tr>
                     </tbody>
                   </table>
