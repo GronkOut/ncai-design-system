@@ -4767,6 +4767,18 @@ html[data-theme="dark"] {
   --color-semantic-warning-bg: rgba(254, 159, 25, 0.15);
   --color-semantic-warning-text: var(--color-semantic-warning);
 
+  /* === AVATAR PALETTE (Subtle Tint) — 다크: 은은한 hue 다크 surface + hue를 머금은 밝은 텍스트 === */
+  --avatar-indigo-bg: #1e2740;
+  --avatar-indigo-text: #afc6f5;
+  --avatar-sage-bg: #1c2a24;
+  --avatar-sage-text: #a7cbbb;
+  --avatar-sand-bg: #2a2218;
+  --avatar-sand-text: #d9c2a2;
+  --avatar-plum-bg: #2c1f29;
+  --avatar-plum-text: #d7adc8;
+  --avatar-azure-bg: #122436;
+  --avatar-azure-text: #6fb6ff;
+
   /* Shadows — 순수 블랙 기반으로 불투명도 높임 */
   --shadow-level-1: 0 4px 12px rgba(0, 0, 0, 0.30);
   --shadow-level-2: 0 8px 24px rgba(0, 0, 0, 0.45);
