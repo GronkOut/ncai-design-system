@@ -2144,32 +2144,6 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   }
 }
 
-/* BottomSheet — 모바일/태블릿 하단에서 올라오는 임시 컨테이너.
-   Modal의 가로형 변형 — 상단만 radius.xl로 라운딩하여 화면 하단 edge와 정렬.
-   Drag handle을 상단 중앙에 배치하여 제스처 어포던스를 시각적으로 노출합니다. */
-.bottom-sheet-card {
-  position: fixed;
-  z-index: 31;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-  width: min(560px, 100vw);
-  padding: 20px var(--spacing-xxl) var(--spacing-xxl);
-  border: 0;
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-  background: var(--color-canvas);
-  box-shadow: var(--shadow-level-3);
-  transition: transform var(--motion-expand) var(--ease-out-expo);
-}
-
-.bottom-sheet-card[data-starting-style],
-.bottom-sheet-card[data-ending-style] {
-  transform: translate(-50%, 100%);
-}
-
 .bottom-sheet-handle {
   align-self: center;
   width: 36px;
@@ -2181,13 +2155,6 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
 
 html[data-theme="dark"] .bottom-sheet-handle {
   background: rgba(255, 255, 255, 0.24);
-}
-
-.bottom-sheet-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--spacing-xs);
-  margin-top: var(--spacing-xs);
 }
 
 /* Sheet Action Item — 시트 내부 액션 리스트.
@@ -5058,7 +5025,6 @@ html[data-theme="dark"] .modal-card {
 }
 
 /* BottomSheet 다크 오버라이드 — Modal과 동일 surface(반응형 시트 페어 통일) */
-html[data-theme="dark"] .bottom-sheet-card,
 html[data-theme="dark"] .responsive-sheet {
   background: var(--color-surface-soft);
 }
