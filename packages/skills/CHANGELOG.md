@@ -1,5 +1,20 @@
 # @ncai/design-system-skills
 
+## 0.8.0
+
+### Minor Changes
+
+- Refine Toast, Tooltip, and the BottomSheet/responsive-sheet pair; refactor the typography weight-token system; unify input focus borders; and resync docs + skill guidance:
+
+  - **Toast**: Redesign the stack — collapsed cards overlap and fan out on hover — and replace the close (×) glyph with the 12px `xIcon`.
+  - **Tooltip**: Remove the arrow. Tooltip intentionally carries no tail (no `Tooltip.Arrow` in markup); any hint that needs an arrow is promoted to Popover. This lets Tooltip keep its scale-in animation without the tail shifting 1px.
+  - **BottomSheet**: Fold the standalone BottomSheet card into the responsive Modal↔BottomSheet pair (desktop >768px center Modal, mobile ≤768px slide-up sheet) sharing the `canvas` surface so internal hover/active stays visible.
+  - **Typography**: Refactor weight into role tokens — each role binds `--fw-{role}`, which resolves to a base `--fw-{regular|medium|semibold}` (400/500/600); `caption` → 13px; add `body-xl` (18px) to the role set (now 17 roles). Raise the Accordion answer body from `body-sm` to `body-md` for readability.
+  - **Focus & Field**: Unify input/trigger focus to a 1px border plus an `inset 0 0 0 .5px` shadow (reads as 1.5px primary with zero inner-text shift); make grouped inputs (Autocomplete, Number Field) transparent so the focus line stays uniform; widen the Field label↔input gap from `spacing-xxs` (4px) to `spacing-xs` (8px).
+  - **Cleanup**: Drop the component-card eyebrow (removes title duplication and caption-type misuse).
+  - **Docs**: Swap component references from line numbers to semantic anchors; strengthen token self-containment in the Build Reference (§0–§4); add the 5 dark-mode avatar tint pairs; keep operational "apply order" runbook out of the spec.
+  - **Skill (`@ncai/design-system-skills`)**: Resync the Styling Rules token list to the refactored type system — correct the base weight names to `--fw-{regular|medium|semibold}`, add `body-xl`, and surface `--fw-{role}` as the weight property of the 4-token type group.
+
 ## 0.7.0
 
 ### Minor Changes
