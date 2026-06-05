@@ -1782,7 +1782,6 @@ export function App() {
                         collisionPadding={VIEWPORT_PADDING}
                       >
                         <Tooltip.Popup className="tooltip-popup">
-                          <Tooltip.Arrow className="popup-arrow" />
                           NCAI 디자인 원칙: 절제를 통한 위계의 완성.
                         </Tooltip.Popup>
                       </Tooltip.Positioner>
@@ -1798,7 +1797,6 @@ export function App() {
                         collisionPadding={VIEWPORT_PADDING}
                       >
                         <Tooltip.Popup className="tooltip-popup">
-                          <Tooltip.Arrow className="popup-arrow" />
                           <span>저장</span>
                           <span className="tooltip-kbd-group">
                             <kbd>⌘</kbd>
@@ -2479,7 +2477,6 @@ function IconTooltipButton({
           collisionPadding={VIEWPORT_PADDING}
         >
           <Tooltip.Popup className="tooltip-popup">
-            <Tooltip.Arrow className="popup-arrow" />
             <span>{label}</span>
             {shortcut && (
               <span className="tooltip-kbd-group">

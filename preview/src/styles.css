@@ -5004,7 +5004,7 @@ html[data-theme="dark"] .date-picker-popover {
   border-color: rgba(255, 255, 255, 0.10);
 }
 
-/* Arrow 다크 톤 매칭 — popover용 (tooltip은 자체 다크 오버라이드 사용) */
+/* Arrow 다크 톤 매칭 — popover 전용 (Tooltip은 arrow를 두지 않음) */
 html[data-theme="dark"] .popover-card .popup-arrow .arrow-fill {
   fill: var(--color-surface-soft);
 }
@@ -5126,10 +5126,6 @@ html[data-theme="dark"] .tooltip-popup {
   background: #ffffff;
   color: #000000;
   border: 1px solid var(--color-hairline);
-}
-
-html[data-theme="dark"] .tooltip-popup .popup-arrow {
-  fill: #ffffff;
 }
 
 html[data-theme="dark"] .tooltip-popup kbd,
