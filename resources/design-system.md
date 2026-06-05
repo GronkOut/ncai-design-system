@@ -12,7 +12,7 @@ NCAI Design System은 기술적 정밀함과 감성적 절제가 조화를 이�
 **Key Characteristics:**
 - **하나의 강력한 Primary 액센트 컬러**: 브랜드의 정체성과 주요 클릭 유도를 담당하는 색상(현재 `#006EFF` 적용)을 명확히 정의합니다.
 - **8px 베이스의 Spacing System**: 가장 범용적인 8px 기반 격자 체계를 사용하여 컴포넌트 내부 및 외부 여백을 설정합니다.
-- **체계적인 텍스트 계층 구조 (Typography Hierarchy)**: Display(xl/lg/md), Headline, Title(md/sm), Body(lg/md/sm), Label(xl/lg/md/sm), Caption, Eyebrow, Mono 총 16개 토큰의 명확한 용도와 굵기(`--fw-regular`/`--fw-medium`/`--fw-semibold`), 줄간격 규칙을 정합니다.
+- **체계적인 텍스트 계층 구조 (Typography Hierarchy)**: Display(xl/lg/md), Headline, Title(md/sm), Body(xl/lg/md/sm), Label(xl/lg/md/sm), Caption, Eyebrow, Mono 총 17개 토큰의 명확한 용도와 굵기(`--fw-regular`/`--fw-medium`/`--fw-semibold`), 줄간격 규칙을 정합니다.
 - **상태를 표현하는 Elevation과 컴포넌트 형태**: 플랫(Flat)함을 기본으로 하되, 그림자(Shadow)와 테두리 라운딩(Border Radius)을 사용하여 UI의 명확한 위계를 구현합니다.
 특히 중요한 상태 표시는 가장 정갈한 **솔리드 잉크(Solid Ink)** 스타일을 사용하여 절제미와 전문성을 전달합니다.
 
