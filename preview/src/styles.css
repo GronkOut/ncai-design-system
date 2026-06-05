@@ -929,18 +929,6 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   letter-spacing: var(--ls-body-sm);
 }
 
-.component-index {
-  display: inline-flex;
-  margin-bottom: var(--spacing-xs);
-  color: var(--color-primary);
-  /* type-caption */
-  font-size: var(--type-caption);
-  font-weight: var(--fw-caption);
-  line-height: var(--lh-caption);
-  letter-spacing: var(--ls-caption);
-  text-transform: uppercase;
-}
-
 .component-demo {
   display: grid;
   align-content: center;

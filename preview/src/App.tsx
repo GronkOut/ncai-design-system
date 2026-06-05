@@ -1875,7 +1875,6 @@ function PreviewSection({
   return (
     <section className={`component-card${wide ? ' card-full' : ''}`} aria-labelledby={`${slug(title)}-title`}>
       <div className="component-copy">
-        <span className="component-index">{title}</span>
         <h3 id={`${slug(title)}-title`}>{title}</h3>
         <p style={{ whiteSpace: 'pre-line' }}>{description}</p>
       </div>
