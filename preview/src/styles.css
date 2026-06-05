@@ -973,10 +973,10 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
   width: 100%;
 }
 
-/* Field — Label·Control·Description이 한 묶음으로 읽히도록 4px(spacing.xs) 타이트 본드 간격. */
+/* Field — Label·Control·Description이 한 묶음으로 읽히도록 8px(spacing.xs) 본드 간격. */
 .field-root {
   display: grid;
-  gap: var(--spacing-xxs);
+  gap: var(--spacing-xs);
   width: 100%;
 }
 
