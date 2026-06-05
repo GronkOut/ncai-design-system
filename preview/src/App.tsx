@@ -2025,7 +2025,9 @@ function ToastList() {
           <Toast.Title className="toast-title" />
           <Toast.Description className="toast-description" />
         </Toast.Content>
-        <Toast.Close className="toast-close" aria-label="닫기">×</Toast.Close>
+        <Toast.Close className="toast-close" aria-label="닫기">
+          <Icon svg={xIcon} size={12} />
+        </Toast.Close>
       </Toast.Root>
     );
   });
