@@ -1003,7 +1003,7 @@ Text Button(`button-*` 5변형)과 Icon Button은 동일한 disabled 시각 룰�
 - **Open Divider**: 트리거가 열렸을 때 본문과의 구분을 위해 1px 인셋 디바이더를 그립니다. 추가 보더를 쓰지 않아 라운드 모서리 잘림을 방지합니다.
   - 라이트: `box-shadow: inset 0 -1px 0 {colors.hairline}` (#E5E7EB on #FFF).
   - **다크: `box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.08)`**. `accordion-item` 배경이 `Surface Elevated(#27282D)`로 올라가 있어 `hairline(#25272B)`과의 luminance 차이가 부족하므로 translucent white overlay를 사용합니다 (Dark Separator Policy).
-- **Panel**: 상 16px / 하 20px / 좌우 20px 패딩. 본문 텍스트는 `{typography.body-sm}` (14px), 색상 `{colors.body-muted}`.
+- **Panel**: 상 16px / 하 20px / 좌우 20px 패딩. 본문(답변) 텍스트는 `{typography.body-md}` (15px), 색상 `{colors.body-muted}`. 트리거 라벨(16px)보다 한 단계 작은 본문 스케일로, 답변 영역의 가독성을 확보합니다.
 - **Overflow**: `.accordion-item`은 `overflow: hidden`으로 부모 라운드가 트리거 hover 배경을 클리핑하도록 합니다.
 - **Panel Expand/Collapse 모션 (공용 표준)**: 모든 collapsible 류 패널(Accordion, Sidebar Collapsible 등)은 동일한 모션 토큰을 공유합니다.
   - `:root`에 `interpolate-size: allow-keywords`를 선언해 `height: 0 ↔ auto` 트랜지션을 활성화.

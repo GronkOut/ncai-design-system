@@ -1051,11 +1051,11 @@ html[data-theme="dark"] .icon-btn--danger-ghost:hover:not(:disabled):not([data-d
 .accordion-panel {
   padding: 16px 20px 20px;
   color: var(--color-body-muted);
-  /* type-body-sm */
-  font-size: var(--type-body-sm);
-  font-weight: var(--fw-body-sm);
-  line-height: var(--lh-body-sm);
-  letter-spacing: var(--ls-body-sm);
+  /* type-body-md */
+  font-size: var(--type-body-md);
+  font-weight: var(--fw-body-md);
+  line-height: var(--lh-body-md);
+  letter-spacing: var(--ls-body-md);
   overflow: hidden;
   height: auto;
   transition: height var(--motion-expand) var(--ease-out-quad),
