@@ -248,7 +248,7 @@ html[data-theme="dark"] .surface-card { border-color: transparent; background: v
 
 #### 폼 컨트롤
 
-**Checkbox** (Base UI Checkbox · App.tsx:845) — 라벨로 감싸고 `.check-row`로 정렬. 여러 개는 `.choice-stack`으로 묶음.
+**Checkbox** (Base UI Checkbox · App.tsx `Checkbox.Root`) — 라벨로 감싸고 `.check-row`로 정렬. 여러 개는 `.choice-stack`으로 묶음.
 ```html
 <label class="check-row">
   <span class="checkbox"><span class="check-indicator"><!-- 체크 svg --></span></span>
@@ -257,7 +257,7 @@ html[data-theme="dark"] .surface-card { border-color: transparent; background: v
 <!-- 상태: 미체크 / 체크(defaultChecked) / indeterminate / disabled — Base UI props로 제어 -->
 ```
 
-**Radio** (Base UI RadioGroup·Radio · App.tsx:1449) — `.choice-stack`로 그룹, 각 항목은 `.check-row` + `.radio` > `.radio-indicator`. (체크박스와 래퍼 구조 동일 유지.)
+**Radio** (Base UI RadioGroup·Radio · App.tsx `Radio.Root`) — `.choice-stack`로 그룹, 각 항목은 `.check-row` + `.radio` > `.radio-indicator`. (체크박스와 래퍼 구조 동일 유지.)
 ```html
 <div class="choice-stack" role="radiogroup">
   <label class="check-row">
@@ -267,7 +267,7 @@ html[data-theme="dark"] .surface-card { border-color: transparent; background: v
 </div>
 ```
 
-**Switch** (Base UI Switch · App.tsx:1596) — `.switch-row` 라벨 + `.switch`(+`.switch--sm`/`.switch--lg`) > `.switch-thumb`. thumb은 항상 `--color-on-primary`(흰색).
+**Switch** (Base UI Switch · App.tsx `Switch.Root`) — `.switch-row` 라벨 + `.switch`(+`.switch--sm`/`.switch--lg`) > `.switch-thumb`. thumb은 항상 `--color-on-primary`(흰색).
 ```html
 <label class="switch-row">
   <span class="switch"><span class="switch-thumb"></span></span>
@@ -275,7 +275,7 @@ html[data-theme="dark"] .surface-card { border-color: transparent; background: v
 </label>
 ```
 
-**Slider** (Base UI Slider · App.tsx:1586) — thumb은 흰색(`--color-on-primary`).
+**Slider** (Base UI Slider · App.tsx `Slider.Root`) — thumb은 흰색(`--color-on-primary`).
 ```html
 <span class="slider-root">
   <span class="slider-control"><span class="slider-track">
@@ -284,15 +284,15 @@ html[data-theme="dark"] .surface-card { border-color: transparent; background: v
 </span>
 ```
 
-**Select** (Base UI Select · App.tsx:1494) — 트리거 `.select-trigger`, 팝업은 Autocomplete와 클래스 공유(`.autocomplete-popup.autocomplete-list` > `.autocomplete-item.select-item`).
+**Select** (Base UI Select · App.tsx `Select.Root`) — 트리거 `.select-trigger`, 팝업은 Autocomplete와 클래스 공유(`.autocomplete-popup.autocomplete-list` > `.autocomplete-item.select-item`).
 ```html
 <button class="select-trigger"><span><!-- 값 --></span><span class="select-icon"><!-- chevron --></span></button>
-<!-- 팝업/포지셔너/키보드 동작은 App.tsx:1494 참조 -->
+<!-- 팝업/포지셔너/키보드 동작은 App.tsx `Select.Root` 참조 -->
 ```
 
-**Autocomplete / Combobox** (Base UI · App.tsx:658 / 943) — 입력 그룹 `.combo-input-group`(또는 `.autocomplete-input-group`) > `.text-input`, 팝업 `.autocomplete-popup` > `.autocomplete-list` > `.autocomplete-item`. 그룹 안 입력은 보더 없음(포커스 링은 그룹이 담당). 실제 구현 App.tsx 참조.
+**Autocomplete / Combobox** (Base UI · App.tsx `Autocomplete.Root` / `Combobox.Root`) — 입력 그룹 `.combo-input-group`(또는 `.autocomplete-input-group`) > `.text-input`, 팝업 `.autocomplete-popup` > `.autocomplete-list` > `.autocomplete-item`. 그룹 안 입력은 보더 없음(포커스 링은 그룹이 담당). 실제 구현 App.tsx 참조.
 
-**Number Field** (Base UI NumberField · App.tsx:1355) — `.number-group`로 묶고 좌우 `.icon-btn`, 가운데 `.number-input`(그룹 안이라 자체 보더 없음).
+**Number Field** (Base UI NumberField · App.tsx `NumberField.Root`) — `.number-group`로 묶고 좌우 `.icon-btn`, 가운데 `.number-input`(그룹 안이라 자체 보더 없음).
 ```html
 <div class="number-field"><div class="number-group">
   <button class="icon-btn icon-btn--ghost icon-btn--md"><!-- − --></button>
@@ -301,7 +301,7 @@ html[data-theme="dark"] .surface-card { border-color: transparent; background: v
 </div></div>
 ```
 
-**OTP Field** (Base UI OTPField · App.tsx:1368) — `.otp-field`(라벨 포함) > `.otp-root` > `.otp-input` × length. 포커스 = primary 1.5px(text-input과 동일).
+**OTP Field** (Base UI OTPField · App.tsx `OTPField.Root`) — `.otp-field`(라벨 포함) > `.otp-root` > `.otp-input` × length. 포커스 = primary 1.5px(text-input과 동일).
 ```html
 <div class="otp-field">
   <label class="field-label">인증 코드</label>
@@ -309,7 +309,7 @@ html[data-theme="dark"] .surface-card { border-color: transparent; background: v
 </div>
 ```
 
-**Field / Fieldset / Form** (Base UI · App.tsx:1150) — `.field-root`(§4 폼 필드 참조)를 `.fieldset`(그룹, gap 24px·legend `.fieldset-legend`)으로, 다시 `.form-card`(폼 컨테이너)로 감쌈. 시각 그룹화는 보더/배경 없이 spacing + legend 위계로만.
+**Field / Fieldset / Form** (Base UI · App.tsx `Fieldset.Root`) — `.field-root`(§4 폼 필드 참조)를 `.fieldset`(그룹, gap 24px·legend `.fieldset-legend`)으로, 다시 `.form-card`(폼 컨테이너)로 감쌈. 시각 그룹화는 보더/배경 없이 spacing + legend 위계로만.
 ```html
 <form class="form-card">
   <fieldset class="fieldset">
@@ -320,11 +320,11 @@ html[data-theme="dark"] .surface-card { border-color: transparent; background: v
 </form>
 ```
 
-**Date Picker** (App.tsx:2027) — Popover + 캘린더 조합. 트리거 `.date-picker-trigger`, 팝오버 `.date-picker-popover`, 그리드 `.date-picker-grid` > `.date-picker-day`. 전체 동작은 App.tsx 참조.
+**Date Picker** (App.tsx `date-picker-popover`) — Popover + 캘린더 조합. 트리거 `.date-picker-trigger`, 팝오버 `.date-picker-popover`, 그리드 `.date-picker-grid` > `.date-picker-day`. 전체 동작은 App.tsx 참조.
 
 #### 컨테이너 · 표면
 
-**Accordion** (Base UI Accordion · App.tsx:302) — `.accordion-item`은 카드 톤(canvas + hairline + radius-lg, `overflow:hidden`). chevron은 `.accordion-chevron`.
+**Accordion** (Base UI Accordion · App.tsx `Accordion.Root`) — `.accordion-item`은 카드 톤(canvas + hairline + radius-lg, `overflow:hidden`). chevron은 `.accordion-chevron`.
 ```html
 <div class="accordion">
   <div class="accordion-item">
@@ -334,9 +334,9 @@ html[data-theme="dark"] .surface-card { border-color: transparent; background: v
 </div>
 ```
 
-**Collapsible** (Base UI Collapsible · App.tsx:930) — Accordion보다 단순한 단일 펼침. `.collapsible` > `.collapsible-trigger`(+`.collapsible-chevron`) + `.collapsible-panel`.
+**Collapsible** (Base UI Collapsible · App.tsx `Collapsible.Root`) — Accordion보다 단순한 단일 펼침. `.collapsible` > `.collapsible-trigger`(+`.collapsible-chevron`) + `.collapsible-panel`.
 
-**Table** (App.tsx:1617) — `.table-wrap`(radius-table 12px·`overflow:hidden`로 모서리 클리핑 방지) > `table.data-table`. 상태 셀에는 `.badge-*`.
+**Table** (App.tsx `data-table`) — `.table-wrap`(radius-table 12px·`overflow:hidden`로 모서리 클리핑 방지) > `table.data-table`. 상태 셀에는 `.badge-*`.
 ```html
 <div class="table-wrap">
   <table class="data-table">
@@ -346,7 +346,7 @@ html[data-theme="dark"] .surface-card { border-color: transparent; background: v
 </div>
 ```
 
-**Scroll Area** (Base UI ScrollArea · App.tsx:1079) — `.scroll-area-viewport`(콘텐츠) + `.scrollbar` > `.scroll-thumb`. 긴 모달/드로어 본문 스크롤에 사용.
+**Scroll Area** (Base UI ScrollArea · App.tsx `ScrollArea.Root`) — `.scroll-area-viewport`(콘텐츠) + `.scrollbar` > `.scroll-thumb`. 긴 모달/드로어 본문 스크롤에 사용.
 
 **Separator** (Base UI Separator) — `.separator`. 의미적 구분선.
 
@@ -354,7 +354,7 @@ html[data-theme="dark"] .surface-card { border-color: transparent; background: v
 
 모두 `Portal` > `Backdrop`(`.overlay-backdrop`) > `Positioner`/`Popup` 구조입니다. 아래는 **className 골격**만 — 열림/포커스 트랩/포지셔닝은 Base UI가 담당하므로 해당 라인을 참조하세요.
 
-**Modal / Dialog** (App.tsx:418) — Popup `.modal-card`(+ 폭 `.modal-lg`/`.modal-xl`). 내부: `.modal-body` > `.modal-header`(`.modal-title` + `.modal-copy`) + 콘텐츠, 푸터는 `.inline-actions`(버튼들).
+**Modal / Dialog** (App.tsx `Dialog.Root`) — Popup `.modal-card`(+ 폭 `.modal-lg`/`.modal-xl`). 내부: `.modal-body` > `.modal-header`(`.modal-title` + `.modal-copy`) + 콘텐츠, 푸터는 `.inline-actions`(버튼들).
 ```html
 <div class="modal-card">
   <div class="modal-body">
@@ -371,13 +371,13 @@ html[data-theme="dark"] .surface-card { border-color: transparent; background: v
 </div>
 ```
 
-**Alert Dialog** (App.tsx:354) — `.modal-card.alert-dialog-card` > `.alert-dialog-content`(`.alert-dialog-title` + `.alert-dialog-copy`) + `.alert-dialog-actions`. 파괴적 변형은 확인 버튼에 `.button-danger`.
+**Alert Dialog** (App.tsx `AlertDialog.Root`) — `.modal-card.alert-dialog-card` > `.alert-dialog-content`(`.alert-dialog-title` + `.alert-dialog-copy`) + `.alert-dialog-actions`. 파괴적 변형은 확인 버튼에 `.button-danger`.
 
-**Drawer** (App.tsx:1062) — 화면 가장자리 패널. `.drawer-card`(+`.drawer-card--left`) > `.drawer-header`(`.drawer-header-text` + 닫기 `.icon-btn`) + ScrollArea `.drawer-body` > `.drawer-body-content` + `.drawer-footer`. 본문 필드 그룹은 `.drawer-field-group`(+`.drawer-field-group-label`) > `.choice-stack`.
+**Drawer** (App.tsx `drawer-card`) — 화면 가장자리 패널. `.drawer-card`(+`.drawer-card--left`) > `.drawer-header`(`.drawer-header-text` + 닫기 `.icon-btn`) + ScrollArea `.drawer-body` > `.drawer-body-content` + `.drawer-footer`. 본문 필드 그룹은 `.drawer-field-group`(+`.drawer-field-group-label`) > `.choice-stack`.
 
-**BottomSheet** (App.tsx:615, Dialog 기반) — `.bottom-sheet-card` > `.bottom-sheet-handle` + `.bottom-sheet-list` > `.bottom-sheet-option` + `.bottom-sheet-actions`(`.bottom-sheet-cancel`). 모바일 액션 시트.
+**BottomSheet** (App.tsx `responsive-sheet`, Dialog 기반) — Modal↔BottomSheet 반응형 페어: 데스크톱(>768px)은 중앙 Modal, 모바일(≤768px)은 하단 슬라이드업 시트로 전환. 컨테이너 `.responsive-sheet` > 드래그 핸들 `.bottom-sheet-handle`(모바일만 노출) + `.modal-title` + `.modal-copy` + `.bottom-sheet-list` > `.bottom-sheet-option` + 취소 `.bottom-sheet-cancel`(`.button-secondary` 동반).
 
-**Popover** (App.tsx:1386) — `.popover-card`(canvas + hairline + level-2 shadow) > `.popup-arrow`(꼬리) + `.popover-title` + `.popover-copy`.
+**Popover** (App.tsx `Popover.Root`) — `.popover-card`(canvas + hairline + level-2 shadow) > `.popup-arrow`(꼬리) + `.popover-title` + `.popover-copy`.
 ```html
 <div class="popover-card">
   <span class="popup-arrow"><!-- arrow glyph --></span>
@@ -386,9 +386,9 @@ html[data-theme="dark"] .surface-card { border-color: transparent; background: v
 </div>
 ```
 
-**Tooltip** (App.tsx:1759) — `.tooltip-popup`. 짧은 설명 전용(인터랙티브 요소 금지). 키보드 단축키는 `kbd` 노출 패턴 참조.
+**Tooltip** (App.tsx `Tooltip.Root`) — `.tooltip-popup`. 짧은 설명 전용(인터랙티브 요소 금지). 키보드 단축키는 `kbd` 노출 패턴 참조.
 
-**Menu / Context Menu** (Base UI Menu / ContextMenu · App.tsx:1242 / 975) — `.menu-popup` > `.menu-item`(`.menu-item-icon` + `.menu-item-label` + 우측 `.menu-item-shortcut`). 파괴적 항목 `.menu-item-destructive`, 구분선 `.menu-separator`, 서브메뉴 표시 `.menu-item-submenu-indicator`.
+**Menu / Context Menu** (Base UI Menu / ContextMenu · App.tsx `Menu.Root` / `ContextMenu.Root`) — `.menu-popup` > `.menu-item`(`.menu-item-icon` + `.menu-item-label` + 우측 `.menu-item-shortcut`). 파괴적 항목 `.menu-item-destructive`, 구분선 `.menu-separator`, 서브메뉴 표시 `.menu-item-submenu-indicator`.
 ```html
 <div class="menu-popup">
   <button class="menu-item"><svg class="menu-item-icon icon-muted">…</svg><span class="menu-item-label">즐겨찾기</span></button>
@@ -397,11 +397,11 @@ html[data-theme="dark"] .surface-card { border-color: transparent; background: v
 </div>
 ```
 
-**Preview Card** (App.tsx:1414) — 링크 호버 미리보기. `.preview-card` > `.mini-product`(미디어 슬롯) + `.preview-card-text`(`.popover-title` + `.popover-copy`). 트리거는 `.text-link`.
+**Preview Card** (App.tsx `PreviewCard.Root`) — 링크 호버 미리보기. `.preview-card` > `.mini-product`(미디어 슬롯) + `.preview-card-text`(`.popover-title` + `.popover-copy`). 트리거는 `.text-link`.
 
 #### 네비게이션
 
-**Sidebar** (App.tsx:2383) — `nav.sidebar`. 섹션 라벨 `.sidebar-section-label`, 항목 `.sidebar-item`(`.sidebar-item-icon` + `.sidebar-item-label` + `.sidebar-item-badge`), 펼침 그룹은 Collapsible 기반 `.sidebar-group`(트리거 `.sidebar-group-trigger` + `.sidebar-item-chevron`) > `.sidebar-subitems` > `.sidebar-subitem`. hover/active는 중립 `surface-soft`(Linear/Vercel 패턴) — primary 틴트 금지.
+**Sidebar** (App.tsx `className="sidebar"`) — `nav.sidebar`. 섹션 라벨 `.sidebar-section-label`, 항목 `.sidebar-item`(`.sidebar-item-icon` + `.sidebar-item-label` + `.sidebar-item-badge`), 펼침 그룹은 Collapsible 기반 `.sidebar-group`(트리거 `.sidebar-group-trigger` + `.sidebar-item-chevron`) > `.sidebar-subitems` > `.sidebar-subitem`. hover/active는 중립 `surface-soft`(Linear/Vercel 패턴) — primary 틴트 금지.
 ```html
 <nav class="sidebar">
   <div class="sidebar-section-label">메인</div>
@@ -410,7 +410,7 @@ html[data-theme="dark"] .surface-card { border-color: transparent; background: v
 </nav>
 ```
 
-**Tabs** (Base UI Tabs · App.tsx:1648) — `.tabs-root` > `.tabs-list` > `.tab` + `.tab-panel`. active = primary 텍스트 + primary border-bottom(다른 컴포넌트와 다른 active 패턴).
+**Tabs** (Base UI Tabs · App.tsx `Tabs.Root`) — `.tabs-root` > `.tabs-list` > `.tab` + `.tab-panel`. active = primary 텍스트 + primary border-bottom(다른 컴포넌트와 다른 active 패턴).
 ```html
 <div class="tabs-root">
   <div class="tabs-list"><button class="tab">개요</button><button class="tab">기술 명세</button></div>
@@ -418,9 +418,9 @@ html[data-theme="dark"] .surface-card { border-color: transparent; background: v
 </div>
 ```
 
-**Navigation Menu** (Base UI NavigationMenu · App.tsx:1275) — `.nav-menu-list` > `.nav-menu-trigger`, 팝업 `.nav-menu-popup` > `.nav-menu-content` > `.nav-menu-link`(`.nav-menu-icon` + `.nav-menu-title` + `.nav-menu-desc`) + `.nav-menu-viewport`. 메가메뉴 동작은 App.tsx 참조.
+**Navigation Menu** (Base UI NavigationMenu · App.tsx `NavigationMenu.Root`) — `.nav-menu-list` > `.nav-menu-trigger`, 팝업 `.nav-menu-popup` > `.nav-menu-content` > `.nav-menu-link`(`.nav-menu-icon` + `.nav-menu-title` + `.nav-menu-desc`) + `.nav-menu-viewport`. 메가메뉴 동작은 App.tsx 참조.
 
-**Toolbar** (Base UI Toolbar · App.tsx:1685) — `.toolbar` > `.toolbar-group` > `.toolbar-button.toolbar-icon-button`, 구분 `.toolbar-separator`, 여백 `.toolbar-spacer`. 버튼 3분류(즉시 실행 / 지속 토글 / Primary 액션)는 일관성 유지.
+**Toolbar** (Base UI Toolbar · App.tsx `Toolbar.Root`) — `.toolbar` > `.toolbar-group` > `.toolbar-button.toolbar-icon-button`, 구분 `.toolbar-separator`, 여백 `.toolbar-spacer`. 버튼 3분류(즉시 실행 / 지속 토글 / Primary 액션)는 일관성 유지.
 ```html
 <div class="toolbar">
   <div class="toolbar-group"><button class="toolbar-button toolbar-icon-button"><!-- undo --></button></div>
@@ -429,13 +429,13 @@ html[data-theme="dark"] .surface-card { border-color: transparent; background: v
 </div>
 ```
 
-**Toggle / Toggle Group** (Base UI · App.tsx:1671 / 1930) — 단일 `.toggle-button`, 묶음 `.toggle-group` > `.toggle-item`(세그먼트 트랙은 `surface-inset` 위 선택 칩 `surface-elevated` 3겹 스택).
+**Toggle / Toggle Group** (Base UI · App.tsx `Toggle` / `ToggleGroup`) — 단일 `.toggle-button`, 묶음 `.toggle-group` > `.toggle-item`(세그먼트 트랙은 `surface-inset` 위 선택 칩 `surface-elevated` 3겹 스택).
 
 **Global Nav** (App.tsx 상단) — `.global-nav`(64px, canvas+blur+hairline 하단선). 보조 네비는 `.sub-nav`. 유틸 버튼은 `.nav-action`/`.button-utility`(secondary 스타일).
 
 #### 피드백 · 상태 · 디스플레이
 
-**Toast** (Base UI Toast · App.tsx:2007) — 뷰포트 `.toast-viewport` + `.toast-card`(상태 클래스). `.toast-dot`(`.toast-dot-positive`/`-warning`/`-negative`) + `.toast-content`(`.toast-title` + `.toast-description`) + 닫기 `.toast-close`.
+**Toast** (Base UI Toast · App.tsx `Toast.Root`) — 뷰포트 `.toast-viewport` + `.toast-card`(상태 클래스). `.toast-dot`(`.toast-dot-positive`/`-warning`/`-negative`) + `.toast-content`(`.toast-title` + `.toast-description`) + 닫기 `.toast-close`.
 ```html
 <div class="toast-card">
   <span class="toast-dot toast-dot-positive"></span>
@@ -444,12 +444,12 @@ html[data-theme="dark"] .surface-card { border-color: transparent; background: v
 </div>
 ```
 
-**Progress** (Base UI Progress · App.tsx:1442) — `.progress-root` > `.progress-track` > `.progress-indicator`(primary fill).
+**Progress** (Base UI Progress · App.tsx `Progress.Root`) — `.progress-root` > `.progress-track` > `.progress-indicator`(primary fill).
 ```html
 <div class="progress-root"><div class="progress-track"><div class="progress-indicator" style="width:64%"></div></div></div>
 ```
 
-**Meter** (Base UI Meter · App.tsx:1874) — `.meter-root` > 라벨행(`.meter-label` + `.meter-value`) + `.meter-track` > `.meter-indicator`. 임계치 색 자동 전환: 80%↑ `--warning`, 95%↑ `--error`(변형 `.meter-indicator--warning/--error/--success`).
+**Meter** (Base UI Meter · App.tsx `Meter.Root`) — `.meter-root` > 라벨행(`.meter-label` + `.meter-value`) + `.meter-track` > `.meter-indicator`. 임계치 색 자동 전환: 80%↑ `--warning`, 95%↑ `--error`(변형 `.meter-indicator--warning/--error/--success`).
 
 **Avatar** (Base UI Avatar) — `.avatar`(+ 색 `.avatar-indigo`/`-sage`/`-sand`/`-plum`/`-azure`, 크기 `.avatar-lg`). **avatar 색은 Avatar 안에서만** — 일반 UI 금지.
 ```html
