@@ -213,13 +213,13 @@ html[data-theme="dark"] .surface-card { border-color: transparent; background: v
 
 **폼 필드** — label + input + (에러). 입력 클래스는 `.text-input`. (기존 클래스)
 ```html
-<div class="field-root">                <!-- display:grid; gap:4px -->
+<div class="field-root">                <!-- display:grid; gap:8px(spacing-xs) — 라벨·인풋·헬퍼 본드 -->
   <label class="field-label">이메일</label>
   <input class="text-input" type="email" placeholder="name@company.com" />
   <p class="field-error">올바른 이메일을 입력하세요.</p>   <!-- invalid일 때만 -->
 </div>
 ```
-포커스 = primary 1.5px 보더, invalid = error 보더. 외부 글로우/배경 틴트는 전역 금지(Minimalist Validation & Focus Policy).
+포커스 = primary 보더(폭은 1px 유지, 모자란 0.5px는 `inset 0 0 0 .5px` box-shadow로 그려 1.5px처럼 — focus 시 내부 텍스트 밀림 0), invalid = error 보더. 외부 글로우/배경 틴트는 전역 금지(Minimalist Validation & Focus Policy).
 
 **뱃지** — `.badge` + 시멘틱 변형. 라이브 점은 `.badge-dot`. (기존 클래스)
 ```html
@@ -302,7 +302,7 @@ html[data-theme="dark"] .surface-card { border-color: transparent; background: v
 </div></div>
 ```
 
-**OTP Field** (Base UI OTPField · App.tsx `OTPField.Root`) — `.otp-field`(라벨 포함) > `.otp-root` > `.otp-input` × length. 포커스 = primary 1.5px(text-input과 동일).
+**OTP Field** (Base UI OTPField · App.tsx `OTPField.Root`) — `.otp-field`(라벨 포함) > `.otp-root` > `.otp-input` × length. 포커스 = primary 보더(text-input과 동일 — 폭 1px + inset 0.5px shadow).
 ```html
 <div class="otp-field">
   <label class="field-label">인증 코드</label>
@@ -519,7 +519,7 @@ NCAI Design System의 컬러 토큰은 **Surface / Text / Semantic / Avatar**의
 > - 컬러 그라데이션, 글로스 오버레이, 외곽 발광
 >
 > **허용 (상태 신호)**
-> - 보더 컬러 변화: 기본 `{colors.hairline}` → 포커스/활성 `{colors.primary}` (1.5~2px), 에러 `{colors.semantic-error}`.
+> - 보더 컬러 변화: 기본 `{colors.hairline}` → 포커스/활성 `{colors.primary}`, 에러 `{colors.semantic-error}`. 시각 두께 1.5~2px. **단, 텍스트·값을 담는 입력/트리거는 보더 폭 자체를 키우지 말 것** — `box-sizing:border-box`에서 폭이 커지면 콘텐츠 영역이 줄어 내부 텍스트가 밀린다. resting 폭(1px)을 유지하고 모자란 0.5px는 `box-shadow: inset 0 0 0 .5px {colors.primary}`로 그린다(레이아웃 시프트 0). 이 inset 보더 보강은 위 '외부 광채'(outset glow)와 구분되어 허용. 내부 콘텐츠가 없는 체크박스·라디오는 폭 변경 가능.
 > - 헬퍼 텍스트: `Field Description` / `Field Error`로 상태를 글자로 전달.
 > - 키보드 접근성을 위한 dotted 1px outline은 허용 (시각적 광채와 구분됨).
 >
@@ -1041,7 +1041,7 @@ Text Button(`button-*` 5변형)과 Icon Button은 동일한 disabled 시각 룰�
 **금지**: 스위치를 "저장 후 반영" 폼 컨트롤로 쓰지 마세요(체크박스를 쓰세요). knob에 색을 채우거나 라벨 텍스트(On/Off)를 트랙 안에 넣지 않습니다 — 미니멀 원칙.
 
 ### Inputs
-- **`text-input`**: 텍스트 필드. 배경색 `{colors.canvas}`, 테두리 1px `{colors.hairline}`. 높이는 약 48px로 타겟 크기를 확보합니다. 포커스 시 보더 컬러만 `{colors.primary}` (1.5px)로 변경합니다 — Minimalist Validation & Focus Policy를 따릅니다.
+- **`text-input`**: 텍스트 필드. 배경색 `{colors.canvas}`, 테두리 1px `{colors.hairline}`. 높이는 약 48px로 타겟 크기를 확보합니다. 포커스 시 보더 폭(1px)은 그대로 두고 컬러만 `{colors.primary}`로 바꾼 뒤 `box-shadow: inset 0 0 0 .5px {colors.primary}`로 0.5px를 보강해 1.5px처럼 보이게 합니다 — 폭을 키우면 `border-box`에서 콘텐츠가 밀리므로 그렇게 하지 않습니다. Minimalist Validation & Focus Policy를 따릅니다.
 
 - **Clearable Input (선택 적용)**: `text-input`과 `Field.Control`은 우측에 Clear(x) 버튼을 덧붙일 수 있습니다. 스펙은 Autocomplete Clear와 동일 — 48×48 hit area, 16×16 칩, 10px x 아이콘, `color-mix({colors.body-muted} 55%/75%, {colors.canvas})`. 값이 비어 있을 때 칩은 unmount합니다. 구현은 `position: absolute`로 입력 위에 얹고 입력 우측 패딩만 48px 확보 — `.combo-input-group`처럼 chassis를 별도로 두지 않아 기존 `text-input` 보더/포커스 토큰을 그대로 유지합니다. *Number Field·OTP·Combobox(우측 chevron 충돌)에는 적용하지 않습니다.*
 
@@ -1624,9 +1624,9 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 폼 구조 요소. 의미 있는 그루핑과 라벨링을 통해 접근성과 시각 위계를 동시에 만듭니다.
 
 - **Field (단일 필드 묶음: Label + Control + Description/Error)**
-  - **Layout**: 세로 스택, gap `{spacing.xxs}` (4px). *Label과 Control을 한 덩어리로 강하게 본딩하는 타이트 간격입니다. `{spacing.xs}` (8px)은 라벨이 컨트롤과 분리되어 보이고, `12px` 이상은 별도 묶음으로 읽힙니다.*
-  - **Label**: `{typography.label-sm}` / `{colors.ink}`(label-sm 역할 고정 weight 500). Control 위 **4px** 간격.
-  - **Description (Help)**: `{typography.caption}` (13px) / `{colors.body-muted}`. Control 아래 **4px**.
+  - **Layout**: 세로 스택, gap `{spacing.xs}` (8px). *Label·Control·(Description/Error)을 한 묶음으로 읽히게 하는 본드 간격입니다. `{spacing.xxs}` (4px)은 라벨이 컨트롤에 너무 빽빽하게 달라붙고, `12px` 이상은 별도 묶음으로 분리되어 읽힙니다.*
+  - **Label**: `{typography.label-sm}` / `{colors.ink}`(label-sm 역할 고정 weight 500). Control 위 **8px** 간격.
+  - **Description (Help)**: `{typography.caption}` (13px) / `{colors.body-muted}`. Control 아래 **8px**.
   - **Error**: `{typography.caption}` / `{colors.semantic-error}`. Description과 동일 위치(둘 다 있으면 Error가 Description 대체). Control 보더는 `{colors.semantic-error}` (전역 정책).
 - **Fieldset (관련 필드 그룹 컨테이너)**
   - **Legend**: `{typography.label-lg}` / `{colors.ink}`(label-lg 역할 고정 weight 500). Label(label-sm 14)보다 한 단계 큰 사이즈로 그룹 헤더 위계를 만듭니다. 아래쪽 `{spacing.md}` (16px) 간격.
@@ -1735,7 +1735,7 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 - **Cell**: 48×56(살짝 세로로 긴 비율), `{radius.md}` (10px), 1px `{colors.hairline}`, 배경 `{colors.canvas}`, 중앙 정렬.
 - **Cell Typography**: `{font.mono}` (Geist Mono) / 24px / weight 500 (`{fw.label}`). *근거: headline 28px(weight 600)은 셀 폭(48px) 대비 비중이 과해 한 자리만 채워졌을 때 시각 무게가 흔들리고, 20px는 셀 높이(56px) 대비 가벼워 입력값이 셀 안에서 둥둥 떠 보임. 24px가 셀 비례에 균형 잡힌 비중. mono 패밀리는 모든 숫자 폭이 동일해 1·4·7 같이 글자폭이 다른 숫자가 섞여도 정렬이 또렷하게 유지되고, 일회용 코드 입력이라는 맥락(영문이 아닌 숫자 위주)에 부합. weight 500은 mono 굵기에 600을 더하면 디지털 시계처럼 무거워지는 인상을 피하기 위한 의도적 다운그레이드.*
 - **Cell Gap**: `{spacing.xs}` (8px). 셀이 6개를 넘어가면 3개 단위로 그룹 사이를 `{spacing.md}` (16px)로 벌려도 됨.
-- **Focus**: 보더 `{colors.primary}` 1.5px (전역 정책).
+- **Focus**: 보더 컬러 `{colors.primary}` + `inset 0 0 0 .5px {colors.primary}` shadow로 1.5px처럼(폭은 1px 유지 — text-input과 동일, 전역 정책).
 - **Filled**: 텍스트 `{colors.ink}`. 자동 다음 셀로 포커스 이동(Base UI `OTPField` 기본 동작).
 - **Accessibility**: `<label>` (또는 `Field.Label`)을 OTP 그룹에 연결하면 Base UI가 첫 셀에 `aria-labelledby`를 자동 부여합니다 — 첫 셀의 `aria-label`은 Base UI `OTPField.Input`이 의도적으로 무시(dev 환경 경고)하므로 전달하지 않습니다. 2번째 셀부터는 `aria-label="인증 코드 N번째 자리"`로 분리.
 
