@@ -4210,14 +4210,18 @@ html[data-theme="dark"] .slider-thumb {
   right: 24px;
   bottom: 24px;
   z-index: 40;
-  display: grid;
-  gap: 8px;
   width: min(360px, calc(100vw - 32px));
+  /* 스택 포지셔닝 컨텍스트 — 카드는 absolute로 겹쳐 쌓이고, collapsed 높이는 맨 앞 토스트 높이로 예약 */
+  height: var(--toast-frontmost-height);
 }
 
 /* Flat ink surface — no gloss, no shadow */
 .toast-card {
-  position: relative;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: calc(100 - var(--toast-index));
   display: flex;
   align-items: flex-start;
   gap: 10px;
@@ -4226,9 +4230,24 @@ html[data-theme="dark"] .slider-thumb {
   border-radius: var(--radius-md);
   background: #13151A;
   color: #ffffff;
+  transform-origin: bottom center;
+  /* Collapsed 스택 깊이감: 뒤 토스트는 위로 살짝 밀려 index당 0.96 스케일 + opacity 0.7(첫 뒤 토스트) */
+  transform:
+    translateX(var(--toast-swipe-movement-x))
+    translateY(calc(var(--toast-swipe-movement-y) + var(--toast-index) * -8px))
+    scale(calc(1 - var(--toast-index) * 0.04));
+  opacity: calc(1 - var(--toast-index) * 0.3);
   transition:
     opacity var(--motion-expand) var(--ease-out-expo),
     transform var(--motion-expand) var(--ease-out-expo);
+}
+
+/* Hover/focus 시 8px 간격 세로 스택으로 펼침 (base-ui data-expanded) */
+.toast-card[data-expanded] {
+  opacity: 1;
+  transform:
+    translateX(var(--toast-swipe-movement-x))
+    translateY(calc(var(--toast-swipe-movement-y) + var(--toast-offset-y) * -1 + var(--toast-index) * -8px));
 }
 
 /* Enter — 우측 16px에서 슬라이드 + 페이드 인 */
