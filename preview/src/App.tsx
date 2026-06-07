@@ -276,12 +276,13 @@ export function App() {
                     { token: 'display-lg', size: '56 / 600', sample: '주요 페이지 섹션 제목' },
                     { token: 'display-md', size: '40 / 600', sample: '서브 섹션 제목' },
                     { token: 'headline',   size: '28 / 600', sample: '패널과 카드 그룹 제목' },
-                    { token: 'title-md',   size: '22 / 500', sample: '카드·모달·드로어·시트 컨테이너 타이틀' },
+                    { token: 'title-md',   size: '22 / 600', sample: '카드·모달·드로어·시트 컨테이너 타이틀' },
                     { token: 'title-sm',   size: '20 / 600', sample: '모달·드로어·시트 타이틀' },
-                    { token: 'body-lg',    size: '18 / 400', sample: '도입부 문단과 강조 본문' },
-                    { token: 'body-md',    size: '16 / 400', sample: '기본 본문 — 가독성 확보.' },
+                    { token: 'body-xl',    size: '18 / 400', sample: '도입부 문단과 강조 본문' },
+                    { token: 'body-lg',    size: '16 / 400', sample: '기본 본문 — 가독성 확보.' },
+                    { token: 'body-md',    size: '15 / 400', sample: '중간 본문 — 14와 16 사이' },
                     { token: 'body-sm',    size: '14 / 400', sample: '보조 텍스트와 메타 정보' },
-                    { token: 'caption',    size: '12 / 400', sample: '작은 캡션과 부가 정보' },
+                    { token: 'caption',    size: '13 / 400', sample: '작은 캡션과 부가 정보' },
                     { token: 'label-xl',   size: '18 / 500', sample: 'Display 라벨 (히어로 CTA)' },
                     { token: 'label-lg',   size: '16 / 500', sample: '기본 라벨 (버튼·메뉴·탭)' },
                     { token: 'label-md',   size: '15 / 500', sample: '중간 라벨 (40px 컨테이너)' },
@@ -1782,7 +1783,6 @@ export function App() {
                         collisionPadding={VIEWPORT_PADDING}
                       >
                         <Tooltip.Popup className="tooltip-popup">
-                          <Tooltip.Arrow className="popup-arrow" />
                           NCAI 디자인 원칙: 절제를 통한 위계의 완성.
                         </Tooltip.Popup>
                       </Tooltip.Positioner>
@@ -1798,7 +1798,6 @@ export function App() {
                         collisionPadding={VIEWPORT_PADDING}
                       >
                         <Tooltip.Popup className="tooltip-popup">
-                          <Tooltip.Arrow className="popup-arrow" />
                           <span>저장</span>
                           <span className="tooltip-kbd-group">
                             <kbd>⌘</kbd>
@@ -1876,7 +1875,6 @@ function PreviewSection({
   return (
     <section className={`component-card${wide ? ' card-full' : ''}`} aria-labelledby={`${slug(title)}-title`}>
       <div className="component-copy">
-        <span className="component-index">{title}</span>
         <h3 id={`${slug(title)}-title`}>{title}</h3>
         <p style={{ whiteSpace: 'pre-line' }}>{description}</p>
       </div>
@@ -2027,7 +2025,9 @@ function ToastList() {
           <Toast.Title className="toast-title" />
           <Toast.Description className="toast-description" />
         </Toast.Content>
-        <Toast.Close className="toast-close" aria-label="닫기">×</Toast.Close>
+        <Toast.Close className="toast-close" aria-label="닫기">
+          <Icon svg={xIcon} size={12} />
+        </Toast.Close>
       </Toast.Root>
     );
   });
@@ -2479,7 +2479,6 @@ function IconTooltipButton({
           collisionPadding={VIEWPORT_PADDING}
         >
           <Tooltip.Popup className="tooltip-popup">
-            <Tooltip.Arrow className="popup-arrow" />
             <span>{label}</span>
             {shortcut && (
               <span className="tooltip-kbd-group">
