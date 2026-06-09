@@ -43,9 +43,9 @@
 
   /* === SEMANTIC ===
      단일 팔레트로 운영. Success(녹)는 활성·정상 뱃지, 일반 성공 알림에 사용합니다. */
-  --color-semantic-success: #00d954;          /* 선명한 그린 — Meter/Progress 바 등 fill 전용 */
-  --color-semantic-success-bg: #ecfeea;       /* 옅은 연두 틴트 — success 뱃지/알림 배경 */
-  --color-semantic-success-text: #00ae1a;     /* 컬러 글씨 전용 — vivid 그린 */
+  --color-semantic-success: #32be81;          /* 선명한 그린 — Meter/Progress 바 등 fill 전용 */
+  --color-semantic-success-bg: #ecfdf5;       /* 옅은 연두 틴트 — success 뱃지/알림 배경 */
+  --color-semantic-success-text: #059669;     /* 컬러 글씨 전용 — vivid 그린 */
   --color-semantic-error: #f33942;
   --color-semantic-error-hover: #e0343d;       /* button-danger hover — primary→primary-hover와 동일한 톤 다운 패턴 */
   --color-semantic-error-bg: #fff5f7;          /* 옅은 rose 틴트 — error 뱃지/알림 배경 */
@@ -163,8 +163,7 @@
    값/상태 override는 이 뒤에서 개별 속성으로 덮으면 됨.
    ============================================================ */
 .display-80sb,
-h1,
-.type-display-xl {
+h1 {
   font-family: var(--font-text);
   font-weight: var(--fw-semibold);
   font-size: 80px;
@@ -173,8 +172,7 @@ h1,
 }
 
 .display-56sb,
-h2,
-.type-display-lg {
+h2 {
   font-family: var(--font-text);
   font-weight: var(--fw-semibold);
   font-size: 56px;
@@ -182,8 +180,7 @@ h2,
   letter-spacing: -1.8px;
 }
 
-.display-40sb,
-.type-display-md {
+.display-40sb {
   font-family: var(--font-text);
   font-weight: var(--fw-semibold);
   font-size: 40px;
@@ -191,8 +188,7 @@ h2,
   letter-spacing: -1.0px;
 }
 
-.headline-28sb,
-.type-headline {
+.headline-28sb {
   font-family: var(--font-text);
   font-weight: var(--fw-semibold);
   font-size: 28px;
@@ -201,8 +197,7 @@ h2,
 }
 
 .title-22sb,
-h3,
-.type-title-md {
+h3 {
   font-family: var(--font-text);
   font-weight: var(--fw-semibold);
   font-size: 22px;
@@ -212,8 +207,7 @@ h3,
 
 .title-20sb,
 .sub-nav strong,
-.modal-title,
-.type-title-sm {
+.modal-title {
   font-family: var(--font-text);
   font-weight: var(--fw-semibold);
   font-size: 20px;
@@ -224,8 +218,7 @@ h3,
 .body-18r,
 .hero-copy,
 .gallery-intro p:not(.eyebrow),
-.handoff-tile p:not(.eyebrow),
-.type-body-xl {
+.handoff-tile p:not(.eyebrow) {
   font-family: var(--font-text);
   font-weight: var(--fw-regular);
   font-size: 18px;
@@ -238,8 +231,7 @@ body,
 .modal-list-item-title,
 .bottom-sheet-option,
 .modal-copy,
-.preview-card-demo-prose,
-.type-body-lg {
+.preview-card-demo-prose {
   font-family: var(--font-text);
   font-weight: var(--fw-regular);
   font-size: 16px;
@@ -248,8 +240,7 @@ body,
 }
 
 .body-15r,
-.accordion-panel,
-.type-body-md {
+.accordion-panel {
   font-family: var(--font-text);
   font-weight: var(--fw-regular);
   font-size: 15px;
@@ -276,8 +267,7 @@ body,
 .popover-copy,
 .data-table,
 .scroll-viewport p,
-.tooltip-popup,
-.type-body-sm {
+.tooltip-popup {
   font-family: var(--font-text);
   font-weight: var(--fw-regular);
   font-size: 14px;
@@ -293,8 +283,7 @@ body,
 .field-error,
 .date-picker-weekday,
 .data-table thead tr th,
-.type-meta,
-.type-caption {
+.type-meta {
   font-family: var(--font-text);
   font-weight: var(--fw-regular);
   font-size: 13px;
@@ -303,8 +292,7 @@ body,
 }
 
 .label-18m,
-.button-display,
-.type-label-xl {
+.button-display {
   font-family: var(--font-text);
   font-weight: var(--fw-medium);
   font-size: 18px;
@@ -328,8 +316,7 @@ body,
 .alert-dialog-title,
 .fieldset-legend,
 .nav-menu-trigger,
-.nav-menu-title,
-.type-label-lg {
+.nav-menu-title {
   font-family: var(--font-text);
   font-weight: var(--fw-medium);
   font-size: 16px;
@@ -338,8 +325,7 @@ body,
 }
 
 .label-15m,
-.button-md,
-.type-label-md {
+.button-md {
   font-family: var(--font-text);
   font-weight: var(--fw-medium);
   font-size: 15px;
@@ -356,8 +342,7 @@ body,
 .sidebar-item,
 .tab,
 .toggle-button,
-.toggle-item,
-.type-label-sm {
+.toggle-item {
   font-family: var(--font-text);
   font-weight: var(--fw-medium);
   font-size: 14px;
@@ -366,8 +351,7 @@ body,
 }
 
 .eyebrow-13m,
-.eyebrow,
-.type-eyebrow {
+.eyebrow {
   font-family: var(--font-text);
   font-weight: var(--fw-medium);
   font-size: 13px;
@@ -375,8 +359,7 @@ body,
   letter-spacing: 0.4px;
 }
 
-.mono-13r,
-.type-mono {
+.mono-13r {
   font-family: var(--font-mono);
   font-weight: var(--fw-regular);
   font-size: 13px;
@@ -4198,77 +4181,6 @@ html[data-theme="dark"] .slider-thumb {
   color: var(--color-body-muted);
   text-align: right;
   white-space: nowrap;
-}
-
-/* 각 토큰별 샘플 스타일 — Linear 13 tokens */
-.type-display-xl {
-  font-family: var(--font-text);
-  color: var(--color-ink);
-}
-.type-display-lg {
-  font-family: var(--font-text);
-  color: var(--color-ink);
-}
-.type-display-md {
-  font-family: var(--font-text);
-  color: var(--color-ink);
-}
-.type-headline {
-  font-family: var(--font-text);
-  color: var(--color-ink);
-}
-.type-title-md {
-  font-family: var(--font-text);
-  color: var(--color-ink);
-}
-.type-title-sm {
-  font-family: var(--font-text);
-  color: var(--color-ink);
-}
-.type-body-xl {
-  font-family: var(--font-text);
-  color: var(--color-ink);
-}
-.type-body-lg {
-  font-family: var(--font-text);
-  color: var(--color-ink);
-}
-.type-body-md {
-  font-family: var(--font-text);
-  color: var(--color-ink);
-}
-.type-body-sm {
-  font-family: var(--font-text);
-  color: var(--color-ink);
-}
-.type-caption {
-  font-family: var(--font-text);
-  color: var(--color-ink);
-}
-.type-label-xl {
-  font-family: var(--font-text);
-  color: var(--color-ink);
-}
-.type-label-lg {
-  font-family: var(--font-text);
-  color: var(--color-ink);
-}
-.type-label-md {
-  font-family: var(--font-text);
-  color: var(--color-ink);
-}
-.type-label-sm {
-  font-family: var(--font-text);
-  color: var(--color-ink);
-}
-.type-eyebrow {
-  font-family: var(--font-text);
-  color: var(--color-ink);
-  text-transform: uppercase;
-}
-.type-mono {
-  font-family: var(--font-mono);
-  color: var(--color-ink);
 }
 
 /* ============================================================

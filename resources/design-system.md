@@ -155,9 +155,9 @@ AI가 값을 추측하지 않도록 모든 토큰의 실제 값을 한곳에 모
 | `--color-disabled` | `#c4c9cb` | `#424347` |
 | `--color-primary` | `#006eff` | `#1c82ff` |
 | `--color-primary-hover` | `#005bed` | `#3791ff` |
-| `--color-semantic-success` | `#00d954` | `#34d399` |
-| `--color-semantic-success-bg` | `#ecfeea` | `rgba(5,150,105,.15)` |
-| `--color-semantic-success-text` | `#00ae1a` | `=success` |
+| `--color-semantic-success` | `#32be81` | `#34d399` |
+| `--color-semantic-success-bg` | `#ecfdf5` | `rgba(5,150,105,.15)` |
+| `--color-semantic-success-text` | `#059669` | `=success` |
 | `--color-semantic-error` | `#f33942` | `#f74b53` |
 | `--color-semantic-error-hover` | `#e0343d` | `#e3454c` |
 | `--color-semantic-error-bg` | `#fff5f7` | `rgba(247,75,83,.15)` |
@@ -558,14 +558,14 @@ NCAI Design System의 컬러 토큰은 **Surface / Text / Semantic / Avatar**의
 
 | 역할 | Light (text / bg) | Dark (text / bg) | 용도 |
 |---|---|---|---|
-| **Success** (`{colors.semantic-success}` / `{colors.semantic-success-bg}`) | `#00D954` / `#ECFEEA` | `#34D399` / `rgba(5,150,105,0.15)` | "활성·정상" 뱃지, 일반 성공 알림 |
+| **Success** (`{colors.semantic-success}` / `{colors.semantic-success-bg}`) | `#32BE81` / `#ECFDF5` | `#34D399` / `rgba(5,150,105,0.15)` | "활성·정상" 뱃지, 일반 성공 알림 |
 | **Info** (`{colors.semantic-info}` / `{colors.semantic-info-bg}`) | `#006EFF` (= Primary) / `#EFF6FF` | `#1C82FF` (= dark Primary) / `rgba(0,110,255,0.15)` | 진행 중·정보 뱃지 — Primary alias로 브랜드와 자동 동기화 |
 | **Warning** (`{colors.semantic-warning}` / `{colors.semantic-warning-bg}`) | `#FFAE00` / `#FFF9E3` | `#FE9F19` / `rgba(254,159,25,0.15)` | 대기·주의·보안 경고 |
 | **Error** (`{colors.semantic-error}` / `{colors.semantic-error-bg}`) | `#F33942` / `#FFF5F7` | `#F74B53` / `rgba(247,75,83,0.15)` | 실패·정지 뱃지, 잘못된 입력, Negative(파괴적) 버튼 |
 | **Neutral** (`{colors.semantic-neutral}` / `{colors.semantic-neutral-bg}`) | `#6B7280` (= Body Muted) / `#F3F4F6` | `#C7C9CB` / `rgba(149,151,153,0.15)` | 제안중·초안·대기열처럼 상태 신호가 약한 passive 정보 |
 
 > [!NOTE]
-> **채움(fill) vs 글씨(`-text`) 토큰 분리**: 위 표의 Light 값은 **솔리드/채움**(Meter·Progress 바, solid 뱃지 배경, `button-danger`)에 쓰는 선명한 색입니다 — 흰 배경 텍스트로는 대비가 매우 낮아(≈2:1 이하) 글씨에 쓰지 않습니다. 흰·틴트 배경 위 **컬러 글씨**(틴트 뱃지 텍스트 등)는 전용 토큰을 사용합니다 — `{colors.semantic-success-text}` `#00AE1A`, `{colors.semantic-warning-text}` `#EB8E02`, `{colors.semantic-error-text}` `#F33942`. Success/Warning은 브랜드 색감(vivid)을 우선해 디자이너가 직접 지정한 값이고, **Error는 표준 브랜드 레드(`#F33942`, base와 동일)로 원복**했습니다. 틴트 배경 대비는 Success 2.8:1 / Warning 2.4:1 / Error 3.5:1로 모두 **WCAG AA(4.5:1)에 미달**합니다 — 색감을 우선한 의도된 트레이드오프이며, 가독성이 중요한 맥락에서는 더 어두운 톤이 필요할 수 있습니다. 다크 모드는 base(밝은 색)가 어두운 틴트 위에서 이미 또렷하므로 `-text`를 base로 별칭합니다.
+> **채움(fill) vs 글씨(`-text`) 토큰 분리**: 위 표의 Light 값은 **솔리드/채움**(Meter·Progress 바, solid 뱃지 배경, `button-danger`)에 쓰는 선명한 색입니다 — 흰 배경 텍스트로는 대비가 매우 낮아(≈2:1 안팎) 글씨에 쓰지 않습니다. 흰·틴트 배경 위 **컬러 글씨**(틴트 뱃지 텍스트 등)는 전용 토큰을 사용합니다 — `{colors.semantic-success-text}` `#059669`, `{colors.semantic-warning-text}` `#EB8E02`, `{colors.semantic-error-text}` `#F33942`. Success/Warning은 브랜드 그린·앰버 색감을 살려 디자이너가 직접 지정한 값이고(Success는 가독성을 위해 톤다운한 emerald 계열), **Error는 표준 브랜드 레드(`#F33942`, base와 동일)로 원복**했습니다. 틴트 배경 대비는 Success 3.6:1 / Warning 2.4:1 / Error 3.5:1로 모두 **WCAG AA(4.5:1)에 미달**합니다 — 색감을 우선한 의도된 트레이드오프이며, 가독성이 중요한 맥락에서는 더 어두운 톤이 필요할 수 있습니다. 다크 모드는 base(밝은 색)가 어두운 틴트 위에서 이미 또렷하므로 `-text`를 base로 별칭합니다.
 
 > [!IMPORTANT]
 > **Minimalist Validation & Focus Policy** (전역 원칙 — 모든 인터랙티브 컴포넌트에 적용)
@@ -1652,7 +1652,7 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 - **Size**: 높이 24px, 좌우 패딩 `{spacing.8}` (8px), gap `{spacing.4}` (4px).
 - **Typography**: `.caption-13r` (13px) weight 500.
 - **Variants** (BG는 L ~96 유지 + 채도만 가볍게 down으로 시각 무게 균일화):
-  - `badge-success` (완료/정상): BG `{colors.semantic-success-bg}` (`#ECFEEA`) / Text `{colors.semantic-success-text}` (`#00AE1A`)
+  - `badge-success` (완료/정상): BG `{colors.semantic-success-bg}` (`#ECFDF5`) / Text `{colors.semantic-success-text}` (`#059669`)
   - `badge-info` (진행 중/정보): BG `{colors.semantic-info-bg}` (`#EFF6FF`) / Text `{colors.semantic-info}` (`{colors.primary}`) — Primary alias로 브랜드 자동 동기화.
   - `badge-warning` (대기): BG `{colors.semantic-warning-bg}` (`#FFF9E3`) / Text `{colors.semantic-warning-text}` (`#EB8E02`)
   - `badge-error` (실패/오류/정지): BG `{colors.semantic-error-bg}` (`#FFF5F7`) / Text `{colors.semantic-error-text}` (`#F33942`)
