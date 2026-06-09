@@ -903,7 +903,7 @@ export function App() {
                 </label>
               </PreviewSection>
 
-              <PreviewSection title="Checkbox Group" description={'다중 선택 그룹 컨트롤.\n세로 그룹은 spacing-xs(8px), 가로 그룹은 spacing-xl(24px) 간격.'}>
+              <PreviewSection title="Checkbox Group" description={'다중 선택 그룹 컨트롤.\n세로 그룹은 spacing-8, 가로 그룹은 spacing-24 간격.'}>
                 <div className="choice-group-variants">
                 <CheckboxGroup className="choice-stack" defaultValue={['tokens']}>
                   {[
