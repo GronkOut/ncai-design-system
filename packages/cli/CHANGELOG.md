@@ -1,5 +1,11 @@
 # @ncai/design-system-cli
 
+## 0.8.1
+
+### Patch Changes
+
+- Install a Cursor always-apply rule alongside the Cursor skill so UI work reliably loads the NC AI design-system skill.
+
 ## 0.8.0
 
 ### Minor Changes

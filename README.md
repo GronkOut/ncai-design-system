@@ -94,7 +94,7 @@ npm.cmd i @ncai/design-system @ncai/design-system-icons @base-ui/react
 npm i -D @ncai/design-system-cli @ncai/design-system-mcp
 ```
 
-`@ncai/design-system-skills`는 Cursor Skill 파일(`.cursor/skills/ncai-design-system/SKILL.md`)을 로컬에서 설치할 때만 필요합니다. Claude, Codex, VS Code/Copilot 등은 CLI가 각 에이전트용 지침 파일을 직접 생성하므로 이 패키지를 별도로 설치하지 않아도 됩니다.
+`@ncai/design-system-skills`는 Cursor Skill 파일(`.cursor/skills/ncai-design-system/SKILL.md`)을 로컬에서 설치할 때만 필요합니다. Cursor는 프로젝트의 `.cursor/skills/` 아래 `SKILL.md`를 Skill로 자동 탐색하고, Skill 설명을 기준으로 관련 UI 작업에서 모델이 선택해 사용합니다. CLI는 Cursor에서 UI 작업 전 이 Skill을 더 안정적으로 참조하도록 `.cursor/rules/ncai-design-system.mdc`도 함께 생성합니다. 이 Rule은 Skill 본문을 중복하지 않고 Skill 파일을 읽으라는 짧은 항상 적용 지침만 담습니다. Claude, Codex, VS Code/Copilot 등은 CLI가 각 에이전트용 지침 파일을 직접 생성하므로 이 패키지를 별도로 설치하지 않아도 됩니다.
 
 ```bash
 npm i -D @ncai/design-system-skills
@@ -102,12 +102,12 @@ npm i -D @ncai/design-system-skills
 
 지원하는 에이전트는 다음과 같습니다.
 
-- `cursor`: `.cursor/skills/ncai-design-system/SKILL.md`와 `.cursor/mcp.json`을 생성합니다.
+- `cursor`: `.cursor/skills/ncai-design-system/SKILL.md`, `.cursor/rules/ncai-design-system.mdc`, `.cursor/mcp.json`을 생성합니다.
 - `vscode`: `.github/copilot-instructions.md`와 `.vscode/mcp.json`을 생성합니다.
 - `claude`: `CLAUDE.md`와 `.mcp.json`을 생성합니다.
 - `codex`: `AGENTS.md`와 `.ncai/codex-mcp.json`을 생성합니다.
-- `windsurf`: `.windsurfrules`와 `.ncai/windsurf-mcp.json`을 생성합니다.
-- `jetbrains`: `.ncai/jetbrains-agent-instructions.md`와 `.ncai/jetbrains-mcp.json`을 생성합니다.
+- `windsurf`: `.windsurf/rules/ncai-design-system.md`와 `.ncai/windsurf-mcp.json`을 생성합니다.
+- `jetbrains`: `.aiassistant/rules/ncai-design-system.md`와 `.ncai/jetbrains-mcp.json`을 생성합니다.
 - `manual`: `.ncai/agent-instructions.md`와 `.ncai/manual-mcp.json`을 생성합니다.
 
 예시는 다음과 같습니다.
@@ -131,7 +131,7 @@ CLI/MCP를 로컬 개발 의존성으로 고정해 둔 프로젝트라면 함께
 npm update @ncai/design-system-cli @ncai/design-system-mcp
 ```
 
-`@ncai/design-system-skills`는 Cursor Skill 파일(`.cursor/skills/ncai-design-system/SKILL.md`)을 로컬에서 설치할 때만 필요합니다. Claude, Codex, VS Code/Copilot 등은 CLI가 각 에이전트용 지침 파일(`CLAUDE.md`, `AGENTS.md`, `.github/copilot-instructions.md` 등)을 직접 생성하므로 이 패키지를 별도로 설치하지 않아도 됩니다.
+`@ncai/design-system-skills`는 Cursor Skill 파일(`.cursor/skills/ncai-design-system/SKILL.md`)을 로컬에서 설치할 때만 필요합니다. Cursor Skill은 `.mdc`가 아니라 `SKILL.md` 형식이며, 함께 생성되는 `.cursor/rules/ncai-design-system.mdc`는 UI 작업 전에 Skill을 읽도록 안내하는 항상 적용 Rule입니다. Claude, Codex, VS Code/Copilot 등은 CLI가 각 에이전트용 지침 파일(`CLAUDE.md`, `AGENTS.md`, `.github/copilot-instructions.md` 등)을 직접 생성하므로 이 패키지를 별도로 설치하지 않아도 됩니다.
 
 ```bash
 npm update @ncai/design-system-skills

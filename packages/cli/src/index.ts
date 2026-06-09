@@ -145,6 +145,30 @@ function agentInstructions() {
 `;
 }
 
+function cursorRuleInstructions() {
+  return `---
+description: Always load the NC AI design system skill before UI work.
+alwaysApply: true
+---
+
+# NC AI Design System
+
+Before creating, editing, reviewing, or debugging React UI, styling, Base UI primitives, NC AI visual language, or design-system-related code in this repository, read and follow:
+
+@.cursor/skills/${skillName}/SKILL.md
+
+If the skill file is unavailable, use the installed NC AI design-system package, MCP tools, or \`npx ${cliPackage} show\` to inspect the design-system guidance before changing UI code.
+`;
+}
+
+function windsurfRuleInstructions() {
+  return `---
+trigger: always_on
+---
+
+${agentInstructions()}`;
+}
+
 function mcpSnippet() {
   return {
     mcpServers: {
@@ -166,12 +190,16 @@ function agentInstructionRelativeTarget(agent: AgentChoice) {
     vscode: '.github/copilot-instructions.md',
     claude: 'CLAUDE.md',
     codex: 'AGENTS.md',
-    windsurf: '.windsurfrules',
-    jetbrains: '.ncai/jetbrains-agent-instructions.md',
+    windsurf: `.windsurf/rules/${skillName}.md`,
+    jetbrains: `.aiassistant/rules/${skillName}.md`,
     manual: '.ncai/agent-instructions.md'
   };
 
   return targets[agent];
+}
+
+function cursorRuleRelativeTarget() {
+  return `.cursor/rules/${skillName}.mdc`;
 }
 
 function agentMcpRelativeTarget(agent: AgentChoice) {
@@ -212,6 +240,12 @@ async function installSkill(agent?: AgentChoice) {
     await mkdir(target, { recursive: true });
     await writeFile(join(target, 'SKILL.md'), skill, 'utf8');
     console.log(`NC AI Cursor Skill을 설치했습니다: ${target}`);
+
+    if (!optionValue('--path') && optionValue('--target') !== 'cursor-user') {
+      const ruleTarget = resolve(cursorRuleRelativeTarget());
+      await writeMarkdown(ruleTarget, cursorRuleInstructions());
+      console.log(`NC AI Cursor Rule을 작성했습니다: ${ruleTarget}`);
+    }
     return;
   }
 
@@ -223,7 +257,7 @@ async function installSkill(agent?: AgentChoice) {
   }
 
   const target = agentInstructionTarget(selectedAgent);
-  await writeMarkdown(target, agentInstructions());
+  await writeMarkdown(target, selectedAgent === 'windsurf' ? windsurfRuleInstructions() : agentInstructions());
   console.log(`${agentLabels[selectedAgent]} 지침을 작성했습니다: ${target}`);
 }
 
@@ -360,6 +394,11 @@ async function doctor() {
   for (const agent of agentsToCheck) {
     const instructionPath = join(projectRoot, agentInstructionRelativeTarget(agent));
     console.log((await pathExists(instructionPath)) ? `[PASS] ${agentLabels[agent]} 지침 파일 있음: ${instructionPath}` : `[INFO] ${agentLabels[agent]} 지침 파일 없음: ${instructionPath}`);
+
+    if (agent === 'cursor') {
+      const rulePath = join(projectRoot, cursorRuleRelativeTarget());
+      console.log((await pathExists(rulePath)) ? `[PASS] ${agentLabels[agent]} Rule 파일 있음: ${rulePath}` : `[INFO] ${agentLabels[agent]} Rule 파일 없음: ${rulePath}`);
+    }
 
     const mcpPath = join(projectRoot, agentMcpRelativeTarget(agent));
     console.log((await pathExists(mcpPath)) ? `[PASS] ${agentLabels[agent]} MCP 설정 있음: ${mcpPath}` : `[INFO] ${agentLabels[agent]} MCP 설정 없음: ${mcpPath}`);
