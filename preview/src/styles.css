@@ -188,12 +188,20 @@ h2 {
   letter-spacing: -1.0px;
 }
 
-.headline-28sb {
+.display-28sb {
   font-family: var(--font-text);
   font-weight: var(--fw-semibold);
   font-size: 28px;
   line-height: 1.20;
   letter-spacing: -0.6px;
+}
+
+.title-24sb {
+  font-family: var(--font-text);
+  font-weight: var(--fw-semibold);
+  font-size: 24px;
+  line-height: 1.22;
+  letter-spacing: -0.5px;
 }
 
 .title-22sb,
@@ -213,6 +221,22 @@ h3 {
   font-size: 20px;
   line-height: 1.30;
   letter-spacing: -0.2px;
+}
+
+.title-18sb {
+  font-family: var(--font-text);
+  font-weight: var(--fw-semibold);
+  font-size: 18px;
+  line-height: 1.35;
+  letter-spacing: -0.1px;
+}
+
+.title-16sb {
+  font-family: var(--font-text);
+  font-weight: var(--fw-semibold);
+  font-size: 16px;
+  line-height: 1.40;
+  letter-spacing: -0.05px;
 }
 
 .body-18r,
@@ -4402,7 +4426,7 @@ html[data-theme="dark"] {
   --color-control-track: #3e3e41; /* 다크 surface 스케일 한 단계 연장 (#2A → #3E). 카드/Elevated 위에서도 시인성 확보 */
 
   /* Text */
-  --color-ink: #f2f2f2;
+  --color-ink: #e5e5e5;
   --color-body-muted: #959799;
 
   /* Disabled 톤 (다크) — 라이트 neutral 대응. 다크 surface 곡선의 cool 톤과 어울리는

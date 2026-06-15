@@ -12,7 +12,7 @@ NCAI Design System은 기술적 정밀함과 감성적 절제가 조화를 이�
 **Key Characteristics:**
 - **하나의 강력한 Primary 액센트 컬러**: 브랜드의 정체성과 주요 클릭 유도를 담당하는 색상(현재 `#006EFF` 적용)을 명확히 정의합니다.
 - **8px 베이스의 Spacing System**: 가장 범용적인 8px 기반 격자 체계를 사용하여 컴포넌트 내부 및 외부 여백을 설정합니다.
-- **체계적인 텍스트 계층 구조 (Typography Hierarchy)**: Display(xl/lg/md), Headline, Title(md/sm), Body(xl/lg/md/sm), Label(xl/lg/md/sm), Caption, Eyebrow, Mono 총 17개 토큰의 명확한 용도와 굵기(`--fw-regular`/`--fw-medium`/`--fw-semibold`), 줄간격 규칙을 정합니다.
+- **체계적인 텍스트 계층 구조 (Typography Hierarchy)**: Display(80/56/40/28), Title(24/22/20/18/16), Body(18/16/15/14), Caption(13), Label(18/16/15/14), Eyebrow(13), Mono(13) 총 20개 텍스트 스타일 클래스의 명확한 용도와 굵기(`--fw-regular`/`--fw-medium`/`--fw-semibold`), 줄간격 규칙을 정합니다.
 - **상태를 표현하는 Elevation과 컴포넌트 형태**: 플랫(Flat)함을 기본으로 하되, 그림자(Shadow)와 테두리 라운딩(Border Radius)을 사용하여 UI의 명확한 위계를 구현합니다.
 특히 중요한 상태 표시는 가장 정갈한 **솔리드 잉크(Solid Ink)** 스타일을 사용하여 절제미와 전문성을 전달합니다.
 
@@ -53,13 +53,13 @@ html[data-theme="dark"] {
   /* §3 "Colors"·"Shadow" Dark 열만 재정의 (나머지는 위 :root 공통값 상속) */
   --color-canvas: #111212;
   --color-hairline: #25272b;
-  --color-ink: #f2f2f2;
+  --color-ink: #e5e5e5;
   --color-primary: #1c82ff;
   /* … */
 }
 ```
 
-**② 텍스트 스타일 클래스** — §3 Typography 표 17행을 각각 `.{class}` 규칙으로 출력하세요. 컴포넌트는 이 클래스를 엘리먼트에 붙이거나, 역할 규칙의 셀렉터 목록에 자기 셀렉터를 합칩니다(§2).
+**② 텍스트 스타일 클래스** — §3 Typography 표 20행을 각각 `.{class}` 규칙으로 출력하세요. 컴포넌트는 이 클래스를 엘리먼트에 붙이거나, 역할 규칙의 셀렉터 목록에 자기 셀렉터를 합칩니다(§2).
 
 ```css
 .display-80sb { font-family: var(--font-text); font-weight: var(--fw-semibold); font-size: 80px; line-height: 1.05; letter-spacing: -3.0px; }
@@ -104,10 +104,10 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
 ### 2. Typography는 텍스트 스타일 클래스 (역할당 1개, 5속성 묶음)
 
-타이포는 역할마다 **클래스 1개**가 `font-family`·`font-weight`·`font-size`·`line-height`·`letter-spacing` **5속성**을 묶습니다(§3에 17개 정의). 더 이상 역할당 토큰 4개를 따로 걸지 않습니다.
+타이포는 역할마다 **클래스 1개**가 `font-family`·`font-weight`·`font-size`·`line-height`·`letter-spacing` **5속성**을 묶습니다(§3에 20개 정의). 더 이상 역할당 토큰 4개를 따로 걸지 않습니다.
 
 ```css
-/* 정의: 역할당 1규칙 (Foundation에 17개 출력) */
+/* 정의: 역할당 1규칙 (Foundation에 20개 출력) */
 .body-14r {
   font-family:    var(--font-text);
   font-weight:    var(--fw-regular);   /* 역할 고정 weight (base 토큰 참조) */
@@ -128,9 +128,9 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 |---|---|---|
 | `--fw-regular` | 400 | `body-18r` · `body-16r` · `body-15r` · `body-14r`, `caption-13r`, `mono-13r` |
 | `--fw-medium` | 500 | `label-18m/16m/15m/14m`(버튼·탭·메뉴·칩·트리거), `eyebrow-13m` |
-| `--fw-semibold` | 600 | `display-80sb/56sb/40sb`, `headline-28sb`, `title-22sb`, `title-20sb` |
+| `--fw-semibold` | 600 | `display-80sb/56sb/40sb/28sb`, `title-24sb/22sb/20sb/18sb/16sb` |
 
-- 클래스 목록: `display-80sb/56sb/40sb`, `headline-28sb`, `title-22sb/20sb`, `body-18r` · `body-16r` · `body-15r` · `body-14r`, `label-18m/16m/15m/14m`, `caption-13r`, `eyebrow-13m`, `mono-13r`.
+- 클래스 목록: `display-80sb/56sb/40sb/28sb`, `title-24sb/22sb/20sb/18sb/16sb`, `body-18r` · `body-16r` · `body-15r` · `body-14r`, `label-18m/16m/15m/14m`, `caption-13r`, `eyebrow-13m`, `mono-13r`.
 - `h1`=display-80sb, `h2`=display-56sb, `h3`=title-22sb는 그룹 셀렉터로 이미 묶여 있고, 전역 `.eyebrow`는 `.eyebrow-13m`에 합쳐져 있습니다.
 
 ### 3. 전체 토큰 레퍼런스 (변수명 + 값)
@@ -148,7 +148,7 @@ AI가 값을 추측하지 않도록 모든 토큰의 실제 값을 한곳에 모
 | `--color-surface-inset` | `#eef1f5` | `#2b2c30` |
 | `--color-hairline` | `#e5e7eb` | `#25272b` |
 | `--color-control-track` | `#e5e7eb` | `#3e3e41` |
-| `--color-ink` | `#13151a` | `#f2f2f2` |
+| `--color-ink` | `#13151a` | `#e5e5e5` |
 | `--color-body-muted` | `#6b7280` | `#959799` |
 | `--color-on-primary` | `#ffffff` | `#ffffff` |
 | `--color-on-ink-muted` | `rgba(255,255,255,.64)` | (동일) |
@@ -204,9 +204,12 @@ AI가 값을 추측하지 않도록 모든 토큰의 실제 값을 한곳에 모
 | `display-80sb` | text | 80px | 600 | 1.05 | -3.0px |
 | `display-56sb` | text | 56px | 600 | 1.10 | -1.8px |
 | `display-40sb` | text | 40px | 600 | 1.15 | -1.0px |
-| `headline-28sb` | text | 28px | 600 | 1.20 | -0.6px |
+| `display-28sb` | text | 28px | 600 | 1.20 | -0.6px |
+| `title-24sb` | text | 24px | 600 | 1.22 | -0.5px |
 | `title-22sb` | text | 22px | 600 | 1.25 | -0.4px |
 | `title-20sb` | text | 20px | 600 | 1.30 | -0.2px |
+| `title-18sb` | text | 18px | 600 | 1.35 | -0.1px |
+| `title-16sb` | text | 16px | 600 | 1.40 | -0.05px |
 | `body-18r` | text | 18px | 400 | 1.50 | -0.1px |
 | `body-16r` | text | 16px | 400 | 1.50 | -0.05px |
 | `body-15r` | text | 15px | 400 | 1.50 | -0.03px |
@@ -647,7 +650,7 @@ NCAI Design System의 컬러 토큰은 **Surface / Text / Semantic / Avatar**의
 | `{colors.surface-elevated-hover}` | `{colors.surface-soft}` | `color-mix(in oklab, surface-elevated 93%, body-muted 7%)` ≈ `#2E2F34` | elevated 표면 위 hover/highlighted 상태 전용. 라이트는 Surface Soft로 통합, 다크는 oklab 색공간에서 elevated에 `body-muted`를 7% 섞어 perceptually uniform lightness lift(+7). **반드시 oklab으로 mix** — sRGB mix는 brightness 변화에 비해 hue가 흔들려 warm/cool 사이를 오가지만, oklab은 hue를 보존하며 brightness만 끌어올림. 베이스 elevated가 바뀌어도 자동 추종 |
 | `{colors.hairline}` | `#E5E7EB` | `#25272B` | 중성 그레이 구분선 |
 | `{colors.control-track}` | `#E5E7EB` | `#3E3E41` | Switch off 트랙. 라이트는 hairline과 동일하나, 다크에서는 `hairline(#25272B)`·`surface-elevated(#27282D)`보다 한 단계 밝게 분기되어 카드 위에서도 트랙 형태가 시인 |
-| `{colors.ink}` | `#13151A` | `#F2F2F2` | 채도 없는 순수 오프화이트 |
+| `{colors.ink}` | `#13151A` | `#E5E5E5` | 채도 없는 순수 오프화이트 |
 | `{colors.body-muted}` | `#6B7280` | `#959799` | 중립 미드 그레이 |
 | `{colors.primary}` | `#006EFF` | `#1C82FF` | 원본 색상 기반, 밝기만 미세 조정 |
 | `{colors.primary-hover}` | `#005BED` | `#3791FF` | 다크 배경 호버 피드백 |
@@ -727,9 +730,12 @@ NCAI는 **Pretendard(디스플레이·본문 공용) + Geist Mono(코드)** 2종
 | `display-80sb` | Pretendard Variable | 80px | 600 | 1.05 | -3.0px | 최상위 히어로 제목 |
 | `display-56sb` | Pretendard Variable | 56px | 600 | 1.10 | -1.8px | 주요 페이지/섹션 제목 |
 | `display-40sb` | Pretendard Variable | 40px | 600 | 1.15 | -1.0px | 서브 섹션 제목 |
-| `headline-28sb` | Pretendard Variable | 28px | 600 | 1.20 | -0.6px | 패널, 모달, 카드 그룹 제목 |
+| `display-28sb` | Pretendard Variable | 28px | 600 | 1.20 | -0.6px | 패널, 모달, 카드 그룹 제목 |
+| `title-24sb` | Pretendard Variable | 24px | 600 | 1.22 | -0.5px | 강조 섹션·영역 타이틀 |
 | `title-22sb` | Pretendard Variable | 22px | 600 | 1.25 | -0.4px | 카드·모달·드로어·시트 등 컨테이너 타이틀 공용 |
 | `title-20sb` | Pretendard Variable | 20px | 600 | 1.30 | -0.2px | 컴팩트 컨테이너 타이틀 (Modal·Drawer·Sheet, Picker/Browse toolbar, 인포 박스 등). title-md(22px)와 같은 semibold를 한 단계 작은 사이즈로 공유 |
+| `title-18sb` | Pretendard Variable | 18px | 600 | 1.35 | -0.1px | 카드·리스트 항목 타이틀 |
+| `title-16sb` | Pretendard Variable | 16px | 600 | 1.40 | -0.05px | 작은 카드·필드 그룹 타이틀 |
 | `body-18r` | Pretendard Variable | 18px | 400 | 1.50 | -0.1px | 도입부 문단, 강조 본문 |
 | `body-16r` | Pretendard Variable | 16px | 400 | 1.50 | -0.05px | 기본 본문 |
 | `body-15r` | Pretendard Variable | 15px | 400 | 1.50 | -0.03px | 중간 본문 — 14 과소·16 과중 사이 |
@@ -818,9 +824,12 @@ Display 크기 헤딩과 본문 사이의 점프가 지나치게 크면 시각�
 | `display-80sb` | 80px | `body-18r` | 18px | ≈ 4.4:1 | 히어로 섹션 전용 |
 | `display-56sb` | 56px | `body-18r` | 18px | ≈ 3.1:1 | 주요 섹션 인트로 |
 | `display-40sb` | 40px | `body-16r` | 16px | 2.5:1 | 서브 섹션 인트로 |
-| `headline-28sb` | 28px | `body-16r` | 16px | 1.75:1 | 패널·카드 그룹 |
+| `display-28sb` | 28px | `body-16r` | 16px | 1.75:1 | 패널·카드 그룹 |
+| `title-24sb` | 24px | `body-14r` | 14px | ≈ 1.7:1 | 강조 섹션·영역 타이틀 |
 | `title-22sb` | 22px | `body-14r` | 14px | ≈ 1.6:1 | 카드·아코디언 헤더 |
 | `title-20sb` | 20px | `body-14r` | 14px | ≈ 1.4:1 | 모달·드로어·시트 타이틀 (`.modal-title` 표준) |
+| `title-18sb` | 18px | `body-14r` | 14px | ≈ 1.3:1 | 카드·리스트 항목 타이틀 |
+| `title-16sb` | 16px | `body-14r` | 14px | ≈ 1.1:1 | 작은 카드·필드 그룹 타이틀 |
 
 **원칙**
 - 헤딩이 40px 이상이면 바디는 반드시 `body-18r`(18px) 이상을 씁니다. 40px 미만은 `body-16r`(16px)로 충분합니다.
@@ -1050,7 +1059,7 @@ Text Button(`button-*` 5변형)과 Icon Button은 동일한 disabled 시각 룰�
 - **Card Title (Compact / 좁은 카드)**: `.title-20sb` (20px / 600). 카드 폭이 360px 이하인 경우 적용 — title-md(22)보다 한 단계 작은 컴팩트 컨테이너 타이틀.
 - **Card Title (Micro / 인포 박스)**: `.body-16r` weight 600 (16px). 알림 카드, 상태 카드 등 한 줄 정보 전달용.
 - **Description**: `.body-16r` (16px) 또는 좁은 카드에서는 `.body-14r` (14px).
-- **금지**: 카드 내부에 `display-*`(40px↑) 또는 `headline-28sb`(28px) 토큰을 사용하지 마세요. 카드 타이틀이 모달 타이틀보다 커 보이면 위계가 무너집니다.
+- **금지**: 카드 내부에 `display-*`(28px↑) 토큰을 사용하지 마세요. 카드 타이틀이 모달 타이틀보다 커 보이면 위계가 무너집니다.
 
 ### Accordion
 접을 수 있는 정보 패널. 카드 안에 중첩되는 경우가 많아 **레이어 위계**가 가장 까다로운 컴포넌트입니다.
@@ -1148,7 +1157,7 @@ Text Button(`button-*` 5변형)과 Icon Button은 동일한 disabled 시각 룰�
 
 #### 공통 규칙
 
-- **Title**: `.title-20sb` (20px / 600, `.modal-title` 표준). Modal·Drawer·BottomSheet가 공유하는 컨테이너 타이틀 토큰으로, 폭(md/lg/xl)과 무관하게 동일 위계를 유지합니다. `headline-28sb`(28px) 이상은 사용하지 않습니다 — 모달은 페이지 히어로가 아닙니다.
+- **Title**: `.title-20sb` (20px / 600, `.modal-title` 표준). Modal·Drawer·BottomSheet가 공유하는 컨테이너 타이틀 토큰으로, 폭(md/lg/xl)과 무관하게 동일 위계를 유지합니다. `display-28sb`(28px) 이상은 사용하지 않습니다 — 모달은 페이지 히어로가 아닙니다.
 - **Description / Body Text**: `.body-16r` (16px). 좁은 모달에서도 동일하게 유지합니다. 모달 본문에 `body-14r`(14px) 같은 보조 텍스트 토큰을 사용해 가독성을 떨어뜨리지 마세요.
 - **Close Button**: Picker/Browse toolbar 우측의 닫기(X)는 `icon-btn icon-btn--md icon-btn--ghost` (40×40 터치 영역, `x` 아이콘 **16px**) — Drawer 닫기와 동일한 `icon-btn` 시스템을 공유합니다. Form 변형은 별도 X 없이 풋터 취소 버튼 + 스크림/Esc로 닫습니다.
 - **Width Scale**: Modal과 Alert Dialog가 공유하는 4단 스케일. 공통 공식은 `min(<size>, calc(100vw - 32px))`로, 모바일에서 좌우 16px 여백이 자동 확보됩니다.
@@ -1212,7 +1221,7 @@ Text Button(`button-*` 5변형)과 Icon Button은 동일한 disabled 시각 룰�
 
 ### BottomSheet
 모바일/태블릿에서 하단에서 올라오는 임시 컨테이너. 모달의 가로형 변형으로 취급하며 타이틀 위계는 동일하게 적용합니다.
-- **Title**: `.title-20sb` (20px / 600, `.modal-title` 표준). Modal·Drawer와 동일한 컨테이너 타이틀 토큰을 공유합니다 — `headline-28sb`(28px) 이상은 사용하지 않습니다.
+- **Title**: `.title-20sb` (20px / 600, `.modal-title` 표준). Modal·Drawer와 동일한 컨테이너 타이틀 토큰을 공유합니다 — `display-28sb`(28px) 이상은 사용하지 않습니다.
 - **Description**: `.body-16r` (16px). 한 줄 안내가 길면 두 줄까지 허용하며, 그 이상은 Body 콘텐츠로 분리합니다.
 - **Padding**: 단일 카드 컴팩트 구성은 상하좌우 **32px**(`{spacing.32}`) 균일 패딩(기본 권장). 섹션이 분리된 큰 시트는 Header 상 **20px** / 하 **12px**, 좌우 **24px**. Body 상하좌우 **24px**.
 - **Shape**: `{radius.20}` (20px). 모달과 동일하게 카드보다 한 단계 부드러운 가장자리로 떠 있는 느낌을 강조합니다.
@@ -1292,7 +1301,7 @@ BottomSheet 본문에 세로로 쌓이는 풀-너비 액션 행. iOS Action Shee
 Drawer는 BottomSheet의 단일 컨테이너와 달리 **3구역 위계**를 명시합니다.
 
 - **Header**: 상하 `{spacing.24}` (24px) / 좌우 `{spacing.32}` (32px). 하단 `1px solid {colors.hairline}`로 Body와 분리. 우측에 `icon-btn icon-btn--md icon-btn--ghost` (40×40) 닫기 버튼 정렬.
-  - **Title**: `.title-20sb` (20px / 600, `.modal-title` 표준). Modal·Sheet와 동일한 컨테이너 타이틀 위계 — `headline-28sb`(28px) 이상은 금지.
+  - **Title**: `.title-20sb` (20px / 600, `.modal-title` 표준). Modal·Sheet와 동일한 컨테이너 타이틀 위계 — `display-28sb`(28px) 이상은 금지.
   - **Description** (선택): `.body-16r` (16px), `{colors.body-muted}`. 1~2줄로 제한.
 - **Body**: 상하 `{spacing.24}` / 좌우 `{spacing.32}`. `overflow-y: auto`로 긴 컨텐츠 스크롤 허용. 섹션 간 `gap: {spacing.24}` (24px).
   - 섹션 라벨은 `.body-14r` weight 500 / `{colors.body-muted}` (Sidebar section label과 동일 톤).
@@ -1312,7 +1321,7 @@ Drawer는 BottomSheet의 단일 컨테이너와 달리 **3구역 위계**를 명
 - 가장자리 변 라운딩 (`border-radius` 적용 금지). 화면 edge와 어긋나면 정착감이 깨집니다.
 - Drawer 안에 또 다른 Modal/Drawer를 띄우는 중첩 오버레이.
 - 데스크톱에서 `left` Drawer를 1차 네비게이션 용도로 사용 (그건 Sidebar의 영역).
-- `display-*` 토큰, `headline-28sb`(28px) 이상의 타이틀.
+- `display-*`(28px↑) 타이틀 토큰.
 - 풀-너비 균등 분할 풋터 액션 (Alert Dialog와 시각 충돌).
 - BottomSheet의 drag handle.
 
@@ -1332,7 +1341,7 @@ Drawer는 BottomSheet의 단일 컨테이너와 달리 **3구역 위계**를 명
 좁고 짧은 보조 컨테이너. 타이틀이 들어가더라도 본문 텍스트 위계를 넘지 않습니다.
 - **Title**: `.body-16r` weight 600 (16px). 단일 라인 권장.
 - **Description**: `.body-14r` (14px).
-- **금지**: `headline-28sb`(28px) 이상의 토큰, 멀티 라인 디스플레이 타이틀.
+- **금지**: `display-28sb`(28px) 이상의 토큰, 멀티 라인 디스플레이 타이틀.
 
 #### Tooltip 전용 규칙
 좁고 일시적인 힌트. 즉각적인 반응성과 라이트/다크 반전이 핵심입니다.
@@ -1795,7 +1804,7 @@ Tooltip은 단축키 hint를 함께 보여주는 가장 적절한 위치입니�
 일회용 인증 코드 입력. n자리(보통 4/6자리) 개별 셀.
 
 - **Cell**: 48×56(살짝 세로로 긴 비율), `{radius.10}` (10px), 1px `{colors.hairline}`, 배경 `{colors.canvas}`, 중앙 정렬.
-- **Cell Typography**: `{font.mono}` (Geist Mono) / 24px / weight 500 (`{fw.medium}`). *근거: headline 28px(weight 600)은 셀 폭(48px) 대비 비중이 과해 한 자리만 채워졌을 때 시각 무게가 흔들리고, 20px는 셀 높이(56px) 대비 가벼워 입력값이 셀 안에서 둥둥 떠 보임. 24px가 셀 비례에 균형 잡힌 비중. mono 패밀리는 모든 숫자 폭이 동일해 1·4·7 같이 글자폭이 다른 숫자가 섞여도 정렬이 또렷하게 유지되고, 일회용 코드 입력이라는 맥락(영문이 아닌 숫자 위주)에 부합. weight 500은 mono 굵기에 600을 더하면 디지털 시계처럼 무거워지는 인상을 피하기 위한 의도적 다운그레이드.*
+- **Cell Typography**: `{font.mono}` (Geist Mono) / 24px / weight 500 (`{fw.medium}`). *근거: display-28sb(28px·weight 600)은 셀 폭(48px) 대비 비중이 과해 한 자리만 채워졌을 때 시각 무게가 흔들리고, 20px는 셀 높이(56px) 대비 가벼워 입력값이 셀 안에서 둥둥 떠 보임. 24px가 셀 비례에 균형 잡힌 비중. mono 패밀리는 모든 숫자 폭이 동일해 1·4·7 같이 글자폭이 다른 숫자가 섞여도 정렬이 또렷하게 유지되고, 일회용 코드 입력이라는 맥락(영문이 아닌 숫자 위주)에 부합. weight 500은 mono 굵기에 600을 더하면 디지털 시계처럼 무거워지는 인상을 피하기 위한 의도적 다운그레이드.*
 - **Cell Gap**: `{spacing.8}` (8px). 셀이 6개를 넘어가면 3개 단위로 그룹 사이를 `{spacing.16}` (16px)로 벌려도 됨.
 - **Focus**: 보더 컬러 `{colors.primary}` + `inset 0 0 0 .5px {colors.primary}` shadow로 1.5px처럼(폭은 1px 유지 — text-input과 동일, 전역 정책).
 - **Filled**: 텍스트 `{colors.ink}`. 자동 다음 셀로 포커스 이동(Base UI `OTPField` 기본 동작).
