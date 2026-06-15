@@ -272,27 +272,30 @@ export function App() {
               <PreviewSection title="Typography" description="Pretendard Variable / Geist Mono" wide>
                 <div className="type-scale">
                   {[
-                    { token: 'display-xl', size: '80 / 600', sample: '최상위 히어로 제목' },
-                    { token: 'display-lg', size: '56 / 600', sample: '주요 페이지 섹션 제목' },
-                    { token: 'display-md', size: '40 / 600', sample: '서브 섹션 제목' },
-                    { token: 'headline',   size: '28 / 600', sample: '패널과 카드 그룹 제목' },
-                    { token: 'title-md',   size: '22 / 600', sample: '카드·모달·드로어·시트 컨테이너 타이틀' },
-                    { token: 'title-sm',   size: '20 / 600', sample: '모달·드로어·시트 타이틀' },
-                    { token: 'body-xl',    size: '18 / 400', sample: '도입부 문단과 강조 본문' },
-                    { token: 'body-lg',    size: '16 / 400', sample: '기본 본문 — 가독성 확보.' },
-                    { token: 'body-md',    size: '15 / 400', sample: '중간 본문 — 14와 16 사이' },
-                    { token: 'body-sm',    size: '14 / 400', sample: '보조 텍스트와 메타 정보' },
-                    { token: 'caption',    size: '13 / 400', sample: '작은 캡션과 부가 정보' },
-                    { token: 'label-xl',   size: '18 / 500', sample: 'Display 라벨 (히어로 CTA)' },
-                    { token: 'label-lg',   size: '16 / 500', sample: '기본 라벨 (버튼·메뉴·탭)' },
-                    { token: 'label-md',   size: '15 / 500', sample: '중간 라벨 (40px 컨테이너)' },
-                    { token: 'label-sm',   size: '14 / 500', sample: '보조 라벨 (칩·작은 버튼)' },
-                    { token: 'eyebrow',    size: '13 / 500', sample: 'SECTION LABEL' },
-                    { token: 'mono',       size: '13 / 400', sample: 'v0.5.0 · build-20260101' },
+                    { token: 'display-80sb', size: '80 / 600', sample: '최상위 히어로 제목' },
+                    { token: 'display-56sb', size: '56 / 600', sample: '주요 페이지 섹션 제목' },
+                    { token: 'display-40sb', size: '40 / 600', sample: '서브 섹션 제목' },
+                    { token: 'display-28sb',   size: '28 / 600', sample: '패널과 카드 그룹 제목' },
+                    { token: 'title-24sb',   size: '24 / 600', sample: '강조 섹션·영역 타이틀' },
+                    { token: 'title-22sb',   size: '22 / 600', sample: '카드·모달·드로어·시트 컨테이너 타이틀' },
+                    { token: 'title-20sb',   size: '20 / 600', sample: '모달·드로어·시트 타이틀' },
+                    { token: 'title-18sb',   size: '18 / 600', sample: '카드·리스트 항목 타이틀' },
+                    { token: 'title-16sb',   size: '16 / 600', sample: '작은 카드·필드 그룹 타이틀' },
+                    { token: 'body-18r',    size: '18 / 400', sample: '도입부 문단과 강조 본문' },
+                    { token: 'body-16r',    size: '16 / 400', sample: '기본 본문 — 가독성 확보.' },
+                    { token: 'body-15r',    size: '15 / 400', sample: '중간 본문 — 14와 16 사이' },
+                    { token: 'body-14r',    size: '14 / 400', sample: '보조 텍스트와 메타 정보' },
+                    { token: 'caption-13r',    size: '13 / 400', sample: '작은 캡션과 부가 정보' },
+                    { token: 'label-18m',   size: '18 / 500', sample: 'Display 라벨 (히어로 CTA)' },
+                    { token: 'label-16m',   size: '16 / 500', sample: '기본 라벨 (버튼·메뉴·탭)' },
+                    { token: 'label-15m',   size: '15 / 500', sample: '중간 라벨 (40px 컨테이너)' },
+                    { token: 'label-14m',   size: '14 / 500', sample: '보조 라벨 (칩·작은 버튼)' },
+                    { token: 'eyebrow-13m',    size: '13 / 500', sample: 'SECTION LABEL' },
+                    { token: 'mono-13r',       size: '13 / 400', sample: 'v0.5.0 · build-20260101' },
                   ].map(({ token, size, sample }) => (
                     <div key={token} className="type-row">
                       <span className="type-token">{token}</span>
-                      <span className={`type-${token}`}>{sample}</span>
+                      <span className={token}>{sample}</span>
                       <span className="type-meta">{size}</span>
                     </div>
                   ))}
@@ -903,7 +906,7 @@ export function App() {
                 </label>
               </PreviewSection>
 
-              <PreviewSection title="Checkbox Group" description={'다중 선택 그룹 컨트롤.\n세로 그룹은 spacing-xs(8px), 가로 그룹은 spacing-xl(24px) 간격.'}>
+              <PreviewSection title="Checkbox Group" description={'다중 선택 그룹 컨트롤.\n세로 그룹은 spacing-8, 가로 그룹은 spacing-24 간격.'}>
                 <div className="choice-group-variants">
                 <CheckboxGroup className="choice-stack" defaultValue={['tokens']}>
                   {[

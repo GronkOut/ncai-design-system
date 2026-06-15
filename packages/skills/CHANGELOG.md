@@ -1,5 +1,16 @@
 # @ncai/design-system-skills
 
+## 0.9.0
+
+### Minor Changes
+
+- 타이포그래피를 역할별 **텍스트 스타일 클래스**(`{role}-{px}{weight}`, 5속성 묶음) 체계로 정비했습니다.
+
+  - `headline-28sb` → `display-28sb`로 역할 정리, `title-24sb` · `title-18sb` · `title-16sb`를 추가해 타이틀 스케일을 5단계로 확장 (총 20개 클래스).
+  - spacing·radius 토큰을 의미 기반(`xs/sm/md…`)에서 숫자 기반(`{spacing.4…240}` · `{radius.6…20}`)으로 통일.
+  - 다크 모드 `--color-ink`를 `#f2f2f2` → `#e5e5e5`로 미세 조정.
+  - Skill 문서(`SKILL.md`)의 typography·spacing·radius 토큰 설명을 위 체계에 맞춰 동기화.
+
 ## 0.8.0
 
 ### Minor Changes
