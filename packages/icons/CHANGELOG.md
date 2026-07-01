@@ -1,5 +1,11 @@
 # @ncai/design-system-icons
 
+## 0.9.1
+
+### Patch Changes
+
+- Align package versions for the 0.9.1 design-system release.
+
 ## 0.9.0
 
 ### Minor Changes

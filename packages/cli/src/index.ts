@@ -137,6 +137,7 @@ function agentInstructions() {
   return `# NC AI Design System Agent Instructions
 
 - Read NC AI design-system.md before creating or reviewing UI.
+- Treat the installed package export ${designSystemPackage}/design-system.md as the source of truth. In the ncai-design-system package repository only, the authoring source is resources/design-system.md.
 - Use Base UI primitives from ${baseUiPackage} before creating custom interactive components.
 - Use SVG icons from ${iconsPackage} before inventing new icon paths.
 - Apply NC AI design guidance in the consuming app at implementation time.

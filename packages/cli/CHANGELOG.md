@@ -1,5 +1,15 @@
 # @ncai/design-system-cli
 
+## 0.9.1
+
+### Patch Changes
+
+- Clarify the installed design-system markdown source path as `@ncai/design-system/design-system.md` and keep repository authoring paths separate from consumer guidance.
+- Updated dependencies
+  - @ncai/design-system@0.9.1
+  - @ncai/design-system-icons@0.9.1
+  - @ncai/design-system-skills@0.9.1
+
 ## 0.9.0
 
 ### Minor Changes

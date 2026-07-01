@@ -8,7 +8,7 @@ npm i @ncai/design-system @ncai/design-system-icons @base-ui/react
 
 주요 용도:
 
-- `design-system.md` 원문을 패키지로 배포합니다.
+- `@ncai/design-system/design-system.md` export 경로로 `design-system.md` 원문을 배포합니다.
 - 섹션 파싱, 섹션 조회, 검색 헬퍼를 제공합니다.
 - AI 에이전트가 Base UI primitive에 NC AI 디자인 기준을 적용할 때 참고할 수 있는 구조화된 데이터를 제공합니다.
 

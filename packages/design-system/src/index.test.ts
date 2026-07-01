@@ -7,6 +7,10 @@ describe('design system document', () => {
     expect(designSystem.sections.length).toBeGreaterThan(10);
   });
 
+  it('points consumers to the package-exported markdown source', () => {
+    expect(designSystem.source).toBe('@ncai/design-system/design-system.md');
+  });
+
   it('finds sections by slug or title', () => {
     expect(getDesignSystemSection('colors')?.title).toBe('Colors');
     expect(getDesignSystemSection('Typography')?.title).toBe('Typography');

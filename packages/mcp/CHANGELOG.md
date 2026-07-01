@@ -1,5 +1,13 @@
 # @ncai/design-system-mcp
 
+## 0.9.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @ncai/design-system@0.9.1
+  - @ncai/design-system-icons@0.9.1
+
 ## 0.9.0
 
 ### Minor Changes

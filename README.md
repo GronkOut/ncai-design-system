@@ -1,6 +1,6 @@
 # NC AI Design System
 
-NC AI Design System은 AI 에이전트가 React UI를 만들 때 사용할 수 있는 마크다운 우선 디자인 시스템 기반입니다. 원천 문서는 `resources/design-system.md`이며, 소비자 프로젝트에서는 완성된 스타일 컴포넌트를 받는 대신 Base UI primitive를 먼저 선택하고 이 문서의 디자인 기준을 즉석에서 적용합니다.
+NC AI Design System은 AI 에이전트가 React UI를 만들 때 사용할 수 있는 마크다운 우선 디자인 시스템 기반입니다. 설치해서 사용하는 소비자 프로젝트의 기준 문서는 패키지 export인 `@ncai/design-system/design-system.md`입니다. 이 저장소 안에서는 같은 문서를 `resources/design-system.md`에서 작성한 뒤 패키지에 포함합니다. 소비자 프로젝트에서는 완성된 스타일 컴포넌트를 받는 대신 Base UI primitive를 먼저 선택하고 이 문서의 디자인 기준을 즉석에서 적용합니다.
 
 Base UI는 접근 가능한 React UI를 만들기 위한 unstyled 컴포넌트 라이브러리입니다. 이 프로젝트는 [Base UI](https://base-ui.com/)와 [Base UI Quick start](https://base-ui.com/react/overview/quick-start.md)의 흐름을 전제로 `@base-ui/react`를 사용합니다.
 
@@ -36,7 +36,7 @@ npm.cmd i @ncai/design-system @ncai/design-system-icons @base-ui/react
 npx @ncai/design-system-cli doctor
 ```
 
-설치 후 UI를 만들 때는 Base UI primitive를 먼저 선택하고, 이 저장소의 `design-system.md` 기준을 소비자 프로젝트의 스타일 방식에 맞게 적용합니다.
+설치 후 UI를 만들 때는 Base UI primitive를 먼저 선택하고, `@ncai/design-system/design-system.md` 기준을 소비자 프로젝트의 스타일 방식에 맞게 적용합니다.
 
 ---
 
@@ -148,7 +148,7 @@ npx @ncai/design-system-cli doctor --agent <agent>
 
 ### 디자인 시스템 문서 조회
 
-`show`는 패키지에 포함된 `design-system.md`를 터미널에서 확인하는 명령입니다. `--query`를 넣으면 관련 섹션만 검색해서 보여주고, `--query`가 없으면 전체 문서를 출력합니다. 에이전트가 MCP를 사용할 수 없는 환경에서 디자인 기준을 빠르게 확인할 때 사용합니다.
+`show`는 패키지에 포함된 `@ncai/design-system/design-system.md`를 터미널에서 확인하는 명령입니다. `--query`를 넣으면 관련 섹션만 검색해서 보여주고, `--query`가 없으면 전체 문서를 출력합니다. 에이전트가 MCP를 사용할 수 없는 환경에서 디자인 기준을 빠르게 확인할 때 사용합니다.
 
 ```bash
 npx @ncai/design-system-cli show --query buttons
@@ -183,7 +183,7 @@ npx @ncai/design-system-cli validate --file src/App.tsx
 
 AI 에이전트가 UI를 만들거나 리뷰할 때는 다음 순서를 따릅니다.
 
-1. `design-system.md`를 읽거나 MCP로 검색합니다.
+1. 설치된 `@ncai/design-system/design-system.md`를 읽거나 MCP로 검색합니다.
 2. 인터랙티브 UI는 가장 가까운 Base UI primitive를 `@base-ui/react`에서 선택합니다.
 3. 필요한 경우 MCP의 `search_base_ui_docs` 또는 `get_base_ui_component_doc`으로 Base UI 공식 Markdown 문서를 확인합니다.
 4. 아이콘이 필요하면 MCP의 `search_icons` 또는 `@ncai/design-system-icons` 메타데이터로 기존 SVG를 먼저 찾습니다.

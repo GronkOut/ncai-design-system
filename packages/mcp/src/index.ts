@@ -11,7 +11,7 @@ import { validateUiCode } from './validation';
 const server = new McpServer(
   {
     name: 'ncai-design-system',
-    version: '0.9.0'
+    version: '0.9.1'
   },
   {
     instructions:

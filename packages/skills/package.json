@@ -1,6 +1,6 @@
 {
   "name": "@ncai/design-system-skills",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "license": "MIT",
   "type": "module",
   "files": [
@@ -20,7 +20,7 @@
     "lint": "node -e \"console.log('skills package: no lint required')\"",
     "test": "node -e \"console.log('skills package: no tests required')\"",
     "typecheck": "node -e \"console.log('skills package: no typecheck required')\"",
-    "validate": "node -e \"const fs=require('node:fs');const p='ncai-design-system/SKILL.md';const s=fs.readFileSync(p,'utf8');if(!s.includes('name: ncai-design-system'))process.exit(1);console.log('skill metadata ok')\"",
+    "validate": "node -e \"const fs=require('node:fs');const p='ncai-design-system/SKILL.md';const s=fs.readFileSync(p,'utf8');if(!s.includes('name: ncai-design-system'))process.exit(1);if(!s.includes('@ncai/design-system/design-system.md'))process.exit(1);if(s.includes('resources/design-system.md as the source of truth'))process.exit(1);console.log('skill metadata ok')\"",
     "prepublishOnly": "node ../../scripts/ensure-github-actions-publish.mjs"
   }
 }

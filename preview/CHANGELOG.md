@@ -1,5 +1,12 @@
 # @ncai/design-system-preview
 
+## 0.9.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @ncai/design-system-icons@0.9.1
+
 ## 0.8.2
 
 ### Patch Changes

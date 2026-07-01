@@ -26,7 +26,8 @@ description: Builds, reviews, and styles React UI using NC AI design-system.md a
 
 ## Styling Rules
 
-- Treat `resources/design-system.md` as the source of truth. It may describe tokens as markdown references like `{colors.primary}` rather than shipped CSS variables.
+- Treat the installed package export `@ncai/design-system/design-system.md` as the source of truth. In this repository, the same document is authored at `resources/design-system.md` before packaging.
+- The design-system markdown may describe tokens as markdown references like `{colors.primary}` rather than shipped CSS variables.
 - Token axes you must respect: **colors** (`canvas`, `surface-soft`, `surface-inset`, `surface-elevated`, `surface-elevated-hover`, `hairline`, `control-track`, `ink`, `body-muted`, `on-primary`, `on-ink-muted`, `disabled`, `primary`, `primary-hover`, `semantic-success`, `semantic-info`, `semantic-warning`, `semantic-error`, `semantic-neutral`, `semantic-error-hover`, `semantic-{success|info|warning|error|neutral}-bg`, `semantic-{success|warning|error}-text`; the five base `semantic-*` tokens are **solid fill** for bars/solid badges/`button-danger` and must not be used as colored text on white or tint surfaces — use the `-text` variants there, while info/neutral text reuse their base token; `avatar-{name}-{bg|text}`), **typography** (Pretendard + Geist Mono; each role is a single **text-style class** named `{role}-{px}{weight}` that bundles 5 properties — `font-family` + `font-weight` + `font-size` + `line-height` + `letter-spacing`. Weight is **fixed per role** via the suffix `r`=400 / `m`=500 / `sb`=600, resolving to base tokens `--fw-{regular|medium|semibold}`; family is `--font-text` except `mono-13r` which is `--font-mono`. The 20 classes: `display-80sb/56sb/40sb/28sb`, `title-24sb/22sb/20sb/18sb/16sb`, `body-18r/16r/15r/14r`, `label-18m/16m/15m/14m`, `caption-13r`, `eyebrow-13m`, `mono-13r`. Apply by putting the class on the element, or by merging a component selector into the role rule (group selector) — there is no `--type-{role}` 4-property group and no `.type-*` utility anymore. Vertical rhythm uses `text-stack-{hero|section|card|inline}` parent classes), **spacing** (8px base, numeric scale `{spacing.4|8|12|16|20|24|32|40|120|240}` — 120 = section rhythm, 240 = footer anchor = 120×2), **radius** (numeric `{radius.6|10|12|16|20}` plus `none|pill|full`), **elevation**, and **motion/easing** (`{motion.instant|fast|normal|expand|slow}` + `{ease.standard|out-quad|out-expo|in-out}`).
 - The Avatar palette (`avatar-*` tokens / `.avatar-*` utilities) is for the Avatar component only. Do not use it for buttons, cards, badges, tags, hover tints, category mapping, or chart series.
 - Convert markdown token guidance into the consumer project's existing styling system: CSS Modules, Tailwind, plain CSS, CSS-in-JS, or local component styles.
@@ -71,7 +72,7 @@ body {
 
 ## If MCP Is Unavailable
 
-- Read `resources/design-system.md` or the installed package export `@ncai/design-system/design-system.md`.
+- Read the installed package export `@ncai/design-system/design-system.md`. If you are developing this package repository itself, read `resources/design-system.md`.
 - Read the installed icon package metadata from `@ncai/design-system-icons`, or browse `@ncai/design-system-icons/README.md`.
 - Use the same workflow manually: choose Base UI primitive, preserve accessibility, then apply design-system markdown guidance.
 - Ask the user before adding a brand-new component API, token system, or styling package.
